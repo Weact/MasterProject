@@ -8,6 +8,76 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "Character",
+"language": "GDScript",
+"path": "res://Scenes/Characters/Character.gd"
+}, {
+"base": "State",
+"class": "CharacterAttackState",
+"language": "GDScript",
+"path": "res://Scenes/Characters/States/CharacterAttack.gd"
+}, {
+"base": "State",
+"class": "CharacterBlockState",
+"language": "GDScript",
+"path": "res://Scenes/Characters/States/CharacterBlock.gd"
+}, {
+"base": "State",
+"class": "CharacterDeathState",
+"language": "GDScript",
+"path": "res://Scenes/Characters/States/CharacterDeath.gd"
+}, {
+"base": "State",
+"class": "CharacterHitState",
+"language": "GDScript",
+"path": "res://Scenes/Characters/States/CharacterHitState.gd"
+}, {
+"base": "State",
+"class": "CharacterIdleState",
+"language": "GDScript",
+"path": "res://Scenes/Characters/States/CharacterIdle.gd"
+}, {
+"base": "State",
+"class": "CharacterInteractState",
+"language": "GDScript",
+"path": "res://Scenes/Characters/States/CharacterInteract.gd"
+}, {
+"base": "State",
+"class": "CharacterMoveState",
+"language": "GDScript",
+"path": "res://Scenes/Characters/States/CharacterMove.gd"
+}, {
+"base": "Node",
+"class": "State",
+"language": "GDScript",
+"path": "res://Scenes/StateMachine/State.gd"
+}, {
+"base": "Label",
+"class": "StateLabel",
+"language": "GDScript",
+"path": "res://Scenes/StateMachine/StateLabel.gd"
+}, {
+"base": "State",
+"class": "StateMachine",
+"language": "GDScript",
+"path": "res://Scenes/StateMachine/StateMachine.gd"
+} ]
+_global_script_class_icons={
+"Character": "",
+"CharacterAttackState": "",
+"CharacterBlockState": "",
+"CharacterDeathState": "",
+"CharacterHitState": "",
+"CharacterIdleState": "",
+"CharacterInteractState": "",
+"CharacterMoveState": "",
+"State": "",
+"StateLabel": "",
+"StateMachine": ""
+}
+
 [application]
 
 config/name="MasterProject"
