@@ -46,12 +46,10 @@ func get_health_point() -> int:
 	return health_point
 
 func add_health_point(value: int) -> void:
-	health_point =+ value
-	emit_signal("health_point_changed")
+	set_health_point(health_point + value)
 
 func remove_healht_point(value: int) -> void:
-	health_point -= value
-	emit_signal("health_point_changed")
+	set_health_point(health_point - value)
 
 ## STAMINA
 func set_stamina(new_stamina) -> void:
@@ -63,12 +61,10 @@ func get_stamina() -> int:
 	return stamina
 
 func add_stamina(value: int) -> void:
-	stamina =+ value
-	emit_signal("stamina_changed")
+	set_stamina(stamina + value)
 
 func remove_stamina(value: int) -> void:
-	stamina -= value
-	emit_signal("stamina_changed")
+	set_stamina(stamina - value)
 
 ## MOVEMENTS
 func get_movement_speed() -> float:
