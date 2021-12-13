@@ -23,3 +23,7 @@
 > When a part of a feature is completed, this part should be commited.
 
 > The developer of the feature can push his work whenever he wants, so it can be reviewed in advance by the collaborator
+
+**8: When a branch is pushed, ALL CONFLICTS must be resolved locally**
+
+**9: When solving conflicts locally, the project HAS TO be tested before pushing to the distant branch**
