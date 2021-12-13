@@ -21,4 +21,5 @@
 
 **7: A branch should has only one feature**
 > When a part of a feature is completed, this part should be commited.
+
 > The developer of the feature can push his work whenever he wants, so it can be reviewed in advance by the collaborator
