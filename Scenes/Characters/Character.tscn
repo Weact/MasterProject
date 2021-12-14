@@ -21,6 +21,8 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 4 )
 
