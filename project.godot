@@ -93,12 +93,22 @@ _global_script_class_icons={
 [application]
 
 config/name="MasterProject"
-run/main_scene="res://Scenes/Map/mapIATest.tscn"
+run/main_scene="res://Scenes/Map/Map.tscn"
 config/icon="res://icon.png"
 
 [debug]
 
 settings/fps/force_fps=60
+
+[display]
+
+window/size/width=960
+window/size/height=540
+window/size/fullscreen=true
+window/dpi/allow_hidpi=true
+window/vsync/use_vsync=false
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
 
 [input]
 
@@ -134,4 +144,5 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+2d/snapping/use_gpu_pixel_snap=true
 environment/default_environment="res://default_env.tres"
