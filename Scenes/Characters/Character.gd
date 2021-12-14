@@ -106,7 +106,7 @@ func _ready() -> void:
 	__ = connect("velocity_changed", self, "_on_velocity_changed")
 	__ = connect("direction_changed", self, "_on_direction_changed")
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	pass
 
 #### VIRTUALS ####
@@ -132,11 +132,11 @@ func _on_block_power_changed() -> void:
 	pass
 
 ## MOVEMENTS
-func _on_max_speed_changed(max_speed: float) -> void:
+func _on_max_speed_changed(_max_speed: float) -> void:
 	pass
 
-func _on_velocity_changed(vel: Vector2) -> void:
+func _on_velocity_changed(_vel: Vector2) -> void:
 	pass
 
-func _on_direction_changed(dir: Vector2) -> void:
+func _on_direction_changed(_dir: Vector2) -> void:
 	pass
