@@ -1,8 +1,8 @@
 ---
-name: PHASE 3 FEATURE
+name: GAMEPLAY Feature
 about: Suggest an idea for this project
 title: ''
-labels: PHASE3
+labels: Gameplay
 assignees: ''
 
 ---
