@@ -4,6 +4,9 @@ class_name Character
 func is_class(value: String): return value == "Character" or .is_class(value)
 func get_class() -> String: return "Character"
 
+onready var animated_sprite : AnimatedSprite = get_node("AnimatedSprite")
+onready var collision_shape : CollisionShape2D = get_node("CollisionShape2D")
+
 ## STATS
 export var health_point : int = 0
 signal health_point_changed()
@@ -23,6 +26,8 @@ signal velocity_changed(vel)
 var direction : Vector2 = Vector2.ZERO
 signal direction_changed(dir)
 
+export var facing_left : bool = false setget set_facing_left, is_facing_left
+
 ## COMBAT
 export var attack_power : int = 0
 
@@ -33,6 +38,10 @@ export var block_power : int = 0
 
 ## STATES
 export var default_state : String = ""
+
+func set_state(value): $StateMachine.set_state(value)
+func get_state() -> Object: return $StateMachine.get_state()
+func get_state_name() -> String: return $StateMachine.get_state_name()
 
 #### ACCESSORS ####
 
@@ -95,6 +104,13 @@ func set_direction(new_direction : Vector2):
 func get_direction() -> Vector2:
 	return direction
 
+func set_facing_left(value: bool) -> void:
+	if value != facing_left:
+		facing_left = value
+		flip()
+
+func is_facing_left() -> bool: return facing_left
+
 #### BUILT-IN ####
 
 func _ready() -> void:
@@ -105,13 +121,32 @@ func _ready() -> void:
 	
 	__ = connect("velocity_changed", self, "_on_velocity_changed")
 	__ = connect("direction_changed", self, "_on_direction_changed")
+	
+	print("Character is ready")
 
 func _physics_process(_delta: float) -> void:
-	pass
+	compute_velocity()
 
 #### VIRTUALS ####
 
 #### LOGIC ####
+
+func compute_velocity() -> void:
+	set_velocity(direction.normalized() * movement_speed)
+
+# Flip the actor accordingly to the direction it is facing
+func flip():
+	if !is_instance_valid(animated_sprite):
+		yield(self, "ready")
+	
+	# Flip the sprite
+	animated_sprite.set_flip_h(facing_left)
+
+	# Flip the offset
+	if is_facing_left():
+		animated_sprite.offset.x = -abs(animated_sprite.offset.x)
+	else:
+		animated_sprite.offset.x = abs(animated_sprite.offset.x)
 
 #### INPUTS ####
 
@@ -138,5 +173,6 @@ func _on_max_speed_changed(_max_speed: float) -> void:
 func _on_velocity_changed(_vel: Vector2) -> void:
 	pass
 
-func _on_direction_changed(_dir: Vector2) -> void:
-	pass
+func _on_direction_changed(dir: Vector2) -> void:
+	if dir != Vector2.ZERO and dir != Vector2.UP and dir != Vector2.DOWN :
+		set_facing_left(dir.x < 0)

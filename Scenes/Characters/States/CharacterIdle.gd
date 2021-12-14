@@ -19,8 +19,10 @@ func exit_state():
 	pass
 
 # Override of State's update_state
-func update_state(_delta):
-	pass
+func update(_delta):
+	var is_moving : bool = owner.get_velocity() != Vector2.ZERO
+	if is_moving:
+		owner.set_state("Move")
 
 #### LOGIC ####
 

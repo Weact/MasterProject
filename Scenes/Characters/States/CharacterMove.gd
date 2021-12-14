@@ -19,8 +19,11 @@ func exit_state():
 	pass
 
 # Override of State's update_state
-func update_state(_delta):
-	pass
+func update(_delta):
+	if(owner.get_velocity() != Vector2.ZERO):
+		var __ = owner.move_and_slide(owner.get_velocity())
+	else:
+		owner.set_state("Idle")
 
 #### LOGIC ####
 

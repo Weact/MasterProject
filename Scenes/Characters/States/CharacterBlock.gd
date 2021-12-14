@@ -19,7 +19,7 @@ func exit_state():
 	pass
 
 # Override of State's update_state
-func update_state(_delta):
+func update(_delta):
 	pass
 
 #### LOGIC ####
