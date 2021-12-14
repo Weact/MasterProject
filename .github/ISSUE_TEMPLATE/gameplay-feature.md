@@ -1,6 +1,6 @@
 ---
 name: GAMEPLAY Feature
-about: Suggest an idea for this project
+about: Suggest a gameplay oriented feature
 title: ''
 labels: Gameplay
 assignees: ''

@@ -1,6 +1,6 @@
 ---
 name: IA Feature
-about: Suggest an idea for this project
+about: Suggest an I.A. oriented feature
 title: ''
 labels: I.A.
 assignees: ''
