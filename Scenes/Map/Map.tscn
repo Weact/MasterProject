@@ -70,11 +70,20 @@
 2/z_index = 0
 
 [node name="Map" type="Node2D"]
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Main" type="TileMap" parent="."]
 tile_set = SubResource( 1 )
 cell_size = Vector2( 32, 32 )
 cell_custom_transform = Transform2D( 32, 0, 0, 32, 0, 0 )
 format = 1
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="YSort" type="YSort" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
