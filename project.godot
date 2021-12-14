@@ -81,6 +81,7 @@ _global_script_class_icons={
 [application]
 
 config/name="MasterProject"
+run/main_scene="res://Scenes/Map/Map.tscn"
 config/icon="res://icon.png"
 
 [debug]

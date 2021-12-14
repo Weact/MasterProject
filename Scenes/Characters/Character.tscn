@@ -17,7 +17,6 @@ __meta__ = {
 }
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-animation = "Idle"
 __meta__ = {
 "_edit_lock_": true
 }
