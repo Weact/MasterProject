@@ -10,7 +10,7 @@ onready var collision_shape : CollisionShape2D = get_node("CollisionShape2D")
 ## STATS
 export var health_point : int = 0
 signal health_point_changed()
-
+	
 export var stamina : int = 0
 signal stamina_changed()
 
