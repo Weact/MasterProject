@@ -26,8 +26,15 @@ func _physics_process(_delta: float) -> void:
 
 func _input(event: InputEvent) -> void:
 	if !event is InputEventKey:
-		return
-	
+		if !event is InputEventMouseButton:
+			return
+		
+		if event.is_action("player_attack"):
+			attack()
+		
+		elif event.is_action("player_block"):
+			block()
+			
 	var action_name : String = ""
 	
 	if event.is_action_pressed(inputs_node.get_input("MoveLeft")):
@@ -79,6 +86,13 @@ func action(action_name: String) -> void:
 			return
 	
 	set_direction(Vector2(dirRight - dirLeft, dirDown - dirUp))
+
+func attack() -> void:
+	$Weapon.set_visible(true)
+	$Weapon/AnimationPlayer.play("attack")
+
+func block() -> void:
+	pass
 
 #### INPUTS ####
 

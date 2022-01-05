@@ -49,6 +49,8 @@ func get_state_name() -> String: return $StateMachine.get_state_name()
 func set_health_point(new_health_point: int) -> void:
 	if health_point != new_health_point:
 		health_point = new_health_point
+		
+		if health_point < 0: health_point = 0
 		emit_signal("health_point_changed")
 
 func get_health_point() -> int:
@@ -64,6 +66,8 @@ func remove_healht_point(value: int) -> void:
 func set_stamina(new_stamina) -> void:
 	if stamina != new_stamina:
 		stamina = new_stamina
+		
+		if stamina < 0: stamina = 0
 		emit_signal("stamina_changed")
 
 func get_stamina() -> int:
@@ -122,6 +126,8 @@ func _ready() -> void:
 	__ = connect("velocity_changed", self, "_on_velocity_changed")
 	__ = connect("direction_changed", self, "_on_direction_changed")
 	
+	#__ = animated_sprite.connect("animation_finished", self, "_on_animation_finished")
+	
 	print("Character is ready")
 
 func _physics_process(_delta: float) -> void:
@@ -148,13 +154,25 @@ func flip():
 	else:
 		animated_sprite.offset.x = abs(animated_sprite.offset.x)
 
+func damaged(damage_taken) -> void:
+	var raw_damage = damage_taken
+	var damage_to_take = block_power - raw_damage
+	
+	remove_stamina(block_power)
+	remove_healht_point(damage_to_take)
+	set_state("Hit")
+
+func die() -> void:
+	queue_free()
+
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
 
 ## STATS
 func _on_health_point_changed() -> void:
-	pass
+	if health_point == 0:
+		die()
 
 func _on_stamina_changed() -> void:
 	pass
@@ -176,3 +194,7 @@ func _on_velocity_changed(_vel: Vector2) -> void:
 func _on_direction_changed(dir: Vector2) -> void:
 	if dir != Vector2.ZERO and dir != Vector2.UP and dir != Vector2.DOWN :
 		set_facing_left(dir.x < 0)
+
+func _on_animation_finished(anim_name) -> void:
+	if anim_name == "Hit":
+		set_state("Idle")
