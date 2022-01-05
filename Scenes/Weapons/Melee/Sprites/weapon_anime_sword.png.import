@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/weapon_regular_sword.png-7e2af01be3eab8c144522b6d4bc5b822.stex"
+path="res://.import/weapon_anime_sword.png-064a458d0f29906fd15c8a007919fc7c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Weapons/weapon_regular_sword.png"
-dest_files=[ "res://.import/weapon_regular_sword.png-7e2af01be3eab8c144522b6d4bc5b822.stex" ]
+source_file="res://Scenes/Weapons/Melee/Sprites/weapon_anime_sword.png"
+dest_files=[ "res://.import/weapon_anime_sword.png-064a458d0f29906fd15c8a007919fc7c.stex" ]
 
 [params]
 

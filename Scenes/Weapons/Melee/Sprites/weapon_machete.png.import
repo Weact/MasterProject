@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/weapon_red_gem_sword.png-bed18c367f0122fc5dcc51eec0499021.stex"
+path="res://.import/weapon_machete.png-83feaab6ab87c5c71702fa708cfe268b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Weapons/weapon_red_gem_sword.png"
-dest_files=[ "res://.import/weapon_red_gem_sword.png-bed18c367f0122fc5dcc51eec0499021.stex" ]
+source_file="res://Scenes/Weapons/Melee/Sprites/weapon_machete.png"
+dest_files=[ "res://.import/weapon_machete.png-83feaab6ab87c5c71702fa708cfe268b.stex" ]
 
 [params]
 
