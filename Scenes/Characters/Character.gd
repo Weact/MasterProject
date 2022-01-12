@@ -29,12 +29,14 @@ signal direction_changed(dir)
 export var facing_left : bool = false setget set_facing_left, is_facing_left
 
 ## COMBAT
-export var attack_power : int = 0
+export var attack_power : int = 0 setget set_attack_power, get_attack_power
+signal attack_power_changed
 
 # Block power stat define how much damage the character can block :
 # Damage = base_damage - block_power
 # [hp: 100; block_power: 20; will_take: 35 damage => hp: 100 - (35-20) 15 => hp: 85]
-export var block_power : int = 0
+export var block_power : int = 0 setget set_block_power, get_block_power
+signal block_power_changed
 
 ## STATES
 export var default_state : String = ""
@@ -59,7 +61,8 @@ func get_health_point() -> int:
 func add_health_point(value: int) -> void:
 	set_health_point(health_point + value)
 
-func remove_healht_point(value: int) -> void:
+func remove_health_point(value: int) -> void:
+	if value < 0: value = 0
 	set_health_point(health_point - value)
 
 ## STAMINA
@@ -78,6 +81,23 @@ func add_stamina(value: int) -> void:
 
 func remove_stamina(value: int) -> void:
 	set_stamina(stamina - value)
+
+## ATTACK POWER
+func set_attack_power(value: int) -> void:
+	if attack_power != value:
+		attack_power = value
+		emit_signal("attack_power_changed")
+
+func get_attack_power() -> int:
+	return attack_power
+
+func set_block_power(value: int) -> void:
+	if block_power != value:
+		block_power = value
+		emit_signal("block_power_changed")
+
+func get_block_power() -> int:
+	return block_power
 
 ## MOVEMENTS
 func get_movement_speed() -> float:
@@ -126,6 +146,9 @@ func _ready() -> void:
 	__ = connect("velocity_changed", self, "_on_velocity_changed")
 	__ = connect("direction_changed", self, "_on_direction_changed")
 	
+	__ = connect("attack_power_changed", self, "_on_attack_power_changed")
+	__ = connect("block_power_changed", self, "_on_block_power_changed")
+	
 	#__ = animated_sprite.connect("animation_finished", self, "_on_animation_finished")
 	
 	print("Character is ready")
@@ -156,11 +179,15 @@ func flip():
 
 func damaged(damage_taken) -> void:
 	var raw_damage = damage_taken
-	var damage_to_take = block_power - raw_damage
+	var damage_to_take = raw_damage
 	
-	remove_stamina(block_power)
-	remove_healht_point(damage_to_take)
-	set_state("Hit")
+	if stamina >= block_power: # is stamina high enough to make us able to tank the damages?
+		damage_to_take -= block_power
+		remove_stamina(block_power)
+		
+	remove_health_point(damage_to_take)
+	print("LIFE : " + str(get_health_point()) + " STAMINA : " + str(get_stamina()))
+#	set_state("Hit")
 
 func die() -> void:
 	queue_free()
@@ -171,7 +198,7 @@ func die() -> void:
 
 ## STATS
 func _on_health_point_changed() -> void:
-	if health_point == 0:
+	if health_point <= 0:
 		die()
 
 func _on_stamina_changed() -> void:
