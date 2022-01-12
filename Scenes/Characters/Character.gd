@@ -7,6 +7,9 @@ func get_class() -> String: return "Character"
 onready var animated_sprite : AnimatedSprite = get_node("AnimatedSprite")
 onready var collision_shape : CollisionShape2D = get_node("CollisionShape2D")
 
+onready var ressources_panel : VBoxContainer = get_node("Ressources/VBoxContainer")
+onready var informations_panel : Node2D = get_node("Infos")
+
 ## STATS
 export var health_point : int = 0
 signal health_point_changed()
@@ -149,7 +152,9 @@ func _ready() -> void:
 	__ = connect("attack_power_changed", self, "_on_attack_power_changed")
 	__ = connect("block_power_changed", self, "_on_block_power_changed")
 	
-	#__ = animated_sprite.connect("animation_finished", self, "_on_animation_finished")
+	__ = animated_sprite.connect("animation_finished", self, "_on_animation_finished")
+	
+	init_panels()
 	
 	print("Character is ready")
 
@@ -159,6 +164,11 @@ func _physics_process(_delta: float) -> void:
 #### VIRTUALS ####
 
 #### LOGIC ####
+
+func init_panels() -> void:
+	ressources_panel.get_child(0).set_text( \
+	"Life: " + str(get_health_point()) + \
+	"\nStamina: " + str(get_stamina()) )
 
 func compute_velocity() -> void:
 	set_velocity(direction.normalized() * movement_speed)
@@ -198,11 +208,12 @@ func die() -> void:
 
 ## STATS
 func _on_health_point_changed() -> void:
+	init_panels()
 	if health_point <= 0:
 		die()
 
 func _on_stamina_changed() -> void:
-	pass
+	init_panels()
 
 ## COMBAT
 func _on_attack_power_changed() -> void:
@@ -222,6 +233,5 @@ func _on_direction_changed(dir: Vector2) -> void:
 	if dir != Vector2.ZERO and dir != Vector2.UP and dir != Vector2.DOWN :
 		set_facing_left(dir.x < 0)
 
-func _on_animation_finished(anim_name) -> void:
-	if anim_name == "Hit":
-		set_state("Idle")
+func _on_animation_finished() -> void:
+	pass
