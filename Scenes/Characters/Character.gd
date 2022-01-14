@@ -1,9 +1,10 @@
-extends Node2D
+extends KinematicBody2D
 class_name Character
 
 func is_class(value: String): return value == "Character" or .is_class(value)
 func get_class() -> String: return "Character"
 
+onready var state_machine = get_node("StateMachine")
 onready var animated_sprite : AnimatedSprite = get_node("AnimatedSprite")
 onready var collision_shape : CollisionShape2D = get_node("CollisionShape2D")
 
@@ -125,6 +126,8 @@ func _ready() -> void:
 	
 	__ = connect("velocity_changed", self, "_on_velocity_changed")
 	__ = connect("direction_changed", self, "_on_direction_changed")
+	__ = animated_sprite.connect("frame_changed", self, "_on_AnimatedSprite_frame_changed")
+	__ = animated_sprite.connect("animation_finished", self, "_on_AnimatedSprite_animation_finished")
 	
 	#__ = animated_sprite.connect("animation_finished", self, "_on_animation_finished")
 	
@@ -136,6 +139,10 @@ func _physics_process(_delta: float) -> void:
 #### VIRTUALS ####
 
 #### LOGIC ####
+
+func _on_AnimatedSprite_animation_finished() -> void:
+	if(state_machine.get_state_name() == "Attack"):
+		state_machine.set_state("Idle")
 
 func compute_velocity() -> void:
 	set_velocity(direction.normalized() * movement_speed)
@@ -198,3 +205,7 @@ func _on_direction_changed(dir: Vector2) -> void:
 func _on_animation_finished(anim_name) -> void:
 	if anim_name == "Hit":
 		set_state("Idle")
+
+func _on_AnimatedSprite_frame_changed() -> void:
+	pass # Replace with function body.
+
