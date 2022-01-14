@@ -78,22 +78,22 @@ func move_along_path(delta: float) -> void:
 		emit_signal("move_path_finished")
 
 #### SIGNAL RESPONSES ####
-func _on_chaseArea_body_entered(body : Node2D) -> void:
+func _on_chaseArea_body_entered(body : PhysicsBody2D ) -> void:
 	if body is Player:
 		set_target_in_chase_area(true)
 		target = body
 		
-func _on_chaseArea_body_exited(body : Node2D) -> void:
+func _on_chaseArea_body_exited(body : PhysicsBody2D ) -> void:
 	if body is Player:
 		set_target_in_chase_area(false)
 		target = null
 		
-func _on_attackArea_body_entered(body : Node2D) -> void:
+func _on_attackArea_body_entered(body : PhysicsBody2D ) -> void:
 	if body is Player:
 		set_target_in_attack_area(true)
 		target = body
 		
-func _on_attackArea_body_exited(body : Node2D) -> void:
+func _on_attackArea_body_exited(body : PhysicsBody2D ) -> void:
 	if body is Player:
 		set_target_in_attack_area(false)
 		
