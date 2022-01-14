@@ -67,7 +67,7 @@ func _input(event: InputEvent) -> void:
 func action(action_name: String) -> void:
 	match(action_name):
 		"MoveLeft_Pressed":
-			dirLeft = 1
+			dirLeft = 1	
 		"MoveLeft_Released":
 			dirLeft = 0
 		"MoveRight_Pressed":

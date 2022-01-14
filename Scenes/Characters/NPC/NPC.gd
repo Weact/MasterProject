@@ -11,6 +11,11 @@ var target_in_chase_area : bool = false setget set_target_in_chase_area
 var target_in_attack_area : bool = false setget set_target_in_attack_area
 var path : Array = []
 
+var pathfinder : Pathfinder = null
+signal target_in_chase_area_changed
+signal target_in_attack_area_changed
+signal move_path_finished
+
 var target  : Node2D = null
 
 #### ACCESSORS ####
@@ -47,48 +52,49 @@ func update_move_path(dest : Vector2) -> void:
 	
 func _update_behaviour_state() -> void:
 	if target_in_attack_area:
-		behaviour_tree.set_state("attack")
+		behaviour_tree.set_state("Attack")
 	elif target_in_chase_area:
-		behaviour_tree.set_state("chase")
+		behaviour_tree.set_state("Chase")
 	else:
-		behaviour_tree.set_state("wander")
+		behaviour_tree.set_state("Wander")
 		
 func move_along_path(delta: float) -> void:
 	if path.empty():
+		set_state("Idle")
 		return
 	
 	var dir = global_position.direction_to(path[0])
 	var dist = global_position.distance_to(path[0])	
 	
-	set_velocity(dir)
+	set_direction(dir)
 	
 	if dist <= max_speed * delta:
 		var __ = move_and_collide(dir * dist)
 		path.remove(0)
 	else:
-		var __ = move_and_collide(dir*delta)
+		var __ = move_and_collide(dir*delta*movement_speed)
 	
 	if path.empty():
 		emit_signal("move_path_finished")
 
 #### SIGNAL RESPONSES ####
 func _on_chaseArea_body_entered(body : Node2D) -> void:
-	if body is Character:
+	if body is Player:
 		set_target_in_chase_area(true)
 		target = body
 		
 func _on_chaseArea_body_exited(body : Node2D) -> void:
-	if body is Character:
+	if body is Player:
 		set_target_in_chase_area(false)
 		target = null
 		
 func _on_attackArea_body_entered(body : Node2D) -> void:
-	if body is Character:
+	if body is Player:
 		set_target_in_attack_area(true)
 		target = body
 		
 func _on_attackArea_body_exited(body : Node2D) -> void:
-	if body is Character:
+	if body is Player:
 		set_target_in_attack_area(false)
 		
 func _on_target_in_chase_area_changed(_value : bool) -> void:
@@ -97,24 +103,11 @@ func _on_target_in_chase_area_changed(_value : bool) -> void:
 	
 func _on_target_in_attack_area_changed(_value : bool) -> void:
 	_update_target()
-	if state_machine.get_state_name() != "attack":
+	if state_machine.get_state_name() != "Attack":
 		_update_behaviour_state()
-
-func _on_mov_direction_changed() -> void:
-	if(velocity == Vector2.ZERO && state_machine.get_state_name() == "move"):
-		state_machine.set_state("idle")
-	elif(velocity != Vector2.ZERO && state_machine.get_state_name() == "idle"):
-		state_machine.set_state("move")
-		
-	
-	if abs(velocity.x) > abs(velocity.y):
-		set_direction(Vector2(sign(velocity.x), 0))
-	else:
-		set_direction(Vector2(0, sign(velocity.y)))
-
 
 func _on_StateMachine_state_changed(state) -> void:
 	if state_machine == null:
 		return
-	if state.name == "idle" && state_machine.previous_state == $StateMachine/attack:
+	if state.name == "Idle" && state_machine.previous_state == $StateMachine/Attack:
 		_update_behaviour_state()
