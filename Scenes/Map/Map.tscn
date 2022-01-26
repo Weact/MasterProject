@@ -77,8 +77,14 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Player" parent="YSort" instance=ExtResource( 2 )]
-position = Vector2( 530, 306 )
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 296, 340 )
 
-[node name="NPC" parent="YSort" instance=ExtResource( 3 )]
-position = Vector2( 412, 305 )
+[node name="NPC" parent="." instance=ExtResource( 3 )]
+position = Vector2( 548, 272 )
+health_point = 100
+stamina = 100
+movement_speed = 100.0
+attack_power = 10
+block_power = 20
+default_state = "Idle"
