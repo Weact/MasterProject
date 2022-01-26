@@ -48,7 +48,10 @@ func _ready() -> void:
 
 #### LOGIC ####
 func update_move_path(dest : Vector2) -> void:
-	path = [dest]
+	if pathfinder == null:
+		path = [dest]
+	else:
+		path = pathfinder.find_path(global_position, dest)
 	
 func _update_behaviour_state() -> void:
 	if target_in_attack_area:

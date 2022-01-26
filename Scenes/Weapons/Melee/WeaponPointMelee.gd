@@ -25,5 +25,5 @@ func _ready() -> void:
 func _on_attack_animation_finished(_anim_name) -> void:
 	animation_player.stop(true)
 
-func _on_body_entered():
+func _on_body_entered(body):
 	pass
