@@ -78,14 +78,13 @@ __meta__ = {
 }
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( -78.3156, 73.187 )
+position = Vector2( 296, 340 )
 
 [node name="NPC" parent="." instance=ExtResource( 3 )]
-position = Vector2( 67, 55 )
+position = Vector2( 548, 272 )
 health_point = 100
 stamina = 100
 movement_speed = 100.0
-max_speed = 150.0
 attack_power = 10
 block_power = 20
 default_state = "Idle"

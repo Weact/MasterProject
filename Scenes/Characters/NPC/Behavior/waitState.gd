@@ -11,11 +11,12 @@ func _ready()->void:
 	var __ = $Timer.connect("timeout", self, "_on_Timer_timeout")
 
 func enter_state() -> void:
-	if owner.state_machine != null:
-		owner.state_machine.set_state("Idle")
-		owner.set_direction(Vector2.ZERO)
-	var wait_time = rand_range(min_wait_time, max_wait_time)
-	$Timer.start(wait_time)
+	if is_instance_valid(owner):
+		if owner.state_machine != null:
+			owner.state_machine.set_state("Idle")
+			owner.set_direction(Vector2.ZERO)
+		var wait_time = rand_range(min_wait_time, max_wait_time)
+		$Timer.start(wait_time)
 	
 func _on_Timer_timeout() -> void:
 	emit_signal("waitTimeFinished")

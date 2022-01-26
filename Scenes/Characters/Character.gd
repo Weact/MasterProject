@@ -204,10 +204,9 @@ func damaged(damage_taken) -> void:
 
 	remove_health_point(damage_to_take)
 	print("LIFE : " + str(get_health_point()) + " STAMINA : " + str(get_stamina()))
-#	set_state("Hit")
 
 func die() -> void:
-	queue_free()
+	set_state("Death")
 
 #### INPUTS ####
 
@@ -240,8 +239,8 @@ func _on_direction_changed(dir: Vector2) -> void:
 	if dir != Vector2.ZERO and dir != Vector2.UP and dir != Vector2.DOWN :
 		set_facing_left(dir.x < 0)
 
-func _on_animation_finished(anim_name) -> void:
-	if anim_name == "Hit":
+func _on_animation_finished() -> void:
+	if animated_sprite.get_animation() == "Hit":
 		set_state("Idle")
 
 func _on_AnimatedSprite_frame_changed() -> void:
