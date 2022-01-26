@@ -59,20 +59,21 @@ func exit_state() -> void:
 	set_state(null)
 
 func update_animation(state) -> void:
-	var state_name = ""
-	if state != null:
-		state_name = state.name
-	var animated_sprite = owner.get_node_or_null("AnimatedSprite")
-	
-	if animated_sprite == null:
-		return
-
-	var sprite_frames = animated_sprite.get_sprite_frames()
-	if sprite_frames == null:
-		return
+	if is_instance_valid(owner):
+		var state_name = ""
+		if state != null:
+			state_name = state.name
+		var animated_sprite = owner.get_node_or_null("AnimatedSprite")
 		
-	if sprite_frames.has_animation(state_name):
-		animated_sprite.play(state_name)
+		if animated_sprite == null:
+			return
+
+		var sprite_frames = animated_sprite.get_sprite_frames()
+		if sprite_frames == null:
+			return
+			
+		if sprite_frames.has_animation(state_name):
+			animated_sprite.play(state_name)
 
 func set_to_default_state() -> void:
 	 set_state(get_child(0))
