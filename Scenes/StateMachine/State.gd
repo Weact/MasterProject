@@ -31,7 +31,4 @@ func update(_delta):
 
 # Check if the entity is in this state. Check reccursivly in cas of nested StateMachines/PushdownAutomata
 func is_current_state() -> bool:
-	if state_machine.has_method("is_current_state"):
-		return state_machine.current_state == self && state_machine.is_current_state()
-	else:
-		return state_machine.current_state == self
+		return state_machine.get_state() == self

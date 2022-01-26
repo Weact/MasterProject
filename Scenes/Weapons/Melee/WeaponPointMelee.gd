@@ -1,4 +1,4 @@
-extends Node2D
+	extends Node2D
 class_name WeaponPointMelee
 
 func is_class(value: String): return value == "WeaponPointMelee" or .is_class(value)

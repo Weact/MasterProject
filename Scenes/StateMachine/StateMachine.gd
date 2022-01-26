@@ -59,7 +59,9 @@ func exit_state() -> void:
 	set_state(null)
 
 func update_animation(state) -> void:
-	var state_name = state.name
+	var state_name = ""
+	if state != null:
+		state_name = state.name
 	var animated_sprite = owner.get_node_or_null("AnimatedSprite")
 	
 	if animated_sprite == null:
@@ -76,7 +78,7 @@ func set_to_default_state() -> void:
 	 set_state(get_child(0))
 	
 func _on_state_changed(state : Node) -> void:
-	update_animation(state)
+	update_animation(state)	
 	emit_signal("state_changed_recursive", current_state)
 
 func _on_state_changed_recursive(_state : Node) -> void:
