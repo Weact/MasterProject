@@ -27,5 +27,5 @@ func _on_attack_animation_finished(_anim_name) -> void:
 	animation_player.stop(true)
 
 func _on_body_entered(body: PhysicsBody2D):
-	if body != self and is_instance_valid(body.get_node("DamageableBehavior")):
+	if body != self and is_instance_valid(body.get_node_or_null("DamageableBehavior")):
 		body.damaged(get_node(weapon_handler_node).get_attack_power())

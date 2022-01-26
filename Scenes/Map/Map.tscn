@@ -5,7 +5,7 @@
 [ext_resource path="res://Scenes/Characters/NPC/NPC.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Map/Pathfinder.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/Map/Map.gd" type="Script" id=5]
-[ext_resource path="res://Scenes/Environnement/Object.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/Environnement/Rock.tscn" type="PackedScene" id=6]
 
 [sub_resource type="TileSet" id=1]
 4/name = "Tileset.png 4"
@@ -82,10 +82,75 @@ __meta__ = {
 position = Vector2( 296, 340 )
 
 [node name="NPC" parent="." instance=ExtResource( 3 )]
-position = Vector2( 548, 272 )
+position = Vector2( 500, 299 )
 health_point = 100
 stamina = 100
 movement_speed = 100.0
 attack_power = 10
 block_power = 20
 default_state = "Idle"
+
+[node name="Rocks" type="Node" parent="."]
+
+[node name="Rock" parent="Rocks" instance=ExtResource( 6 )]
+position = Vector2( 328, 296 )
+
+[node name="Rock2" parent="Rocks" instance=ExtResource( 6 )]
+position = Vector2( 344, 328 )
+
+[node name="Rock3" parent="Rocks" instance=ExtResource( 6 )]
+position = Vector2( 392, 360 )
+
+[node name="Rock4" parent="Rocks" instance=ExtResource( 6 )]
+position = Vector2( 376, 328 )
+
+[node name="Rock5" parent="Rocks" instance=ExtResource( 6 )]
+position = Vector2( 344, 296 )
+
+[node name="Rock6" parent="Rocks" instance=ExtResource( 6 )]
+position = Vector2( 376, 312 )
+
+[node name="Rock7" parent="Rocks" instance=ExtResource( 6 )]
+position = Vector2( 344, 344 )
+
+[node name="Rock8" parent="Rocks" instance=ExtResource( 6 )]
+position = Vector2( 344, 360 )
+
+[node name="Rock9" parent="Rocks" instance=ExtResource( 6 )]
+position = Vector2( 360, 376 )
+
+[node name="Rock10" parent="Rocks" instance=ExtResource( 6 )]
+position = Vector2( 376, 376 )
+
+[node name="Rock11" parent="Rocks" instance=ExtResource( 6 )]
+position = Vector2( 344, 392 )
+
+[node name="Rock12" parent="Rocks" instance=ExtResource( 6 )]
+position = Vector2( 328, 392 )
+
+[node name="Rock13" parent="Rocks" instance=ExtResource( 6 )]
+position = Vector2( 312, 392 )
+
+[node name="Rock14" parent="Rocks" instance=ExtResource( 6 )]
+position = Vector2( 312, 376 )
+
+[node name="Rock15" parent="Rocks" instance=ExtResource( 6 )]
+position = Vector2( 280, 408 )
+
+[node name="Rock16" parent="Rocks" instance=ExtResource( 6 )]
+position = Vector2( 312, 408 )
+
+[node name="Rock17" parent="Rocks" instance=ExtResource( 6 )]
+position = Vector2( 296, 408 )
+
+[node name="Rock18" parent="Rocks" instance=ExtResource( 6 )]
+position = Vector2( 312, 296 )
+
+[node name="Rock19" parent="Rocks" instance=ExtResource( 6 )]
+position = Vector2( 312, 312 )
+
+[node name="Rock20" parent="Rocks" instance=ExtResource( 6 )]
+position = Vector2( 344, 264 )
+
+[node name="Rock21" parent="Rocks" instance=ExtResource( 6 )]
+position = Vector2( 344, 280 )

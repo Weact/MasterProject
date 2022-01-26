@@ -8,22 +8,6 @@
 [ext_resource path="res://Scenes/Characters/Player/Inputs/Inputs.gd" type="Script" id=6]
 [ext_resource path="res://Scenes/Weapons/Melee/WeaponPointMelee.tscn" type="PackedScene" id=7]
 
-[sub_resource type="AtlasTexture" id=2]
-atlas = ExtResource( 4 )
-region = Rect2( 0, 0, 15, 22 )
-
-[sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 4 )
-region = Rect2( 15, 0, 15, 22 )
-
-[sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 4 )
-region = Rect2( 30, 0, 15, 22 )
-
-[sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 4 )
-region = Rect2( 0, 0, 15, 22 )
-
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 15, 20 )
@@ -40,13 +24,24 @@ region = Rect2( 30, 0, 15, 20 )
 atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 16, 28 )
 
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 15, 22 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 4 )
+region = Rect2( 15, 0, 15, 22 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 4 )
+region = Rect2( 30, 0, 15, 22 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 15, 22 )
+
 [sub_resource type="SpriteFrames" id=10]
 animations = [ {
-"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ],
-"loop": true,
-"name": "Move",
-"speed": 16.0
-}, {
 "frames": [ SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
 "loop": true,
 "name": "Idle",
@@ -55,6 +50,11 @@ animations = [ {
 "frames": [ SubResource( 1 ) ],
 "loop": true,
 "name": "Hit",
+"speed": 16.0
+}, {
+"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ],
+"loop": true,
+"name": "Move",
 "speed": 16.0
 } ]
 
