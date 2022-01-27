@@ -14,13 +14,14 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="CircleShape2D" id=3]
-radius = 7.07107
+[sub_resource type="CircleShape2D" id=5]
+radius = 8.0
 
-[node name="Rock" type="KinematicBody2D"]
+[node name="Rock" type="KinematicBody2D" groups=["Obstacle"]]
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
+offset = Vector2( 0, -0.415 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 3 )
+shape = SubResource( 5 )

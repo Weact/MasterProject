@@ -66,8 +66,10 @@ func move_along_path(delta: float) -> void:
 		set_state("Idle")
 		return
 	
-	var dir = global_position.direction_to(path[0])
-	var dist = global_position.distance_to(path[0])	
+	var cellToGo = path[0]
+	
+	var dir = global_position.direction_to(cellToGo)
+	var dist = global_position.distance_to(cellToGo)	
 	
 	set_direction(dir)
 	
