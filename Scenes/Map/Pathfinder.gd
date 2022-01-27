@@ -21,6 +21,9 @@ func find_path(from: Vector2, to: Vector2) -> PoolVector2Array:
 	
 	var from_cell_id = compute_point_index(from_cell)
 	var to_cell_id = compute_point_index(to_cell)
+	while astar.is_point_disabled(to_cell_id):
+		var newCell = astar.get_closest_point(to_cell,false)
+		to_cell_id = newCell
 	
 	var point_path = astar.get_point_path(from_cell_id, to_cell_id)
 	var path := PoolVector2Array()
@@ -32,8 +35,9 @@ func find_path(from: Vector2, to: Vector2) -> PoolVector2Array:
 		var point = point_path[i]
 		
 		var pos = tilemap.map_to_world(point) if i != point_path.size() - 1 else to
-		path.append(pos)
-	
+		path.append(pos + tilemap.cell_size/2)
+	if path.size() <= 0:
+		print("no path")
 	return path
 	
 func _init_astar() -> void:
