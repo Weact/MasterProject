@@ -1,6 +1,6 @@
 extends State
 
-class_name EnemyAttackState
+class_name NPCAttackState
 
 func enter_state() -> void:
 	if owner.state_machine == null:

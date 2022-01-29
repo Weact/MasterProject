@@ -10,6 +10,7 @@ onready var attackArea = $attackArea
 var target_in_chase_area : bool = false setget set_target_in_chase_area
 var target_in_attack_area : bool = false setget set_target_in_attack_area
 var path : Array = []
+var following = false
 
 var pathfinder : Pathfinder = null
 signal target_in_chase_area_changed
@@ -27,6 +28,7 @@ func set_target_in_chase_area(value : bool) -> void:
 	if value != target_in_chase_area:
 		target_in_chase_area = value
 		emit_signal("target_in_chase_area_changed", target_in_chase_area)
+		
 
 func set_target_in_attack_area(value : bool) -> void:
 	if value != target_in_attack_area:
@@ -41,6 +43,7 @@ func _ready() -> void:
 	__ = attackArea.connect("body_exited", self, "_on_attackArea_body_exited")
 	__ = connect("target_in_chase_area_changed", self, "_on_target_in_chase_area_changed")
 	__ = connect("target_in_attack_area_changed", self, "_on_target_in_attack_area_changed")
+	__ = connect("current_tile_changed", self, "_on_current_tile_changed")
 	
 #### VIRTUALS ####
 
@@ -52,14 +55,30 @@ func update_move_path(dest : Vector2) -> void:
 		path = [dest]
 	else:
 		path = pathfinder.find_path(global_position, dest)
+		
+func update_move_path_closeTo(dest : Vector2, dist : float):
+	if pathfinder == null:
+		update_move_path(dest)
+	else:
+		update_move_path(dest)
+		var remainPath = max(path.size() - dist, 0)
+		if remainPath > 0:
+			var __ = path.slice(0, remainPath)
+		else:
+			path = [position]
+		
+	
 	
 func _update_behaviour_state() -> void:
-	if target_in_attack_area:
-		behaviour_tree.set_state("Attack")
-	elif target_in_chase_area:
-		behaviour_tree.set_state("Chase")
+	if !following:
+		if target_in_attack_area:
+			behaviour_tree.set_state("Attack")
+		elif target_in_chase_area:
+			behaviour_tree.set_state("Chase")
+		else:
+			behaviour_tree.set_state("Wander")
 	else:
-		behaviour_tree.set_state("Wander")
+		behaviour_tree.set_state("Following")
 		
 func move_along_path(delta: float) -> void:
 	if path.empty():
@@ -116,3 +135,7 @@ func _on_StateMachine_state_changed(state) -> void:
 		return
 	if state.name == "Idle" && state_machine.previous_state == $StateMachine/Attack:
 		_update_behaviour_state()
+
+func _on_current_tile_changed(oldTilePos, tilePos) -> void:
+	pathfinder.update_pos_point(oldTilePos, 1)
+	pathfinder.update_pos_point(tilePos, 4)

@@ -9,7 +9,7 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Node2D",
+"base": "KinematicBody2D",
 "class": "Character",
 "language": "GDScript",
 "path": "res://Scenes/Characters/Character.gd"
@@ -60,11 +60,6 @@ _global_script_classes=[ {
 "path": "res://Behaviors/Damage/Damageable.gd"
 }, {
 "base": "State",
-"class": "EnemyAttackState",
-"language": "GDScript",
-"path": "res://Scenes/Characters/NPC/Behavior/NPCAttackState.gd"
-}, {
-"base": "State",
 "class": "EnemyMoveState",
 "language": "GDScript",
 "path": "res://Scenes/Characters/NPC/Behavior/NPCMoveState.gd"
@@ -73,6 +68,16 @@ _global_script_classes=[ {
 "class": "NPC",
 "language": "GDScript",
 "path": "res://Scenes/Characters/NPC/NPC.gd"
+}, {
+"base": "State",
+"class": "NPCAttackState",
+"language": "GDScript",
+"path": "res://Scenes/Characters/NPC/Behavior/NPCAttackState.gd"
+}, {
+"base": "StateMachine",
+"class": "NPCBehaviorTree",
+"language": "GDScript",
+"path": "res://Scenes/Characters/NPC/BehaviorTree.gd"
 }, {
 "base": "StateMachine",
 "class": "NPCWanderState",
@@ -135,9 +140,10 @@ _global_script_class_icons={
 "CharacterMoveState": "",
 "ChaseState": "",
 "DamageableBehavior": "",
-"EnemyAttackState": "",
 "EnemyMoveState": "",
 "NPC": "",
+"NPCAttackState": "",
+"NPCBehaviorTree": "",
 "NPCWanderState": "",
 "Pathfinder": "",
 "Player": "",

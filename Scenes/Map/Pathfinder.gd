@@ -18,12 +18,14 @@ func _ready() ->void:
 func find_path(from: Vector2, to: Vector2) -> PoolVector2Array:
 	var from_cell = tilemap.world_to_map(from)
 	var to_cell = tilemap.world_to_map(to)
+	var blockedCells : Array = []
 	
 	var from_cell_id = compute_point_index(from_cell)
 	var to_cell_id = compute_point_index(to_cell)
-	while astar.is_point_disabled(to_cell_id):
-		var newCell = astar.get_closest_point(to_cell,false)
+	while astar.is_point_disabled(to_cell_id) == true:
+		var newCell = astar.get_closest_point(to_cell, false)
 		to_cell_id = newCell
+		
 	
 	var point_path = astar.get_point_path(from_cell_id, to_cell_id)
 	var path := PoolVector2Array()
@@ -80,10 +82,17 @@ func _disable_all_obstacles_points() -> void:
 func compute_point_index(cell : Vector2) -> int:
 	return int(abs(cell.x + room_size.x * cell.y))
 	
-func _update_obstacle_point(obstacle : Node2D, disabled : bool) -> void:
-	var obstacle_pos = obstacle.get_global_position()
-	var cell = tilemap.world_to_map(obstacle_pos)
+func update_pos_point(pos : Vector2, weight : int = 4) -> void:
+	var point_id = _get_pos_cell_id(pos)
+	astar.set_point_weight_scale(point_id, weight)
+	
+func _get_pos_cell_id(pos : Vector2) -> int :
+	var cell = tilemap.world_to_map(pos)
 	var point_id = compute_point_index(cell)
+	return point_id
+	
+func _update_obstacle_point(obstacle : Node2D, disabled : bool) -> void:
+	var point_id = _get_pos_cell_id(obstacle.get_global_position())
 	astar.set_point_disabled(point_id, disabled)
 	
 func _on_EVENTS_obstacle_destroyed(obstacle : Node2D) -> void:
