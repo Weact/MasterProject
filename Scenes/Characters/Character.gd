@@ -42,6 +42,9 @@ signal attack_power_changed
 export var block_power : int = 0 setget set_block_power, get_block_power
 signal block_power_changed
 
+var current_tile : Vector2 = Vector2(0,0) setget set_current_tile
+signal current_tile_changed
+
 ## STATES
 export var default_state : String = ""
 
@@ -50,7 +53,13 @@ func get_state() -> Object: return $StateMachine.get_state()
 func get_state_name() -> String: return $StateMachine.get_state_name()
 
 #### ACCESSORS ####
-
+##PATHFINDER WEIGHT
+func set_current_tile(tilePos : Vector2) -> void:
+	if tilePos != current_tile:
+		var oldTile = current_tile
+		current_tile = tilePos
+		emit_signal("current_tile_changed", oldTile, current_tile)
+		
 ## HEALTH POINT
 func set_health_point(new_health_point: int) -> void:
 	if health_point != new_health_point:
@@ -163,6 +172,7 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	compute_velocity()
+	set_current_tile(position)
 
 #### VIRTUALS ####
 
