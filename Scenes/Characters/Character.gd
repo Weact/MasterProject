@@ -11,7 +11,13 @@ onready var collision_shape : CollisionShape2D = get_node("CollisionShape2D")
 onready var ressources_panel : VBoxContainer = get_node("Ressources/VBoxContainer")
 onready var informations_panel : Node2D = get_node("Infos")
 
+var pathfinder : Pathfinder = null setget set_pathfinder
+signal pathfinder_changed
+
 ## STATS
+export var weight : int = 5
+signal weight_changed()
+
 export var health_point : int = 0
 signal health_point_changed()
 
@@ -42,7 +48,7 @@ signal attack_power_changed
 export var block_power : int = 0 setget set_block_power, get_block_power
 signal block_power_changed
 
-var current_tile : Vector2 = Vector2(0,0) setget set_current_tile
+onready var current_tile : Vector2 = position setget set_current_tile
 signal current_tile_changed
 
 ## STATES
@@ -54,6 +60,18 @@ func get_state_name() -> String: return $StateMachine.get_state_name()
 
 #### ACCESSORS ####
 ##PATHFINDER WEIGHT
+func set_pathfinder(newPath : Pathfinder) -> void:
+	if pathfinder != newPath:
+		pathfinder = newPath
+		print("new path")
+		emit_signal("pathfinder_changed")
+		
+func set_weight(newWeight : int) -> void:
+	if newWeight != weight:
+		var oldWeight = weight
+		weight = newWeight
+		emit_signal("weight_changed", oldWeight, newWeight)
+		
 func set_current_tile(tilePos : Vector2) -> void:
 	if tilePos != current_tile:
 		var oldTile = current_tile
@@ -166,8 +184,11 @@ func _ready() -> void:
 
 	__ = animated_sprite.connect("animation_finished", self, "_on_animation_finished")
 
+	__ = connect("current_tile_changed", self, "_on_current_tile_changed")
+	__ = connect("pathfinder_changed", self, "_on_pathfinder_changed")
+	__ = connect("weight_changed", self, "_on_weight_changed")
 	init_panels()
-
+	
 	print("Character is ready")
 
 func _physics_process(_delta: float) -> void:
@@ -255,3 +276,17 @@ func _on_animation_finished() -> void:
 
 func _on_AnimatedSprite_frame_changed() -> void:
 	pass # Replace with function body.
+
+func _on_current_tile_changed(oldTilePos, tilePos) -> void:
+	if pathfinder != null:
+		pathfinder.update_pos_point(oldTilePos, -weight)
+		pathfinder.update_pos_point(tilePos, weight)
+		
+func _on_pathfinder_changed() -> void:
+	if pathfinder != null:
+		pathfinder.update_pos_point(current_tile, weight)
+
+func _on_weight_changed(oldWeight, newWeight) -> void:
+	if pathfinder != null:
+		pathfinder.update_pos_point(current_tile, -oldWeight)
+		pathfinder.update_pos_point(current_tile, newWeight)

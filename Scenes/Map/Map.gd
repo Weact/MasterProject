@@ -9,4 +9,4 @@ func _ready() -> void:
 	randomize()
 	
 	for npc in npc_array:
-		npc.pathfinder = pathfinder
+		npc.set_pathfinder(pathfinder)
