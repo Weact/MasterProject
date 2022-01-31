@@ -87,7 +87,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "Pathfinder",
 "language": "GDScript",
-"path": "res://Scenes/Map/Pathfinder.gd"
+"path": "res://Scenes/Map/Pathfinder/Pathfinder.gd"
 }, {
 "base": "Character",
 "class": "Player",
@@ -159,12 +159,12 @@ _global_script_class_icons={
 [application]
 
 config/name="MasterProject"
-run/main_scene="res://Scenes/Map/Map.tscn"
+run/main_scene="res://Scenes/Map/Base/MapBase.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-EVENTS="*res://Scenes/EVENTS.gd"
+EVENTS="*res://Global/EVENTS.gd"
 
 [debug]
 

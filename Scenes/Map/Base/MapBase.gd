@@ -6,7 +6,5 @@ onready var pathfinder = $ground/Pathfinder
 func _ready() -> void:
 	var npc_array = get_tree().get_nodes_in_group("NPC")
 	
-	randomize()
-	
 	for npc in npc_array:
 		npc.set_pathfinder(pathfinder)

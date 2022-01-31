@@ -9,7 +9,7 @@ region = Rect2( 32, 480, 32, 32 )
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
 "frames": [ SubResource( 4 ) ],
-"loop": true,
+"loop": false,
 "name": "default",
 "speed": 5.0
 } ]
@@ -21,7 +21,6 @@ radius = 8.0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
-offset = Vector2( 0, -0.415 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 5 )
