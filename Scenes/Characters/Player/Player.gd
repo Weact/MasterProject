@@ -5,6 +5,8 @@ func get_class() -> String: return "Player"
 
 onready var inputs_node : Node = $Inputs
 
+onready var weapon_node : Node2D = get_node_or_null("WeaponPoint/Weapon")
+
 var dirLeft : int = 0
 var dirRight : int = 0
 var dirUp : int = 0
@@ -63,6 +65,9 @@ func _input(event: InputEvent) -> void:
 	
 	action(action_name)
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		$WeaponPoint.look_at(get_global_mouse_position())
 
 func action(action_name: String) -> void:
 	match(action_name):
@@ -88,8 +93,7 @@ func action(action_name: String) -> void:
 	set_direction(Vector2(dirRight - dirLeft, dirDown - dirUp))
 
 func attack() -> void:
-	$Weapon.set_visible(true)
-	$Weapon/AnimationPlayer.play("attack")
+	weapon_node.get_node_or_null("AnimationPlayer").play("attack")
 
 func block() -> void:
 	pass
