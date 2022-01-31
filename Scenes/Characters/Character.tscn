@@ -21,6 +21,7 @@ script = ExtResource( 9 )
 script = ExtResource( 12 )
 
 [node name="Shield" parent="ShieldPoint" instance=ExtResource( 11 )]
+weapon_handler_node_path = NodePath("../..")
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 __meta__ = {

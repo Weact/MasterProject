@@ -90,6 +90,9 @@ editor_draw_drag_margin = true
 [node name="Inputs" type="Node" parent="." index="1"]
 script = ExtResource( 6 )
 
+[node name="Shield" parent="ShieldPoint" index="0"]
+weapon_handler_node_path = NodePath("../..")
+
 [node name="WeaponPoint" type="Node2D" parent="." index="3"]
 position = Vector2( 0, -4 )
 
