@@ -42,7 +42,6 @@ __meta__ = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/Area2D"]
 shape = SubResource( 1 )
-disabled = true
 __meta__ = {
 "_edit_lock_": true
 }

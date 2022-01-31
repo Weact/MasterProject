@@ -10,11 +10,19 @@
 [ext_resource path="res://Scenes/Characters/States/CharacterInteract.gd" type="Script" id=8]
 [ext_resource path="res://Scenes/Characters/Character.gd" type="Script" id=9]
 [ext_resource path="res://Behaviors/Damage/DamageableBehavior.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Scenes/Characters/States/CharacterDodgeState.gd" type="Script" id=11]
+[ext_resource path="res://Scenes/Weapons/Melee/Shield.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scenes/Characters/ShieldPoint.gd" type="Script" id=12]
+[ext_resource path="res://Scenes/Characters/States/CharacterDodgeState.gd" type="Script" id=13]
 
 [node name="Character" type="KinematicBody2D"]
 z_index = 1
 script = ExtResource( 9 )
+
+[node name="ShieldPoint" type="Node2D" parent="."]
+script = ExtResource( 12 )
+
+[node name="Shield" parent="ShieldPoint" instance=ExtResource( 11 )]
+weapon_handler_node_path = NodePath("../..")
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 __meta__ = {
@@ -36,7 +44,7 @@ script = ExtResource( 6 )
 script = ExtResource( 2 )
 
 [node name="Dodge" type="Node" parent="StateMachine"]
-script = ExtResource( 11 )
+script = ExtResource( 13 )
 
 [node name="Block" type="Node" parent="StateMachine"]
 script = ExtResource( 3 )

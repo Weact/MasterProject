@@ -72,6 +72,8 @@ func astar_connect_points(point_array: Array, connect_diagonals: bool  = true) -
 				if point_relative == point or !astar.has_point(point_rel_id):
 					continue
 				
+				if point_index == point_rel_id:
+					continue
 				astar.connect_points(point_index, point_rel_id)
 	
 func _disable_all_obstacles_points() -> void:

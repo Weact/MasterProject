@@ -65,7 +65,7 @@ animations = [ {
 radius = 4.0
 
 [sub_resource type="CircleShape2D" id=6]
-radius = 158.003
+radius = 278.088
 
 [sub_resource type="CircleShape2D" id=7]
 radius = 18.0278
@@ -77,32 +77,15 @@ stamina = 10
 movement_speed = 50.0
 max_speed = 50.0
 
-[node name="AnimatedSprite" parent="." index="0"]
+[node name="AnimatedSprite" parent="." index="1"]
 position = Vector2( 0, -9 )
 frames = SubResource( 5 )
 animation = "Move"
 frame = 1
 playing = true
 
-[node name="CollisionShape2D" parent="." index="1"]
+[node name="CollisionShape2D" parent="." index="2"]
 shape = SubResource( 13 )
-
-[node name="Move" parent="StateMachine" index="1"]
-script = ExtResource( 11 )
-
-[node name="Attack" parent="StateMachine" index="2"]
-script = ExtResource( 12 )
-
-[node name="StateLabel" type="Label" parent="StateMachine" index="7"]
-margin_left = -19.0
-margin_top = -23.0
-margin_right = 23.0
-margin_bottom = -7.0
-text = "State"
-script = ExtResource( 7 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="BehaviorTree" type="Node2D" parent="." index="3"]
 script = ExtResource( 4 )
@@ -158,6 +141,23 @@ __meta__ = {
 shape = SubResource( 7 )
 __meta__ = {
 "_edit_lock_": true
+}
+
+[node name="Move" parent="StateMachine" index="1"]
+script = ExtResource( 11 )
+
+[node name="Attack" parent="StateMachine" index="2"]
+script = ExtResource( 12 )
+
+[node name="StateLabel" type="Label" parent="StateMachine" index="7"]
+margin_left = -19.0
+margin_top = -23.0
+margin_right = 23.0
+margin_bottom = -7.0
+text = "State"
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
 }
 
 [node name="DebugControl" type="Control" parent="." index="9"]
