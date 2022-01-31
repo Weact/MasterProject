@@ -81,7 +81,7 @@ max_speed = 50.0
 position = Vector2( 0, -9 )
 frames = SubResource( 5 )
 animation = "Move"
-frame = 3
+frame = 1
 playing = true
 
 [node name="CollisionShape2D" parent="." index="1"]
@@ -144,13 +144,12 @@ __meta__ = {
 }
 
 [node name="chaseArea" type="Area2D" parent="." index="4"]
+visible = false
 
 [node name="area" type="CollisionShape2D" parent="chaseArea" index="0"]
-visible = false
 shape = SubResource( 6 )
 
 [node name="attackArea" type="Area2D" parent="." index="5"]
-visible = false
 __meta__ = {
 "_edit_lock_": true
 }
@@ -161,11 +160,12 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Control" type="Control" parent="." index="9"]
+[node name="DebugControl" type="Control" parent="." index="9"]
 margin_left = -7.0
 margin_top = -16.0
 margin_right = 6.0
 margin_bottom = 7.0
+mouse_filter = 2
 mouse_default_cursor_shape = 2
 script = ExtResource( 15 )
 __meta__ = {

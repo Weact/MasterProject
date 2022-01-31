@@ -63,7 +63,6 @@ func get_state_name() -> String: return $StateMachine.get_state_name()
 func set_pathfinder(newPath : Pathfinder) -> void:
 	if pathfinder != newPath:
 		pathfinder = newPath
-		print("new path")
 		emit_signal("pathfinder_changed")
 		
 func set_weight(newWeight : int) -> void:
@@ -188,8 +187,6 @@ func _ready() -> void:
 	__ = connect("pathfinder_changed", self, "_on_pathfinder_changed")
 	__ = connect("weight_changed", self, "_on_weight_changed")
 	init_panels()
-	
-	print("Character is ready")
 
 func _physics_process(_delta: float) -> void:
 	compute_velocity()

@@ -8,10 +8,6 @@
 [ext_resource path="res://Scenes/Characters/Player/Inputs/Inputs.gd" type="Script" id=6]
 [ext_resource path="res://Scenes/Weapons/Melee/WeaponPointMelee.tscn" type="PackedScene" id=7]
 
-[sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 0, 16, 28 )
-
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 15, 20 )
@@ -44,21 +40,25 @@ region = Rect2( 30, 0, 15, 22 )
 atlas = ExtResource( 4 )
 region = Rect2( 45, 0, 15, 22 )
 
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 16, 28 )
+
 [sub_resource type="SpriteFrames" id=10]
 animations = [ {
-"frames": [ SubResource( 9 ) ],
-"loop": true,
-"name": "Hit",
-"speed": 16.0
-}, {
 "frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
 "loop": true,
 "name": "Idle",
-"speed": 8.0
+"speed": 6.0
 }, {
 "frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
 "loop": true,
 "name": "Move",
+"speed": 12.0
+}, {
+"frames": [ SubResource( 9 ) ],
+"loop": true,
+"name": "Hit",
 "speed": 16.0
 } ]
 
@@ -87,9 +87,16 @@ drag_margin_bottom = 1.0
 editor_draw_screen = false
 editor_draw_drag_margin = true
 
-[node name="Weapon" parent="." index="1" instance=ExtResource( 7 )]
-position = Vector2( 8, 2 )
-weapon_handler_node = NodePath("..")
+[node name="WeaponPoint" type="Node2D" parent="." index="1"]
+position = Vector2( 0, -4 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Weapon" parent="WeaponPoint" index="0" instance=ExtResource( 7 )]
+position = Vector2( 10, 0 )
+z_index = 2
+weapon_handler_node_path = NodePath("../..")
 
 [node name="Inputs" type="Node" parent="." index="2"]
 script = ExtResource( 6 )
@@ -98,7 +105,7 @@ script = ExtResource( 6 )
 position = Vector2( 0, -6 )
 frames = SubResource( 10 )
 animation = "Idle"
-frame = 3
+frame = 1
 playing = true
 
 [node name="CollisionShape2D" parent="." index="4"]
