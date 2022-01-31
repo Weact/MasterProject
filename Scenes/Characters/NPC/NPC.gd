@@ -12,7 +12,6 @@ var target_in_attack_area : bool = false setget set_target_in_attack_area
 var path : Array = []
 var following = false
 
-var pathfinder : Pathfinder = null
 signal target_in_chase_area_changed
 signal target_in_attack_area_changed
 signal move_path_finished
@@ -43,7 +42,6 @@ func _ready() -> void:
 	__ = attackArea.connect("body_exited", self, "_on_attackArea_body_exited")
 	__ = connect("target_in_chase_area_changed", self, "_on_target_in_chase_area_changed")
 	__ = connect("target_in_attack_area_changed", self, "_on_target_in_attack_area_changed")
-	__ = connect("current_tile_changed", self, "_on_current_tile_changed")
 	
 #### VIRTUALS ####
 
@@ -136,6 +134,3 @@ func _on_StateMachine_state_changed(state) -> void:
 	if state.name == "Idle" && state_machine.previous_state == $StateMachine/Attack:
 		_update_behaviour_state()
 
-func _on_current_tile_changed(oldTilePos, tilePos) -> void:
-	pathfinder.update_pos_point(oldTilePos, 1)
-	pathfinder.update_pos_point(tilePos, 4)

@@ -18,7 +18,6 @@ func _ready() ->void:
 func find_path(from: Vector2, to: Vector2) -> PoolVector2Array:
 	var from_cell = tilemap.world_to_map(from)
 	var to_cell = tilemap.world_to_map(to)
-	var blockedCells : Array = []
 	
 	var from_cell_id = compute_point_index(from_cell)
 	var to_cell_id = compute_point_index(to_cell)
@@ -82,9 +81,10 @@ func _disable_all_obstacles_points() -> void:
 func compute_point_index(cell : Vector2) -> int:
 	return int(abs(cell.x + room_size.x * cell.y))
 	
-func update_pos_point(pos : Vector2, weight : int = 4) -> void:
+func update_pos_point(pos : Vector2, weight : int = 0) -> void:
 	var point_id = _get_pos_cell_id(pos)
-	astar.set_point_weight_scale(point_id, weight)
+	var oldWeight = astar.get_point_weight_scale(point_id)
+	astar.set_point_weight_scale(point_id, oldWeight + weight)
 	
 func _get_pos_cell_id(pos : Vector2) -> int :
 	var cell = tilemap.world_to_map(pos)
@@ -104,3 +104,4 @@ func is_position_valid(pos: Vector2) -> bool:
 	var exist = astar.has_point(point_id)
 	var enabled = !astar.is_point_disabled(point_id)
 	return (exist && enabled)
+
