@@ -36,6 +36,10 @@ signal velocity_changed(vel)
 var direction : Vector2 = Vector2.ZERO
 signal direction_changed(dir)
 
+var is_dodging : bool = false
+var dodging_time : float = 0.1
+var dodge_power : float = 500.0
+
 export var facing_left : bool = false setget set_facing_left, is_facing_left
 
 ## COMBAT
@@ -50,6 +54,8 @@ signal block_power_changed
 
 onready var current_tile : Vector2 = position setget set_current_tile
 signal current_tile_changed
+
+signal attack_hit()
 
 ## STATES
 export var default_state : String = ""
@@ -180,6 +186,7 @@ func _ready() -> void:
 
 	__ = connect("attack_power_changed", self, "_on_attack_power_changed")
 	__ = connect("block_power_changed", self, "_on_block_power_changed")
+	__ = connect("attack_hit", self, "_on_weapon_hit")
 
 	__ = animated_sprite.connect("animation_finished", self, "_on_animation_finished")
 
@@ -236,6 +243,15 @@ func damaged(damage_taken) -> void:
 func die() -> void:
 	set_state("Death")
 
+func attack() -> void:
+	pass
+
+func block() -> void:
+	pass
+
+func dodge() -> void:
+	pass
+
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
@@ -278,7 +294,7 @@ func _on_current_tile_changed(oldTilePos, tilePos) -> void:
 	if pathfinder != null:
 		pathfinder.update_pos_point(oldTilePos, -weight)
 		pathfinder.update_pos_point(tilePos, weight)
-		
+
 func _on_pathfinder_changed() -> void:
 	if pathfinder != null:
 		pathfinder.update_pos_point(current_tile, weight)
@@ -287,3 +303,6 @@ func _on_weight_changed(oldWeight, newWeight) -> void:
 	if pathfinder != null:
 		pathfinder.update_pos_point(current_tile, -oldWeight)
 		pathfinder.update_pos_point(current_tile, newWeight)
+
+func _on_weapon_hit() -> void:
+	pass

@@ -6,6 +6,9 @@ var input_map = {
 	"MoveDown": "player_down",
 	"MoveLeft": "player_left",
 	"MoveRight": "player_right",
+	"Attack": "player_attack",
+	"Block": "player_block",
+	"Dodge": "player_dodge"
 }
 
 func get_input(input_name: String) -> String:
