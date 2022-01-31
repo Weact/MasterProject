@@ -15,8 +15,8 @@ var pathfinder : Pathfinder = null setget set_pathfinder
 signal pathfinder_changed
 
 ## STATS
-onready var weapon_node : Node2D = get_node_or_null("WeaponPoint/Weapon")
-onready var shield_node : Node2D = get_node_or_null("ShieldPoint/Shield")
+onready var weapon_node : Node2D = get_node_or_null("WeaponsPoint/Weapon")
+onready var shield_node : Node2D = get_node_or_null("WeaponsPoint/Shield")
 
 export var weight : int = 5
 signal weight_changed()
@@ -40,12 +40,15 @@ var direction : Vector2 = Vector2.ZERO
 signal direction_changed(dir)
 
 var is_dodging : bool = false
-var dodging_time : float = 0.1
-var dodge_power : float = 500.0
+var dodging_time : float = 0.08
+var dodge_power : float = 300.0
 
-var look_direction : Vector2 = Vector2.ZERO
+var rotation_speed : float = 750.0
+
+var look_direction : float = 0.0
 signal look_direction_changed(dir)
 
+onready var dodge_sprite_animation : PackedScene = preload("res://Scenes/Characters/Player/DodgeSprite/DodgeSprite.tscn")
 
 export var facing_left : bool = false setget set_facing_left, is_facing_left
 
@@ -168,17 +171,16 @@ func set_direction(new_direction : Vector2):
 		new_direction = new_direction.normalized()
 		direction = new_direction
 		emit_signal("direction_changed", direction)
-
-func set_look_direction(new_direction : Vector2):
-	if look_direction != new_direction.normalized():
-		new_direction = new_direction.normalized()
-		look_direction = new_direction
-		emit_signal("look_direction_changed", look_direction)
-
+		
 func get_direction() -> Vector2:
 	return direction
-
-func get_look_direction() -> Vector2:
+		
+func set_look_direction(new_direction : float):
+	if look_direction != new_direction:
+		look_direction = new_direction
+		emit_signal("look_direction_changed", look_direction)
+		
+func get_look_direction() -> float:
 	return look_direction
 
 func set_facing_left(value: bool) -> void:
@@ -216,10 +218,46 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	compute_velocity()
 	set_current_tile(position)
+	if is_dodging:
+		animate_dodging()
+	
+	_update_weapon_rotation(_delta)
 
 #### VIRTUALS ####
 
 #### LOGIC ####
+func _update_weapon_rotation(_delta) -> void:
+	var difference = fmod(look_direction - $WeaponsPoint.rotation_degrees, 360)
+	var short_angle_dist = fmod(2*difference, 360) - difference
+	
+	var relative_rot = rotation_speed * _delta
+	if short_angle_dist < 0:
+		relative_rot = -relative_rot
+	
+	if abs(relative_rot) > abs(short_angle_dist):
+		$WeaponsPoint.rotation_degrees = look_direction
+	else:
+		$WeaponsPoint.rotation_degrees = $WeaponsPoint.rotation_degrees + relative_rot 
+	set_facing_left($WeaponsPoint.rotation_degrees < -90 or $WeaponsPoint.rotation_degrees > 90)
+	
+func dodge() -> void:
+	if get_state_name() == "Move" and not is_dodging:
+		set_modulate(Color8(255,255,255,230))
+		yield(get_tree().create_timer(dodging_time*2), "timeout")
+		is_dodging = true
+		movement_speed = movement_speed * 3
+		yield(get_tree().create_timer(dodging_time), "timeout")
+		reset_dodge()
+
+func reset_dodge() -> void:
+	is_dodging = false
+	set_modulate(Color8(255,255,255,255))
+	movement_speed = movement_speed / 3
+	
+func animate_dodging() -> void:
+	var dodge_anim = dodge_sprite_animation.instance()
+	dodge_anim.global_position = global_position
+	get_parent().add_child(dodge_anim)
 
 func init_panels() -> void:
 	ressources_panel.get_child(0).set_text( \
@@ -264,8 +302,6 @@ func attack() -> void:
 func block() -> void:
 	pass
 
-func dodge() -> void:
-	pass
 
 #### INPUTS ####
 
@@ -298,11 +334,10 @@ func _on_direction_changed(dir: Vector2) -> void:
 	if dir != Vector2.ZERO and dir != Vector2.UP and dir != Vector2.DOWN :
 		pass
 
-func _on_look_direction_changed(dir: Vector2) -> void:
-	if dir != Vector2.ZERO :
-		set_facing_left(dir.x < 0)
-		$ShieldPoint.rotation_degrees = rad2deg(dir.angle())
-		$WeaponPoint.rotation_degrees = rad2deg(dir.angle())
+func _on_look_direction_changed(dir: float) -> void:
+	#set_facing_left(dir > 90 and dir < 270)
+	#$WeaponsPoint.rotation_degrees = $WeaponsPoint.rotation_degrees 
+	pass
 
 func _on_animation_finished() -> void:
 	if animated_sprite.get_animation() == "Hit":

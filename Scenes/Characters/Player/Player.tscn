@@ -7,9 +7,21 @@
 [ext_resource path="res://Scenes/Characters/Player/Sprites/Knight_Hit.png" type="Texture" id=5]
 [ext_resource path="res://Scenes/Characters/Player/Inputs/Inputs.gd" type="Script" id=6]
 
-[sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 0, 16, 28 )
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 15, 22 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 4 )
+region = Rect2( 15, 0, 15, 22 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 4 )
+region = Rect2( 30, 0, 15, 22 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 4 )
+region = Rect2( 45, 0, 15, 22 )
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 3 )
@@ -27,38 +39,26 @@ region = Rect2( 30, 0, 15, 20 )
 atlas = ExtResource( 3 )
 region = Rect2( 45, 0, 15, 20 )
 
-[sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 4 )
-region = Rect2( 0, 0, 15, 22 )
-
-[sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 4 )
-region = Rect2( 15, 0, 15, 22 )
-
-[sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 4 )
-region = Rect2( 30, 0, 15, 22 )
-
-[sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 4 )
-region = Rect2( 45, 0, 15, 22 )
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 16, 28 )
 
 [sub_resource type="SpriteFrames" id=10]
 animations = [ {
-"frames": [ SubResource( 9 ) ],
+"frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
 "loop": true,
-"name": "Hit",
-"speed": 16.0
+"name": "Move",
+"speed": 12.0
 }, {
 "frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
 "loop": true,
 "name": "Idle",
 "speed": 6.0
 }, {
-"frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
+"frames": [ SubResource( 9 ) ],
 "loop": true,
-"name": "Move",
-"speed": 12.0
+"name": "Hit",
+"speed": 16.0
 } ]
 
 [sub_resource type="CircleShape2D" id=11]
@@ -92,26 +92,17 @@ script = ExtResource( 6 )
 [node name="Inputs" type="Node" parent="." index="2"]
 script = ExtResource( 6 )
 
-[node name="Shield" parent="ShieldPoint" index="0"]
-position = Vector2( 8, 0 )
-
-[node name="WeaponPoint" parent="." index="4"]
-position = Vector2( 0, 4 )
-
-[node name="Weapon" parent="WeaponPoint" index="0"]
-position = Vector2( 12, 0 )
-
-[node name="AnimatedSprite" parent="." index="5"]
+[node name="AnimatedSprite" parent="." index="3"]
+position = Vector2( 0, -5 )
 frames = SubResource( 10 )
 animation = "Idle"
 playing = true
 
-[node name="CollisionShape2D" parent="." index="6"]
-position = Vector2( 0, 4 )
+[node name="CollisionShape2D" parent="." index="5"]
 shape = SubResource( 11 )
 
-[node name="Infos" parent="." index="8"]
+[node name="Infos" parent="." index="7"]
 visible = true
 
-[node name="Ressources" parent="." index="9"]
+[node name="Ressources" parent="." index="8"]
 visible = true
