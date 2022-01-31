@@ -15,6 +15,10 @@ var pathfinder : Pathfinder = null setget set_pathfinder
 signal pathfinder_changed
 
 ## STATS
+onready var weapon_node : Node2D = get_node_or_null("WeaponPoint/Weapon")
+
+onready var shield_node : Node2D = get_node_or_null("ShieldPoint/Shield")
+
 export var weight : int = 5
 signal weight_changed()
 
@@ -35,6 +39,10 @@ signal velocity_changed(vel)
 
 var direction : Vector2 = Vector2.ZERO
 signal direction_changed(dir)
+
+var look_direction : Vector2 = Vector2.ZERO
+signal look_direction_changed(dir)
+
 
 export var facing_left : bool = false setget set_facing_left, is_facing_left
 
@@ -102,6 +110,7 @@ func set_stamina(new_stamina) -> void:
 
 		if stamina < 0: stamina = 0
 		emit_signal("stamina_changed")
+		
 
 func get_stamina() -> int:
 	return stamina
@@ -150,13 +159,22 @@ func get_velocity() -> Vector2:
 	return velocity
 
 func set_direction(new_direction : Vector2):
-	if direction != new_direction:
+	if direction != new_direction.normalized():
 		new_direction = new_direction.normalized()
 		direction = new_direction
 		emit_signal("direction_changed", direction)
+		
+func set_look_direction(new_direction : Vector2):
+	if look_direction != new_direction.normalized():
+		new_direction = new_direction.normalized()
+		look_direction = new_direction
+		emit_signal("look_direction_changed", look_direction)
 
 func get_direction() -> Vector2:
 	return direction
+	
+func get_look_direction() -> Vector2:
+	return look_direction
 
 func set_facing_left(value: bool) -> void:
 	if value != facing_left:
@@ -175,6 +193,7 @@ func _ready() -> void:
 
 	__ = connect("velocity_changed", self, "_on_velocity_changed")
 	__ = connect("direction_changed", self, "_on_direction_changed")
+	__ = connect("look_direction_changed", self, "_on_look_direction_changed")
 	__ = animated_sprite.connect("frame_changed", self, "_on_AnimatedSprite_frame_changed")
 	__ = animated_sprite.connect("animation_finished", self, "_on_AnimatedSprite_animation_finished")
 
@@ -265,7 +284,12 @@ func _on_velocity_changed(_vel: Vector2) -> void:
 
 func _on_direction_changed(dir: Vector2) -> void:
 	if dir != Vector2.ZERO and dir != Vector2.UP and dir != Vector2.DOWN :
+		pass
+		
+func _on_look_direction_changed(dir: Vector2) -> void:
+	if dir != Vector2.ZERO :
 		set_facing_left(dir.x < 0)
+		$ShieldPoint.rotation_degrees = dir.angle() / PI * 180
 
 func _on_animation_finished() -> void:
 	if animated_sprite.get_animation() == "Hit":

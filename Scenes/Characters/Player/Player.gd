@@ -5,7 +5,6 @@ func get_class() -> String: return "Player"
 
 onready var inputs_node : Node = $Inputs
 
-onready var weapon_node : Node2D = get_node_or_null("WeaponPoint/Weapon")
 
 var dirLeft : int = 0
 var dirRight : int = 0
@@ -31,11 +30,14 @@ func _input(event: InputEvent) -> void:
 		if !event is InputEventMouseButton:
 			return
 		
-		if event.is_action("player_attack"):
+		if event.is_action_released("player_attack"):
 			attack()
 		
-		elif event.is_action("player_block"):
+		elif event.is_action_pressed("player_block"):
 			block()
+			
+		elif event.is_action_released("player_block"):
+			unblock()
 			
 	var action_name : String = ""
 	
@@ -67,7 +69,10 @@ func _input(event: InputEvent) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
-		$WeaponPoint.look_at(get_global_mouse_position())
+		var pos = $ShieldPoint.global_position
+		var mousePos = get_global_mouse_position()
+		set_look_direction(mousePos-pos)
+		
 
 func action(action_name: String) -> void:
 	match(action_name):
@@ -96,7 +101,10 @@ func attack() -> void:
 	weapon_node.get_node_or_null("AnimationPlayer").play("attack")
 
 func block() -> void:
-	pass
+	state_machine.set_state("Block")
+
+func unblock() -> void:
+	state_machine.set_state("Idle")
 
 #### INPUTS ####
 
