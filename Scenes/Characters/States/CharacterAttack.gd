@@ -12,7 +12,9 @@ func get_class() -> String: return "CharacterAttackState"
 
 # Override of State's enter_state
 func enter_state():
-	pass
+	if is_instance_valid(owner) and "weapon_node" in owner:
+		owner.weapon_node.hitbox.call_deferred("set_disabled", false)
+		owner.weapon_node.get_node_or_null("AnimationPlayer").play("attack")
 
 # Override of State's exit_state
 func exit_state():

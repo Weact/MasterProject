@@ -16,7 +16,6 @@ signal pathfinder_changed
 
 ## STATS
 onready var weapon_node : Node2D = get_node_or_null("WeaponPoint/Weapon")
-
 onready var shield_node : Node2D = get_node_or_null("ShieldPoint/Shield")
 
 export var weight : int = 5
@@ -40,6 +39,10 @@ signal velocity_changed(vel)
 var direction : Vector2 = Vector2.ZERO
 signal direction_changed(dir)
 
+var is_dodging : bool = false
+var dodging_time : float = 0.1
+var dodge_power : float = 500.0
+
 var look_direction : Vector2 = Vector2.ZERO
 signal look_direction_changed(dir)
 
@@ -59,6 +62,8 @@ signal block_power_changed
 onready var current_tile : Vector2 = position setget set_current_tile
 signal current_tile_changed
 
+signal attack_hit()
+
 ## STATES
 export var default_state : String = ""
 
@@ -72,19 +77,19 @@ func set_pathfinder(newPath : Pathfinder) -> void:
 	if pathfinder != newPath:
 		pathfinder = newPath
 		emit_signal("pathfinder_changed")
-		
+
 func set_weight(newWeight : int) -> void:
 	if newWeight != weight:
 		var oldWeight = weight
 		weight = newWeight
 		emit_signal("weight_changed", oldWeight, newWeight)
-		
+
 func set_current_tile(tilePos : Vector2) -> void:
 	if tilePos != current_tile:
 		var oldTile = current_tile
 		current_tile = tilePos
 		emit_signal("current_tile_changed", oldTile, current_tile)
-		
+
 ## HEALTH POINT
 func set_health_point(new_health_point: int) -> void:
 	if health_point != new_health_point:
@@ -110,7 +115,7 @@ func set_stamina(new_stamina) -> void:
 
 		if stamina < 0: stamina = 0
 		emit_signal("stamina_changed")
-		
+
 
 func get_stamina() -> int:
 	return stamina
@@ -163,7 +168,7 @@ func set_direction(new_direction : Vector2):
 		new_direction = new_direction.normalized()
 		direction = new_direction
 		emit_signal("direction_changed", direction)
-		
+
 func set_look_direction(new_direction : Vector2):
 	if look_direction != new_direction.normalized():
 		new_direction = new_direction.normalized()
@@ -172,7 +177,7 @@ func set_look_direction(new_direction : Vector2):
 
 func get_direction() -> Vector2:
 	return direction
-	
+
 func get_look_direction() -> Vector2:
 	return look_direction
 
@@ -199,6 +204,7 @@ func _ready() -> void:
 
 	__ = connect("attack_power_changed", self, "_on_attack_power_changed")
 	__ = connect("block_power_changed", self, "_on_block_power_changed")
+	__ = connect("attack_hit", self, "_on_weapon_hit")
 
 	__ = animated_sprite.connect("animation_finished", self, "_on_animation_finished")
 
@@ -220,9 +226,6 @@ func init_panels() -> void:
 	"Life: " + str(get_health_point()) + \
 	"\nStamina: " + str(get_stamina()) )
 
-func _on_AnimatedSprite_animation_finished() -> void:
-	if(state_machine.get_state_name() == "Attack"):
-		state_machine.set_state("Idle")
 
 func compute_velocity() -> void:
 	set_velocity(direction.normalized() * movement_speed)
@@ -245,7 +248,7 @@ func damaged(damage_taken) -> void:
 	var raw_damage = damage_taken
 	var damage_to_take = raw_damage
 
-	if stamina >= block_power: # is stamina high enough to make us able to tank the damages?
+	if stamina >= block_power and state_machine.get_state_name() == "Block": # is stamina high enough to make us able to tank the damages?
 		damage_to_take -= block_power
 		remove_stamina(block_power)
 
@@ -254,6 +257,15 @@ func damaged(damage_taken) -> void:
 
 func die() -> void:
 	set_state("Death")
+
+func attack() -> void:
+	pass
+
+func block() -> void:
+	pass
+
+func dodge() -> void:
+	pass
 
 #### INPUTS ####
 
@@ -285,11 +297,12 @@ func _on_velocity_changed(_vel: Vector2) -> void:
 func _on_direction_changed(dir: Vector2) -> void:
 	if dir != Vector2.ZERO and dir != Vector2.UP and dir != Vector2.DOWN :
 		pass
-		
+
 func _on_look_direction_changed(dir: Vector2) -> void:
 	if dir != Vector2.ZERO :
 		set_facing_left(dir.x < 0)
-		$ShieldPoint.rotation_degrees = dir.angle() / PI * 180
+		$ShieldPoint.rotation_degrees = rad2deg(dir.angle())
+		$WeaponPoint.rotation_degrees = rad2deg(dir.angle())
 
 func _on_animation_finished() -> void:
 	if animated_sprite.get_animation() == "Hit":
@@ -298,11 +311,15 @@ func _on_animation_finished() -> void:
 func _on_AnimatedSprite_frame_changed() -> void:
 	pass # Replace with function body.
 
+func _on_AnimatedSprite_animation_finished() -> void:
+	if(state_machine.get_state_name() == "Attack"):
+		state_machine.set_state("Idle")
+
 func _on_current_tile_changed(oldTilePos, tilePos) -> void:
 	if pathfinder != null:
 		pathfinder.update_pos_point(oldTilePos, -weight)
 		pathfinder.update_pos_point(tilePos, weight)
-		
+
 func _on_pathfinder_changed() -> void:
 	if pathfinder != null:
 		pathfinder.update_pos_point(current_tile, weight)
@@ -311,3 +328,6 @@ func _on_weight_changed(oldWeight, newWeight) -> void:
 	if pathfinder != null:
 		pathfinder.update_pos_point(current_tile, -oldWeight)
 		pathfinder.update_pos_point(current_tile, newWeight)
+
+func _on_weapon_hit() -> void:
+	pass
