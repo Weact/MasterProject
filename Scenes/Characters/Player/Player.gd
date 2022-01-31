@@ -7,8 +7,6 @@ onready var inputs_node : Node = $Inputs
 
 onready var dodge_sprite_animation : PackedScene = preload("res://Scenes/Characters/Player/DodgeSprite/DodgeSprite.tscn")
 
-onready var weapon_node : Node2D = get_node_or_null("WeaponPoint/Weapon")
-
 var dirLeft : int = 0
 var dirRight : int = 0
 var dirUp : int = 0
