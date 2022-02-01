@@ -12,6 +12,7 @@ var target_in_attack_area : bool = false setget set_target_in_attack_area
 var path : Array = []
 var following = false
 
+export var difficulty = 1.0
 signal target_in_chase_area_changed
 signal target_in_attack_area_changed
 signal move_path_finished
@@ -48,6 +49,9 @@ func _ready() -> void:
 
 
 #### LOGIC ####
+func _physics_process(delta: float) -> void:
+	move_along_path(delta)
+	
 func update_move_path(dest : Vector2) -> void:
 	if pathfinder == null:
 		path = [dest]
@@ -65,14 +69,23 @@ func update_move_path_closeTo(dest : Vector2, dist : float):
 		else:
 			path = [position]
 		
-	
+func get_path_dist_to(to : Vector2) -> float:
+	if to != null:
+		var lenght = pathfinder.find_path(global_position, to).size()
+		if lenght > 0:
+			return float(lenght)
+	return 99999.9	
+		
+func get_dist_to(to : Vector2) -> float:
+	if to != null:
+		return position.distance_to(to)
+	return 99999.9
 	
 func _update_behaviour_state() -> void:
 	if !following:
-		if target_in_attack_area:
-			behaviour_tree.set_state("Attack")
-		elif target_in_chase_area:
-			behaviour_tree.set_state("Chase")
+		if target != null:
+			if target_in_chase_area && behaviour_tree.get_state_name() != "Fighting":
+				behaviour_tree.set_state("Chase")
 		else:
 			behaviour_tree.set_state("Wander")
 	else:
@@ -80,6 +93,7 @@ func _update_behaviour_state() -> void:
 		
 func move_along_path(delta: float) -> void:
 	if path.empty():
+		set_direction(Vector2.ZERO)
 		set_state("Idle")
 		return
 	
@@ -90,8 +104,7 @@ func move_along_path(delta: float) -> void:
 	
 	set_direction(dir)
 	
-	if dist <= max_speed * delta:
-		var __ = move_and_collide(dir * dist)
+	if dist <= movement_speed * delta:
 		path.remove(0)
 	
 	if path.empty():
@@ -100,18 +113,18 @@ func move_along_path(delta: float) -> void:
 #### SIGNAL RESPONSES ####
 func _on_chaseArea_body_entered(body : PhysicsBody2D ) -> void:
 	if body is Player:
-		set_target_in_chase_area(true)
 		target = body
+		set_target_in_chase_area(true)
 		
 func _on_chaseArea_body_exited(body : PhysicsBody2D ) -> void:
 	if body is Player:
-		set_target_in_chase_area(false)
 		target = null
+		set_target_in_chase_area(false)
 		
 func _on_attackArea_body_entered(body : PhysicsBody2D ) -> void:
 	if body is Player:
-		set_target_in_attack_area(true)
 		target = body
+		set_target_in_attack_area(true)
 		
 func _on_attackArea_body_exited(body : PhysicsBody2D ) -> void:
 	if body is Player:

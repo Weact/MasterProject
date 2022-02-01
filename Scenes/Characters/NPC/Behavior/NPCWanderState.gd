@@ -2,8 +2,8 @@ extends StateMachine
 
 class_name NPCWanderState
 
-export var min_wander_distance = 40.0
-export var max_wander_distance = 100.0
+export var min_wander_distance = 30.0
+export var max_wander_distance = 120.0
 
 func _ready() -> void:
 	var __ = $Wait.connect("waitTimeFinished", self, "_on_wait_wait_time_finished")

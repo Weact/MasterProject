@@ -14,7 +14,7 @@ func get_class() -> String: return "CharacterBlockState"
 func enter_state():
 	if is_instance_valid(owner):
 		owner.velocity_factor = 0.3
-		owner.rotation_factor = 0.4
+		owner.rotation_factor = 0.6
 		if "weapons_node" in owner and is_instance_valid(owner.weapons_node):
 			owner.weapons_node.get_node_or_null("AnimationPlayer").play("block")
 

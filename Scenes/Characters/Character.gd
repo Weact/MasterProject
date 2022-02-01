@@ -343,6 +343,7 @@ func _regen_stamina() -> void:
 		add_stamina(regen_stamina_value)
 
 func die() -> void:
+	set_weight(0)
 	set_state("Death")
 
 func attack() -> void:
