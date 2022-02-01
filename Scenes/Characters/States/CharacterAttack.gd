@@ -24,6 +24,8 @@ func exit_state():
 	if is_instance_valid(owner):
 		owner.velocity_factor = 1.0
 		owner.rotation_factor = 1.0
+		if is_instance_valid(owner.weapon_node) and is_instance_valid(owner.weapon_node):
+			owner.weapon_node.hitbox.call_deferred("set_disabled", true)
 
 # Override of State's update_state
 func update(_delta):

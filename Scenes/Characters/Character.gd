@@ -32,7 +32,11 @@ var timer_stamina_regen : Timer = null
 signal stamina_changed()
 
 ## MOVEMENTS
-export var movement_speed : float = 0.0
+var stunned : bool = false setget set_stunned, is_stunned
+signal stun_changed(stun_state)
+
+export var movement_speed : float = 0.0 setget set_movement_speed, get_movement_speed
+signal movement_speed_changed(movement_speed)
 
 export var max_speed : float = 0.0
 signal max_speed_changed(max_speed)
@@ -65,6 +69,10 @@ export var facing_left : bool = false setget set_facing_left, is_facing_left
 ## COMBAT
 export var attack_power : int = 0 setget set_attack_power, get_attack_power
 signal attack_power_changed
+
+export var attack_cooldown : float = 0.0
+var can_attack : bool = true
+var attack_cd_timer : Timer = null
 
 # Block power stat define how much damage the character can block :
 # Damage = base_damage - block_power
@@ -122,8 +130,17 @@ func remove_health_point(value: int) -> void:
 	if value < 0: value = 0
 	set_health_point(health_point - value)
 
+## STUN
+func set_stunned(new_value: bool) -> void:
+	if stunned != new_value:
+		stunned = new_value
+		emit_signal("stun_changed", stunned)
+
+func is_stunned() -> bool:
+	return stunned
+
 ## STAMINA
-func set_stamina(new_stamina) -> void:
+func set_stamina(new_stamina: int) -> void:
 	if stamina != new_stamina:
 		stamina = new_stamina
 
@@ -158,6 +175,11 @@ func get_block_power() -> int:
 	return block_power
 
 ## MOVEMENTS
+func set_movement_speed(new_value : float) -> void:
+	if movement_speed != new_value:
+		movement_speed = new_value
+		emit_signal("movement_speed_changed", movement_speed)
+
 func get_movement_speed() -> float:
 	return movement_speed
 
@@ -208,8 +230,11 @@ func _ready() -> void:
 	__ = connect("stamina_changed", self, "_on_stamina_changed")
 
 	__ = connect("max_speed_changed", self, "_on_max_speed_changed")
+	
+	__ = connect("stun_changed", self, "_on_stun_changed")
 
 	__ = connect("velocity_changed", self, "_on_velocity_changed")
+	__ = connect("movement_speed_changed", self, "_on_movement_speed_changed")
 	__ = connect("direction_changed", self, "_on_direction_changed")
 	__ = connect("look_direction_changed", self, "_on_look_direction_changed")
 	__ = animated_sprite.connect("frame_changed", self, "_on_AnimatedSprite_frame_changed")
@@ -260,17 +285,22 @@ func update_weapon_rotation(_delta, rot_vel) -> void:
 		$WeaponsPoint.rotation_degrees = $WeaponsPoint.rotation_degrees + rot_vel*_delta
 	set_facing_left($WeaponsPoint.rotation_degrees < -90 or $WeaponsPoint.rotation_degrees > 90)
 
+func stun() -> void:
+	set_stunned(true)
+func unstun() -> void:
+	set_stunned(false)
+
 func dodge() -> void:
 	if get_state_name() == "Move" and stamina >= dodge_cost and not is_dodging:
 		remove_stamina(dodge_cost)
 		is_dodging = true
-		movement_speed = movement_speed * 3
+		set_movement_speed(movement_speed * 3)
 		yield(get_tree().create_timer(dodging_time), "timeout")
 		reset_dodge()
 
 func reset_dodge() -> void:
 	is_dodging = false
-	movement_speed = movement_speed / 3
+	set_movement_speed(movement_speed / 3)
 
 func animate_dodging() -> void:
 	var dodge_anim = dodge_sprite_animation.instance()
@@ -313,6 +343,9 @@ func flip():
 	weapon_node.get_node_or_null("Sprite").set_flip_h(facing_left)
 
 func damaged(damage_taken) -> void:
+	if get_state_name() == "Attack":
+		set_state("Move")
+
 	var raw_damage = damage_taken
 	var damage_to_take = raw_damage
 
@@ -346,7 +379,7 @@ func die() -> void:
 	set_state("Death")
 
 func attack() -> void:
-	pass
+	set_state("Attack")
 
 func block() -> void:
 	pass
@@ -354,6 +387,10 @@ func block() -> void:
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
+
+## STUN
+func _on_stun_changed(stun_state: bool) -> void:
+	set_physics_process(stun_state)
 
 ## STATS
 func _on_health_point_changed() -> void:
@@ -376,6 +413,9 @@ func _on_max_speed_changed(_max_speed: float) -> void:
 	pass
 
 func _on_velocity_changed(_vel: Vector2) -> void:
+	pass
+
+func _on_movement_speed_changed(_ms: float) -> void:
 	pass
 
 func _on_direction_changed(dir: Vector2) -> void:
@@ -411,3 +451,11 @@ func _on_weight_changed(oldWeight, newWeight) -> void:
 
 func _on_weapon_hit() -> void:
 	pass
+
+func _on_attack_cd_timeout(timer_timeout : Timer) -> void:
+	timer_timeout.queue_free()
+	can_attack = true
+
+func _on_stun_timer_timeout(timer_timeout : Timer) -> void:
+	timer_timeout.queue_free()
+	unstun()
