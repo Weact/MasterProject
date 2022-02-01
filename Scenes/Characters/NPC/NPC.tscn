@@ -62,7 +62,7 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=6]
-radius = 278.088
+radius = 145.986
 
 [sub_resource type="CircleShape2D" id=7]
 radius = 18.0278
@@ -81,6 +81,7 @@ max_speed = 50.0
 position = Vector2( 0, -9 )
 frames = SubResource( 5 )
 animation = "Move"
+frame = 1
 playing = true
 
 [node name="BehaviorTree" type="Node2D" parent="." index="3"]

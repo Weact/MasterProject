@@ -25,6 +25,7 @@ export var health_point : int = 0
 signal health_point_changed()
 
 export var stamina : int = 0
+var regen_stamina_value : int = 1
 signal stamina_changed()
 
 ## MOVEMENTS
@@ -42,6 +43,7 @@ signal direction_changed(dir)
 var is_dodging : bool = false
 var dodging_time : float = 0.1
 var dodge_power : float = 500.0
+var dodge_cost : int = 10
 
 var look_direction : Vector2 = Vector2.ZERO
 signal look_direction_changed(dir)
@@ -62,6 +64,7 @@ signal block_power_changed
 onready var current_tile : Vector2 = position setget set_current_tile
 signal current_tile_changed
 
+#warning-ignore:UNUSED_SIGNAL
 signal attack_hit()
 
 ## STATES
@@ -212,6 +215,7 @@ func _ready() -> void:
 	__ = connect("pathfinder_changed", self, "_on_pathfinder_changed")
 	__ = connect("weight_changed", self, "_on_weight_changed")
 	init_panels()
+	_regen_stamina()
 
 func _physics_process(_delta: float) -> void:
 	compute_velocity()
@@ -223,8 +227,8 @@ func _physics_process(_delta: float) -> void:
 
 func init_panels() -> void:
 	ressources_panel.get_child(0).set_text( \
-	"Life: " + str(get_health_point()) + \
-	"\nStamina: " + str(get_stamina()) )
+	str(get_health_point()) + \
+	"\n" + str(get_stamina()) )
 
 
 func compute_velocity() -> void:
@@ -251,9 +255,19 @@ func damaged(damage_taken) -> void:
 	if stamina >= block_power and state_machine.get_state_name() == "Block": # is stamina high enough to make us able to tank the damages?
 		damage_to_take -= block_power
 		remove_stamina(block_power)
+	
+	if is_dodging:
+		damage_to_take = 0
+		print("Dodged")
 
 	remove_health_point(damage_to_take)
 	print("LIFE : " + str(get_health_point()) + " STAMINA : " + str(get_stamina()))
+
+func _regen_stamina() -> void:
+	if get_stamina() < 100:
+		add_stamina(regen_stamina_value)
+	yield(get_tree().create_timer(0.5), "timeout")
+	_regen_stamina()
 
 func die() -> void:
 	set_state("Death")
@@ -265,7 +279,16 @@ func block() -> void:
 	pass
 
 func dodge() -> void:
-	pass
+	if stamina >= dodge_cost and not is_dodging:
+		remove_stamina(dodge_cost)
+		is_dodging = true
+		movement_speed = movement_speed * 3
+		yield(get_tree().create_timer(dodging_time), "timeout")
+		reset_dodge()
+
+func reset_dodge() -> void:
+	is_dodging = false
+	movement_speed = movement_speed / 3
 
 #### INPUTS ####
 

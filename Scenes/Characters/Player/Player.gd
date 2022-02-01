@@ -129,18 +129,8 @@ func unblock() -> void:
 	state_machine.set_state("Idle")
 
 func dodge() -> void:
-	if get_state_name() == "Move" and not is_dodging:
-		set_modulate(Color8(255,255,255,230))
-		yield(get_tree().create_timer(dodging_time*3), "timeout")
-		is_dodging = true
-		movement_speed = movement_speed * 3
-		yield(get_tree().create_timer(dodging_time), "timeout")
-		reset_dodge()
-
-func reset_dodge() -> void:
-	is_dodging = false
-	set_modulate(Color8(255,255,255,255))
-	movement_speed = movement_speed / 3
+	if get_state_name() == "Move":
+		.dodge()
 
 func animate_dodging() -> void:
 	var dodge_anim = dodge_sprite_animation.instance()
@@ -152,4 +142,4 @@ func animate_dodging() -> void:
 #### SIGNAL RESPONSES ####
 func _on_weapon_hit() -> void:
 	set_state("Idle")
-	weapon_node.get_node_or_null("AnimationPlayer").play("attack", -1, -1, false)
+#	weapon_node.get_node_or_null("AnimationPlayer").play("attack", -1, -1, false)
