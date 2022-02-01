@@ -129,4 +129,4 @@ func unblock() -> void:
 #### SIGNAL RESPONSES ####
 func _on_weapon_hit() -> void:
 	set_state("Idle")
-	weapon_node.get_node_or_null("AnimationPlayer").play("attack", -1, -1, false)
+	weapons_node.get_node_or_null("AnimationPlayer").play("attack", -1, -1, false)

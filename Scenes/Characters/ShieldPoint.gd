@@ -5,11 +5,17 @@ func get_class() -> String: return ""
 #### ACCESSORS ####
 
 #### BUILT-IN ####
+func _ready() -> void:
+	$WeaponPoint/Weapon.set_anim_player($AnimationPlayer)
+	
 func block() -> void:
-	$Weapon/AnimationPlayer.play("block")
+	$AnimationPlayer.play("block")
 	
 func unblock() -> void:
-	$Weapon/AnimationPlayer.play("unblock")
+	$AnimationPlayer.play("unblock")
+	
+func attack() -> void:
+	$AnimationPlayer.play("attack")
 
 
 #### VIRTUALS ####

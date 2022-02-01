@@ -15,8 +15,9 @@ var pathfinder : Pathfinder = null setget set_pathfinder
 signal pathfinder_changed
 
 ## STATS
-onready var weapon_node : Node2D = get_node_or_null("WeaponsPoint/Weapon")
-onready var shield_node : Node2D = get_node_or_null("WeaponsPoint/Shield")
+onready var weapon_node : Node2D = get_node_or_null("WeaponsPoint/WeaponPoint/Weapon")
+onready var shield_node : Node2D = get_node_or_null("WeaponsPoint/ShieldPoint/Shield")
+onready var weapons_node : Node2D = get_node_or_null("WeaponsPoint")
 
 export var weight : int = 5
 signal weight_changed()
@@ -49,6 +50,9 @@ var look_direction : float = 0.0
 signal look_direction_changed(dir)
 
 var rot_velocity : float = 0.0
+
+var rotation_factor : float = 1.0
+var velocity_factor : float = 1.0
 
 onready var dodge_sprite_animation : PackedScene = preload("res://Scenes/Characters/Player/DodgeSprite/DodgeSprite.tscn")
 
@@ -220,6 +224,8 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	_compute_velocity()
 	_compute_rotation_vel()
+	move_and_slide(velocity * velocity_factor)
+	update_weapon_rotation(_delta, rot_velocity * rotation_factor)
 	set_current_tile(position)
 	if is_dodging:
 		animate_dodging()
@@ -287,6 +293,18 @@ func flip():
 		animated_sprite.offset.x = -abs(animated_sprite.offset.x)
 	else:
 		animated_sprite.offset.x = abs(animated_sprite.offset.x)
+		
+	if !is_instance_valid($WeaponsPoint):
+		yield(self, "ready")
+	if !is_instance_valid($WeaponsPoint/ShieldPoint/Shield):
+		yield(self, "ready")
+		
+	$WeaponsPoint/ShieldPoint/Shield/Sprite.set_flip_v(facing_left)
+	
+	if !is_instance_valid($WeaponsPoint/WeaponPoint/Weapon):
+		yield(self, "ready")
+		
+	$WeaponsPoint/WeaponPoint/Weapon/Sprite.set_flip_h(facing_left)
 
 func damaged(damage_taken) -> void:
 	var raw_damage = damage_taken

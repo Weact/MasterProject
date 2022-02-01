@@ -8,15 +8,14 @@ export(NodePath) var weapon_handler_node_path : NodePath
 var weapon_handler_node : PhysicsBody2D = null
 onready var area : Area2D = get_node("Sprite/Area2D")
 onready var hitbox : CollisionShape2D = area.get_node_or_null("CollisionShape2D")
-onready var animation_player : AnimationPlayer = get_node("AnimationPlayer")
+onready var animation_player : AnimationPlayer = null
 
 #### ACCESSORS ####
 
 #### BUILT-IN ####
 
 func _ready() -> void:
-	var __ = animation_player.connect("animation_finished", self, "_on_attack_animation_finished")
-	__ = area.connect("body_entered", self, "_on_body_entered")
+	var __ = area.connect("body_entered", self, "_on_body_entered")
 	
 	if is_instance_valid(get_node(weapon_handler_node_path)):
 		weapon_handler_node = get_node(weapon_handler_node_path)
@@ -29,6 +28,9 @@ func _ready() -> void:
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
+func set_anim_player(anim_player) -> void:
+	animation_player = anim_player
+	var __ = animation_player.connect("animation_finished", self, "_on_attack_animation_finished")
 
 func _on_attack_animation_finished(_anim_name) -> void:
 	if is_instance_valid(weapon_handler_node) and weapon_handler_node.get_state_name() == "Attack":

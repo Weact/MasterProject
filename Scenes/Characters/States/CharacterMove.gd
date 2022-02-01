@@ -20,12 +20,7 @@ func exit_state():
 
 # Override of State's update_state
 func update(_delta):
-	if(owner.rot_velocity != 0.0):
-		owner.update_weapon_rotation(_delta, owner.rot_velocity)
-		
-	if(owner.get_velocity() != Vector2.ZERO):
-		var __ = owner.move_and_slide(owner.get_velocity())
-	else:
+	if(owner.get_velocity() == Vector2.ZERO):
 		owner.set_state("Idle")
 	
 
