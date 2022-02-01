@@ -15,9 +15,9 @@ var pathfinder : Pathfinder = null setget set_pathfinder
 signal pathfinder_changed
 
 ## STATS
-onready var weapon_node : Node2D = get_node_or_null("WeaponsPoint/WeaponPoint/Weapon")
-onready var shield_node : Node2D = get_node_or_null("WeaponsPoint/ShieldPoint/Shield")
 onready var weapons_node : Node2D = get_node_or_null("WeaponsPoint")
+onready var weapon_node : Node2D = weapons_node.get_node_or_null("WeaponPoint/Weapon")
+onready var shield_node : Node2D = weapons_node.get_node_or_null("ShieldPoint/Shield")
 
 export var weight : int = 5
 signal weight_changed()
@@ -304,7 +304,7 @@ func flip():
 	if !is_instance_valid($WeaponsPoint/WeaponPoint/Weapon):
 		yield(self, "ready")
 		
-	$WeaponsPoint/WeaponPoint/Weapon/Sprite.set_flip_h(facing_left)
+	weapon_node.get_node_or_null("Sprite").set_flip_h(facing_left)
 
 func damaged(damage_taken) -> void:
 	var raw_damage = damage_taken
