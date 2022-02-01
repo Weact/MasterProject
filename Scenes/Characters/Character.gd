@@ -26,6 +26,7 @@ export var health_point : int = 0
 signal health_point_changed()
 
 export var stamina : int = 0
+var regen_stamina_value : int = 1
 signal stamina_changed()
 
 ## MOVEMENTS
@@ -43,6 +44,7 @@ signal direction_changed(dir)
 var is_dodging : bool = false
 var dodging_time : float = 0.08
 var dodge_power : float = 300.0
+var dodge_cost : int = 10
 
 var rotation_speed : float = 750.0
 
@@ -71,6 +73,7 @@ signal block_power_changed
 onready var current_tile : Vector2 = position setget set_current_tile
 signal current_tile_changed
 
+#warning-ignore:UNUSED_SIGNAL
 signal attack_hit()
 
 ## STATES
@@ -177,15 +180,15 @@ func set_direction(new_direction : Vector2):
 		new_direction = new_direction.normalized()
 		direction = new_direction
 		emit_signal("direction_changed", direction)
-		
+
 func get_direction() -> Vector2:
 	return direction
-		
+
 func set_look_direction(new_direction : float):
 	if look_direction != new_direction:
 		look_direction = new_direction
 		emit_signal("look_direction_changed", look_direction)
-		
+
 func get_look_direction() -> float:
 	return look_direction
 
@@ -220,6 +223,7 @@ func _ready() -> void:
 	__ = connect("pathfinder_changed", self, "_on_pathfinder_changed")
 	__ = connect("weight_changed", self, "_on_weight_changed")
 	init_panels()
+	_regen_stamina()
 
 func _physics_process(_delta: float) -> void:
 	_compute_velocity()
@@ -229,7 +233,7 @@ func _physics_process(_delta: float) -> void:
 	set_current_tile(position)
 	if is_dodging:
 		animate_dodging()
-	
+
 
 #### VIRTUALS ####
 
@@ -237,12 +241,12 @@ func _physics_process(_delta: float) -> void:
 func _compute_rotation_vel() -> void:
 	var difference = fmod(look_direction - $WeaponsPoint.rotation_degrees, 360)
 	var short_angle_dist = fmod(2*difference, 360) - difference
-	
+
 	rot_velocity = rotation_speed
 	if short_angle_dist < 0:
 		rot_velocity = -rot_velocity
-	
-	
+
+
 func update_weapon_rotation(_delta, rot_vel) -> void:
 	var difference = fmod(look_direction - $WeaponsPoint.rotation_degrees, 360)
 	var short_angle_dist = fmod(2*difference, 360) - difference
@@ -251,11 +255,10 @@ func update_weapon_rotation(_delta, rot_vel) -> void:
 	else:
 		$WeaponsPoint.rotation_degrees = $WeaponsPoint.rotation_degrees + rot_vel*_delta
 	set_facing_left($WeaponsPoint.rotation_degrees < -90 or $WeaponsPoint.rotation_degrees > 90)
-	
+
 func dodge() -> void:
-	if get_state_name() == "Move" and not is_dodging:
-		set_modulate(Color8(255,255,255,230))
-		yield(get_tree().create_timer(dodging_time*2), "timeout")
+	if get_state_name() == "Move" and stamina >= dodge_cost and not is_dodging:
+		remove_stamina(dodge_cost)
 		is_dodging = true
 		movement_speed = movement_speed * 3
 		yield(get_tree().create_timer(dodging_time), "timeout")
@@ -263,9 +266,8 @@ func dodge() -> void:
 
 func reset_dodge() -> void:
 	is_dodging = false
-	set_modulate(Color8(255,255,255,255))
 	movement_speed = movement_speed / 3
-	
+
 func animate_dodging() -> void:
 	var dodge_anim = dodge_sprite_animation.instance()
 	dodge_anim.global_position = global_position
@@ -273,8 +275,8 @@ func animate_dodging() -> void:
 
 func init_panels() -> void:
 	ressources_panel.get_child(0).set_text( \
-	"Life: " + str(get_health_point()) + \
-	"\nStamina: " + str(get_stamina()) )
+	str(get_health_point()) + \
+	"\n" + str(get_stamina()) )
 
 
 func _compute_velocity() -> void:
@@ -314,8 +316,18 @@ func damaged(damage_taken) -> void:
 		damage_to_take -= block_power
 		remove_stamina(block_power)
 
+	if is_dodging:
+		damage_to_take = 0
+		print("Dodged")
+
 	remove_health_point(damage_to_take)
 	print("LIFE : " + str(get_health_point()) + " STAMINA : " + str(get_stamina()))
+
+func _regen_stamina() -> void:
+	if get_stamina() < 100:
+		add_stamina(regen_stamina_value)
+	yield(get_tree().create_timer(0.5), "timeout")
+	_regen_stamina()
 
 func die() -> void:
 	set_state("Death")
@@ -325,7 +337,6 @@ func attack() -> void:
 
 func block() -> void:
 	pass
-
 
 #### INPUTS ####
 
@@ -358,9 +369,7 @@ func _on_direction_changed(dir: Vector2) -> void:
 	if dir != Vector2.ZERO and dir != Vector2.UP and dir != Vector2.DOWN :
 		pass
 
-func _on_look_direction_changed(dir: float) -> void:
-	#set_facing_left(dir > 90 and dir < 270)
-	#$WeaponsPoint.rotation_degrees = $WeaponsPoint.rotation_degrees 
+func _on_look_direction_changed(_dir: float) -> void:
 	pass
 
 func _on_animation_finished() -> void:

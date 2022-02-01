@@ -12,18 +12,104 @@ tile_data = PoolIntArray( 0, 1073741828, 0, 1, 1073741828, 0, 2, 1073741828, 0, 
 
 [node name="Player" parent="Player" index="0" instance=ExtResource( 2 )]
 position = Vector2( 408, 456 )
-movement_speed = 200.0
-block_power = 20
+weight = 5
+movement_speed = 130.0
+facing_left = false
+attack_power = 25
+block_power = 10
 
 [node name="NPC" parent="NPC" index="0" instance=ExtResource( 3 )]
 position = Vector2( 456, 520 )
+weight = 5
 health_point = 100
 stamina = 100
 movement_speed = 75.0
+facing_left = false
 attack_power = 20
+default_state = ""
+
+[node name="NPC2" parent="NPC" index="1" instance=ExtResource( 3 )]
+position = Vector2( 408, 536 )
+weight = 5
+health_point = 100
+stamina = 100
+movement_speed = 75.0
+facing_left = false
+attack_power = 20
+default_state = ""
+
+[node name="NPC3" parent="NPC" index="2" instance=ExtResource( 3 )]
+position = Vector2( 376, 584 )
+weight = 5
+health_point = 100
+stamina = 100
+movement_speed = 75.0
+facing_left = false
+attack_power = 20
+default_state = ""
+
+[node name="NPC4" parent="NPC" index="3" instance=ExtResource( 3 )]
+position = Vector2( 456, 600 )
+weight = 5
+health_point = 100
+stamina = 100
+movement_speed = 75.0
+facing_left = false
+attack_power = 20
+default_state = ""
+
+[node name="NPC5" parent="NPC" index="4" instance=ExtResource( 3 )]
+position = Vector2( 328, 568 )
+weight = 5
+health_point = 100
+stamina = 100
+movement_speed = 75.0
+facing_left = false
+attack_power = 20
+default_state = ""
+
+[node name="NPC6" parent="NPC" index="5" instance=ExtResource( 3 )]
+position = Vector2( 360, 536 )
+weight = 5
+health_point = 100
+stamina = 100
+movement_speed = 75.0
+facing_left = false
+attack_power = 20
+default_state = ""
+
+[node name="NPC7" parent="NPC" index="6" instance=ExtResource( 3 )]
+position = Vector2( 264, 536 )
+weight = 5
+health_point = 100
+stamina = 100
+movement_speed = 75.0
+facing_left = false
+attack_power = 20
+default_state = ""
+
+[node name="NPC8" parent="NPC" index="7" instance=ExtResource( 3 )]
+position = Vector2( 264, 600 )
+weight = 5
+health_point = 100
+stamina = 100
+movement_speed = 75.0
+facing_left = false
+attack_power = 20
+default_state = ""
+
+[node name="NPC9" parent="NPC" index="8" instance=ExtResource( 3 )]
+position = Vector2( 488, 680 )
+weight = 5
+health_point = 100
+stamina = 100
+movement_speed = 75.0
+facing_left = false
+attack_power = 20
+default_state = ""
 
 [node name="Rock" parent="Obstacles/Rocks" index="0" instance=ExtResource( 4 )]
-position = Vector2( 430.078, 492.09 )
+position = Vector2( 424, 488 )
 
 [node name="Rock2" parent="Obstacles/Rocks" index="1" instance=ExtResource( 4 )]
 position = Vector2( 456, 456 )
@@ -44,16 +130,16 @@ position = Vector2( 440, 408 )
 position = Vector2( 536, 440 )
 
 [node name="Rock8" parent="Obstacles/Rocks" index="7" instance=ExtResource( 4 )]
-position = Vector2( 504, 504 )
+position = Vector2( 504, 520 )
 
 [node name="Rock9" parent="Obstacles/Rocks" index="8" instance=ExtResource( 4 )]
 position = Vector2( 440, 552 )
 
 [node name="Rock10" parent="Obstacles/Rocks" index="9" instance=ExtResource( 4 )]
-position = Vector2( 536, 552 )
+position = Vector2( 536, 568 )
 
 [node name="Rock11" parent="Obstacles/Rocks" index="10" instance=ExtResource( 4 )]
-position = Vector2( 504, 536 )
+position = Vector2( 504, 552 )
 
 [node name="Rock12" parent="Obstacles/Rocks" index="11" instance=ExtResource( 4 )]
 position = Vector2( 552, 504 )
@@ -128,22 +214,22 @@ position = Vector2( 552, 648 )
 position = Vector2( 488, 632 )
 
 [node name="Rock36" parent="Obstacles/Rocks" index="35" instance=ExtResource( 4 )]
-position = Vector2( 414.078, 616 )
+position = Vector2( 424, 616 )
 
 [node name="Rock37" parent="Obstacles/Rocks" index="36" instance=ExtResource( 4 )]
-position = Vector2( 392, 616 )
+position = Vector2( 392, 632 )
 
 [node name="Rock38" parent="Obstacles/Rocks" index="37" instance=ExtResource( 4 )]
 position = Vector2( 360, 664 )
 
 [node name="Rock39" parent="Obstacles/Rocks" index="38" instance=ExtResource( 4 )]
-position = Vector2( 344, 600 )
+position = Vector2( 344, 616 )
 
 [node name="Rock40" parent="Obstacles/Rocks" index="39" instance=ExtResource( 4 )]
 position = Vector2( 312, 536 )
 
 [node name="Rock41" parent="Obstacles/Rocks" index="40" instance=ExtResource( 4 )]
-position = Vector2( 296, 508.09 )
+position = Vector2( 296, 504 )
 
 [node name="Rock42" parent="Obstacles/Rocks" index="41" instance=ExtResource( 4 )]
 position = Vector2( 296, 472 )
@@ -215,4 +301,4 @@ position = Vector2( 648, 632 )
 position = Vector2( 632, 600 )
 
 [node name="Rock65" parent="Obstacles/Rocks" index="64" instance=ExtResource( 4 )]
-position = Vector2( 520, 600 )
+position = Vector2( 504, 584 )
