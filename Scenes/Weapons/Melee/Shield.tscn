@@ -45,10 +45,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.35 ),
+"times": PoolRealArray( 0, 0.4 ),
 "transitions": PoolRealArray( 0.297301, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 5, 0 ) ]
+"values": [ Vector2( 5, 0 ), Vector2( 10, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite/Area2D/CollisionShape2D:disabled")
@@ -77,7 +77,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.4 ),
 "transitions": PoolRealArray( 0.267944, 0.297301 ),
 "update": 0,
-"values": [ Vector2( 5, 0 ), Vector2( 0, 0 ) ]
+"values": [ Vector2( 10, 0 ), Vector2( 5, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite/Area2D/CollisionShape2D:disabled")
@@ -96,6 +96,7 @@ tracks/1/keys = {
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 5, 0 )
 texture = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true,
@@ -112,6 +113,7 @@ __meta__ = {
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/Area2D"]
 position = Vector2( -0.000714674, -1 )
 shape = SubResource( 1 )
+disabled = true
 __meta__ = {
 "_edit_lock_": true
 }

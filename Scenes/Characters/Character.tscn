@@ -19,21 +19,19 @@
 z_index = 1
 script = ExtResource( 9 )
 
-[node name="ShieldPoint" type="Node2D" parent="."]
-script = ExtResource( 12 )
-
-[node name="Shield" parent="ShieldPoint" instance=ExtResource( 11 )]
-weapon_handler_node_path = NodePath("../..")
-
-[node name="WeaponPoint" type="Node2D" parent="."]
-
-[node name="Weapon" parent="WeaponPoint" instance=ExtResource( 14 )]
-weapon_handler_node_path = NodePath("../..")
-
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="WeaponsPoint" type="Node2D" parent="."]
+script = ExtResource( 12 )
+
+[node name="Shield" parent="WeaponsPoint" instance=ExtResource( 11 )]
+weapon_handler_node_path = NodePath("../..")
+
+[node name="Weapon" parent="WeaponsPoint" instance=ExtResource( 14 )]
+weapon_handler_node_path = NodePath("../..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 

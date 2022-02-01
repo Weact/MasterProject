@@ -5,8 +5,6 @@ func get_class() -> String: return "Player"
 
 onready var inputs_node : Node = $Inputs
 
-onready var dodge_sprite_animation : PackedScene = preload("res://Scenes/Characters/Player/DodgeSprite/DodgeSprite.tscn")
-
 var dirLeft : int = 0
 var dirRight : int = 0
 var dirUp : int = 0
@@ -19,9 +17,6 @@ var dirDown : int = 0
 func _ready() -> void:
 	pass
 
-func _physics_process(_delta: float) -> void:
-	if is_dodging:
-		animate_dodging()
 
 #### VIRTUALS ####
 
@@ -79,9 +74,9 @@ func _input(event: InputEvent) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
-		var pos = $ShieldPoint.global_position
+		var pos = $WeaponsPoint.global_position
 		var mousePos = get_global_mouse_position()
-		set_look_direction(mousePos-pos)
+		set_look_direction(rad2deg((mousePos-pos).angle()))
 
 
 func action(action_name: String) -> void:
@@ -131,11 +126,6 @@ func unblock() -> void:
 func dodge() -> void:
 	if get_state_name() == "Move":
 		.dodge()
-
-func animate_dodging() -> void:
-	var dodge_anim = dodge_sprite_animation.instance()
-	dodge_anim.global_position = global_position
-	get_parent().add_child(dodge_anim)
 
 #### INPUTS ####
 
