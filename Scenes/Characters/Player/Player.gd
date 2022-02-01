@@ -3,7 +3,7 @@ class_name Player
 func is_class(value: String): return value == "Player" or .is_class(value)
 func get_class() -> String: return "Player"
 
-onready var inputs_node : Node = $Inputs
+onready var inputs_node : Node = get_node("Inputs")
 
 var dirLeft : int = 0
 var dirRight : int = 0
@@ -123,10 +123,12 @@ func block() -> void:
 func unblock() -> void:
 	state_machine.set_state("Idle")
 
+func dodge() -> void:
+	if get_state_name() == "Move":
+		.dodge()
 
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
 func _on_weapon_hit() -> void:
 	set_state("Idle")
-	weapons_node.get_node_or_null("AnimationPlayer").play("attack", -1, -1, false)

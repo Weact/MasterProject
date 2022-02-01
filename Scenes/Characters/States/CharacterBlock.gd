@@ -15,7 +15,7 @@ func enter_state():
 	if is_instance_valid(owner):
 		owner.velocity_factor = 0.3
 		owner.rotation_factor = 0.4
-		if "weapons_node" in owner:
+		if "weapons_node" in owner and is_instance_valid(owner.weapons_node):
 			owner.weapons_node.get_node_or_null("AnimationPlayer").play("block")
 
 # Override of State's exit_state
@@ -23,7 +23,7 @@ func exit_state():
 	if is_instance_valid(owner):
 		owner.velocity_factor = 1.0
 		owner.rotation_factor = 1.0
-		if "weapons_node" in owner:
+		if "weapons_node" in owner and is_instance_valid(owner.weapons_node):
 			owner.weapons_node.get_node_or_null("AnimationPlayer").play("unblock")
 
 # Override of State's update_state

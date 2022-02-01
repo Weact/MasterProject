@@ -165,7 +165,7 @@ _global_script_class_icons={
 [application]
 
 config/name="MasterProject"
-run/main_scene="res://Scenes/Map/Base/MapBase.tscn"
+run/main_scene="res://Scenes/Map/MapL/MapL.tscn"
 config/icon="res://icon.png"
 
 [autoload]

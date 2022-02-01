@@ -12,7 +12,6 @@ func get_class() -> String: return "CharacterDeathState"
 
 # Override of State's enter_state
 func enter_state():
-	print(owner)
 	if is_instance_valid(owner):
 		owner.queue_free()
 

@@ -42,7 +42,7 @@ func _ready() -> void:
 	__ = attackArea.connect("body_exited", self, "_on_attackArea_body_exited")
 	__ = connect("target_in_chase_area_changed", self, "_on_target_in_chase_area_changed")
 	__ = connect("target_in_attack_area_changed", self, "_on_target_in_attack_area_changed")
-	
+
 #### VIRTUALS ####
 
 
