@@ -25,5 +25,4 @@ func _ready() -> void:
 func _on_gui_input(event) -> void:
 	if event is InputEventMouseButton:
 		if event.is_action_pressed("player_attack"):
-			print("click")
 			owner.following = true

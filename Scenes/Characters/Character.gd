@@ -321,10 +321,8 @@ func damaged(damage_taken) -> void:
 
 	if is_dodging:
 		damage_to_take = 0
-		print("Dodged")
 
 	remove_health_point(damage_to_take)
-	print("LIFE : " + str(get_health_point()) + " STAMINA : " + str(get_stamina()))
 
 func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: bool = false) -> Timer:
 	var new_timer = Timer.new()
