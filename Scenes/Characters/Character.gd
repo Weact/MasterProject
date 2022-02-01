@@ -27,6 +27,8 @@ signal health_point_changed()
 
 export var stamina : int = 0
 var regen_stamina_value : int = 1
+var stamina_regen_delay : float = 0.5
+var timer_stamina_regen : Timer = null
 signal stamina_changed()
 
 ## MOVEMENTS
@@ -223,12 +225,13 @@ func _ready() -> void:
 	__ = connect("pathfinder_changed", self, "_on_pathfinder_changed")
 	__ = connect("weight_changed", self, "_on_weight_changed")
 	init_panels()
-	_regen_stamina()
+	
+	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
 
 func _physics_process(_delta: float) -> void:
 	_compute_velocity()
 	_compute_rotation_vel()
-	move_and_slide(velocity * velocity_factor)
+	var __ = move_and_slide(velocity * velocity_factor)
 	update_weapon_rotation(_delta, rot_velocity * rotation_factor)
 	set_current_tile(position)
 	if is_dodging:
@@ -323,11 +326,22 @@ func damaged(damage_taken) -> void:
 	remove_health_point(damage_to_take)
 	print("LIFE : " + str(get_health_point()) + " STAMINA : " + str(get_stamina()))
 
+func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: bool = false) -> Timer:
+	var new_timer = Timer.new()
+	new_timer.set_wait_time(time)
+	new_timer.set_autostart(autostart)
+	new_timer.set_one_shot(oneshot)
+	new_timer.connect("timeout", self, "_regen_stamina")
+	add_child(new_timer)
+	
+	if not autostart:
+		push_warning("Careful: timer has been added from stamina_regen_timer but did not start automatically")
+	
+	return new_timer
+
 func _regen_stamina() -> void:
 	if get_stamina() < 100:
 		add_stamina(regen_stamina_value)
-	yield(get_tree().create_timer(0.5), "timeout")
-	_regen_stamina()
 
 func die() -> void:
 	set_state("Death")
