@@ -11,5 +11,5 @@ func update(_delta : float) ->void:
 		owner.state_machine.set_state("Move")
 	if(owner.target != null):
 		owner.update_move_path(owner.target.global_position)
-	owner.set_look_direction(rad2deg((owner.target.position - owner.position).angle()))
+		owner.set_look_direction(rad2deg((owner.target.position - owner.position).angle()))
 	

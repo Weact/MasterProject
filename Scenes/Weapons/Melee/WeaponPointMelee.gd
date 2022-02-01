@@ -31,6 +31,8 @@ func _ready() -> void:
 #### SIGNAL RESPONSES ####
 
 func _on_attack_animation_finished(_anim_name) -> void:
+	if is_instance_valid(weapon_handler_node) and weapon_handler_node.get_state_name() == "Attack":
+		weapon_handler_node.set_state("Idle")
 	animation_player.stop(true)
 
 func _on_body_entered(body: PhysicsBody2D):

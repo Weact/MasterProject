@@ -48,6 +48,8 @@ var rotation_speed : float = 750.0
 var look_direction : float = 0.0
 signal look_direction_changed(dir)
 
+var rot_velocity : float = 0.0
+
 onready var dodge_sprite_animation : PackedScene = preload("res://Scenes/Characters/Player/DodgeSprite/DodgeSprite.tscn")
 
 export var facing_left : bool = false setget set_facing_left, is_facing_left
@@ -216,28 +218,32 @@ func _ready() -> void:
 	init_panels()
 
 func _physics_process(_delta: float) -> void:
-	compute_velocity()
+	_compute_velocity()
+	_compute_rotation_vel()
 	set_current_tile(position)
 	if is_dodging:
 		animate_dodging()
 	
-	_update_weapon_rotation(_delta)
 
 #### VIRTUALS ####
 
 #### LOGIC ####
-func _update_weapon_rotation(_delta) -> void:
+func _compute_rotation_vel() -> void:
 	var difference = fmod(look_direction - $WeaponsPoint.rotation_degrees, 360)
 	var short_angle_dist = fmod(2*difference, 360) - difference
 	
-	var relative_rot = rotation_speed * _delta
+	rot_velocity = rotation_speed
 	if short_angle_dist < 0:
-		relative_rot = -relative_rot
+		rot_velocity = -rot_velocity
 	
-	if abs(relative_rot) > abs(short_angle_dist):
+	
+func update_weapon_rotation(_delta, rot_vel) -> void:
+	var difference = fmod(look_direction - $WeaponsPoint.rotation_degrees, 360)
+	var short_angle_dist = fmod(2*difference, 360) - difference
+	if abs(rot_vel*_delta) > abs(short_angle_dist):
 		$WeaponsPoint.rotation_degrees = look_direction
 	else:
-		$WeaponsPoint.rotation_degrees = $WeaponsPoint.rotation_degrees + relative_rot 
+		$WeaponsPoint.rotation_degrees = $WeaponsPoint.rotation_degrees + rot_vel*_delta
 	set_facing_left($WeaponsPoint.rotation_degrees < -90 or $WeaponsPoint.rotation_degrees > 90)
 	
 func dodge() -> void:
@@ -265,7 +271,7 @@ func init_panels() -> void:
 	"\nStamina: " + str(get_stamina()) )
 
 
-func compute_velocity() -> void:
+func _compute_velocity() -> void:
 	set_velocity(direction.normalized() * movement_speed)
 
 # Flip the actor accordingly to the direction it is facing
@@ -347,8 +353,7 @@ func _on_AnimatedSprite_frame_changed() -> void:
 	pass # Replace with function body.
 
 func _on_AnimatedSprite_animation_finished() -> void:
-	if(state_machine.get_state_name() == "Attack"):
-		state_machine.set_state("Idle")
+	pass
 
 func _on_current_tile_changed(oldTilePos, tilePos) -> void:
 	if pathfinder != null:
