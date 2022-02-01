@@ -15,9 +15,9 @@ var pathfinder : Pathfinder = null setget set_pathfinder
 signal pathfinder_changed
 
 ## STATS
-onready var weapon_node : Node2D = get_node_or_null("WeaponsPoint/WeaponPoint/Weapon")
+#onready var weapon_node : Node2D = get_node_or_null("WeaponsPoint/WeaponPoint/Weapon")
 onready var shield_node : Node2D = get_node_or_null("WeaponsPoint/ShieldPoint/Shield")
-onready var weapons_node : Node2D = get_node_or_null("WeaponsPoint")
+#onready var weapons_node : Node2D = get_node_or_null("WeaponsPoint")
 
 export var weight : int = 5
 signal weight_changed()
