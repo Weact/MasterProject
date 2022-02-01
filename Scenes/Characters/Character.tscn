@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Scenes/Characters/States/CharacterDeath.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Characters/States/CharacterAttack.gd" type="Script" id=2]
@@ -14,6 +14,49 @@
 [ext_resource path="res://Scenes/Characters/ShieldPoint.gd" type="Script" id=12]
 [ext_resource path="res://Scenes/Characters/States/CharacterDodgeState.gd" type="Script" id=13]
 [ext_resource path="res://Scenes/Weapons/Melee/WeaponPointMelee.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Scenes/Weapons/block.tres" type="Animation" id=15]
+[ext_resource path="res://Scenes/Weapons/attack.tres" type="Animation" id=17]
+
+[sub_resource type="Animation" id=1]
+resource_name = "unblock"
+length = 0.4
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("WeaponPoint:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 7, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("WeaponPoint:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 20.0, 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ShieldPoint:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 10, 0 ), Vector2( 7, 0 ) ]
+}
 
 [node name="Character" type="KinematicBody2D"]
 z_index = 1
@@ -27,11 +70,23 @@ __meta__ = {
 [node name="WeaponsPoint" type="Node2D" parent="."]
 script = ExtResource( 12 )
 
-[node name="Shield" parent="WeaponsPoint" instance=ExtResource( 11 )]
-weapon_handler_node_path = NodePath("../..")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponsPoint"]
+anims/attack = ExtResource( 17 )
+anims/block = ExtResource( 15 )
+anims/unblock = SubResource( 1 )
 
-[node name="Weapon" parent="WeaponsPoint" instance=ExtResource( 14 )]
-weapon_handler_node_path = NodePath("../..")
+[node name="ShieldPoint" type="Node2D" parent="WeaponsPoint"]
+position = Vector2( 3, 0 )
+
+[node name="Shield" parent="WeaponsPoint/ShieldPoint" instance=ExtResource( 11 )]
+position = Vector2( 0, -3 )
+weapon_handler_node_path = NodePath("../../..")
+
+[node name="WeaponPoint" type="Node2D" parent="WeaponsPoint"]
+position = Vector2( 3, 0 )
+
+[node name="Weapon" parent="WeaponsPoint/WeaponPoint" instance=ExtResource( 14 )]
+weapon_handler_node_path = NodePath("../../..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 

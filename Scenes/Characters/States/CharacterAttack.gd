@@ -12,21 +12,29 @@ func get_class() -> String: return "CharacterAttackState"
 
 # Override of State's enter_state
 func enter_state():
-	if is_instance_valid(owner) and "weapon_node" in owner:
-		owner.weapon_node.hitbox.call_deferred("set_disabled", false)
-		owner.weapon_node.get_node_or_null("AnimationPlayer").play("attack")
+	if is_instance_valid(owner):
+		owner.velocity_factor = 0.3
+		owner.rotation_factor = 0.2
+<<<<<<< HEAD
+		if is_instance_valid(owner.weapons_node) and is_instance_valid(owner.weapon_node):
+			owner.weapons_node.get_node_or_null("AnimationPlayer").play("attack")
+			owner.weapon_node.hitbox.call_deferred("set_disabled", false)
+=======
+		if "weapons_node" in owner and "weapon_node" in owner:
+			if is_instance_valid(owner.weapons_node) and is_instance_valid(owner.weapon_node):
+				owner.weapons_node.get_node_or_null("AnimationPlayer").play("attack")
+				owner.weapon_node.hitbox.call_deferred("set_disabled", false)
+>>>>>>> 691dc2b7417f7674cdc15f985d3fec28a74d9260
 
 # Override of State's exit_state
 func exit_state():
-	pass
+	if is_instance_valid(owner):
+		owner.velocity_factor = 1.0
+		owner.rotation_factor = 1.0
 
 # Override of State's update_state
 func update(_delta):
-	if(owner.get_velocity() != Vector2.ZERO):
-		var __ = owner.move_and_slide(owner.get_velocity()*0.3)
-		
-	if(owner.rot_velocity != 0.0):
-		owner.update_weapon_rotation(_delta, owner.rot_velocity*0.2)
+	pass
 
 #### LOGIC ####
 

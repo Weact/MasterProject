@@ -15,8 +15,9 @@ var pathfinder : Pathfinder = null setget set_pathfinder
 signal pathfinder_changed
 
 ## STATS
-onready var weapon_node : Node2D = get_node_or_null("WeaponsPoint/Weapon")
-onready var shield_node : Node2D = get_node_or_null("WeaponsPoint/Shield")
+onready var weapons_node : Node2D = get_node_or_null("WeaponsPoint")
+onready var weapon_node : Node2D = weapons_node.get_node_or_null("WeaponPoint/Weapon")
+onready var shield_node : Node2D = weapons_node.get_node_or_null("ShieldPoint/Shield")
 
 export var weight : int = 5
 signal weight_changed()
@@ -26,6 +27,8 @@ signal health_point_changed()
 
 export var stamina : int = 0
 var regen_stamina_value : int = 1
+var stamina_regen_delay : float = 0.5
+var timer_stamina_regen : Timer = null
 signal stamina_changed()
 
 ## MOVEMENTS
@@ -51,6 +54,9 @@ var look_direction : float = 0.0
 signal look_direction_changed(dir)
 
 var rot_velocity : float = 0.0
+
+var rotation_factor : float = 1.0
+var velocity_factor : float = 1.0
 
 onready var dodge_sprite_animation : PackedScene = preload("res://Scenes/Characters/Player/DodgeSprite/DodgeSprite.tscn")
 
@@ -219,11 +225,14 @@ func _ready() -> void:
 	__ = connect("pathfinder_changed", self, "_on_pathfinder_changed")
 	__ = connect("weight_changed", self, "_on_weight_changed")
 	init_panels()
-	_regen_stamina()
+
+	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
 
 func _physics_process(_delta: float) -> void:
 	_compute_velocity()
 	_compute_rotation_vel()
+	var __ = move_and_slide(velocity * velocity_factor)
+	update_weapon_rotation(_delta, rot_velocity * rotation_factor)
 	set_current_tile(position)
 	if is_dodging:
 		animate_dodging()
@@ -290,6 +299,18 @@ func flip():
 	else:
 		animated_sprite.offset.x = abs(animated_sprite.offset.x)
 
+	if !is_instance_valid($WeaponsPoint):
+		yield(self, "ready")
+	if !is_instance_valid($WeaponsPoint/ShieldPoint/Shield):
+		yield(self, "ready")
+
+	$WeaponsPoint/ShieldPoint/Shield/Sprite.set_flip_v(facing_left)
+
+	if !is_instance_valid($WeaponsPoint/WeaponPoint/Weapon):
+		yield(self, "ready")
+
+	weapon_node.get_node_or_null("Sprite").set_flip_h(facing_left)
+
 func damaged(damage_taken) -> void:
 	var raw_damage = damage_taken
 	var damage_to_take = raw_damage
@@ -300,16 +321,25 @@ func damaged(damage_taken) -> void:
 
 	if is_dodging:
 		damage_to_take = 0
-		print("Dodged")
 
 	remove_health_point(damage_to_take)
-	print("LIFE : " + str(get_health_point()) + " STAMINA : " + str(get_stamina()))
+
+func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: bool = false) -> Timer:
+	var new_timer = Timer.new()
+	new_timer.set_wait_time(time)
+	new_timer.set_autostart(autostart)
+	new_timer.set_one_shot(oneshot)
+	new_timer.connect("timeout", self, "_regen_stamina")
+	add_child(new_timer)
+
+	if not autostart:
+		push_warning("Careful: timer has been added from stamina_regen_timer but did not start automatically")
+
+	return new_timer
 
 func _regen_stamina() -> void:
 	if get_stamina() < 100:
 		add_stamina(regen_stamina_value)
-	yield(get_tree().create_timer(0.5), "timeout")
-	_regen_stamina()
 
 func die() -> void:
 	set_state("Death")

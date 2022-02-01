@@ -93,8 +93,6 @@ func move_along_path(delta: float) -> void:
 	if dist <= max_speed * delta:
 		var __ = move_and_collide(dir * dist)
 		path.remove(0)
-	else:
-		var __ = move_and_collide(dir*delta*movement_speed)
 	
 	if path.empty():
 		emit_signal("move_path_finished")

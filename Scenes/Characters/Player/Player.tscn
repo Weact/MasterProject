@@ -66,12 +66,10 @@ radius = 4.0
 
 [node name="Player" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-weight = 5
 health_point = 100
 stamina = 100
 movement_speed = 100.0
 max_speed = 200.0
-facing_left = false
 attack_power = 10
 block_power = 5
 default_state = "Idle"
