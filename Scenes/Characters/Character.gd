@@ -226,6 +226,7 @@ func _ready() -> void:
 	__ = connect("weight_changed", self, "_on_weight_changed")
 	init_panels()
 
+	weapon_node.set_anim_player(weapons_node.get_node("AnimationPlayer"))
 	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
 
 func _physics_process(_delta: float) -> void:

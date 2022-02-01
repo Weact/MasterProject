@@ -5,8 +5,6 @@ func get_class() -> String: return ""
 #### ACCESSORS ####
 
 #### BUILT-IN ####
-func _ready() -> void:
-	weapon_node.set_anim_player($AnimationPlayer)
 	
 func block() -> void:
 	$AnimationPlayer.play("block")
