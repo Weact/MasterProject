@@ -3,7 +3,7 @@ class_name Player
 func is_class(value: String): return value == "Player" or .is_class(value)
 func get_class() -> String: return "Player"
 
-onready var inputs_node : Node = $Inputs
+onready var inputs_node : Node = get_node("Inputs")
 
 var dirLeft : int = 0
 var dirRight : int = 0

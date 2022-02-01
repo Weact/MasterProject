@@ -19,3 +19,14 @@ func _input(event: InputEvent) -> void:
 				map_lucas_player.set_stamina(1000)
 		elif event.is_action_pressed("restart_game"):
 			var __ = get_tree().reload_current_scene()
+
+func _create_timer_delay(time: float = 0.0, autostart: bool = true, oneshot: bool = true, connected_object : Node = null, signal_result_method : String = "") -> Timer:
+	var new_timer = Timer.new()
+	new_timer.set_wait_time(time)
+	new_timer.set_one_shot(oneshot)
+	new_timer.set_autostart(autostart)
+	
+	if is_instance_valid(connected_object) and signal_result_method != "":
+		new_timer.connect("timeout", connected_object, signal_result_method, [new_timer])
+	
+	return new_timer

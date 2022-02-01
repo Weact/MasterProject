@@ -251,9 +251,8 @@ func update_weapon_rotation(_delta, rot_vel) -> void:
 	set_facing_left($WeaponsPoint.rotation_degrees < -90 or $WeaponsPoint.rotation_degrees > 90)
 
 func dodge() -> void:
-	if get_state_name() == "Move" and not is_dodging:
-		set_modulate(Color8(255,255,255,230))
-		yield(get_tree().create_timer(dodging_time*2), "timeout")
+	if get_state_name() == "Move" and stamina >= dodge_cost and not is_dodging:
+		remove_stamina(dodge_cost)
 		is_dodging = true
 		movement_speed = movement_speed * 3
 		yield(get_tree().create_timer(dodging_time), "timeout")
@@ -261,7 +260,6 @@ func dodge() -> void:
 
 func reset_dodge() -> void:
 	is_dodging = false
-	set_modulate(Color8(255,255,255,255))
 	movement_speed = movement_speed / 3
 
 func animate_dodging() -> void:
@@ -322,18 +320,6 @@ func attack() -> void:
 func block() -> void:
 	pass
 
-func dodge() -> void:
-	if stamina >= dodge_cost and not is_dodging:
-		remove_stamina(dodge_cost)
-		is_dodging = true
-		movement_speed = movement_speed * 3
-		yield(get_tree().create_timer(dodging_time), "timeout")
-		reset_dodge()
-
-func reset_dodge() -> void:
-	is_dodging = false
-	movement_speed = movement_speed / 3
-
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
@@ -365,9 +351,7 @@ func _on_direction_changed(dir: Vector2) -> void:
 	if dir != Vector2.ZERO and dir != Vector2.UP and dir != Vector2.DOWN :
 		pass
 
-func _on_look_direction_changed(dir: float) -> void:
-	#set_facing_left(dir > 90 and dir < 270)
-	#$WeaponsPoint.rotation_degrees = $WeaponsPoint.rotation_degrees
+func _on_look_direction_changed(_dir: float) -> void:
 	pass
 
 func _on_animation_finished() -> void:
