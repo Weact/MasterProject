@@ -17,7 +17,6 @@ func enter_state():
 		owner.set_movement_speed(owner.get_movement_speed() * 3)
 	if owner.has_method("remove_stamina"):
 		owner.remove_stamina(owner.dodge_cost)
-	print("dodging")
 
 # Override of State's exit_state
 func exit_state():
@@ -25,7 +24,6 @@ func exit_state():
 		owner.is_dodging = false
 	if owner.has_method("set_movement_speed"):
 		owner.set_movement_speed(owner.get_movement_speed() / 3)
-	print("stop dodging")
 
 # Override of State's update_state
 func update(_delta):

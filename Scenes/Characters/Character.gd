@@ -256,7 +256,6 @@ func _ready() -> void:
 	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
 
 func _physics_process(_delta: float) -> void:
-	print(is_stunned())
 	if not is_stunned():
 		_compute_velocity()
 		_compute_rotation_vel()
