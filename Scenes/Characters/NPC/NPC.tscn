@@ -66,7 +66,7 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=13]
-radius = 4.0
+radius = 5.0
 
 [sub_resource type="CircleShape2D" id=7]
 radius = 18.0278
@@ -87,6 +87,7 @@ block_power = 4
 position = Vector2( 0, -9 )
 frames = SubResource( 5 )
 animation = "Move"
+frame = 3
 playing = true
 
 [node name="CollisionShape2D" parent="." index="2"]
