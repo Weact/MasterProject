@@ -115,7 +115,15 @@ func action(action_name: String) -> void:
 	set_direction(Vector2(dirRight - dirLeft, dirDown - dirUp))
 
 func attack() -> void:
-	set_state("Attack")
+	if can_attack:
+		if not is_instance_valid(attack_cd_timer):
+			attack_cd_timer = GAME._create_timer_delay(attack_cooldown, true, true, self, "_on_attack_cd_timeout")
+			attack_cd_timer.set_name(get_name() + "AttackCooldownTimer")
+			add_child(attack_cd_timer)
+			
+		can_attack = false
+		attack_cd_timer.start()
+		.attack()
 
 func block() -> void:
 	state_machine.set_state("Block")

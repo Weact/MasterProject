@@ -6,6 +6,7 @@
 [ext_resource path="res://Scenes/Characters/Player/Sprites/Knight_RunSheet.png" type="Texture" id=4]
 [ext_resource path="res://Scenes/Characters/Player/Sprites/Knight_Hit.png" type="Texture" id=5]
 [ext_resource path="res://Scenes/Characters/Player/Inputs/Inputs.gd" type="Script" id=6]
+[ext_resource path="res://Scenes/StateMachine/StateLabel.gd" type="Script" id=7]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 3 )
@@ -124,6 +125,7 @@ stamina = 100
 movement_speed = 100.0
 max_speed = 200.0
 attack_power = 10
+attack_cooldown = 0.5
 block_power = 5
 default_state = "Idle"
 
@@ -160,3 +162,13 @@ rotation = -0.349066
 
 [node name="CollisionShape2D" parent="." index="4"]
 shape = SubResource( 11 )
+
+[node name="StateMachine" parent="." index="5"]
+visible = true
+
+[node name="StateLabel" type="Label" parent="StateMachine" index="8"]
+margin_left = -12.0
+margin_top = -76.0
+margin_right = 28.0
+margin_bottom = -62.0
+script = ExtResource( 7 )

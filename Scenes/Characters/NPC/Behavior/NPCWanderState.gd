@@ -1,6 +1,7 @@
 extends StateMachine
-
-class_name NPCWanderState
+class_name NpcWanderBehavior
+func is_class(value: String): return value == "NpcWanderBehavior" or .is_class(value)
+func get_class() -> String: return "NpcWanderBehavior"
 
 export var min_wander_distance = 30.0
 export var max_wander_distance = 120.0

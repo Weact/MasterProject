@@ -54,38 +54,48 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Characters/States/CharacterMove.gd"
 }, {
-"base": "State",
-"class": "ChaseState",
-"language": "GDScript",
-"path": "res://Scenes/Characters/NPC/Behavior/chaseState.gd"
-}, {
 "base": "Node",
 "class": "DamageableBehavior",
 "language": "GDScript",
 "path": "res://Behaviors/Damage/Damageable.gd"
-}, {
-"base": "State",
-"class": "EnemyMoveState",
-"language": "GDScript",
-"path": "res://Scenes/Characters/NPC/Behavior/NPCMoveState.gd"
 }, {
 "base": "Character",
 "class": "NPC",
 "language": "GDScript",
 "path": "res://Scenes/Characters/NPC/NPC.gd"
 }, {
-"base": "State",
-"class": "NPCAttackState",
-"language": "GDScript",
-"path": "res://Scenes/Characters/NPC/Behavior/NPCAttackState.gd"
-}, {
 "base": "StateMachine",
 "class": "NPCBehaviorTree",
 "language": "GDScript",
 "path": "res://Scenes/Characters/NPC/BehaviorTree.gd"
 }, {
+"base": "State",
+"class": "NPCMoveState",
+"language": "GDScript",
+"path": "res://Scenes/Characters/NPC/Behavior/NPCMoveState.gd"
+}, {
+"base": "State",
+"class": "NpcAttackBehavior",
+"language": "GDScript",
+"path": "res://Scenes/Characters/NPC/Behavior/NPCAttackState.gd"
+}, {
+"base": "CharacterAttackState",
+"class": "NpcAttackState",
+"language": "GDScript",
+"path": "res://Scenes/Characters/NPC/Behavior/AttackStateNPC.gd"
+}, {
+"base": "State",
+"class": "NpcChaseBehavior",
+"language": "GDScript",
+"path": "res://Scenes/Characters/NPC/Behavior/chaseState.gd"
+}, {
+"base": "State",
+"class": "NpcFollowingBehavior",
+"language": "GDScript",
+"path": "res://Scenes/Characters/NPC/NPCFollowState.gd"
+}, {
 "base": "StateMachine",
-"class": "NPCWanderState",
+"class": "NpcWanderBehavior",
 "language": "GDScript",
 "path": "res://Scenes/Characters/NPC/Behavior/NPCWanderState.gd"
 }, {
@@ -144,13 +154,15 @@ _global_script_class_icons={
 "CharacterIdleState": "",
 "CharacterInteractState": "",
 "CharacterMoveState": "",
-"ChaseState": "",
 "DamageableBehavior": "",
-"EnemyMoveState": "",
 "NPC": "",
-"NPCAttackState": "",
 "NPCBehaviorTree": "",
-"NPCWanderState": "",
+"NPCMoveState": "",
+"NpcAttackBehavior": "",
+"NpcAttackState": "",
+"NpcChaseBehavior": "",
+"NpcFollowingBehavior": "",
+"NpcWanderBehavior": "",
 "Pathfinder": "",
 "Player": "",
 "PlayerInput": "",
@@ -231,7 +243,7 @@ player_dodge={
 }
 restart_game={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":16777245,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":16777253,"unicode":0,"echo":false,"script":null)
  ]
 }
 regen={
@@ -242,6 +254,11 @@ regen={
 minimize={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":16777254,"unicode":0,"echo":false,"script":null)
+ ]
+}
+cheat_stats={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":16777245,"unicode":0,"echo":false,"script":null)
  ]
 }
 

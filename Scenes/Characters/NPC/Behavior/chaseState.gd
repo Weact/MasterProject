@@ -1,6 +1,7 @@
 extends State
-
-class_name ChaseState
+class_name NpcChaseBehavior
+func is_class(value: String): return value == "NpcChaseBehavior" or .is_class(value)
+func get_class() -> String: return "NpcChaseBehavior"
 
 func update(_delta : float) ->void:
 	if owner.state_machine.get_state_name() != "Attack":
