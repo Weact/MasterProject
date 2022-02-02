@@ -24,9 +24,6 @@ __meta__ = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/Area2D"]
-position = Vector2( -0.000714674, -1 )
+position = Vector2( -1.0144, 0.000721414 )
 shape = SubResource( 1 )
 disabled = true
-__meta__ = {
-"_edit_lock_": true
-}

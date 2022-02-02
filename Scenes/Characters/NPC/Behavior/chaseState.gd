@@ -1,6 +1,7 @@
 extends State
-
-class_name ChaseState
+class_name NpcChaseBehavior
+func is_class(value: String): return value == "NpcChaseBehavior" or .is_class(value)
+func get_class() -> String: return "NpcChaseBehavior"
 
 func enter_state() -> void:
 	if owner.target_in_attack_area:
