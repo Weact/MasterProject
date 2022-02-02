@@ -20,7 +20,6 @@
 [ext_resource path="res://Scenes/Characters/NPC/Kiting.gd" type="Script" id=18]
 [ext_resource path="res://Scenes/Characters/NPC/Distancing.gd" type="Script" id=19]
 
-
 [sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 13 )
 region = Rect2( 0, 0, 16, 28 )
@@ -88,7 +87,6 @@ block_power = 4
 position = Vector2( 0, -9 )
 frames = SubResource( 5 )
 animation = "Move"
-frame = 2
 playing = true
 
 [node name="CollisionShape2D" parent="." index="2"]
