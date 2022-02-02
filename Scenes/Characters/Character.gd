@@ -34,6 +34,7 @@ signal stamina_changed()
 ## MOVEMENTS
 var stunned : bool = false setget set_stunned, is_stunned
 signal stun_changed(stun_state)
+var stun_duration : float = 0.05
 
 export var movement_speed : float = 0.0 setget set_movement_speed, get_movement_speed
 signal movement_speed_changed(movement_speed)
@@ -255,11 +256,13 @@ func _ready() -> void:
 	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
 
 func _physics_process(_delta: float) -> void:
-	_compute_velocity()
-	_compute_rotation_vel()
-	var __ = move_and_slide(velocity * velocity_factor)
-	update_weapon_rotation(_delta, rot_velocity * rotation_factor)
-	set_current_tile(position)
+	print(is_stunned())
+	if not is_stunned():
+		_compute_velocity()
+		_compute_rotation_vel()
+		var __ = move_and_slide(velocity * velocity_factor)
+		update_weapon_rotation(_delta, rot_velocity * rotation_factor)
+		set_current_tile(position)
 
 
 #### VIRTUALS ####
@@ -341,6 +344,7 @@ func flip():
 
 func damaged(damage_taken) -> void:
 	if get_state_name() == "Attack" or get_state_name() == "Dodge":
+		unstun()
 		return
 	
 	if get_state_name() == "Block":
@@ -353,6 +357,7 @@ func damaged(damage_taken) -> void:
 		remove_stamina(damage_to_block)
 		return
 	
+	set_stunned(true)
 	remove_health_point(damage_taken)
 
 func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: bool = false) -> Timer:
@@ -387,7 +392,12 @@ func block() -> void:
 
 ## STUN
 func _on_stun_changed(stun_state: bool) -> void:
-	set_physics_process(stun_state)
+	if stun_state:
+		var stun_timer = GAME._create_timer_delay(stun_duration, true, true, self, "_on_stun_timer_timeout")
+		add_child(stun_timer, true)
+		can_attack = false
+	else:
+		can_attack = true
 
 ## STATS
 func _on_health_point_changed() -> void:
@@ -454,5 +464,5 @@ func _on_attack_cd_timeout(timer_timeout : Timer) -> void:
 	can_attack = true
 
 func _on_stun_timer_timeout(timer_timeout : Timer) -> void:
-	timer_timeout.queue_free()
 	unstun()
+	timer_timeout.queue_free()
