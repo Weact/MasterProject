@@ -3,7 +3,7 @@ func is_class(value: String): return value == "" or .is_class(value)
 func get_class() -> String: return ""
 
 var offAngle : float = PI
-var min_dist = 64.0
+var min_dist = 0.0
 var max_dist = 128.0
 
 onready var timer = $Timer

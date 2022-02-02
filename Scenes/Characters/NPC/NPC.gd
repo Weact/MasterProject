@@ -96,9 +96,16 @@ func _update_behaviour_state() -> void:
 func move_along_path(delta: float) -> void:
 	var noCollision = true
 	while path.size() > 1 and noCollision:
-		$RayCast2D.set_cast_to(path[0])
 		$RayCast2D.enabled = true
-		if !$RayCast2D.is_colliding():
+		$RayCast2D.set_cast_to(path[0] - position)
+		var collideObject = $RayCast2D.get_collider()
+		var isObstacle = false
+		if collideObject != null:
+			for group in collideObject.get_groups():
+				if group == "Obstacle":
+					isObstacle = true
+				
+		if collideObject == null or isObstacle:
 			path.remove(0)
 			noCollision = false
 		
