@@ -11,11 +11,21 @@ func get_class() -> String: return "CharacterDodgeState"
 
 # Override of State's enter_state
 func enter_state():
-	pass
+	if "is_dodging" in owner:
+		owner.is_dodging = false
+	if owner.has_method("set_movement_speed"):
+		owner.set_movement_speed(owner.get_movement_speed() * 3)
+	if owner.has_method("remove_stamina"):
+		owner.remove_stamina(owner.dodge_cost)
+	print("dodging")
 
 # Override of State's exit_state
 func exit_state():
-	pass
+	if "is_dodging" in owner:
+		owner.is_dodging = false
+	if owner.has_method("set_movement_speed"):
+		owner.set_movement_speed(owner.get_movement_speed() / 3)
+	print("stop dodging")
 
 # Override of State's update_state
 func update(_delta):

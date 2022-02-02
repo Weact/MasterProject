@@ -260,8 +260,6 @@ func _physics_process(_delta: float) -> void:
 	var __ = move_and_slide(velocity * velocity_factor)
 	update_weapon_rotation(_delta, rot_velocity * rotation_factor)
 	set_current_tile(position)
-	if is_dodging:
-		animate_dodging()
 
 
 #### VIRTUALS ####
@@ -291,16 +289,15 @@ func unstun() -> void:
 	set_stunned(false)
 
 func dodge() -> void:
-	if get_state_name() == "Move" and stamina >= dodge_cost and not is_dodging:
-		remove_stamina(dodge_cost)
-		is_dodging = true
-		set_movement_speed(movement_speed * 3)
+	if get_state_name() == "Move" and stamina >= dodge_cost and not get_state_name() == "Dodge":
+		set_state("Dodge")
+		
 		yield(get_tree().create_timer(dodging_time), "timeout")
 		reset_dodge()
 
 func reset_dodge() -> void:
 	is_dodging = false
-	set_movement_speed(movement_speed / 3)
+	set_state("Idle")
 
 func animate_dodging() -> void:
 	var dodge_anim = dodge_sprite_animation.instance()
@@ -343,20 +340,20 @@ func flip():
 	weapon_node.get_node_or_null("Sprite").set_flip_h(facing_left)
 
 func damaged(damage_taken) -> void:
-	if get_state_name() == "Attack":
-		set_state("Move")
-
-	var raw_damage = damage_taken
-	var damage_to_take = raw_damage
-
-	if stamina >= block_power and state_machine.get_state_name() == "Block": # is stamina high enough to make us able to tank the damages?
-		damage_to_take -= block_power
-		remove_stamina(block_power)
-
-	if is_dodging:
-		damage_to_take = 0
-
-	remove_health_point(damage_to_take)
+	if get_state_name() == "Attack" or get_state_name() == "Dodge":
+		return
+	
+	if get_state_name() == "Block":
+		var damage_to_take = max(damage_taken - block_power, 0)
+		var damage_to_block = min(block_power, damage_taken)
+		remove_health_point(damage_to_take)
+		
+		if damage_to_block > stamina:
+			remove_health_point(damage_to_block - stamina)
+		remove_stamina(damage_to_block)
+		return
+	
+	remove_health_point(damage_taken)
 
 func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: bool = false) -> Timer:
 	var new_timer = Timer.new()
