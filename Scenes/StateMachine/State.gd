@@ -15,6 +15,10 @@ func is_class(value: String) -> bool: return value == "State" or .is_class(value
 
 onready var state_machine = get_parent()
 
+#Called when the state is set to this node even when this node is already active
+func call_state():
+	pass
+
 # Called when the current state of the state machine is set to this node
 func enter_state():
 	pass

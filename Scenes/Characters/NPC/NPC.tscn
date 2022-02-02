@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://Scenes/Characters/Character.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Characters/NPC/NPC.gd" type="Script" id=2]
@@ -15,6 +15,10 @@
 [ext_resource path="res://Scenes/Characters/NPC/Sprites/Elf_RunSheet.png" type="Texture" id=13]
 [ext_resource path="res://Scenes/Characters/NPC/NPCFollowState.gd" type="Script" id=14]
 [ext_resource path="res://Scenes/Characters/NPC/Control.gd" type="Script" id=15]
+[ext_resource path="res://Scenes/Characters/NPC/Block_Behavior.gd" type="Script" id=16]
+[ext_resource path="res://Scenes/Characters/NPC/Fighting.gd" type="Script" id=17]
+[ext_resource path="res://Scenes/Characters/NPC/Kiting.gd" type="Script" id=18]
+[ext_resource path="res://Scenes/Characters/NPC/Distancing.gd" type="Script" id=19]
 
 [sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 13 )
@@ -62,13 +66,13 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=13]
-radius = 4.0
-
-[sub_resource type="CircleShape2D" id=6]
-radius = 145.986
+radius = 5.0
 
 [sub_resource type="CircleShape2D" id=7]
 radius = 18.0278
+
+[sub_resource type="CircleShape2D" id=6]
+radius = 145.986
 
 [node name="NPC" groups=["NPC"] instance=ExtResource( 1 )]
 script = ExtResource( 2 )
@@ -83,14 +87,13 @@ block_power = 4
 position = Vector2( 0, -9 )
 frames = SubResource( 5 )
 animation = "Move"
-frame = 2
+frame = 3
 playing = true
 
 [node name="CollisionShape2D" parent="." index="2"]
 shape = SubResource( 13 )
 
 [node name="BehaviorTree" type="Node2D" parent="." index="3"]
-visible = false
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_lock_": true
@@ -111,11 +114,27 @@ script = ExtResource( 9 )
 [node name="Chase" type="Node" parent="BehaviorTree" index="1"]
 script = ExtResource( 10 )
 
-[node name="Attack" type="Node" parent="BehaviorTree" index="2"]
+[node name="Following" type="Node" parent="BehaviorTree" index="2"]
+script = ExtResource( 14 )
+
+[node name="Fighting" type="Node" parent="BehaviorTree" index="3"]
+script = ExtResource( 17 )
+
+[node name="Kiting" type="Node" parent="BehaviorTree/Fighting" index="0"]
+script = ExtResource( 18 )
+
+[node name="Distancing" type="Node" parent="BehaviorTree/Fighting" index="1"]
+script = ExtResource( 19 )
+
+[node name="Attack" type="Node" parent="BehaviorTree/Fighting" index="2"]
 script = ExtResource( 3 )
 
-[node name="Following" type="Node" parent="BehaviorTree" index="3"]
-script = ExtResource( 14 )
+[node name="Block" type="Node" parent="BehaviorTree/Fighting" index="3"]
+script = ExtResource( 16 )
+
+[node name="Timer" type="Timer" parent="BehaviorTree/Fighting" index="4"]
+wait_time = 0.3
+one_shot = true
 
 [node name="Label" type="Label" parent="BehaviorTree" index="4"]
 margin_left = -20.0
@@ -129,13 +148,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="chaseArea" type="Area2D" parent="." index="4"]
-visible = false
-
-[node name="area" type="CollisionShape2D" parent="chaseArea" index="0"]
-shape = SubResource( 6 )
-
-[node name="attackArea" type="Area2D" parent="." index="5"]
+[node name="attackArea" type="Area2D" parent="." index="4"]
 __meta__ = {
 "_edit_lock_": true
 }
@@ -146,6 +159,12 @@ shape = SubResource( 7 )
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="chaseArea" type="Area2D" parent="." index="5"]
+visible = false
+
+[node name="area" type="CollisionShape2D" parent="chaseArea" index="0"]
+shape = SubResource( 6 )
 
 [node name="Move" parent="StateMachine" index="1"]
 script = ExtResource( 11 )
@@ -175,5 +194,9 @@ script = ExtResource( 15 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="RayCast2D" type="RayCast2D" parent="." index="11"]
+enabled = true
+cast_to = Vector2( 50, 0 )
 
 [connection signal="state_changed" from="StateMachine" to="." method="_on_StateMachine_state_changed"]

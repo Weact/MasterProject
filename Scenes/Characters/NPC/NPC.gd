@@ -12,6 +12,9 @@ var target_in_attack_area : bool = false setget set_target_in_attack_area
 var path : Array = []
 var following = false
 
+export var difficulty = 1.0 # 1.0 is Very difficult 0.5 is average 0.0 is noobie
+
+var kiteDist = 10.0
 signal target_in_chase_area_changed
 signal target_in_attack_area_changed
 signal move_path_finished
@@ -42,12 +45,15 @@ func _ready() -> void:
 	__ = attackArea.connect("body_exited", self, "_on_attackArea_body_exited")
 	__ = connect("target_in_chase_area_changed", self, "_on_target_in_chase_area_changed")
 	__ = connect("target_in_attack_area_changed", self, "_on_target_in_attack_area_changed")
-
+	$RayCast2D.set_collide_with_bodies(true)
 #### VIRTUALS ####
 
 
 
 #### LOGIC ####
+func _physics_process(delta: float) -> void:
+	move_along_path(delta)
+	
 func update_move_path(dest : Vector2) -> void:
 	if pathfinder == null:
 		path = [dest]
@@ -65,21 +71,48 @@ func update_move_path_closeTo(dest : Vector2, dist : float):
 		else:
 			path = [position]
 		
-	
+func get_path_dist_to(to : Vector2) -> float:
+	if to != null:
+		var lenght = pathfinder.find_path(global_position, to).size()
+		if lenght >= 0:
+			return float(lenght)
+	return 99999.9	
+		
+func get_dist_to(to : Vector2) -> float:
+	if to != null:
+		return position.distance_to(to)
+	return 99999.9
 	
 func _update_behaviour_state() -> void:
 	if !following:
-		if target_in_attack_area:
-			behaviour_tree.set_state("Attack")
-		elif target_in_chase_area:
-			behaviour_tree.set_state("Chase")
+		if target != null:
+			if target_in_chase_area && behaviour_tree.get_state_name() != "Fighting":
+				behaviour_tree.set_state("Chase")
 		else:
 			behaviour_tree.set_state("Wander")
 	else:
 		behaviour_tree.set_state("Following")
 		
 func move_along_path(delta: float) -> void:
+	var noCollision = true
+	var noObstacle = true
+	while path.size() > 1 and noObstacle:
+		$RayCast2D.enabled = true
+		$RayCast2D.set_cast_to(path[1] - position)
+		$RayCast2D.force_raycast_update()
+		var collideObject = $RayCast2D.get_collider()
+		if collideObject != null:
+			for group in collideObject.get_groups():
+				if group == "Obstacle":
+					noObstacle = false
+				
+		if noObstacle:
+			path.remove(0)
+		
+	$RayCast2D.enabled = false
+		
 	if path.empty():
+		set_direction(Vector2.ZERO)
 		set_state("Idle")
 		return
 	
@@ -90,8 +123,7 @@ func move_along_path(delta: float) -> void:
 	
 	set_direction(dir)
 	
-	if dist <= max_speed * delta:
-		var __ = move_and_collide(dir * dist)
+	if dist <= movement_speed * delta:
 		path.remove(0)
 	
 	if path.empty():
@@ -100,18 +132,18 @@ func move_along_path(delta: float) -> void:
 #### SIGNAL RESPONSES ####
 func _on_chaseArea_body_entered(body : PhysicsBody2D ) -> void:
 	if body is Player:
-		set_target_in_chase_area(true)
 		target = body
+		set_target_in_chase_area(true)
 		
 func _on_chaseArea_body_exited(body : PhysicsBody2D ) -> void:
 	if body is Player:
-		set_target_in_chase_area(false)
 		target = null
+		set_target_in_chase_area(false)
 		
 func _on_attackArea_body_entered(body : PhysicsBody2D ) -> void:
 	if body is Player:
-		set_target_in_attack_area(true)
 		target = body
+		set_target_in_attack_area(true)
 		
 func _on_attackArea_body_exited(body : PhysicsBody2D ) -> void:
 	if body is Player:

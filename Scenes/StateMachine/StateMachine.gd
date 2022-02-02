@@ -15,6 +15,9 @@ signal state_changed_recursive(state)
 func set_state(state)->void:
 	if state is String:
 		state = get_node_or_null(state)
+	
+	if state != null:
+		state.call_state()
 		
 	if state == current_state:
 		return

@@ -5,4 +5,3 @@ func get_class() -> String: return "NpcAttackState"
 
 func exit_state() -> void:
 	.exit_state()
-	owner.get_node("BehaviorTree").set_state("Chase")
