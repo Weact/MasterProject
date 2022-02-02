@@ -19,6 +19,7 @@ onready var weapons_node : Node2D = get_node_or_null("WeaponsPoint")
 onready var weapon_node : Node2D = weapons_node.get_node_or_null("WeaponPoint/Weapon")
 onready var shield_node : Node2D = weapons_node.get_node_or_null("ShieldPoint/Shield")
 
+
 export var weight : int = 5
 signal weight_changed()
 
@@ -34,7 +35,7 @@ signal stamina_changed()
 ## MOVEMENTS
 var stunned : bool = false setget set_stunned, is_stunned
 signal stun_changed(stun_state)
-var stun_duration : float = 0.05
+var stun_duration : float = 0.2
 
 export var movement_speed : float = 0.0 setget set_movement_speed, get_movement_speed
 signal movement_speed_changed(movement_speed)
@@ -63,6 +64,7 @@ var rot_velocity : float = 0.0
 var rotation_factor : float = 1.0
 var velocity_factor : float = 1.0
 
+export var white_mat : Material = null
 onready var dodge_sprite_animation : PackedScene = preload("res://Scenes/Characters/Player/DodgeSprite/DodgeSprite.tscn")
 
 export var facing_left : bool = false setget set_facing_left, is_facing_left
@@ -71,7 +73,7 @@ export var facing_left : bool = false setget set_facing_left, is_facing_left
 export var attack_power : int = 0 setget set_attack_power, get_attack_power
 signal attack_power_changed
 
-export var attack_cooldown : float = 0.0
+export var attack_cooldown : float = 3.0
 var can_attack : bool = true
 var attack_cd_timer : Timer = null
 
@@ -342,8 +344,9 @@ func flip():
 	weapon_node.get_node_or_null("Sprite").set_flip_h(facing_left)
 
 func damaged(damage_taken) -> void:
-	if get_state_name() == "Attack" or get_state_name() == "Dodge":
-		unstun()
+	if get_state_name() == "Attack":
+		state_machine.set_state("Idle")
+	if get_state_name() == "Dodge":
 		return
 	
 	if get_state_name() == "Block":
@@ -381,10 +384,19 @@ func die() -> void:
 	set_state("Death")
 
 func attack() -> void:
-	set_state("Attack")
+	if can_attack:
+		if not is_instance_valid(attack_cd_timer):
+			attack_cd_timer = GAME._create_timer_delay(attack_cooldown, true, true, self, "_on_attack_cd_timeout")
+			attack_cd_timer.set_name(get_name() + "AttackCooldownTimer")
+			add_child(attack_cd_timer)
+			
+		can_attack = false
+		attack_cd_timer.start()
+		state_machine.set_state("Attack")
 
 func block() -> void:
-	pass
+	if(state_machine.get_state_name() != "Attack"):
+		state_machine.set_state("Block")
 
 #### INPUTS ####
 
@@ -396,8 +408,10 @@ func _on_stun_changed(stun_state: bool) -> void:
 		var stun_timer = GAME._create_timer_delay(stun_duration, true, true, self, "_on_stun_timer_timeout")
 		add_child(stun_timer, true)
 		can_attack = false
+		animated_sprite.set_material(white_mat)
 	else:
 		can_attack = true
+		animated_sprite.set_material(get_material())
 
 ## STATS
 func _on_health_point_changed() -> void:

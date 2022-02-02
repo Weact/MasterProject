@@ -22,7 +22,7 @@ func _on_NPC_move_path_finished() -> void:
 func enter_state() -> void:
 	timer.start()
 
-func update(delta:float) ->void:
+func update(_delta:float) ->void:
 	if owner.get_path_dist_to(owner.target.position) > owner.kiteDist+2:
 		owner.behaviour_tree.set_state("Chase")
 	if owner.target != null:

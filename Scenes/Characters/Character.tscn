@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scenes/Characters/States/CharacterDeath.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Characters/States/CharacterAttack.gd" type="Script" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://Scenes/Characters/States/CharacterDodgeState.gd" type="Script" id=13]
 [ext_resource path="res://Scenes/Weapons/Melee/WeaponPointMelee.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Scenes/Weapons/block.tres" type="Animation" id=15]
+[ext_resource path="res://white_mat.tres" type="Material" id=16]
 [ext_resource path="res://Scenes/Weapons/attack.tres" type="Animation" id=17]
 
 [sub_resource type="Animation" id=1]
@@ -61,6 +62,7 @@ tracks/2/keys = {
 [node name="Character" type="KinematicBody2D"]
 z_index = 1
 script = ExtResource( 9 )
+white_mat = ExtResource( 16 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 __meta__ = {

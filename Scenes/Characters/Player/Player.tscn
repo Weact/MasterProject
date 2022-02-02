@@ -58,7 +58,7 @@ animations = [ {
 }, {
 "frames": [ SubResource( 16 ) ],
 "loop": true,
-"name": "Death",
+"name": "Hit",
 "speed": 5.0
 } ]
 
@@ -120,13 +120,15 @@ radius = 4.0
 
 [node name="Player" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+weight = 5
 health_point = 100
 stamina = 100
 movement_speed = 100.0
 max_speed = 200.0
+facing_left = false
 attack_power = 10
 attack_cooldown = 0.5
-block_power = 5
+block_power = 15
 default_state = "Idle"
 
 [node name="PlayerCamera" type="Camera2D" parent="." index="0"]
@@ -148,7 +150,7 @@ script = ExtResource( 6 )
 position = Vector2( 0, -4 )
 frames = SubResource( 10 )
 animation = "Idle"
-frame = 2
+frame = 3
 playing = true
 
 [node name="AnimationPlayer" parent="WeaponsPoint" index="0"]

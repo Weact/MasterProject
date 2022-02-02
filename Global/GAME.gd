@@ -46,7 +46,7 @@ func cheat_stats(player_v, player_l) -> void:
 		player_l.set_stamina(1000)
 		player_l.set_movement_speed(player_l.get_movement_speed() * 2)
 
-func _create_timer_delay(time: float = 0.0, autostart: bool = true, oneshot: bool = true, connected_object : Node = null, signal_result_method : String = "") -> Timer:
+func _create_timer_delay(time: float = 1.0, autostart: bool = true, oneshot: bool = true, connected_object : Node = null, signal_result_method : String = "") -> Timer:
 	var new_timer = Timer.new()
 	new_timer.set_wait_time(time)
 	new_timer.set_one_shot(oneshot)

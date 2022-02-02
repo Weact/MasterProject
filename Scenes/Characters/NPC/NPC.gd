@@ -94,7 +94,6 @@ func _update_behaviour_state() -> void:
 		behaviour_tree.set_state("Following")
 		
 func move_along_path(delta: float) -> void:
-	var noCollision = true
 	var noObstacle = true
 	while path.size() > 1 and noObstacle:
 		$RayCast2D.enabled = true

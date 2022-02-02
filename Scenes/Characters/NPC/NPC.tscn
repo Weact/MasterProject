@@ -81,13 +81,13 @@ stamina = 10
 movement_speed = 50.0
 max_speed = 50.0
 attack_power = 5
+attack_cooldown = 1.0
 block_power = 4
 
 [node name="AnimatedSprite" parent="." index="0"]
 position = Vector2( 0, -9 )
 frames = SubResource( 5 )
 animation = "Move"
-frame = 3
 playing = true
 
 [node name="CollisionShape2D" parent="." index="2"]

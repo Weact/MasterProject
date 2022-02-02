@@ -23,6 +23,5 @@ func update(_delta : float) ->void:
 	if owner.position.distance_to(owner.target.position) < minDist:
 		if owner.has_method("attack"):
 			owner.attack()
-		state_machine.set_state("Kiting")
 		
 		
