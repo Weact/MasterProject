@@ -5,18 +5,12 @@ func get_class() -> String: return ""
 #### ACCESSORS ####
 
 #### BUILT-IN ####
-func call_state() -> void:
-	if state_machine != null:
-		state_machine.kite()
-	
 func enter_state() -> void:
-	pass
+	if state_machine != null:
+		state_machine.distance()
 		
-func update(_delta : float) -> void:
-	pass
-	
-func exit_state() -> void:
-	pass
+
+
 
 #### VIRTUALS ####
 

@@ -12,7 +12,9 @@ var target_in_attack_area : bool = false setget set_target_in_attack_area
 var path : Array = []
 var following = false
 
-export var difficulty = 1.0
+export var difficulty = 1.0 # 1.0 is Very difficult 0.5 is average 0.0 is noobie
+
+var kiteDist = 10.0
 signal target_in_chase_area_changed
 signal target_in_attack_area_changed
 signal move_path_finished
@@ -43,7 +45,7 @@ func _ready() -> void:
 	__ = attackArea.connect("body_exited", self, "_on_attackArea_body_exited")
 	__ = connect("target_in_chase_area_changed", self, "_on_target_in_chase_area_changed")
 	__ = connect("target_in_attack_area_changed", self, "_on_target_in_attack_area_changed")
-
+	$RayCast2D.set_collide_with_bodies(true)
 #### VIRTUALS ####
 
 
@@ -72,7 +74,7 @@ func update_move_path_closeTo(dest : Vector2, dist : float):
 func get_path_dist_to(to : Vector2) -> float:
 	if to != null:
 		var lenght = pathfinder.find_path(global_position, to).size()
-		if lenght > 0:
+		if lenght >= 0:
 			return float(lenght)
 	return 99999.9	
 		
@@ -92,6 +94,16 @@ func _update_behaviour_state() -> void:
 		behaviour_tree.set_state("Following")
 		
 func move_along_path(delta: float) -> void:
+	var noCollision = true
+	while path.size() > 1 and noCollision:
+		$RayCast2D.set_cast_to(path[0])
+		$RayCast2D.enabled = true
+		if !$RayCast2D.is_colliding():
+			path.remove(0)
+			noCollision = false
+		
+	$RayCast2D.enabled = false
+		
 	if path.empty():
 		set_direction(Vector2.ZERO)
 		set_state("Idle")

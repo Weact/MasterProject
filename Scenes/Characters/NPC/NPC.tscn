@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://Scenes/Characters/Character.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Characters/NPC/NPC.gd" type="Script" id=2]
@@ -18,22 +18,7 @@
 [ext_resource path="res://Scenes/Characters/NPC/Block_Behavior.gd" type="Script" id=16]
 [ext_resource path="res://Scenes/Characters/NPC/Fighting.gd" type="Script" id=17]
 [ext_resource path="res://Scenes/Characters/NPC/Kiting.gd" type="Script" id=18]
-
-[sub_resource type="AtlasTexture" id=1]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 0, 16, 28 )
-
-[sub_resource type="AtlasTexture" id=2]
-atlas = ExtResource( 5 )
-region = Rect2( 16, 0, 16, 28 )
-
-[sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 5 )
-region = Rect2( 32, 0, 16, 28 )
-
-[sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 5 )
-region = Rect2( 48, 0, 16, 28 )
+[ext_resource path="res://Scenes/Characters/NPC/Distancing.gd" type="Script" id=19]
 
 [sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 13 )
@@ -51,17 +36,33 @@ region = Rect2( 32, 0, 16, 28 )
 atlas = ExtResource( 13 )
 region = Rect2( 48, 0, 16, 28 )
 
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 16, 28 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 5 )
+region = Rect2( 16, 0, 16, 28 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 5 )
+region = Rect2( 32, 0, 16, 28 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 5 )
+region = Rect2( 48, 0, 16, 28 )
+
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
-"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
-"loop": true,
-"name": "Idle",
-"speed": 8.06
-}, {
 "frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
 "loop": true,
 "name": "Move",
 "speed": 10.51
+}, {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 8.06
 } ]
 
 [sub_resource type="CircleShape2D" id=13]
@@ -122,13 +123,16 @@ script = ExtResource( 17 )
 [node name="Kiting" type="Node" parent="BehaviorTree/Fighting" index="0"]
 script = ExtResource( 18 )
 
-[node name="Attack" type="Node" parent="BehaviorTree/Fighting" index="1"]
+[node name="Distancing" type="Node" parent="BehaviorTree/Fighting" index="1"]
+script = ExtResource( 19 )
+
+[node name="Attack" type="Node" parent="BehaviorTree/Fighting" index="2"]
 script = ExtResource( 3 )
 
-[node name="Block" type="Node" parent="BehaviorTree/Fighting" index="2"]
+[node name="Block" type="Node" parent="BehaviorTree/Fighting" index="3"]
 script = ExtResource( 16 )
 
-[node name="Timer" type="Timer" parent="BehaviorTree/Fighting" index="3"]
+[node name="Timer" type="Timer" parent="BehaviorTree/Fighting" index="4"]
 wait_time = 0.3
 one_shot = true
 
@@ -190,5 +194,8 @@ script = ExtResource( 15 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="RayCast2D" type="RayCast2D" parent="." index="11"]
+cast_to = Vector2( 50, 0 )
 
 [connection signal="state_changed" from="StateMachine" to="." method="_on_StateMachine_state_changed"]

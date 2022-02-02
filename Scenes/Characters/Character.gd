@@ -260,6 +260,7 @@ func update_weapon_rotation(_delta, rot_vel) -> void:
 		$WeaponsPoint.rotation_degrees = $WeaponsPoint.rotation_degrees + rot_vel*_delta
 	set_facing_left($WeaponsPoint.rotation_degrees < -90 or $WeaponsPoint.rotation_degrees > 90)
 
+	
 func dodge() -> void:
 	if get_state_name() == "Move" and stamina >= dodge_cost and not is_dodging:
 		remove_stamina(dodge_cost)

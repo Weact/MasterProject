@@ -37,7 +37,7 @@ func find_path(from: Vector2, to: Vector2) -> PoolVector2Array:
 		
 		var pos = tilemap.map_to_world(point) if i != point_path.size() - 1 else to
 		path.append(pos + tilemap.cell_size/2)
-	if path.size() <= 0:
+	if path.size() < 0:
 		print("no path")
 	return path
 	

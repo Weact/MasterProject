@@ -11,15 +11,17 @@ func enter_state() -> void:
 	if state_machine != null:
 		state_machine.kite()
 	owner.state_machine.set_state("Block")
-	owner.update_move_path(owner.position)
+	if !is_instance_valid(owner.target):
+		return
+	owner.update_move_path(owner.target.position)
 	
 func update(_delta : float) ->void:
-	if owner.state_machine == null or owner.target == null:
+	if owner == null or owner.state_machine == null or owner.target == null:
 		return
-	owner.state_machine.set_state("Block")
-	owner.set_look_direction(rad2deg((owner.target.position - owner.position).angle()))
-	
+
 func exit_state() -> void:
+	if owner == null or owner.state_machine == null:
+		return
 	owner.state_machine.set_state("Idle")
 	
 
