@@ -7,6 +7,8 @@ func get_class() -> String: return ""
 #### BUILT-IN ####
 func enter_state() -> void:
 	if state_machine != null:
+		if randi()% 2 == 0:
+			owner.dodge()
 		state_machine.distance()
 		
 

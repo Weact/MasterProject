@@ -76,18 +76,22 @@ radius = 145.986
 
 [node name="NPC" groups=["NPC"] instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+weight = 5
 health_point = 10
 stamina = 10
 movement_speed = 50.0
 max_speed = 50.0
+facing_left = false
 attack_power = 5
 attack_cooldown = 1.0
 block_power = 4
+default_state = ""
 
 [node name="AnimatedSprite" parent="." index="0"]
 position = Vector2( 0, -9 )
 frames = SubResource( 5 )
 animation = "Move"
+frame = 2
 playing = true
 
 [node name="CollisionShape2D" parent="." index="2"]
