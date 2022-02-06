@@ -9,6 +9,8 @@ var dirLeft : int = 0
 var dirRight : int = 0
 var dirUp : int = 0
 var dirDown : int = 0
+var blockPressed : bool = false
+var attackPressed : bool = false
 
 #### ACCESSORS ####
 
@@ -98,13 +100,20 @@ func action(action_name: String) -> void:
 		"MoveDown_Released":
 			dirDown = 0
 		"Attack_Pressed":
-			attack()
+			if blockPressed:
+				guardBreak()
+			else:
+				attack()
+				attackPressed = true
+			
 		"Attack_Released":
-			pass
+			attackPressed = false
 		"Block_Pressed":
 			block()
+			blockPressed = true
 		"Block_Released":
 			unblock()
+			blockPressed = false
 		"Dodge_Pressed":
 			dodge()
 		"Dodge_Released":
@@ -115,15 +124,9 @@ func action(action_name: String) -> void:
 	set_direction(Vector2(dirRight - dirLeft, dirDown - dirUp))
 
 func unblock() -> void:
-	if(state_machine.get_state_name() != "Attack"):
+	if(state_machine.get_state_name() != "Attack" and state_machine.get_state_name() != "GuardBreak"):
 		state_machine.set_state("Idle")
-
-func dodge() -> void:
-	if get_state_name() == "Move":
-		.dodge()
-
+ 
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
-func _on_weapon_hit() -> void:
-	set_state("Idle")

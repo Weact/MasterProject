@@ -25,8 +25,6 @@ func enter_state() -> void:
 func update(_delta:float) ->void:
 	if owner.get_path_dist_to(owner.target.position) > owner.kiteDist+2:
 		owner.behaviour_tree.set_state("Chase")
-	if owner.target != null:
-		owner.set_look_direction(rad2deg((owner.target.position - owner.position).angle()))
 	
 func get_offensive_factor() -> int :
 	if owner.target == null:
@@ -45,6 +43,9 @@ func get_target_closeness_factor() -> int:
 	
 func get_target_distance() -> float :
 	return owner.position.distance_to(owner.target.position)
+
+func get_target_direction() -> float:
+	return rad2deg((owner.target.position - owner.position).angle())
 		
 func _on_timeout() -> void:
 	if owner.target == null:
@@ -54,8 +55,8 @@ func _on_timeout() -> void:
 	timer.set_wait_time(0.3 / max(difficulty, 0.5))
 	timer.start()
 	
-	var kiteChance = int(max(0, get_target_distance_factor())) + get_defensive_factor()
-	var distanceChance = int(max(0, get_target_closeness_factor())) + get_defensive_factor()
+	var kiteChance = get_target_distance_factor()*difficulty + get_defensive_factor()*difficulty
+	var distanceChance = get_target_closeness_factor()*difficulty + get_defensive_factor()*difficulty
 	var blockChance = get_target_closeness_factor() + get_defensive_factor()
 	var attackChance = get_target_closeness_factor() * difficulty + get_offensive_factor() *difficulty + int(get_state_name() == "Attack") * 100
 	var randomNb = randi() % int(distanceChance+attackChance+blockChance+kiteChance)

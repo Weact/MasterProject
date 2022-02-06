@@ -75,6 +75,7 @@ signal attack_power_changed
 
 export var attack_cooldown : float = 3.0
 var can_attack : bool = true
+var can_block : bool = true
 var attack_cd_timer : Timer = null
 
 # Block power stat define how much damage the character can block :
@@ -87,7 +88,8 @@ onready var current_tile : Vector2 = position setget set_current_tile
 signal current_tile_changed
 
 #warning-ignore:UNUSED_SIGNAL
-signal attack_hit()
+signal attack_hit
+signal shield_hit
 
 ## STATES
 export var default_state : String = ""
@@ -246,6 +248,7 @@ func _ready() -> void:
 	__ = connect("attack_power_changed", self, "_on_attack_power_changed")
 	__ = connect("block_power_changed", self, "_on_block_power_changed")
 	__ = connect("attack_hit", self, "_on_weapon_hit")
+	__ = connect("shield_hit", self, "_on_shield_hit")
 
 	__ = animated_sprite.connect("animation_finished", self, "_on_animation_finished")
 
@@ -255,6 +258,7 @@ func _ready() -> void:
 	init_panels()
 
 	weapon_node.set_anim_player(weapons_node.get_node("AnimationPlayer"))
+	shield_node.set_anim_player(weapons_node.get_node("AnimationPlayer"))
 	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
 
 func _physics_process(_delta: float) -> void:
@@ -293,6 +297,9 @@ func unstun() -> void:
 	set_stunned(false)
 
 func dodge() -> void:
+	if get_state_name() != "Move" and get_state_name() != "Idle":
+		return
+		
 	if stamina >= dodge_cost and not get_state_name() == "Dodge":
 		set_state("Dodge")
 		
@@ -344,8 +351,6 @@ func flip():
 	weapon_node.get_node_or_null("Sprite").set_flip_h(facing_left)
 
 func damaged(damage_taken) -> void:
-	if get_state_name() == "Attack":
-		state_machine.set_state("Idle")
 	if get_state_name() == "Dodge":
 		return
 	
@@ -361,7 +366,7 @@ func damaged(damage_taken) -> void:
 	
 	set_stunned(true)
 	remove_health_point(damage_taken)
-
+	
 func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: bool = false) -> Timer:
 	var new_timer = Timer.new()
 	new_timer.set_wait_time(time)
@@ -395,9 +400,13 @@ func attack() -> void:
 		state_machine.set_state("Attack")
 
 func block() -> void:
-	if(state_machine.get_state_name() != "Attack"):
+	if(can_block and state_machine.get_state_name() != "Attack" and state_machine.get_state_name() != "GuardBreak"):
 		state_machine.set_state("Block")
 
+func guardBreak() -> void:
+	if(state_machine.get_state_name() != "Attack"):
+		state_machine.set_state("GuardBreak")
+	
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
@@ -405,12 +414,21 @@ func block() -> void:
 ## STUN
 func _on_stun_changed(stun_state: bool) -> void:
 	if stun_state:
-		var stun_timer = GAME._create_timer_delay(stun_duration, true, true, self, "_on_stun_timer_timeout")
+		var duration = stun_duration
+		if get_state_name() == "Attack":
+			state_machine.set_state("Idle")
+		elif get_state_name() == "Block":
+			state_machine.set_state("Idle")
+			duration = duration*3
+		
+		var stun_timer = GAME._create_timer_delay(duration, true, true, self, "_on_stun_timer_timeout")
 		add_child(stun_timer, true)
 		can_attack = false
+		can_block = false
 		animated_sprite.set_material(white_mat)
 	else:
 		can_attack = true
+		can_block = true
 		animated_sprite.set_material(get_material())
 
 ## STATS
@@ -471,7 +489,10 @@ func _on_weight_changed(oldWeight, newWeight) -> void:
 		pathfinder.update_pos_point(current_tile, newWeight)
 
 func _on_weapon_hit() -> void:
-	pass
+	set_state("Idle")
+
+func _on_shield_hit() -> void:
+	set_state("Idle")
 
 func _on_attack_cd_timeout(timer_timeout : Timer) -> void:
 	timer_timeout.queue_free()

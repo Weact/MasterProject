@@ -18,13 +18,19 @@ var kiteDist = 10.0
 signal target_in_chase_area_changed
 signal target_in_attack_area_changed
 signal move_path_finished
+signal target_changed
 
-var target  : Node2D = null
+var target  : Node2D = null setget set_target
 
 #### ACCESSORS ####
+func set_target(value : Node2D) -> void:
+	if target != value:
+		target = value
+		emit_signal("target_changed", target)
+	
 func _update_target() -> void:
 	if !target_in_attack_area && !target_in_chase_area:
-		target = null
+		set_target(null)
 
 func set_target_in_chase_area(value : bool) -> void:
 	if value != target_in_chase_area:
@@ -131,17 +137,17 @@ func move_along_path(delta: float) -> void:
 #### SIGNAL RESPONSES ####
 func _on_chaseArea_body_entered(body : PhysicsBody2D ) -> void:
 	if body is Player:
-		target = body
+		set_target(body)
 		set_target_in_chase_area(true)
 		
 func _on_chaseArea_body_exited(body : PhysicsBody2D ) -> void:
 	if body is Player:
-		target = null
+		set_target(null)
 		set_target_in_chase_area(false)
 		
 func _on_attackArea_body_entered(body : PhysicsBody2D ) -> void:
 	if body is Player:
-		target = body
+		set_target(body)
 		set_target_in_attack_area(true)
 		
 func _on_attackArea_body_exited(body : PhysicsBody2D ) -> void:
