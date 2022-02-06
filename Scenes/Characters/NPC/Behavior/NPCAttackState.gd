@@ -11,6 +11,7 @@ func enter_state() -> void:
 		return
 	minDist = rand_range(16, 45)
 		
+	state_machine.tryDodge()
 	owner.set_look_direction(rad2deg((owner.target.position - owner.position).angle()))
 	owner.update_move_path(owner.target.position)
 	nbOfAttack = randi() % 4 +1

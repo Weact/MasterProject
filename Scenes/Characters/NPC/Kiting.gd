@@ -8,8 +8,7 @@ func get_class() -> String: return ""
 func call_state() -> void:
 	if state_machine != null:
 		state_machine.kite()
-		if randi()% 3 == 0:
-			owner.dodge()
+		state_machine.tryDodge()
 	
 func enter_state() -> void:
 	pass
