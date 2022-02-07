@@ -293,7 +293,7 @@ func unstun() -> void:
 	set_stunned(false)
 
 func dodge() -> void:
-	if get_state_name() == "Move" and stamina >= dodge_cost and not get_state_name() == "Dodge":
+	if stamina >= dodge_cost and not get_state_name() == "Dodge":
 		set_state("Dodge")
 		
 		yield(get_tree().create_timer(dodging_time), "timeout")
