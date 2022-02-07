@@ -1,7 +1,7 @@
 extends StateMachine
-class_name NPCKitingBehavior
-func is_class(value: String): return value == "NPCKitingBehavior" or .is_class(value)
-func get_class() -> String: return "NPCKitingBehavior"
+class_name NPCFightingBehavior
+func is_class(value: String): return value == "NPCFightingBehavior" or .is_class(value)
+func get_class() -> String: return "NPCFightingBehavior"
 
 var offAngle : float = PI
 var min_dist : float = 32.0
