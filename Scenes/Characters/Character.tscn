@@ -11,13 +11,13 @@
 [ext_resource path="res://Scenes/Characters/Character.gd" type="Script" id=9]
 [ext_resource path="res://Behaviors/Damage/DamageableBehavior.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Scenes/Weapons/Melee/Shield.tscn" type="PackedScene" id=11]
-[ext_resource path="res://Scenes/Characters/ShieldPoint.gd" type="Script" id=12]
+[ext_resource path="res://Scenes/Characters/WeaponsPoint.gd" type="Script" id=12]
 [ext_resource path="res://Scenes/Characters/States/CharacterDodgeState.gd" type="Script" id=13]
 [ext_resource path="res://Scenes/Weapons/Melee/WeaponPointMelee.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Scenes/Weapons/block.tres" type="Animation" id=15]
 [ext_resource path="res://white_mat.tres" type="Material" id=16]
 [ext_resource path="res://Scenes/Weapons/attack.tres" type="Animation" id=17]
-[ext_resource path="res://Scenes/Characters/GuardBreak.gd" type="Script" id=18]
+[ext_resource path="res://Scenes/Characters/States/CharacterGuardBreak.gd" type="Script" id=18]
 
 [sub_resource type="Animation" id=3]
 resource_name = "GuardBreak_hit"
@@ -269,19 +269,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 0.15 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 10, 0 ), Vector2( 3, 2 ) ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("ShieldPoint:rotation_degrees")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.15 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 0.0, 20.0 ]
+"values": [ Vector2( 10, 0 ), Vector2( 3, 0 ) ]
 }
 
 [node name="Character" type="KinematicBody2D"]
@@ -313,10 +301,8 @@ blend_times = [ "attack", "attack", 1.0, "attack", "block", 1.0, "attack", "guar
 
 [node name="ShieldPoint" type="Node2D" parent="WeaponsPoint"]
 position = Vector2( 3, 2 )
-rotation = -0.236996
 
 [node name="Shield" parent="WeaponsPoint/ShieldPoint" instance=ExtResource( 11 )]
-position = Vector2( 0, -3 )
 weapon_handler_node_path = NodePath("../../..")
 
 [node name="WeaponPoint" type="Node2D" parent="WeaponsPoint"]

@@ -27,6 +27,9 @@ func set_target(value : Node2D) -> void:
 	if target != value:
 		target = value
 		emit_signal("target_changed", target)
+
+func get_target() -> Node2D:
+	return target
 	
 func _update_target() -> void:
 	if !target_in_attack_area && !target_in_chase_area:

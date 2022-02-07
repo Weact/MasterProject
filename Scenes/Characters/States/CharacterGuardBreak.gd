@@ -1,6 +1,7 @@
 extends State
-func is_class(value: String): return value == "" or .is_class(value)
-func get_class() -> String: return ""
+class_name CharacterGuardBreakState
+func is_class(value: String): return value == "CharacterGuardBreakState" or .is_class(value)
+func get_class() -> String: return "CharacterGuardBreakState"
 
 #### ACCESSORS ####
 

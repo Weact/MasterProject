@@ -156,7 +156,6 @@ anims/unblock = SubResource( 17 )
 
 [node name="ShieldPoint" parent="WeaponsPoint" index="1"]
 position = Vector2( 6, 0 )
-rotation = 0.0
 
 [node name="WeaponPoint" parent="WeaponsPoint" index="2"]
 position = Vector2( 0, 0 )
