@@ -35,6 +35,11 @@ _global_script_classes=[ {
 "path": "res://Scenes/Characters/States/CharacterDodgeState.gd"
 }, {
 "base": "State",
+"class": "CharacterGuardBreakState",
+"language": "GDScript",
+"path": "res://Scenes/Characters/States/CharacterGuardBreak.gd"
+}, {
+"base": "State",
 "class": "CharacterHitState",
 "language": "GDScript",
 "path": "res://Scenes/Characters/States/CharacterHitState.gd"
@@ -134,6 +139,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Characters/Player/Inputs/Inputs.gd"
 }, {
+"base": "WeaponPointMelee",
+"class": "Shield",
+"language": "GDScript",
+"path": "res://Scenes/Weapons/Melee/Shield.gd"
+}, {
 "base": "Node",
 "class": "State",
 "language": "GDScript",
@@ -170,6 +180,7 @@ _global_script_class_icons={
 "CharacterBlockState": "",
 "CharacterDeathState": "",
 "CharacterDodgeState": "",
+"CharacterGuardBreakState": "",
 "CharacterHitState": "",
 "CharacterIdleState": "",
 "CharacterInteractState": "",
@@ -190,6 +201,7 @@ _global_script_class_icons={
 "Pathfinder": "",
 "Player": "",
 "PlayerInput": "",
+"Shield": "",
 "State": "",
 "StateLabel": "",
 "StateMachine": "",
