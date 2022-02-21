@@ -14,11 +14,14 @@ onready var informations_panel : Node2D = get_node("Infos")
 var pathfinder : Pathfinder = null setget set_pathfinder
 signal pathfinder_changed
 
-## STATS
+## WEAPONS
 onready var weapons_node : Node2D = get_node_or_null("WeaponsPoint")
 onready var weapon_node : Node2D = weapons_node.get_node_or_null("WeaponPoint/Weapon")
 onready var shield_node : Node2D = weapons_node.get_node_or_null("ShieldPoint/Shield")
 
+onready var weapons_animation_player_node : AnimationPlayer = get_node_or_null("WeaponsPoint/AnimationPlayer")
+
+## STATS
 
 export var weight : int = 5
 signal weight_changed()
@@ -72,6 +75,7 @@ export var facing_left : bool = false setget set_facing_left, is_facing_left
 
 ## COMBAT
 export var attack_power : int = 0 setget set_attack_power, get_attack_power
+onready var initial_attack_power : int = attack_power
 signal attack_power_changed
 
 export var attack_cooldown : float = 3.0
@@ -259,8 +263,8 @@ func _ready() -> void:
 	__ = connect("weight_changed", self, "_on_weight_changed")
 	init_panels()
 
-	weapon_node.set_anim_player(weapons_node.get_node("AnimationPlayer"))
-	shield_node.set_anim_player(weapons_node.get_node("AnimationPlayer"))
+	weapon_node.set_anim_player(weapons_animation_player_node)
+	shield_node.set_anim_player(weapons_animation_player_node)
 	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
 
 func _physics_process(_delta: float) -> void:
