@@ -1,10 +1,11 @@
 extends StateMachine
-func is_class(value: String): return value == "" or .is_class(value)
-func get_class() -> String: return ""
+class_name NPCFightingBehavior
+func is_class(value: String): return value == "NPCFightingBehavior" or .is_class(value)
+func get_class() -> String: return "NPCFightingBehavior"
 
 var offAngle : float = PI
-var min_dist = 32.0
-var max_dist = 128.0
+var min_dist : float = 32.0
+var max_dist : float = 128.0
 
 onready var timer = $Timer
 #### ACCESSORS ####
