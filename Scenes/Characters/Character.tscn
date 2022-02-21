@@ -15,7 +15,7 @@
 [ext_resource path="res://Scenes/Characters/States/CharacterDodgeState.gd" type="Script" id=13]
 [ext_resource path="res://Scenes/Weapons/Melee/WeaponPointMelee.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Scenes/Weapons/block.tres" type="Animation" id=15]
-[ext_resource path="res://white_mat.tres" type="Material" id=16]
+[ext_resource path="res://Scenes/Characters/Materials/HitEffect/HitEffect.tres" type="Material" id=16]
 [ext_resource path="res://Scenes/Weapons/attack.tres" type="Animation" id=17]
 [ext_resource path="res://Scenes/Characters/States/CharacterGuardBreak.gd" type="Script" id=18]
 
