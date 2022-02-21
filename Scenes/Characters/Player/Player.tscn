@@ -60,11 +60,6 @@ animations = [ {
 "loop": true,
 "name": "Hit",
 "speed": 5.0
-}, {
-"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
-"loop": true,
-"name": "Idle",
-"speed": 7.0
 } ]
 
 [sub_resource type="Animation" id=17]
