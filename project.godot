@@ -34,7 +34,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Characters/States/CharacterDodgeState.gd"
 }, {
-"base": "State",
+"base": "StateMachine",
 "class": "CharacterGuardBreakState",
 "language": "GDScript",
 "path": "res://Scenes/Characters/States/CharacterGuardBreak.gd"

@@ -26,8 +26,8 @@ signal weight_changed()
 export var health_point : int = 0
 signal health_point_changed()
 
-export var stamina : int = 0
-var regen_stamina_value : int = 1
+export var stamina : float = 0
+var regen_stamina_value : float = 1
 var stamina_regen_delay : float = 0.5
 var timer_stamina_regen : Timer = null
 signal stamina_changed()
@@ -63,6 +63,7 @@ var rot_velocity : float = 0.0
 
 var rotation_factor : float = 1.0
 var velocity_factor : float = 1.0
+var stamina_regen_factor : float = 1.0
 
 export var white_mat : Material = null
 onready var dodge_sprite_animation : PackedScene = preload("res://Scenes/Characters/Player/DodgeSprite/DodgeSprite.tscn")
@@ -145,21 +146,22 @@ func is_stunned() -> bool:
 	return stunned
 
 ## STAMINA
-func set_stamina(new_stamina: int) -> void:
+func set_stamina(new_stamina: float) -> void:
 	if stamina != new_stamina:
 		stamina = new_stamina
 
 		if stamina < 0: stamina = 0
+		if stamina > 100: stamina = 100
 		emit_signal("stamina_changed")
 
 
-func get_stamina() -> int:
+func get_stamina() -> float:
 	return stamina
 
-func add_stamina(value: int) -> void:
+func add_stamina(value: float) -> void:
 	set_stamina(stamina + value)
 
-func remove_stamina(value: int) -> void:
+func remove_stamina(value: float) -> void:
 	set_stamina(stamina - value)
 
 ## ATTACK POWER
@@ -381,9 +383,8 @@ func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: boo
 	return new_timer
 
 func _regen_stamina() -> void:
-	if get_stamina() < 100:
-		add_stamina(regen_stamina_value)
-
+	add_stamina(float(regen_stamina_value) * stamina_regen_factor)
+		
 func die() -> void:
 	set_weight(0)
 	set_state("Death")
@@ -403,9 +404,14 @@ func block() -> void:
 	if(can_block and state_machine.get_state_name() != "Attack" and state_machine.get_state_name() != "GuardBreak"):
 		state_machine.set_state("Block")
 
+func prep_guardBreak() -> void:
+	if(state_machine.get_state_name() == "Attack" or state_machine.get_state_name() == "GuardBreak"):
+		return
+	state_machine.set_state("GuardBreak")
+	
 func guardBreak() -> void:
-	if(state_machine.get_state_name() != "Attack"):
-		state_machine.set_state("GuardBreak")
+	if(state_machine.get_state_name() == "GuardBreak"):
+		state_machine.current_state.hit()
 	
 #### INPUTS ####
 

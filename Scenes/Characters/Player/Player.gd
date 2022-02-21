@@ -101,12 +101,15 @@ func action(action_name: String) -> void:
 			dirDown = 0
 		"Attack_Pressed":
 			if blockPressed:
-				guardBreak()
+				prep_guardBreak()
 			else:
 				attack()
-				attackPressed = true
+				
+			attackPressed = true
 			
 		"Attack_Released":
+			if blockPressed:
+				guardBreak()
 			attackPressed = false
 		"Block_Pressed":
 			block()
@@ -124,7 +127,7 @@ func action(action_name: String) -> void:
 	set_direction(Vector2(dirRight - dirLeft, dirDown - dirUp))
 
 func unblock() -> void:
-	if(state_machine.get_state_name() != "Attack" and state_machine.get_state_name() != "GuardBreak"):
+	if(state_machine.get_state_name() != "Attack" and (state_machine.get_state_name() != "GuardBreak" or state_machine.current_state.get_state_name() == "Prep")):
 		state_machine.set_state("Idle")
  
 #### INPUTS ####
