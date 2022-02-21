@@ -26,8 +26,8 @@ signal weight_changed()
 export var health_point : int = 0
 signal health_point_changed()
 
-export var stamina : float = 0
-var regen_stamina_value : float = 1
+export var stamina : float = 0.0
+var regen_stamina_value : float = 1.0
 var stamina_regen_delay : float = 0.5
 var timer_stamina_regen : Timer = null
 signal stamina_changed()
@@ -383,7 +383,7 @@ func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: boo
 	return new_timer
 
 func _regen_stamina() -> void:
-	add_stamina(float(regen_stamina_value) * stamina_regen_factor)
+	add_stamina(regen_stamina_value * stamina_regen_factor)
 		
 func die() -> void:
 	set_weight(0)
