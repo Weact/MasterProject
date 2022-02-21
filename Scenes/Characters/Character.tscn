@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Scenes/Characters/States/CharacterDeath.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Characters/States/CharacterAttack.gd" type="Script" id=2]
@@ -18,6 +18,9 @@
 [ext_resource path="res://Scenes/Characters/Materials/HitEffect/HitEffect.tres" type="Material" id=16]
 [ext_resource path="res://Scenes/Weapons/attack.tres" type="Animation" id=17]
 [ext_resource path="res://Scenes/Characters/States/CharacterGuardBreak.gd" type="Script" id=18]
+[ext_resource path="res://Scenes/StateMachine/State.gd" type="Script" id=19]
+[ext_resource path="res://Scenes/Characters/Player/GuardBreak_Hitting.gd" type="Script" id=20]
+[ext_resource path="res://Scenes/Characters/Player/GuardBreak_Prep.gd" type="Script" id=21]
 
 [sub_resource type="Animation" id=3]
 resource_name = "GuardBreak_hit"
@@ -25,15 +28,15 @@ length = 0.25
 step = 0.05
 tracks/0/type = "value"
 tracks/0/path = NodePath("WeaponPoint:position")
-tracks/0/interp = 1
+tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 0.25, 0.6 ),
-"transitions": PoolRealArray( 0.732043, 5.46415, 3.13834, 1 ),
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 0.482968, 5.46415 ),
 "update": 0,
-"values": [ Vector2( -1, 0 ), Vector2( 1, 0 ), Vector2( 1, 0 ), Vector2( 0, 0 ) ]
+"values": [ Vector2( -1, 0 ), Vector2( 1, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("WeaponPoint:rotation_degrees")
@@ -42,22 +45,22 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 0.25, 0.6 ),
-"transitions": PoolRealArray( 0.732043, 5.46415, 3.13834, 1 ),
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 0.482968, 5.46415 ),
 "update": 0,
-"values": [ 15.0, 30.0, 30.0, 20.0 ]
+"values": [ 15.0, 30.0 ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("ShieldPoint:position")
-tracks/2/interp = 1
+tracks/2/interp = 2
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.2, 0.25, 0.6 ),
-"transitions": PoolRealArray( 0.732043, 5.46415, 1.8025, 0.517633 ),
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 0.482968, 5.46415 ),
 "update": 0,
-"values": [ Vector2( 8, 4 ), Vector2( 8, -6 ), Vector2( 8, -6 ), Vector2( 6, 0 ) ]
+"values": [ Vector2( 8, 4 ), Vector2( 8, -6 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("ShieldPoint:rotation_degrees")
@@ -66,67 +69,14 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.2, 0.25, 0.6 ),
-"transitions": PoolRealArray( 0.732043, 5.46415, 1.8025, 0.517633 ),
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 0.482968, 5.46415 ),
 "update": 0,
-"values": [ 30.0, -21.3, -21.3, 0.0 ]
+"values": [ 30.0, -21.3 ]
 }
 
 [sub_resource type="Animation" id=4]
 resource_name = "GuardBreak_prep"
-length = 0.15
-step = 0.05
-tracks/0/type = "value"
-tracks/0/path = NodePath("WeaponPoint:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.15 ),
-"transitions": PoolRealArray( 1.93187, 0.732043 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( -1, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("WeaponPoint:rotation_degrees")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.15 ),
-"transitions": PoolRealArray( 1.93187, 0.732043 ),
-"update": 0,
-"values": [ 20.0, 15.0 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("ShieldPoint:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.15 ),
-"transitions": PoolRealArray( 1.93187, 0.732043 ),
-"update": 0,
-"values": [ Vector2( 6, 0 ), Vector2( 8, 4 ) ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("ShieldPoint:rotation_degrees")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.15 ),
-"transitions": PoolRealArray( 1.93187, 0.732043 ),
-"update": 0,
-"values": [ 0.0, 30.0 ]
-}
-
-[sub_resource type="Animation" id=5]
-resource_name = "GuardBreak_recov"
 length = 0.35
 step = 0.05
 tracks/0/type = "value"
@@ -137,6 +87,59 @@ tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.35 ),
+"transitions": PoolRealArray( 1.46408, 0.732043 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( -1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("WeaponPoint:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.35 ),
+"transitions": PoolRealArray( 1.46408, 0.732043 ),
+"update": 0,
+"values": [ 20.0, 15.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ShieldPoint:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.35 ),
+"transitions": PoolRealArray( 1.46408, 0.732043 ),
+"update": 0,
+"values": [ Vector2( 6, 0 ), Vector2( 8, 4 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("ShieldPoint:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.35 ),
+"transitions": PoolRealArray( 1.46408, 0.732043 ),
+"update": 0,
+"values": [ 0.0, 30.0 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "GuardBreak_recov"
+length = 0.45
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("WeaponPoint:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.45 ),
 "transitions": PoolRealArray( 3.13834, 1 ),
 "update": 0,
 "values": [ Vector2( 1, 0 ), Vector2( 0, 0 ) ]
@@ -148,7 +151,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.35 ),
+"times": PoolRealArray( 0, 0.45 ),
 "transitions": PoolRealArray( 3.13834, 1 ),
 "update": 0,
 "values": [ 30.0, 20.0 ]
@@ -160,7 +163,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.35 ),
+"times": PoolRealArray( 0, 0.45 ),
 "transitions": PoolRealArray( 1.8025, 0.517633 ),
 "update": 0,
 "values": [ Vector2( 8, -6 ), Vector2( 6, 0 ) ]
@@ -172,7 +175,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.35 ),
+"times": PoolRealArray( 0, 0.45 ),
 "transitions": PoolRealArray( 1.8025, 0.517633 ),
 "update": 0,
 "values": [ -21.3, 0.0 ]
@@ -293,21 +296,17 @@ anims/attack = ExtResource( 17 )
 anims/block = ExtResource( 15 )
 anims/guardBreak = SubResource( 2 )
 anims/unblock = SubResource( 1 )
-next/GuardBreak_hit = "GuardBreak_recov"
-next/GuardBreak_prep = "GuardBreak_hit"
-next/GuardBreak_recov = "unblock"
 next/guardBreak = "block"
-blend_times = [ "attack", "attack", 1.0, "attack", "block", 1.0, "attack", "guardBreak", 1.0, "attack", "unblock", 1.0 ]
+blend_times = [ "GuardBreak_prep", "unblock", 0.1, "attack", "attack", 1.0, "attack", "block", 1.0, "attack", "guardBreak", 1.0, "attack", "unblock", 1.0 ]
 
 [node name="ShieldPoint" type="Node2D" parent="WeaponsPoint"]
-position = Vector2( 3, 2 )
+position = Vector2( 6, 0 )
 
 [node name="Shield" parent="WeaponsPoint/ShieldPoint" instance=ExtResource( 11 )]
 weapon_handler_node_path = NodePath("../../..")
 
 [node name="WeaponPoint" type="Node2D" parent="WeaponsPoint"]
-position = Vector2( 3, 0 )
-rotation = -0.349066
+rotation = 0.349066
 
 [node name="Weapon" parent="WeaponsPoint/WeaponPoint" instance=ExtResource( 14 )]
 weapon_handler_node_path = NodePath("../../..")
@@ -329,6 +328,15 @@ script = ExtResource( 2 )
 
 [node name="GuardBreak" type="Node" parent="StateMachine"]
 script = ExtResource( 18 )
+
+[node name="Prep" type="Node" parent="StateMachine/GuardBreak"]
+script = ExtResource( 21 )
+
+[node name="Hitting" type="Node" parent="StateMachine/GuardBreak"]
+script = ExtResource( 20 )
+
+[node name="Recovery" type="Node" parent="StateMachine/GuardBreak"]
+script = ExtResource( 19 )
 
 [node name="Block" type="Node" parent="StateMachine"]
 script = ExtResource( 3 )

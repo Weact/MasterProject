@@ -12,11 +12,15 @@ func get_class() -> String: return "CharacterMoveState"
 
 # Override of State's enter_state
 func enter_state():
-	pass
+	if !is_instance_valid(owner):
+		return
+	owner.stamina_regen_factor = 0.9
 
 # Override of State's exit_state
 func exit_state():
-	pass
+	if !is_instance_valid(owner):
+		return
+	owner.stamina_regen_factor = 1.0
 
 # Override of State's update_state
 func update(_delta):
