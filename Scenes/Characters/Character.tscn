@@ -401,8 +401,8 @@ next/guardBreak = "block"
 blend_times = [ "GuardBreak_prep", "unblock", 0.1, "attack", "attack", 1.0, "attack", "block", 1.0, "attack", "guardBreak", 1.0, "attack", "unblock", 1.0 ]
 
 [node name="ShieldPoint" type="Node2D" parent="WeaponsPoint"]
-position = Vector2( 3, 2 )
-rotation = 0.523599
+position = Vector2( 8, 4 )
+rotation = 0.349066
 
 [node name="Shield" parent="WeaponsPoint/ShieldPoint" instance=ExtResource( 11 )]
 weapon_handler_node_path = NodePath("../../..")
@@ -443,6 +443,7 @@ script = ExtResource( 19 )
 
 [node name="ChargedAttack" type="Node" parent="StateMachine"]
 script = ExtResource( 22 )
+is_unlocked = true
 
 [node name="Prep" type="Node" parent="StateMachine/ChargedAttack"]
 script = ExtResource( 23 )

@@ -17,7 +17,11 @@ func call_state():
 
 # Called when the current state of the state machine is set to this node
 func enter_state():
-	pass
+	if not is_instance_valid(owner):
+		return
+	
+	if "weapon_animation_player_node" in owner:
+		owner.weapon_animation_player_node.play("charged_recov")
 
 # Called when the current state of the state machine is switched to another one
 func exit_state():

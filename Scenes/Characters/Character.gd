@@ -387,7 +387,7 @@ func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: boo
 	return new_timer
 
 func _regen_stamina() -> void:
-	add_stamina(	regen_stamina_value * stamina_regen_factor)
+	add_stamina(regen_stamina_value * stamina_regen_factor)
 		
 func die() -> void:
 	set_weight(0)
@@ -416,7 +416,20 @@ func prep_guardBreak() -> void:
 func guardBreak() -> void:
 	if(state_machine.get_state_name() == "GuardBreak"):
 		state_machine.current_state.hit()
-	
+
+# TO BE REPLACED WITH SKILLS NODE AND USE A SKILL TREE
+func prep_charged_attack() -> void:
+	if state_machine.get_state_name() == "Idle" or state_machine.get_state_name() == "Move":
+		var charged_attack_state = get_node("StateMachine/ChargedAttack")
+		if stamina >= charged_attack_state.charged_attack_cost:
+			if not charged_attack_state.on_cooldown:
+				state_machine.set_state("ChargedAttack")
+
+func charged_attack() -> void:
+	if state_machine.get_state_name() == "ChargedAttack":
+		return
+	state_machine.current_state.trigger_attack()
+
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####

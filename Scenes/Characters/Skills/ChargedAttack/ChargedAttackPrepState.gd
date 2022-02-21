@@ -15,11 +15,12 @@ func call_state():
 
 # Called when the current state of the state machine is set to this node
 func enter_state():
-	if "on_cooldown" in owner and not owner.on_cooldown:
-		owner.on_cooldown = true
-		
-		if "cooldown_timer" in owner:
-			owner.cooldown_timer.start()
+	if not is_instance_valid(owner):
+		return
+	if "weapons_animation_player_node" in owner:
+		owner.weapons_animation_player_node.play("charged_prep")
+	
+	owner.prep_timer.start()
 
 # Called when the current state of the state machine is switched to another one
 func exit_state():
