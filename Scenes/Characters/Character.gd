@@ -390,7 +390,7 @@ func die() -> void:
 	set_state("Death")
 
 func attack() -> void:
-	if can_attack:
+	if can_attack && state_machine.get_state_name() != "GuardBreak":
 		if not is_instance_valid(attack_cd_timer):
 			attack_cd_timer = GAME._create_timer_delay(attack_cooldown, true, true, self, "_on_attack_cd_timeout")
 			attack_cd_timer.set_name(get_name() + "AttackCooldownTimer")
