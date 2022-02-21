@@ -34,6 +34,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Characters/States/CharacterDodgeState.gd"
 }, {
+"base": "State",
+"class": "CharacterGuardBreakHittingState",
+"language": "GDScript",
+"path": "res://Scenes/Characters/Player/GuardBreak_Hitting.gd"
+}, {
+"base": "State",
+"class": "CharacterGuardBreakPrepState",
+"language": "GDScript",
+"path": "res://Scenes/Characters/Player/GuardBreak_Prep.gd"
+}, {
 "base": "StateMachine",
 "class": "CharacterGuardBreakState",
 "language": "GDScript",
@@ -160,6 +170,8 @@ _global_script_class_icons={
 "CharacterBlockState": "",
 "CharacterDeathState": "",
 "CharacterDodgeState": "",
+"CharacterGuardBreakHittingState": "",
+"CharacterGuardBreakPrepState": "",
 "CharacterGuardBreakState": "",
 "CharacterHitState": "",
 "CharacterIdleState": "",

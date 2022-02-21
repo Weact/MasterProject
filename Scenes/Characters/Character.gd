@@ -383,7 +383,7 @@ func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: boo
 	return new_timer
 
 func _regen_stamina() -> void:
-	add_stamina(regen_stamina_value * stamina_regen_factor)
+	add_stamina(	regen_stamina_value * stamina_regen_factor)
 		
 func die() -> void:
 	set_weight(0)
