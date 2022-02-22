@@ -18,9 +18,9 @@ block_power = 10
 [node name="NPC" parent="NPC" index="0" instance=ExtResource( 3 )]
 position = Vector2( 488, 488 )
 health_point = 500
-stamina = 500.0
 attack_power = 0
 block_power = 0
+stamina = 500.0
 difficulty = 0.0
 
 [node name="Rock" parent="Obstacles/Rocks" index="0" instance=ExtResource( 4 )]

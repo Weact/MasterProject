@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://Scenes/Characters/States/CharacterDeath.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Characters/States/CharacterAttack.gd" type="Script" id=2]
@@ -25,6 +25,7 @@
 [ext_resource path="res://Scenes/Characters/Skills/ChargedAttack/ChargedAttackPrepState.gd" type="Script" id=23]
 [ext_resource path="res://Scenes/Characters/Skills/ChargedAttack/ChargedAttackHittingState.gd" type="Script" id=24]
 [ext_resource path="res://Scenes/Characters/Skills/ChargedAttack/ChargedAttackRecoveryState.gd" type="Script" id=25]
+[ext_resource path="res://Scenes/Skill/skills/Attack.tscn" type="PackedScene" id=26]
 
 [sub_resource type="Animation" id=3]
 resource_name = "GuardBreak_hit"
@@ -399,23 +400,27 @@ anims/charged_recov = SubResource( 8 )
 anims/guardBreak = SubResource( 2 )
 anims/unblock = SubResource( 1 )
 next/guardBreak = "block"
-blend_times = [ "GuardBreak_prep", "unblock", 0.1, "attack", "attack", 1.0, "attack", "block", 1.0, "attack", "guardBreak", 1.0, "attack", "unblock", 1.0 ]
+blend_times = [ "GuardBreak_prep", "unblock", 0.1 ]
 
 [node name="ShieldPoint" type="Node2D" parent="WeaponsPoint"]
-position = Vector2( 8, -6 )
-rotation = -0.371755
+position = Vector2( 3, 2 )
+rotation = 0.523599
 
 [node name="Shield" parent="WeaponsPoint/ShieldPoint" instance=ExtResource( 11 )]
 weapon_handler_node_path = NodePath("../../..")
 
 [node name="WeaponPoint" type="Node2D" parent="WeaponsPoint"]
-position = Vector2( -7, 0 )
-rotation = 0.523599
+position = Vector2( 3, 0 )
+rotation = -0.349066
 
 [node name="Weapon" parent="WeaponsPoint/WeaponPoint" instance=ExtResource( 14 )]
 weapon_handler_node_path = NodePath("../../..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="Skills" type="Node" parent="."]
+
+[node name="Attack" parent="Skills" instance=ExtResource( 26 )]
 
 [node name="StateMachine" type="Node2D" parent="."]
 visible = false

@@ -4,6 +4,7 @@ class_name Character
 func is_class(value: String): return value == "Character" or .is_class(value)
 func get_class() -> String: return "Character"
 
+onready var skill_tree = get_node("Skills")
 onready var state_machine = get_node("StateMachine")
 onready var animated_sprite : AnimatedSprite = get_node("AnimatedSprite")
 onready var collision_shape : CollisionShape2D = get_node("CollisionShape2D")
@@ -16,6 +17,8 @@ signal pathfinder_changed
 
 ## WEAPONS
 onready var weapons_node : Node2D = get_node_or_null("WeaponsPoint")
+onready var weapon_point : Node2D = weapons_node.get_node_or_null("WeaponPoint")
+onready var shield_point : Node2D = weapons_node.get_node_or_null("ShieldPoint")
 onready var weapon_node : Node2D = weapons_node.get_node_or_null("WeaponPoint/Weapon")
 onready var shield_node : Node2D = weapons_node.get_node_or_null("ShieldPoint/Shield")
 
@@ -267,8 +270,6 @@ func _ready() -> void:
 	__ = connect("weight_changed", self, "_on_weight_changed")
 	init_panels()
 
-	weapon_node.set_anim_player(weapons_animation_player_node)
-	shield_node.set_anim_player(weapons_animation_player_node)
 	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
 
 func _physics_process(_delta: float) -> void:
@@ -400,6 +401,23 @@ func die() -> void:
 	set_weight(0)
 	set_state("Death")
 
+func has_skill(skill_name : String) -> bool:
+	var exist : bool = false
+	
+	for skill in skill_tree.get_children():
+		if skill.name == skill_name:
+			exist = true
+	
+	return exist
+	
+func get_skill(skill_name : String) -> Node2D:
+	for skill in skill_tree.get_children():
+		if skill.name == skill_name:
+			return skill
+			
+	return null
+	
+
 func attack(mode : String = "basic") -> void:
 	if is_recovering():
 		return
@@ -412,7 +430,12 @@ func attack(mode : String = "basic") -> void:
 		
 		var charged_attack_state := get_node("StateMachine/ChargedAttack")
 		if mode == "basic":
-			set_state("Attack")
+			if has_skill("Attack"):
+				var attackSkill = get_skill("Attack")
+				if attackSkill != null :
+					attackSkill.prepare()
+			else:
+				set_state("Attack")
 		elif !stamina < charged_attack_state.stamina_cost:
 			prep_charged_attack()
 

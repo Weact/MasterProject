@@ -17,7 +17,7 @@ var attackPressed : bool = false
 #### BUILT-IN ####
 
 func _ready() -> void:
-	pass
+	$Skills/Attack.add_skill(self)
 
 
 #### VIRTUALS ####
