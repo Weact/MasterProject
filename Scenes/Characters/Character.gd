@@ -85,8 +85,6 @@ var can_block : bool = true
 var attack_cd_timer : Timer = null
 var charged_ready : bool = false
 
-var recovering : bool = false
-
 # Block power stat define how much damage the character can block :
 # Damage = base_damage - block_power
 # [hp: 100; block_power: 20; will_take: 35 damage => hp: 100 - (35-20) 15 => hp: 85]
@@ -107,6 +105,7 @@ export var default_state : String = ""
 func set_state(value): $StateMachine.set_state(value)
 func get_state() -> Object: return $StateMachine.get_state()
 func get_state_name() -> String: return $StateMachine.get_state_name()
+func is_recovering() -> bool: return $StateMachine.get_state_name() == "ChargedAttack" and $StateMachine.current_state.get_state_name() == "Recovering"
 
 #### ACCESSORS ####
 ##PATHFINDER WEIGHT
@@ -309,7 +308,7 @@ func unstun() -> void:
 
 func dodge() -> void:
 	if  get_state_name() != "Move" and get_state_name() != "Idle":
-		if recovering:
+		if is_recovering():
 			pass
 		else:
 			return
@@ -402,7 +401,7 @@ func die() -> void:
 	set_state("Death")
 
 func attack(mode : String = "basic") -> void:
-	if recovering:
+	if is_recovering():
 		return
 	if can_attack && state_machine.get_state_name() != "GuardBreak":
 		
@@ -412,36 +411,36 @@ func attack(mode : String = "basic") -> void:
 			add_child(attack_cd_timer)
 		
 		var charged_attack_state := get_node("StateMachine/ChargedAttack")
-		if stamina < charged_attack_state.stamina_cost or mode == "basic":
+		if mode == "basic":
 			set_state("Attack")
-		else:
+		elif !stamina < charged_attack_state.stamina_cost:
 			prep_charged_attack()
 
 func block() -> void:
-	if not recovering and (can_block and state_machine.get_state_name() != "Attack" and state_machine.get_state_name() != "GuardBreak"):
+	if not is_recovering() and (can_block and state_machine.get_state_name() != "Attack" and state_machine.get_state_name() != "GuardBreak"):
 		state_machine.set_state("Block")
 
 func prep_guardBreak() -> void:
-	if recovering:
+	if is_recovering():
 		return
 	if(state_machine.get_state_name() == "Attack" or state_machine.get_state_name() == "GuardBreak"):
 		return
 	state_machine.set_state("GuardBreak")
 	
 func guardBreak() -> void:
-	if recovering:
+	if is_recovering():
 		return
 	if(state_machine.get_state_name() == "GuardBreak"):
 		state_machine.current_state.hit()
 
 # TO BE REPLACED WITH SKILLS NODE AND USE A SKILL TREE
 func prep_charged_attack() -> void:
-	if recovering:
+	if is_recovering():
 		return
 	state_machine.set_state("ChargedAttack")
 
 func charged_attack() -> void:
-	if recovering:
+	if is_recovering():
 		return
 	if(state_machine.get_state_name() == "ChargedAttack"):
 		state_machine.current_state.trigger_attack()

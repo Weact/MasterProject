@@ -131,7 +131,7 @@ func action(action_name: String) -> void:
 	set_direction(Vector2(dirRight - dirLeft, dirDown - dirUp))
 
 func unblock() -> void:
-	if not recovering and (state_machine.get_state_name() != "Attack" and (state_machine.get_state_name() != "GuardBreak" or state_machine.current_state.get_state_name() == "Prep")):
+	if not is_recovering() and (state_machine.get_state_name() != "Attack" and (state_machine.get_state_name() != "GuardBreak" or state_machine.current_state.get_state_name() == "Prep")):
 		state_machine.set_state("Idle")
  
 #### INPUTS ####

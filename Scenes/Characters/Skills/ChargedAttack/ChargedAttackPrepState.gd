@@ -19,7 +19,7 @@ func call_state():
 		
 		owner.velocity_factor = 0.3
 		owner.rotation_factor = 0.3
-		owner.stamina_regen_factor = 0.0
+		owner.stamina_regen_factor = -0.5
 		
 		owner.weapons_animation_player_node.play("charged_prep")
 

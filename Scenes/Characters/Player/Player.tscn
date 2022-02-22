@@ -121,6 +121,7 @@ radius = 4.0
 [node name="Player" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 health_point = 100
+stamina = 100.0
 movement_speed = 100.0
 max_speed = 200.0
 attack_power = 10
@@ -146,19 +147,13 @@ script = ExtResource( 6 )
 position = Vector2( 0, -4 )
 frames = SubResource( 10 )
 animation = "Idle"
-frame = 2
 playing = true
 
 [node name="AnimationPlayer" parent="WeaponsPoint" index="0"]
 anims/unblock = SubResource( 17 )
 
-[node name="ShieldPoint" parent="WeaponsPoint" index="1"]
-position = Vector2( 3, 2 )
-rotation = 0.523599
-
 [node name="WeaponPoint" parent="WeaponsPoint" index="2"]
-position = Vector2( 3, 0 )
-rotation = -0.349066
+position = Vector2( 1, 0 )
 
 [node name="CollisionShape2D" parent="." index="4"]
 shape = SubResource( 11 )

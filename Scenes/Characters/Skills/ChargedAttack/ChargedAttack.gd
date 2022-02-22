@@ -40,10 +40,6 @@ func exit_state() -> void:
 	
 	if "is_charging_attack" in owner:
 		owner.is_charging_attack = false
-		set_state(null)
-	
-	if "recovering" in owner:
-		owner.recovering = false
 	
 	owner.velocity_factor = 1.0
 	owner.rotation_factor = 1.0

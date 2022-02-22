@@ -23,12 +23,17 @@ func enter_state():
 	if "weapons_animation_player_node" in owner:
 		owner.weapons_animation_player_node.play("charged_recov")
 	
-	if "recovering" in owner:
-		owner.recovering = true
+	owner.velocity_factor = 0.1
+	owner.rotation_factor = 0.1
+	owner.stamina_regen_factor = 0.0
 
 # Called when the current state of the state machine is switched to another one
 func exit_state():
-	pass
+	if not is_instance_valid(owner):
+		return
+	owner.velocity_factor = 1.0
+	owner.rotation_factor = 1.0
+	owner.stamina_regen_factor = 1.0
 
 #### LOGIC ####
 
