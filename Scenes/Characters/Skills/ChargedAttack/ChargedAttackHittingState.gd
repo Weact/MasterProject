@@ -23,6 +23,7 @@ func enter_state():
 	owner.velocity_factor = 0.1
 	owner.rotation_factor = 0.1
 	owner.stamina_regen_factor = 0.0
+	owner.set_attack_power(owner.get_attack_power() * 1.3)
 		
 	if "weapons_animation_player_node" in owner:
 		owner.weapons_animation_player_node.play("charged_hit")
@@ -37,6 +38,7 @@ func exit_state():
 	owner.velocity_factor = 1.0
 	owner.rotation_factor = 1.0
 	owner.stamina_regen_factor = 1.0
+	owner.set_attack_power(owner.initial_attack_power)
 		
 	if is_instance_valid(owner.weapon_node):
 		owner.weapon_node.hitbox.call_deferred("set_disabled", true)

@@ -89,6 +89,9 @@ animation = "Move"
 frame = 3
 playing = true
 
+[node name="AnimationPlayer" parent="WeaponsPoint" index="0"]
+blend_times = [ "GuardBreak_prep", "unblock", 0.1, "attack", "attack", 1.0, "attack", "block", 1.0, "attack", "guardBreak", 1.0, "attack", "unblock", 1.0 ]
+
 [node name="CollisionShape2D" parent="." index="2"]
 shape = SubResource( 13 )
 

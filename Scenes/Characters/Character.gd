@@ -528,7 +528,8 @@ func _on_weight_changed(oldWeight, newWeight) -> void:
 		pathfinder.update_pos_point(current_tile, newWeight)
 
 func _on_weapon_hit() -> void:
-	set_state("Idle")
+	pass
+#	set_state("Idle")
 
 func _on_shield_hit() -> void:
 	set_state("Idle")
