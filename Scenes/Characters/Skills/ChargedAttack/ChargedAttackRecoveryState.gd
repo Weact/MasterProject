@@ -20,8 +20,11 @@ func enter_state():
 	if not is_instance_valid(owner):
 		return
 	
-	if "weapon_animation_player_node" in owner:
-		owner.weapon_animation_player_node.play("charged_recov")
+	if "weapons_animation_player_node" in owner:
+		owner.weapons_animation_player_node.play("charged_recov")
+	
+	if "recovering" in owner:
+		owner.recovering = true
 
 # Called when the current state of the state machine is switched to another one
 func exit_state():

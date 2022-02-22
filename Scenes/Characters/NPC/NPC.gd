@@ -85,7 +85,7 @@ func get_path_dist_to(to : Vector2) -> float:
 		var lenght = pathfinder.find_path(global_position, to).size()
 		if lenght >= 0:
 			return float(lenght)
-	return 99999.9	
+	return 99999.9
 		
 func get_dist_to(to : Vector2) -> float:
 	if to != null:

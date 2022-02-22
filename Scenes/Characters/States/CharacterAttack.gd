@@ -18,6 +18,11 @@ func enter_state():
 		owner.rotation_factor = 0.2
 		owner.stamina_regen_factor = 0.0
 		owner.remove_stamina(attack_cost)
+		
+		if "can_attack" in owner and "attack_cd_timer" in owner:
+			owner.can_attack = false
+			owner.attack_cd_timer.start()
+		
 		if is_instance_valid(owner.weapons_node) and is_instance_valid(owner.weapon_node):
 			owner.weapons_node.attack()
 			owner.weapon_node.hitbox.call_deferred("set_disabled", false)

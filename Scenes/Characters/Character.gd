@@ -57,6 +57,7 @@ var dodging_time : float = 0.08
 var dodge_power : float = 300.0
 var dodge_cost : int = 10
 
+
 var rotation_speed : float = 750.0
 
 var look_direction : float = 0.0
@@ -82,6 +83,9 @@ export var attack_cooldown : float = 3.0
 var can_attack : bool = true
 var can_block : bool = true
 var attack_cd_timer : Timer = null
+var charged_ready : bool = false
+
+var recovering : bool = false
 
 # Block power stat define how much damage the character can block :
 # Damage = base_damage - block_power
@@ -92,8 +96,9 @@ signal block_power_changed
 onready var current_tile : Vector2 = position setget set_current_tile
 signal current_tile_changed
 
-#warning-ignore:UNUSED_SIGNAL
+# warning-ignore:unused_signal
 signal attack_hit
+# warning-ignore:unused_signal
 signal shield_hit
 
 ## STATES
@@ -303,8 +308,11 @@ func unstun() -> void:
 	set_stunned(false)
 
 func dodge() -> void:
-	if get_state_name() != "Move" and get_state_name() != "Idle":
-		return
+	if  get_state_name() != "Move" and get_state_name() != "Idle":
+		if recovering:
+			pass
+		else:
+			return
 		
 	if stamina >= dodge_cost and not get_state_name() == "Dodge":
 		set_state("Dodge")
@@ -393,42 +401,50 @@ func die() -> void:
 	set_weight(0)
 	set_state("Death")
 
-func attack() -> void:
+func attack(mode : String = "basic") -> void:
+	if recovering:
+		return
 	if can_attack && state_machine.get_state_name() != "GuardBreak":
+		
 		if not is_instance_valid(attack_cd_timer):
 			attack_cd_timer = GAME._create_timer_delay(attack_cooldown, true, true, self, "_on_attack_cd_timeout")
 			attack_cd_timer.set_name(get_name() + "AttackCooldownTimer")
 			add_child(attack_cd_timer)
-			
-		can_attack = false
-		attack_cd_timer.start()
-		state_machine.set_state("Attack")
+		
+		var charged_attack_state := get_node("StateMachine/ChargedAttack")
+		if stamina < charged_attack_state.stamina_cost or mode == "basic":
+			set_state("Attack")
+		else:
+			prep_charged_attack()
 
 func block() -> void:
-	if(can_block and state_machine.get_state_name() != "Attack" and state_machine.get_state_name() != "GuardBreak"):
+	if not recovering and (can_block and state_machine.get_state_name() != "Attack" and state_machine.get_state_name() != "GuardBreak"):
 		state_machine.set_state("Block")
 
 func prep_guardBreak() -> void:
+	if recovering:
+		return
 	if(state_machine.get_state_name() == "Attack" or state_machine.get_state_name() == "GuardBreak"):
 		return
 	state_machine.set_state("GuardBreak")
 	
 func guardBreak() -> void:
+	if recovering:
+		return
 	if(state_machine.get_state_name() == "GuardBreak"):
 		state_machine.current_state.hit()
 
 # TO BE REPLACED WITH SKILLS NODE AND USE A SKILL TREE
 func prep_charged_attack() -> void:
-	if state_machine.get_state_name() == "Idle" or state_machine.get_state_name() == "Move":
-		var charged_attack_state = get_node("StateMachine/ChargedAttack")
-		if stamina >= charged_attack_state.charged_attack_cost:
-			if not charged_attack_state.on_cooldown:
-				state_machine.set_state("ChargedAttack")
+	if recovering:
+		return
+	state_machine.set_state("ChargedAttack")
 
 func charged_attack() -> void:
-	if state_machine.get_state_name() == "ChargedAttack":
+	if recovering:
 		return
-	state_machine.current_state.trigger_attack()
+	if(state_machine.get_state_name() == "ChargedAttack"):
+		state_machine.current_state.trigger_attack()
 
 #### INPUTS ####
 

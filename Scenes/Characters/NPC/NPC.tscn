@@ -76,7 +76,6 @@ radius = 145.986
 [node name="NPC" groups=["NPC"] instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 health_point = 10
-stamina = 10
 movement_speed = 50.0
 max_speed = 50.0
 attack_power = 5
@@ -87,6 +86,7 @@ block_power = 4
 position = Vector2( 0, -9 )
 frames = SubResource( 5 )
 animation = "Move"
+frame = 3
 playing = true
 
 [node name="CollisionShape2D" parent="." index="2"]

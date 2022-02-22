@@ -39,7 +39,7 @@ func hit():
 		return
 	if !(is_instance_valid(owner.weapons_node) and is_instance_valid(owner.weapon_node)):
 		return
-	var statename : String = get_state_name()
+
 	if !readyToHit:
 		tryingToHit = true
 		return

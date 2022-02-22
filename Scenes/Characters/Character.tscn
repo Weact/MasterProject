@@ -377,6 +377,7 @@ tracks/2/keys = {
 z_index = 1
 script = ExtResource( 9 )
 white_mat = ExtResource( 16 )
+default_state = "Idle"
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 __meta__ = {
@@ -401,15 +402,15 @@ next/guardBreak = "block"
 blend_times = [ "GuardBreak_prep", "unblock", 0.1, "attack", "attack", 1.0, "attack", "block", 1.0, "attack", "guardBreak", 1.0, "attack", "unblock", 1.0 ]
 
 [node name="ShieldPoint" type="Node2D" parent="WeaponsPoint"]
-position = Vector2( 8, 4 )
-rotation = 0.349066
+position = Vector2( 8, -6 )
+rotation = -0.371755
 
 [node name="Shield" parent="WeaponsPoint/ShieldPoint" instance=ExtResource( 11 )]
 weapon_handler_node_path = NodePath("../../..")
 
 [node name="WeaponPoint" type="Node2D" parent="WeaponsPoint"]
-position = Vector2( 3, 0 )
-rotation = -0.349066
+position = Vector2( -7, 0 )
+rotation = 0.523599
 
 [node name="Weapon" parent="WeaponsPoint/WeaponPoint" instance=ExtResource( 14 )]
 weapon_handler_node_path = NodePath("../../..")

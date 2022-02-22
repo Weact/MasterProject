@@ -20,26 +20,26 @@ func enter_state():
 	if not is_instance_valid(owner):
 		return
 		
-		owner.velocity_factor = 0.1
-		owner.rotation_factor = 0.1
-		owner.stamina_regen_factor = 0.0
+	owner.velocity_factor = 0.1
+	owner.rotation_factor = 0.1
+	owner.stamina_regen_factor = 0.0
 		
-		if "weapons_animation_player_node" in owner:
-			owner.weapons_animation_player_node.play("charged_hitting")
-			owner.weapon_node.hitbox.call_deferred("set_disabled", false)
-			owner.remove_stamina(owner.stamina_cost)
+	if "weapons_animation_player_node" in owner:
+		owner.weapons_animation_player_node.play("charged_hit")
+		owner.weapon_node.hitbox.call_deferred("set_disabled", false)
+		owner.remove_stamina(state_machine.stamina_cost)
 
 # Called when the current state of the state machine is switched to another one
 func exit_state():
 	if not is_instance_valid(owner):
 		return
 		
-		owner.velocity_factor = 1.0
-		owner.rotation_factor = 1.0
-		owner.stamina_regen_factor = 1.0
+	owner.velocity_factor = 1.0
+	owner.rotation_factor = 1.0
+	owner.stamina_regen_factor = 1.0
 		
-		if is_instance_valid(owner.weapon_node):
-			owner.weapon_node.hitbox.call_deferred("set_disabled", true)
+	if is_instance_valid(owner.weapon_node):
+		owner.weapon_node.hitbox.call_deferred("set_disabled", true)
 
 #### LOGIC ####
 
