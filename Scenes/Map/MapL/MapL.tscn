@@ -13,15 +13,15 @@ tile_data = PoolIntArray( 0, 1073741828, 0, 1, 1073741828, 0, 2, 1073741828, 0, 
 [node name="Player" parent="Player" index="0" instance=ExtResource( 2 )]
 position = Vector2( 408, 456 )
 movement_speed = 130.0
-attack_power = 25
 block_power = 10
 
 [node name="NPC" parent="NPC" index="0" instance=ExtResource( 3 )]
-position = Vector2( 456, 520 )
-health_point = 100
-stamina = 100
-movement_speed = 100.0
-attack_power = 20
+position = Vector2( 488, 488 )
+health_point = 500
+stamina = 500.0
+attack_power = 0
+block_power = 0
+difficulty = 0.0
 
 [node name="Rock" parent="Obstacles/Rocks" index="0" instance=ExtResource( 4 )]
 position = Vector2( 424, 488 )

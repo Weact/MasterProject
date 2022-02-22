@@ -79,7 +79,8 @@ func update_animation(state) -> void:
 			animated_sprite.play(state_name)
 
 func set_to_default_state() -> void:
-	 set_state(get_child(0))
+	var default_state = get_child(0)
+	set_state(default_state)
 	
 func _on_state_changed(state : Node) -> void:
 	update_animation(state)

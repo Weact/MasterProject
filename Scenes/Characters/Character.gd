@@ -14,11 +14,14 @@ onready var informations_panel : Node2D = get_node("Infos")
 var pathfinder : Pathfinder = null setget set_pathfinder
 signal pathfinder_changed
 
-## STATS
+## WEAPONS
 onready var weapons_node : Node2D = get_node_or_null("WeaponsPoint")
 onready var weapon_node : Node2D = weapons_node.get_node_or_null("WeaponPoint/Weapon")
 onready var shield_node : Node2D = weapons_node.get_node_or_null("ShieldPoint/Shield")
 
+onready var weapons_animation_player_node : AnimationPlayer = get_node_or_null("WeaponsPoint/AnimationPlayer")
+
+## STATS
 
 export var weight : int = 5
 signal weight_changed()
@@ -54,6 +57,7 @@ var dodging_time : float = 0.08
 var dodge_power : float = 300.0
 var dodge_cost : int = 10
 
+
 var rotation_speed : float = 750.0
 
 var look_direction : float = 0.0
@@ -72,12 +76,14 @@ export var facing_left : bool = false setget set_facing_left, is_facing_left
 
 ## COMBAT
 export var attack_power : int = 0 setget set_attack_power, get_attack_power
+onready var initial_attack_power : int = attack_power
 signal attack_power_changed
 
 export var attack_cooldown : float = 3.0
 var can_attack : bool = true
 var can_block : bool = true
 var attack_cd_timer : Timer = null
+var charged_ready : bool = false
 
 # Block power stat define how much damage the character can block :
 # Damage = base_damage - block_power
@@ -88,8 +94,9 @@ signal block_power_changed
 onready var current_tile : Vector2 = position setget set_current_tile
 signal current_tile_changed
 
-#warning-ignore:UNUSED_SIGNAL
+# warning-ignore:unused_signal
 signal attack_hit
+# warning-ignore:unused_signal
 signal shield_hit
 
 ## STATES
@@ -98,6 +105,7 @@ export var default_state : String = ""
 func set_state(value): $StateMachine.set_state(value)
 func get_state() -> Object: return $StateMachine.get_state()
 func get_state_name() -> String: return $StateMachine.get_state_name()
+func is_recovering() -> bool: return $StateMachine.get_state_name() == "ChargedAttack" and $StateMachine.current_state.get_state_name() == "Recovering"
 
 #### ACCESSORS ####
 ##PATHFINDER WEIGHT
@@ -259,8 +267,8 @@ func _ready() -> void:
 	__ = connect("weight_changed", self, "_on_weight_changed")
 	init_panels()
 
-	weapon_node.set_anim_player(weapons_node.get_node("AnimationPlayer"))
-	shield_node.set_anim_player(weapons_node.get_node("AnimationPlayer"))
+	weapon_node.set_anim_player(weapons_animation_player_node)
+	shield_node.set_anim_player(weapons_animation_player_node)
 	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
 
 func _physics_process(_delta: float) -> void:
@@ -299,8 +307,11 @@ func unstun() -> void:
 	set_stunned(false)
 
 func dodge() -> void:
-	if get_state_name() != "Move" and get_state_name() != "Idle":
-		return
+	if  get_state_name() != "Move" and get_state_name() != "Idle":
+		if is_recovering():
+			pass
+		else:
+			return
 		
 	if stamina >= dodge_cost and not get_state_name() == "Dodge":
 		set_state("Dodge")
@@ -383,36 +394,57 @@ func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: boo
 	return new_timer
 
 func _regen_stamina() -> void:
-	add_stamina(	regen_stamina_value * stamina_regen_factor)
+	add_stamina(regen_stamina_value * stamina_regen_factor)
 		
 func die() -> void:
 	set_weight(0)
 	set_state("Death")
 
-func attack() -> void:
+func attack(mode : String = "basic") -> void:
+	if is_recovering():
+		return
 	if can_attack && state_machine.get_state_name() != "GuardBreak":
+		
 		if not is_instance_valid(attack_cd_timer):
 			attack_cd_timer = GAME._create_timer_delay(attack_cooldown, true, true, self, "_on_attack_cd_timeout")
 			attack_cd_timer.set_name(get_name() + "AttackCooldownTimer")
 			add_child(attack_cd_timer)
-			
-		can_attack = false
-		attack_cd_timer.start()
-		state_machine.set_state("Attack")
+		
+		var charged_attack_state := get_node("StateMachine/ChargedAttack")
+		if mode == "basic":
+			set_state("Attack")
+		elif !stamina < charged_attack_state.stamina_cost:
+			prep_charged_attack()
 
 func block() -> void:
-	if(can_block and state_machine.get_state_name() != "Attack" and state_machine.get_state_name() != "GuardBreak"):
+	if not is_recovering() and (can_block and state_machine.get_state_name() != "Attack" and state_machine.get_state_name() != "GuardBreak"):
 		state_machine.set_state("Block")
 
 func prep_guardBreak() -> void:
+	if is_recovering():
+		return
 	if(state_machine.get_state_name() == "Attack" or state_machine.get_state_name() == "GuardBreak"):
 		return
 	state_machine.set_state("GuardBreak")
 	
 func guardBreak() -> void:
+	if is_recovering():
+		return
 	if(state_machine.get_state_name() == "GuardBreak"):
 		state_machine.current_state.hit()
-	
+
+# TO BE REPLACED WITH SKILLS NODE AND USE A SKILL TREE
+func prep_charged_attack() -> void:
+	if is_recovering():
+		return
+	state_machine.set_state("ChargedAttack")
+
+func charged_attack() -> void:
+	if is_recovering():
+		return
+	if(state_machine.get_state_name() == "ChargedAttack"):
+		state_machine.current_state.trigger_attack()
+
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
@@ -495,7 +527,8 @@ func _on_weight_changed(oldWeight, newWeight) -> void:
 		pathfinder.update_pos_point(current_tile, newWeight)
 
 func _on_weapon_hit() -> void:
-	set_state("Idle")
+	pass
+#	set_state("Idle")
 
 func _on_shield_hit() -> void:
 	set_state("Idle")

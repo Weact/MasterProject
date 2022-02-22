@@ -89,7 +89,7 @@ func tryDodge() -> void:
 	var chanceToDodge = owner.stamina
 	var chanceToNotDodge = 100
 	var rdm =  randi()%int(chanceToDodge+chanceToNotDodge)
-	print(rdm)
+
 	if rdm > chanceToNotDodge:
 		owner.dodge()
 			

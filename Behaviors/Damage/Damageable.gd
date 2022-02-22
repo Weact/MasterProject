@@ -19,7 +19,7 @@ export var owner_object_path : NodePath
 #### LOGIC ####
 
 func take_damage(damage) -> void:
-	var owner_object = get_tree().get_node(owner_object_path)
+	var owner_object = get_node(owner_object_path)
 	
 	if is_instance_valid(owner_object):
 		if owner_object.has_method("damaged"):
