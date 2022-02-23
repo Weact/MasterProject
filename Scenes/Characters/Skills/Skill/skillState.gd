@@ -10,7 +10,7 @@ export var stamina_cost : float = 0.0
 export var state_velocity_factor = 1.0
 export var state_rotation_factor = 1.0
 export var state_stamina_regen_factor = 1.0
-var ready = false
+var ready : bool = false
 
 #### ACCESSORS ####
 
