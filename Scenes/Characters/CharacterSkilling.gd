@@ -1,6 +1,8 @@
 extends State
-func is_class(value: String): return value == "" or .is_class(value)
-func get_class() -> String: return ""
+class_name CharacterSkillingState
+
+func is_class(value: String): return value == "CharacterSkillingState" or .is_class(value)
+func get_class() -> String: return "CharacterSkillingState"
 
 #### ACCESSORS ####
 
