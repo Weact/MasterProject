@@ -6,7 +6,7 @@ func get_class() -> String: return "Skill"
 
 var parent_character : Node2D = null
 
-onready var anim_player : AnimationPlayer = $AnimationPlayer
+onready var anim_player : AnimationPlayer = get_node_or_null("AnimationPlayer")
 #### ACCESSORS ####
 func get_stamina_cost() -> float:
 	var cost : float = 0.0
