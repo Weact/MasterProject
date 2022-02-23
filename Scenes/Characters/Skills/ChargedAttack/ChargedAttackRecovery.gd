@@ -1,6 +1,8 @@
 extends RecoverySkill
-func is_class(value: String): return value == "" or .is_class(value)
-func get_class() -> String: return ""
+class_name ChargedAttackRecoverySkill
+
+func is_class(value: String): return value == "ChargedAttackRecoverySkill" or .is_class(value)
+func get_class() -> String: return "ChargedAttackRecoverySkill"
 
 #### ACCESSORS ####
 
