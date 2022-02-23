@@ -77,7 +77,7 @@ func transfer_animations(weapon_left_path : NodePath, weapon_right_path : NodePa
 	if !is_instance_valid(parent_character) or !parent_character is Character:
 		print("No valid owner to this skill")
 		return
-	var anim_name_list = anim_player.get_animation_list()
+	var anim_name_list : PoolStringArray = anim_player.get_animation_list()
 	
 	for anim_name in anim_name_list:
 		var anim = anim_player.get_animation(anim_name)
