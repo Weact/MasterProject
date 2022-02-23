@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://Scenes/Characters/Character.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Characters/NPC/NPC.gd" type="Script" id=2]
@@ -10,7 +10,6 @@
 [ext_resource path="res://Scenes/Characters/NPC/Behavior/waitState.gd" type="Script" id=8]
 [ext_resource path="res://Scenes/Characters/NPC/Behavior/gotoState.gd" type="Script" id=9]
 [ext_resource path="res://Scenes/Characters/NPC/Behavior/chaseState.gd" type="Script" id=10]
-[ext_resource path="res://Scenes/Characters/NPC/Behavior/AttackStateNPC.gd" type="Script" id=12]
 [ext_resource path="res://Scenes/Characters/NPC/Sprites/Elf_RunSheet.png" type="Texture" id=13]
 [ext_resource path="res://Scenes/Characters/NPC/NPCFollowState.gd" type="Script" id=14]
 [ext_resource path="res://Scenes/Characters/NPC/Control.gd" type="Script" id=15]
@@ -18,22 +17,6 @@
 [ext_resource path="res://Scenes/Characters/NPC/Fighting.gd" type="Script" id=17]
 [ext_resource path="res://Scenes/Characters/NPC/Kiting.gd" type="Script" id=18]
 [ext_resource path="res://Scenes/Characters/NPC/Distancing.gd" type="Script" id=19]
-
-[sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 13 )
-region = Rect2( 0, 0, 16, 28 )
-
-[sub_resource type="AtlasTexture" id=10]
-atlas = ExtResource( 13 )
-region = Rect2( 16, 0, 16, 28 )
-
-[sub_resource type="AtlasTexture" id=11]
-atlas = ExtResource( 13 )
-region = Rect2( 32, 0, 16, 28 )
-
-[sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 13 )
-region = Rect2( 48, 0, 16, 28 )
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 5 )
@@ -51,17 +34,33 @@ region = Rect2( 32, 0, 16, 28 )
 atlas = ExtResource( 5 )
 region = Rect2( 48, 0, 16, 28 )
 
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 13 )
+region = Rect2( 0, 0, 16, 28 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 13 )
+region = Rect2( 16, 0, 16, 28 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 13 )
+region = Rect2( 32, 0, 16, 28 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 13 )
+region = Rect2( 48, 0, 16, 28 )
+
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
-"frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
-"loop": true,
-"name": "Move",
-"speed": 10.51
-}, {
 "frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
 "loop": true,
 "name": "Idle",
 "speed": 8.06
+}, {
+"frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
+"loop": true,
+"name": "Move",
+"speed": 10.51
 } ]
 
 [sub_resource type="CircleShape2D" id=13]
@@ -86,11 +85,8 @@ block_power = 4
 position = Vector2( 0, -9 )
 frames = SubResource( 5 )
 animation = "Move"
-frame = 3
+frame = 2
 playing = true
-
-[node name="AnimationPlayer" parent="WeaponsPoint" index="0"]
-blend_times = [ "GuardBreak_prep", "unblock", 0.1, "attack", "attack", 1.0, "attack", "block", 1.0, "attack", "guardBreak", 1.0, "attack", "unblock", 1.0 ]
 
 [node name="CollisionShape2D" parent="." index="2"]
 shape = SubResource( 13 )
@@ -168,11 +164,8 @@ visible = false
 [node name="area" type="CollisionShape2D" parent="chaseArea" index="0"]
 shape = SubResource( 6 )
 
-[node name="StateMachine" parent="." index="6"]
+[node name="StateMachine" parent="." index="7"]
 visible = true
-
-[node name="Attack" parent="StateMachine" index="2"]
-script = ExtResource( 12 )
 
 [node name="StateLabel" type="Label" parent="StateMachine" index="7"]
 margin_left = -19.0

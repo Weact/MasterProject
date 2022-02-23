@@ -1,8 +1,8 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Scenes/Characters/States/CharacterDeath.gd" type="Script" id=1]
-[ext_resource path="res://Scenes/Characters/States/CharacterAttack.gd" type="Script" id=2]
-[ext_resource path="res://Scenes/Characters/States/CharacterBlock.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/Characters/Skills/block/block.tres" type="Animation" id=2]
+[ext_resource path="res://Scenes/Weapons/Melee/Sword.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/StateMachine/StateMachine.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/Characters/States/CharacterIdle.gd" type="Script" id=5]
 [ext_resource path="res://Scenes/Characters/States/CharacterMove.gd" type="Script" id=6]
@@ -14,9 +14,8 @@
 [ext_resource path="res://Scenes/Characters/WeaponsPoint.gd" type="Script" id=12]
 [ext_resource path="res://Scenes/Characters/States/CharacterDodgeState.gd" type="Script" id=13]
 [ext_resource path="res://Scenes/Weapons/Melee/WeaponPointMelee.tscn" type="PackedScene" id=14]
-[ext_resource path="res://Scenes/Weapons/block.tres" type="Animation" id=15]
+[ext_resource path="res://Scenes/Characters/Skills/block/Charactersunblock.tres" type="Animation" id=15]
 [ext_resource path="res://Scenes/Characters/Materials/HitEffect/HitEffect.tres" type="Material" id=16]
-[ext_resource path="res://Scenes/Weapons/attack.tres" type="Animation" id=17]
 [ext_resource path="res://Scenes/Characters/States/CharacterGuardBreak.gd" type="Script" id=18]
 [ext_resource path="res://Scenes/StateMachine/State.gd" type="Script" id=19]
 [ext_resource path="res://Scenes/Characters/Player/GuardBreak_Hitting.gd" type="Script" id=20]
@@ -25,7 +24,8 @@
 [ext_resource path="res://Scenes/Characters/Skills/ChargedAttack/ChargedAttackPrepState.gd" type="Script" id=23]
 [ext_resource path="res://Scenes/Characters/Skills/ChargedAttack/ChargedAttackHittingState.gd" type="Script" id=24]
 [ext_resource path="res://Scenes/Characters/Skills/ChargedAttack/ChargedAttackRecoveryState.gd" type="Script" id=25]
-[ext_resource path="res://Scenes/Skill/skills/Attack.tscn" type="PackedScene" id=26]
+[ext_resource path="res://Scenes/Characters/CharacterSkilling.gd" type="Script" id=27]
+[ext_resource path="res://Scenes/Characters/Skills/skill_tree.gd" type="Script" id=28]
 
 [sub_resource type="Animation" id=3]
 resource_name = "GuardBreak_hit"
@@ -333,47 +333,6 @@ tracks/3/keys = {
 "values": [ 0.0, 30.0, -21.3, -21.3, 0.0 ]
 }
 
-[sub_resource type="Animation" id=1]
-resource_name = "unblock"
-length = 0.15
-step = 0.05
-tracks/0/type = "value"
-tracks/0/path = NodePath("WeaponPoint:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.15 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 3, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("WeaponPoint:rotation_degrees")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.15 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 20.0, 0.0 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("ShieldPoint:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.15 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 10, 0 ), Vector2( 3, 0 ) ]
-}
-
 [node name="Character" type="KinematicBody2D"]
 z_index = 1
 script = ExtResource( 9 )
@@ -392,35 +351,34 @@ script = ExtResource( 12 )
 anims/GuardBreak_hit = SubResource( 3 )
 anims/GuardBreak_prep = SubResource( 4 )
 anims/GuardBreak_recov = SubResource( 5 )
-anims/attack = ExtResource( 17 )
-anims/block = ExtResource( 15 )
+anims/block = ExtResource( 2 )
 anims/charged_hit = SubResource( 6 )
 anims/charged_prep = SubResource( 7 )
 anims/charged_recov = SubResource( 8 )
 anims/guardBreak = SubResource( 2 )
-anims/unblock = SubResource( 1 )
+anims/unblock = ExtResource( 15 )
 next/guardBreak = "block"
 blend_times = [ "GuardBreak_prep", "unblock", 0.1 ]
 
 [node name="ShieldPoint" type="Node2D" parent="WeaponsPoint"]
-position = Vector2( 3, 2 )
+position = Vector2( 10, 0 )
 rotation = 0.523599
 
 [node name="Shield" parent="WeaponsPoint/ShieldPoint" instance=ExtResource( 11 )]
 weapon_handler_node_path = NodePath("../../..")
 
 [node name="WeaponPoint" type="Node2D" parent="WeaponsPoint"]
-position = Vector2( 3, 0 )
-rotation = -0.349066
+rotation = 0.349066
 
 [node name="Weapon" parent="WeaponsPoint/WeaponPoint" instance=ExtResource( 14 )]
+script = ExtResource( 3 )
 weapon_handler_node_path = NodePath("../../..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
 [node name="Skills" type="Node" parent="."]
-
-[node name="Attack" parent="Skills" instance=ExtResource( 26 )]
+script = ExtResource( 28 )
+init_default_state = false
 
 [node name="StateMachine" type="Node2D" parent="."]
 visible = false
@@ -432,8 +390,8 @@ script = ExtResource( 5 )
 [node name="Move" type="Node" parent="StateMachine"]
 script = ExtResource( 6 )
 
-[node name="Attack" type="Node" parent="StateMachine"]
-script = ExtResource( 2 )
+[node name="Skilling" type="Node" parent="StateMachine"]
+script = ExtResource( 27 )
 
 [node name="GuardBreak" type="Node" parent="StateMachine"]
 script = ExtResource( 18 )
@@ -459,9 +417,6 @@ script = ExtResource( 24 )
 
 [node name="Recovery" type="Node" parent="StateMachine/ChargedAttack"]
 script = ExtResource( 25 )
-
-[node name="Block" type="Node" parent="StateMachine"]
-script = ExtResource( 3 )
 
 [node name="Dodge" type="Node" parent="StateMachine"]
 script = ExtResource( 13 )

@@ -169,6 +169,6 @@ func _on_target_in_attack_area_changed(_value : bool) -> void:
 func _on_StateMachine_state_changed(state) -> void:
 	if state_machine == null:
 		return
-	if state.name == "Idle" && state_machine.previous_state == $StateMachine/Attack:
+	if state.name == "Idle":
 		_update_behaviour_state()
 

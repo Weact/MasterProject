@@ -1,9 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Scenes/Skill/ExecuteSkill.gd" type="Script" id=1]
-[ext_resource path="res://Scenes/Skill/Skill.gd" type="Script" id=2]
-[ext_resource path="res://Scenes/Skill/PreparationSkill.gd" type="Script" id=3]
-[ext_resource path="res://Scenes/Skill/RecoverySkill.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/Characters/Skills/Skill/RecoverySkill.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Characters/Skills/Skill/ExecuteSkill.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/Characters/Skills/Skill/Skill.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/Characters/Skills/Skill/PreparationSkill.gd" type="Script" id=4]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Execute"
@@ -108,33 +108,6 @@ tracks/3/keys = {
 "values": [  ]
 }
 
-[sub_resource type="Animation" id=4]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("AnimationPlayer/Weapon_Right_mock:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 2, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("AnimationPlayer/Weapon_Left_mock:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -2, 5 ) ]
-}
-
 [sub_resource type="Animation" id=3]
 resource_name = "Recovery"
 length = 0.001
@@ -188,25 +161,24 @@ tracks/3/keys = {
 }
 
 [node name="Skill" type="Node"]
-script = ExtResource( 2 )
-
-[node name="Preparation" type="Node" parent="."]
 script = ExtResource( 3 )
 
+[node name="Preparation" type="Node" parent="."]
+script = ExtResource( 4 )
+
 [node name="Execute" type="Node" parent="."]
-script = ExtResource( 1 )
+script = ExtResource( 2 )
+cancelable = false
 
 [node name="Recovery" type="Node" parent="."]
-script = ExtResource( 4 )
+script = ExtResource( 1 )
+cancelable = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Execute = SubResource( 1 )
 anims/Preparation = SubResource( 2 )
-anims/RESET = SubResource( 4 )
 anims/Recovery = SubResource( 3 )
 
 [node name="Weapon_Left_mock" type="Node2D" parent="AnimationPlayer"]
-position = Vector2( -2, 5 )
 
 [node name="Weapon_Right_mock" type="Node2D" parent="AnimationPlayer"]
-position = Vector2( 2, 0 )

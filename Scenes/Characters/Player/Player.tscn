@@ -24,6 +24,10 @@ region = Rect2( 30, 0, 15, 20 )
 atlas = ExtResource( 3 )
 region = Rect2( 45, 0, 15, 20 )
 
+[sub_resource type="AtlasTexture" id=16]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 16, 28 )
+
 [sub_resource type="AtlasTexture" id=12]
 atlas = ExtResource( 4 )
 region = Rect2( 0, 0, 15, 22 )
@@ -40,10 +44,6 @@ region = Rect2( 30, 0, 15, 22 )
 atlas = ExtResource( 4 )
 region = Rect2( 45, 0, 15, 22 )
 
-[sub_resource type="AtlasTexture" id=16]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 0, 16, 28 )
-
 [sub_resource type="SpriteFrames" id=10]
 animations = [ {
 "frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
@@ -51,15 +51,15 @@ animations = [ {
 "name": "Idle",
 "speed": 7.0
 }, {
-"frames": [ SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ) ],
-"loop": true,
-"name": "Move",
-"speed": 9.0
-}, {
 "frames": [ SubResource( 16 ) ],
 "loop": true,
 "name": "Hit",
 "speed": 5.0
+}, {
+"frames": [ SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ) ],
+"loop": true,
+"name": "Move",
+"speed": 9.0
 } ]
 
 [sub_resource type="Animation" id=17]
@@ -120,12 +120,10 @@ radius = 4.0
 
 [node name="Player" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-weight = 5
 health_point = 100
 stamina = 100.0
 movement_speed = 100.0
 max_speed = 200.0
-facing_left = false
 attack_power = 10
 attack_cooldown = 0.5
 block_power = 15
@@ -149,7 +147,7 @@ script = ExtResource( 6 )
 position = Vector2( 0, -4 )
 frames = SubResource( 10 )
 animation = "Idle"
-frame = 1
+frame = 3
 playing = true
 
 [node name="AnimationPlayer" parent="WeaponsPoint" index="0"]
@@ -167,3 +165,6 @@ margin_top = -76.0
 margin_right = 28.0
 margin_bottom = -62.0
 script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

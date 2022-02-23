@@ -4,23 +4,33 @@ class_name Skill
 func is_class(value: String): return value == "Skill" or .is_class(value)
 func get_class() -> String: return "Skill"
 
-export var min_stamina_cost : float = 0.0
-
-var parent_character :Node2D = null
-export var auto_advance = true
+var parent_character : Node2D = null
 
 onready var anim_player : AnimationPlayer = $AnimationPlayer
 #### ACCESSORS ####
-
+func get_stamina_cost() -> float:
+	var cost : float = 0.0
+	for state in get_children():
+		if !state is SkillState:
+			continue
+		cost = cost + state.stamina_cost
+		
+	return cost
+	
 #### BUILT-IN ####
 
 #### VIRTUALS ####
 
 
-
 #### LOGIC ####
-func enter_state() -> void:
-	prepare()
+func is_cancelable() -> bool:
+	return current_state.cancelable
+
+func play_current_state_anim() -> void:
+	if !is_instance_valid(parent_character):
+		return
+	
+	parent_character.weapons_animation_player_node.play(String(name) +"_"+ String(current_state.name))
 
 func prepare() -> void:
 	set_state("Preparation")
@@ -31,19 +41,25 @@ func execute() -> void:
 func recover() -> void:
 	set_state("Recovery")
 	
-func add_skill(new_owner : Node2D) -> void:
+func new_owner(new_owner : Node2D) -> void:
 	if !is_instance_valid(new_owner):
 		return
 	if is_instance_valid(parent_character):
 		parent_character.weapons_node.disconnect("animation_finished", self, "_on_weapons_animation_finished")
-	
+		parent_character.weapon_node.disconnect("collided", self, "_on_left_weapon_hit")
+		parent_character.shield_node.disconnect("collided", self, "_on_right_weapon_hit")
+
+	state_machine = get_parent()
+	owner = new_owner
 	parent_character = new_owner
 	if parent_character is Character:
 		transfer_animations(parent_character.weapon_point.get_path(), parent_character.shield_point.get_path(), parent_character.weapons_animation_player_node)
 		parent_character.weapons_node.connect("animation_finished", self, "_on_weapons_animation_finished")
-
+		parent_character.weapon_node.connect("collided", self, "_on_left_weapon_hit")
+		parent_character.shield_node.connect("collided", self, "_on_right_weapon_hit")
+		
 func transfer_animations(weapon_left_path : NodePath, weapon_right_path : NodePath, new_anim_player : AnimationPlayer) -> void:
-	if !is_instance_valid(owner) or !owner is Character:
+	if !is_instance_valid(parent_character) or !parent_character is Character:
 		print("No valid owner to this skill")
 		return
 	var anim_name_list = anim_player.get_animation_list()
@@ -56,32 +72,43 @@ func transfer_animations(weapon_left_path : NodePath, weapon_right_path : NodePa
 		for i in range(0, anim.get_track_count()):
 			var trackPath = anim.track_get_path(i)
 			var lastDashPos = String(trackPath).find_last("/")
-			var currentAnimName = String(trackPath).left(lastDashPos)
-			var currentTrackSubName = String(trackPath).right(String(trackPath).find_last(":"))
+			var lastDotPos = String(trackPath).find_last(":")
 			
-			if currentAnimName == animNodeName:
+			var currentAnimName = String(trackPath).right(lastDashPos)
+			currentAnimName = currentAnimName.left(String(currentAnimName).find_last(":"))
+			var currentTrackSubName = String(trackPath).right(lastDotPos)
+			
+			if currentAnimName != animNodeName and animNodeName != "":
 				rightWeapon = true
 				
 			animNodeName = currentAnimName
 			
+			var completeNodePath = String(weapon_left_path) + String(currentTrackSubName)
+			
 			if rightWeapon:
-				anim.track_set_path(i, NodePath(String(weapon_right_path) + String(currentTrackSubName)))
-			else:
-				anim.track_set_path(i, NodePath(String(weapon_left_path) + String(currentTrackSubName)))
+				completeNodePath = String(weapon_right_path) + String(currentTrackSubName)
+			
+			anim.track_set_path(i, NodePath(completeNodePath))
 		
 		var __ = new_anim_player.add_animation(name+"_"+anim_name, anim)
 
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
+func _on_left_weapon_hit(_body) -> void:
+	pass
+	
+func _on_right_weapon_hit(_body) -> void:
+	pass
+	
 func _on_weapons_animation_finished() -> void:
-	if !is_instance_valid(parent_character):
+	if !is_instance_valid(parent_character) or parent_character.state_machine.current_state.name != "Skilling" or state_machine.current_state != self:
 		return
 	
 	if current_state.auto_advance == true:
 		if get_state_name() == "Recovery":
-			owner.set_state("Idle")
+			owner.state_machine.set_state("Idle")
 		if get_state_name() == "Execute":
 			recover()
 		if get_state_name() == "Preparation":
-			prepare()
+			execute()

@@ -7,7 +7,6 @@ func get_class() -> String: return "PreparationSkill"
 #### ACCESSORS ####
 
 #### BUILT-IN ####
-f
 
 
 #### VIRTUALS ####

@@ -1,0 +1,40 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Scenes/Characters/Skills/attack/RecoveryAttack.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Characters/Skills/attack/ExecuteAttack.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/Characters/Skills/attack/PreparationAttack.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/Characters/Skills/attack/attackExecute.tres" type="Animation" id=4]
+[ext_resource path="res://Scenes/Characters/Skills/attack/attackRecov.tres" type="Animation" id=5]
+[ext_resource path="res://Scenes/Characters/Skills/attack/attackPrep.tres" type="Animation" id=6]
+[ext_resource path="res://Scenes/Characters/Skills/Skill/Skill.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/Characters/Skills/attack/Attack.gd" type="Script" id=8]
+
+[node name="Attack" instance=ExtResource( 7 )]
+script = ExtResource( 8 )
+
+[node name="Preparation" parent="." index="0"]
+script = ExtResource( 3 )
+state_velocity_factor = 0.2
+state_rotation_factor = 0.2
+
+[node name="Execute" parent="." index="1"]
+script = ExtResource( 2 )
+stamina_cost = 15.0
+state_velocity_factor = 0.2
+state_rotation_factor = 0.2
+
+[node name="Recovery" parent="." index="2"]
+script = ExtResource( 1 )
+state_velocity_factor = 0.5
+state_rotation_factor = 0.5
+
+[node name="AnimationPlayer" parent="." index="3"]
+anims/Execute = ExtResource( 4 )
+anims/Preparation = ExtResource( 6 )
+anims/Recovery = ExtResource( 5 )
+
+[node name="Weapon_Left_mock" parent="AnimationPlayer" index="0"]
+position = Vector2( 5.61206, 0 )
+
+[node name="Weapon_Right_mock" parent="AnimationPlayer" index="1"]
+position = Vector2( 2.36734, 2.36734 )

@@ -1,0 +1,195 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Scenes/Characters/Skills/Skill/Skill.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Characters/Skills/block/Execute.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/Characters/Skills/block/block.tres" type="Animation" id=3]
+[ext_resource path="res://Scenes/Characters/Skills/block/Preparation.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/Characters/Skills/block/Recovery.gd" type="Script" id=5]
+[ext_resource path="res://Scenes/Characters/Skills/block/Block.gd" type="Script" id=6]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Execute"
+length = 0.15
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("WeaponPoint:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.05 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("WeaponPoint:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.05 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 20.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ShieldPoint:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.05 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 6, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("ShieldPoint:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.05 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("AnimationPlayer/Weapon_Left_mock:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.05 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("AnimationPlayer/Weapon_Left_mock:rotation_degrees")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.05 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 20.0 ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("AnimationPlayer/Weapon_Right_mock:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0.05 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 5, 0 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("AnimationPlayer/Weapon_Right_mock:rotation_degrees")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0.05 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "Recovery"
+length = 0.15
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimationPlayer/Weapon_Left_mock:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15 ),
+"transitions": PoolRealArray( 0.466517, 0.535887 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 3, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimationPlayer/Weapon_Left_mock:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.15 ),
+"transitions": PoolRealArray( 0.466517, 0.535887 ),
+"update": 0,
+"values": [ 20.0, 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AnimationPlayer/Weapon_Right_mock:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.15 ),
+"transitions": PoolRealArray( 0.466517, 0.535887 ),
+"update": 0,
+"values": [ Vector2( 5, 0 ), Vector2( 3, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("AnimationPlayer/Weapon_Right_mock:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.15 ),
+"transitions": PoolRealArray( 0.466517, 0.535887 ),
+"update": 0,
+"values": [ 0.0, 0.0 ]
+}
+
+[node name="Block" instance=ExtResource( 1 )]
+script = ExtResource( 6 )
+
+[node name="Preparation" parent="." index="0"]
+script = ExtResource( 4 )
+state_velocity_factor = 0.5
+state_rotation_factor = 0.5
+state_stamina_regen_factor = 0.0
+
+[node name="Execute" parent="." index="1"]
+script = ExtResource( 2 )
+auto_advance = false
+state_velocity_factor = 0.3
+state_rotation_factor = 0.3
+state_stamina_regen_factor = 0.0
+
+[node name="Recovery" parent="." index="2"]
+script = ExtResource( 5 )
+state_velocity_factor = 0.5
+state_rotation_factor = 0.5
+state_stamina_regen_factor = 0.0
+
+[node name="AnimationPlayer" parent="." index="3"]
+anims/Execute = SubResource( 1 )
+anims/Preparation = ExtResource( 3 )
+anims/Recovery = SubResource( 2 )
+
+[node name="Weapon_Left_mock" parent="AnimationPlayer" index="0"]
+rotation = 0.349066
+
+[node name="Weapon_Right_mock" parent="AnimationPlayer" index="1"]
+position = Vector2( 5, 0 )

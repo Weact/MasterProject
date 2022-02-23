@@ -33,7 +33,7 @@ export var health_point : int = 0
 signal health_point_changed()
 
 export var stamina : float = 0.0
-var regen_stamina_value : float = 1.0
+var regen_stamina_value : float = 3.0
 var stamina_regen_delay : float = 0.5
 var timer_stamina_regen : Timer = null
 signal stamina_changed()
@@ -105,7 +105,6 @@ signal shield_hit
 ## STATES
 export var default_state : String = ""
 
-func set_state(value): $StateMachine.set_state(value)
 func get_state() -> Object: return $StateMachine.get_state()
 func get_state_name() -> String: return $StateMachine.get_state_name()
 func is_recovering() -> bool: return $StateMachine.get_state_name() == "ChargedAttack" and $StateMachine.current_state.get_state_name() == "Recovering"
@@ -244,6 +243,29 @@ func is_facing_left() -> bool: return facing_left
 #### BUILT-IN ####
 
 func _ready() -> void:
+	var __ = connect_signals()
+	init_panels()
+	add_skill("Attack")
+	add_skill("Block")
+	
+	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
+
+func add_skill(skill_name) -> void:
+	var newSkill = SKILL_LIST.get_skill(skill_name)
+	
+	skill_tree.add_child(newSkill)
+	if newSkill.has_method("new_owner"):
+		newSkill.new_owner(self)
+
+func get_current_state() -> String:
+	if !is_instance_valid(state_machine):
+		return ""
+	if state_machine.get_state_name() == "Skilling":
+		return skill_tree.get_state_name()
+	
+	return state_machine.get_state_name()
+
+func connect_signals() -> int:
 	var __ = connect("health_point_changed", self, "_on_health_point_changed")
 	__ = connect("stamina_changed", self, "_on_stamina_changed")
 
@@ -268,10 +290,9 @@ func _ready() -> void:
 	__ = connect("current_tile_changed", self, "_on_current_tile_changed")
 	__ = connect("pathfinder_changed", self, "_on_pathfinder_changed")
 	__ = connect("weight_changed", self, "_on_weight_changed")
-	init_panels()
-
-	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
-
+	
+	return 0
+	
 func _physics_process(_delta: float) -> void:
 	if not is_stunned():
 		_compute_velocity()
@@ -401,54 +422,50 @@ func die() -> void:
 	set_weight(0)
 	set_state("Death")
 
-func has_skill(skill_name : String) -> bool:
-	var exist : bool = false
-	
-	for skill in skill_tree.get_children():
-		if skill.name == skill_name:
-			exist = true
-	
-	return exist
-	
-func get_skill(skill_name : String) -> Node2D:
-	for skill in skill_tree.get_children():
-		if skill.name == skill_name:
-			return skill
-			
-	return null
-	
+func use_skill(skill_name : String) -> int:
+	if can_change_state() and skill_tree.use_skill(skill_name):
+		set_state("Skilling")
+		return 1
+	return 0
 
 func attack(mode : String = "basic") -> void:
 	if is_recovering():
 		return
-	if can_attack && state_machine.get_state_name() != "GuardBreak":
+	#if can_attack && state_machine.get_state_name() != "GuardBreak":
+	
+		#if not is_instance_valid(attack_cd_timer):
+			#attack_cd_timer = GAME._create_timer_delay(attack_cooldown, true, true, self, "_on_attack_cd_timeout")
+			#attack_cd_timer.set_name(get_name() + "AttackCooldownTimer")
+			#add_child(attack_cd_timer)
 		
-		if not is_instance_valid(attack_cd_timer):
-			attack_cd_timer = GAME._create_timer_delay(attack_cooldown, true, true, self, "_on_attack_cd_timeout")
-			attack_cd_timer.set_name(get_name() + "AttackCooldownTimer")
-			add_child(attack_cd_timer)
-		
-		var charged_attack_state := get_node("StateMachine/ChargedAttack")
-		if mode == "basic":
-			if has_skill("Attack"):
-				var attackSkill = get_skill("Attack")
-				if attackSkill != null :
-					attackSkill.prepare()
-			else:
-				set_state("Attack")
-		elif !stamina < charged_attack_state.stamina_cost:
-			prep_charged_attack()
+		#var charged_attack_state := get_node("StateMachine/ChargedAttack")
+	if mode == "basic":
+		if use_skill("Attack"):
+			pass
+		#elif !stamina < charged_attack_state.stamina_cost:
+			#prep_charged_attack()
+			
 
-func block() -> void:
-	if not is_recovering() and (can_block and state_machine.get_state_name() != "Attack" and state_machine.get_state_name() != "GuardBreak"):
-		state_machine.set_state("Block")
+func set_state(new_state : String) -> void:
+	if can_change_state():
+		state_machine.set_state(new_state)
+	
+func can_change_state() -> bool:
+	var changeable = false
+	if state_machine.current_state.name == "Skilling":
+		if !is_instance_valid(skill_tree.current_state) or skill_tree.current_state.is_cancelable():
+			changeable = true
+	else:
+		changeable = true
+	return changeable
+
 
 func prep_guardBreak() -> void:
 	if is_recovering():
 		return
 	if(state_machine.get_state_name() == "Attack" or state_machine.get_state_name() == "GuardBreak"):
 		return
-	state_machine.set_state("GuardBreak")
+	set_state("GuardBreak")
 	
 func guardBreak() -> void:
 	if is_recovering():
@@ -460,7 +477,7 @@ func guardBreak() -> void:
 func prep_charged_attack() -> void:
 	if is_recovering():
 		return
-	state_machine.set_state("ChargedAttack")
+	set_state("ChargedAttack")
 
 func charged_attack() -> void:
 	if is_recovering():

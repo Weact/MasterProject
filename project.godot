@@ -9,6 +9,36 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "ExecuteSkill",
+"class": "AttackExecute",
+"language": "GDScript",
+"path": "res://Scenes/Characters/Skills/attack/ExecuteAttack.gd"
+}, {
+"base": "PreparationSkill",
+"class": "AttackPreparation",
+"language": "GDScript",
+"path": "res://Scenes/Characters/Skills/attack/PreparationAttack.gd"
+}, {
+"base": "RecoverySkill",
+"class": "AttackRecovery",
+"language": "GDScript",
+"path": "res://Scenes/Characters/Skills/attack/RecoveryAttack.gd"
+}, {
+"base": "ExecuteSkill",
+"class": "BlockExecute",
+"language": "GDScript",
+"path": "res://Scenes/Characters/Skills/block/Execute.gd"
+}, {
+"base": "PreparationSkill",
+"class": "BlockPreparation",
+"language": "GDScript",
+"path": "res://Scenes/Characters/Skills/block/Preparation.gd"
+}, {
+"base": "RecoverySkill",
+"class": "BlockRecovery",
+"language": "GDScript",
+"path": "res://Scenes/Characters/Skills/block/Recovery.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Character",
 "language": "GDScript",
@@ -97,7 +127,7 @@ _global_script_classes=[ {
 "base": "SkillState",
 "class": "ExecuteSkill",
 "language": "GDScript",
-"path": "res://Scenes/Skill/ExecuteSkill.gd"
+"path": "res://Scenes/Characters/Skills/Skill/ExecuteSkill.gd"
 }, {
 "base": "Character",
 "class": "NPC",
@@ -177,12 +207,12 @@ _global_script_classes=[ {
 "base": "SkillState",
 "class": "PreparationSkill",
 "language": "GDScript",
-"path": "res://Scenes/Skill/PreparationSkill.gd"
+"path": "res://Scenes/Characters/Skills/Skill/PreparationSkill.gd"
 }, {
 "base": "SkillState",
 "class": "RecoverySkill",
 "language": "GDScript",
-"path": "res://Scenes/Skill/RecoverySkill.gd"
+"path": "res://Scenes/Characters/Skills/Skill/RecoverySkill.gd"
 }, {
 "base": "WeaponPointMelee",
 "class": "Shield",
@@ -192,12 +222,17 @@ _global_script_classes=[ {
 "base": "StateMachine",
 "class": "Skill",
 "language": "GDScript",
-"path": "res://Scenes/Skill/Skill.gd"
+"path": "res://Scenes/Characters/Skills/Skill/Skill.gd"
 }, {
 "base": "State",
 "class": "SkillState",
 "language": "GDScript",
-"path": "res://Scenes/Skill/skillState.gd"
+"path": "res://Scenes/Characters/Skills/Skill/skillState.gd"
+}, {
+"base": "StateMachine",
+"class": "SkillTree",
+"language": "GDScript",
+"path": "res://Scenes/Characters/Skills/skill_tree.gd"
 }, {
 "base": "Node",
 "class": "State",
@@ -213,6 +248,11 @@ _global_script_classes=[ {
 "class": "StateMachine",
 "language": "GDScript",
 "path": "res://Scenes/StateMachine/StateMachine.gd"
+}, {
+"base": "WeaponPointMelee",
+"class": "Sword",
+"language": "GDScript",
+"path": "res://Scenes/Weapons/Melee/Sword.gd"
 }, {
 "base": "Node2D",
 "class": "WeaponPointMelee",
@@ -230,6 +270,12 @@ _global_script_classes=[ {
 "path": "res://Scenes/Characters/NPC/Behavior/waitState.gd"
 } ]
 _global_script_class_icons={
+"AttackExecute": "",
+"AttackPreparation": "",
+"AttackRecovery": "",
+"BlockExecute": "",
+"BlockPreparation": "",
+"BlockRecovery": "",
 "Character": "",
 "CharacterAttackState": "",
 "CharacterBlockState": "",
@@ -268,9 +314,11 @@ _global_script_class_icons={
 "Shield": "",
 "Skill": "",
 "SkillState": "",
+"SkillTree": "",
 "State": "",
 "StateLabel": "",
 "StateMachine": "",
+"Sword": "",
 "WeaponPointMelee": "",
 "gotoState": "",
 "waitState": ""
@@ -286,6 +334,7 @@ config/icon="res://icon.png"
 
 EVENTS="*res://Global/EVENTS.gd"
 GAME="*res://Global/GAME.gd"
+SKILL_LIST="*res://Global/SkillList.tscn"
 
 [debug]
 

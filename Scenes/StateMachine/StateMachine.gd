@@ -6,6 +6,7 @@ func get_class() -> String: return "StateMachine"
 
 var current_state : Node = null setget set_state, get_state
 var previous_state : Node = null setget set_state, get_previous_state
+export var init_default_state : bool = true
 
 signal state_changed(state)
 signal state_changed_recursive(state)
@@ -15,11 +16,9 @@ signal state_changed_recursive(state)
 func set_state(state)->void:
 	if state is String:
 		state = get_node_or_null(state)
-	
-	if state != null:
-		state.call_state()
 		
 	if state == current_state:
+		state.call_state()
 		return
 	
 	if current_state != null:
@@ -29,6 +28,7 @@ func set_state(state)->void:
 	current_state = state
 	
 	if current_state != null:
+		current_state.call_state()
 		current_state.enter_state()
 		
 	emit_signal("state_changed", current_state)
@@ -47,7 +47,8 @@ func _ready()->void:
 	if state_machine.is_class("StateMachine"):
 		__ = connect("state_changed_recursive", state_machine, "_on_state_changed_recursive")
 	
-	set_to_default_state()
+	if init_default_state:
+		set_to_default_state()
 
 func _physics_process(delta: float) -> void:
 	if current_state != null:
