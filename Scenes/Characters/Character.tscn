@@ -35,7 +35,6 @@ __meta__ = {
 script = ExtResource( 12 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="WeaponsPoint"]
-blend_times = [ "GuardBreak_prep", "unblock", 0.1 ]
 
 [node name="ShieldPoint" type="Node2D" parent="WeaponsPoint"]
 position = Vector2( 10, 0 )

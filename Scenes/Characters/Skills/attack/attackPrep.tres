@@ -14,7 +14,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.1, 0.15 ),
 "transitions": PoolRealArray( 1.27456, 1.46409, 1.46409 ),
 "update": 0,
-"values": [ Vector2( 3, 0 ), Vector2( 1, 0 ), Vector2( -1, 0 ) ]
+"values": [ Vector2( 3, 0 ), Vector2( -2, 0 ), Vector2( -2, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("AnimationPlayer/Weapon_Left_mock:rotation_degrees")

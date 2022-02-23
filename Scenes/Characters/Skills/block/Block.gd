@@ -30,4 +30,6 @@ func _on_right_weapon_hit(body) -> void:
 	var bodyParent = body.weapon_handler_node
 	if is_instance_valid(bodyParent):
 		bodyParent.set_stunned(true)
+		bodyParent.weapon_node.hitbox.call_deferred("set_disabled", true)
+		
 		parent_character.remove_stamina(bodyParent.get_attack_power())
