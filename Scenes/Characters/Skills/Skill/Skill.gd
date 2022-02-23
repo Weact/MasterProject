@@ -68,7 +68,7 @@ func new_owner(new_owner : Node2D) -> void:
 	owner = new_owner
 	parent_character = new_owner
 	if parent_character is Character:
-		transfer_animations(parent_character.weapon_point.get_path(), parent_character.shield_point.get_path(), parent_character.weapons_animation_player_node)
+		_transfer_animations(parent_character.weapon_point.get_path(), parent_character.shield_point.get_path(), parent_character.weapons_animation_player_node)
 		parent_character.weapons_node.connect("animation_finished", self, "_on_weapons_animation_finished")
 		parent_character.weapon_node.connect("collided", self, "_on_left_weapon_hit")
 		parent_character.shield_node.connect("collided", self, "_on_right_weapon_hit")

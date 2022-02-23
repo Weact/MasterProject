@@ -14,7 +14,7 @@ func get_class() -> String: return "GuardBreakSkill"
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
-func _on_right_weapon_hit(body : PhysicsBody2D) -> void:
+func _on_right_weapon_hit(body : Node2D) -> void:
 	if body == self or !body is Shield:
 		return
 	var bodyParent = body.weapon_handler_node
