@@ -493,7 +493,7 @@ func _on_look_direction_changed(_dir: float) -> void:
 	pass
 
 func _on_animation_finished() -> void:
-	if animated_sprite.get_animation() == "Hit":
+	pass
 		pass
 
 func _on_AnimatedSprite_frame_changed() -> void:
