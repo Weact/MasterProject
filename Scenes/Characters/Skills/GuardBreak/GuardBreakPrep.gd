@@ -1,6 +1,7 @@
 extends PreparationSkill
-func is_class(value: String): return value == "" or .is_class(value)
-func get_class() -> String: return ""
+class_name GuardBreakPreparationSkill
+func is_class(value: String): return value == "GuardBreakPreparationSkill" or .is_class(value)
+func get_class() -> String: return "GuardBreakPreparationSkill"
 
 #### ACCESSORS ####
 

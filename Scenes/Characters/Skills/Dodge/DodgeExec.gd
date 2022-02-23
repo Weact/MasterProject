@@ -1,6 +1,8 @@
 extends ExecuteSkill
-func is_class(value: String): return value == "" or .is_class(value)
-func get_class() -> String: return ""
+class_name DodgeExecSkill
+
+func is_class(value: String): return value == "DodgeExecSkill" or .is_class(value)
+func get_class() -> String: return "DodgeExecSkill"
 
 #### ACCESSORS ####
 

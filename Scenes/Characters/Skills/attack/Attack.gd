@@ -1,6 +1,7 @@
 extends Skill
-func is_class(value: String): return value == "" or .is_class(value)
-func get_class() -> String: return ""
+class_name AttackSkill
+func is_class(value: String): return value == "AttackSkill" or .is_class(value)
+func get_class() -> String: return "AttackSkill"
 
 #### ACCESSORS ####
 

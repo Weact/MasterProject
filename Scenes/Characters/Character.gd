@@ -113,14 +113,14 @@ func get_current_state() -> String:
 		return ""
 	if state_machine.get_state_name() == "Skilling":
 		return skill_tree.get_state_name()
-	
+
 	return state_machine.get_state_name()
-	
+
 #### ACCESSORS ####
 func set_state(new_state : String) -> void:
 	if can_change_state():
 		state_machine.set_state(new_state)
-	
+
 func can_change_state() -> bool:
 	var changeable = false
 	if state_machine.current_state.name == "Skilling":
@@ -267,7 +267,7 @@ func _ready() -> void:
 	var __ = connect_signals()
 	init_panels()
 	setup_skills()
-	
+
 	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
 
 func setup_skills() -> void:
@@ -279,18 +279,18 @@ func setup_skills() -> void:
 
 func add_skill(skill_name : String) -> void:
 	var newSkill = SKILL_LIST.get_skill(skill_name)
-	
+
 	skill_tree.add_child(newSkill)
 	if newSkill.has_method("new_owner"):
 		newSkill.new_owner(self)
 
 
-func connect_signals() -> int:
+func connect_signals() -> void:
 	var __ = connect("health_point_changed", self, "_on_health_point_changed")
 	__ = connect("stamina_changed", self, "_on_stamina_changed")
 
 	__ = connect("max_speed_changed", self, "_on_max_speed_changed")
-	
+
 	__ = connect("stun_changed", self, "_on_stun_changed")
 
 	__ = connect("velocity_changed", self, "_on_velocity_changed")
@@ -310,9 +310,8 @@ func connect_signals() -> int:
 	__ = connect("current_tile_changed", self, "_on_current_tile_changed")
 	__ = connect("pathfinder_changed", self, "_on_pathfinder_changed")
 	__ = connect("weight_changed", self, "_on_weight_changed")
-	
-	return 0
-	
+
+
 func _physics_process(_delta: float) -> void:
 	if not is_stunned():
 		_compute_velocity()
@@ -387,20 +386,20 @@ func flip():
 func damaged(damage_taken) -> void:
 	if get_state_name() == "Dodge":
 		return
-	
+
 	if get_state_name() == "Block":
 		var damage_to_take = max(damage_taken - block_power, 0)
 		var damage_to_block = min(block_power, damage_taken)
 		remove_health_point(damage_to_take)
-		
+
 		if damage_to_block > stamina:
 			remove_health_point(damage_to_block - stamina)
 		remove_stamina(damage_to_block)
 		return
-	
+
 	set_stunned(true)
 	remove_health_point(damage_taken)
-	
+
 func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: bool = false) -> Timer:
 	var new_timer = Timer.new()
 	new_timer.set_wait_time(time)
@@ -416,7 +415,7 @@ func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: boo
 
 func _regen_stamina() -> void:
 	add_stamina(regen_stamina_value * stamina_regen_factor)
-		
+
 func die() -> void:
 	set_weight(0)
 	set_state("Death")
@@ -440,7 +439,7 @@ func _on_stun_changed(stun_state: bool) -> void:
 		elif get_state_name() == "Block":
 			state_machine.set_state("Idle")
 			duration = duration*3
-		
+
 		var stun_timer = GAME._create_timer_delay(duration, true, true, self, "_on_stun_timer_timeout")
 		add_child(stun_timer, true)
 		can_attack = false

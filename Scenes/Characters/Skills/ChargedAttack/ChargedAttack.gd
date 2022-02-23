@@ -1,7 +1,7 @@
 extends Skill
 class_name ChargedAttackSkill
-func is_class(value: String): return value == "ChargedAttackSkillStateMachine" or .is_class(value)
-func get_class() -> String: return "ChargedAttackSkillStateMachine"
+func is_class(value: String): return value == "ChargedAttackSkill" or .is_class(value)
+func get_class() -> String: return "ChargedAttackSkill"
 
 
 #### ACCESSORS ####

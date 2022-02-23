@@ -6,7 +6,7 @@ func get_class() -> String: return "Skill"
 
 var parent_character : Node2D = null
 
-onready var anim_player : AnimationPlayer = $AnimationPlayer
+onready var anim_player : AnimationPlayer = get_node_or_null("AnimationPlayer")
 #### ACCESSORS ####
 func get_stamina_cost() -> float:
 	var cost : float = 0.0
@@ -73,11 +73,11 @@ func new_owner(new_owner : Node2D) -> void:
 		parent_character.weapon_node.connect("collided", self, "_on_left_weapon_hit")
 		parent_character.shield_node.connect("collided", self, "_on_right_weapon_hit")
 		
-func transfer_animations(weapon_left_path : NodePath, weapon_right_path : NodePath, new_anim_player : AnimationPlayer) -> void:
+func _transfer_animations(weapon_left_path : NodePath, weapon_right_path : NodePath, new_anim_player : AnimationPlayer) -> void:
 	if !is_instance_valid(parent_character) or !parent_character is Character:
-		print("No valid owner to this skill")
+		push_error("No valid owner to this skill")
 		return
-	var anim_name_list = anim_player.get_animation_list()
+	var anim_name_list : PoolStringArray = anim_player.get_animation_list()
 	
 	for anim_name in anim_name_list:
 		var anim = anim_player.get_animation(anim_name)
