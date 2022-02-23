@@ -1,7 +1,7 @@
 extends Node
 
 #### ACCESSORS ####
-func get_skill(skill_name) -> Node:
+func get_skill(skill_name : String) -> Node:
 	var skills = get_children()
 	for skill in skills:
 		if skill.name == skill_name:
