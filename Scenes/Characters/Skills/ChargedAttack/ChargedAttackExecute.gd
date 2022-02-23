@@ -1,6 +1,8 @@
 extends ExecuteSkill
-func is_class(value: String): return value == "" or .is_class(value)
-func get_class() -> String: return ""
+class_name ChargedAttackExecuteSkill
+
+func is_class(value: String): return value == "ChargedAttackExecuteSkill" or .is_class(value)
+func get_class() -> String: return "ChargedAttackExecuteSkill"
 
 #### ACCESSORS ####
 
