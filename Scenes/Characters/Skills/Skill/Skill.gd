@@ -13,7 +13,7 @@ func get_stamina_cost() -> float:
 	for state in get_children():
 		if !state is SkillState:
 			continue
-		cost = cost + state.stamina_cost
+		cost += state.stamina_cost
 		
 	return cost
 	

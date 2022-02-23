@@ -17,7 +17,7 @@ func set_state(state)->void:
 	if state is String:
 		state = get_node_or_null(state)
 		
-	if state == current_state:
+	if state != null and state == current_state:
 		state.call_state()
 		return
 	

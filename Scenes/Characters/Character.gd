@@ -108,7 +108,29 @@ func get_state() -> Object: return $StateMachine.get_state()
 func get_state_name() -> String: return $StateMachine.get_state_name()
 func is_recovering() -> bool: return $StateMachine.get_state_name() == "ChargedAttack" and $StateMachine.current_state.get_state_name() == "Recovering"
 
+func get_current_state() -> String:
+	if !is_instance_valid(state_machine):
+		return ""
+	if state_machine.get_state_name() == "Skilling":
+		return skill_tree.get_state_name()
+	
+	return state_machine.get_state_name()
+	
 #### ACCESSORS ####
+func set_state(new_state : String) -> void:
+	if can_change_state():
+		state_machine.set_state(new_state)
+	
+func can_change_state() -> bool:
+	var changeable = false
+	if state_machine.current_state.name == "Skilling":
+		if !is_instance_valid(skill_tree.current_state) or skill_tree.current_state.is_cancelable():
+			changeable = true
+	else:
+		changeable = true
+	return changeable
+
+
 ##PATHFINDER WEIGHT
 func set_pathfinder(newPath : Pathfinder) -> void:
 	if pathfinder != newPath:
@@ -244,28 +266,24 @@ func is_facing_left() -> bool: return facing_left
 func _ready() -> void:
 	var __ = connect_signals()
 	init_panels()
+	setup_skills()
+	
+	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
+
+func setup_skills() -> void:
 	add_skill("Attack")
 	add_skill("Block")
 	add_skill("ChargedAttack")
 	add_skill("Dodge")
 	add_skill("GuardBreak")
-	
-	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
 
-func add_skill(skill_name) -> void:
+func add_skill(skill_name : String) -> void:
 	var newSkill = SKILL_LIST.get_skill(skill_name)
 	
 	skill_tree.add_child(newSkill)
 	if newSkill.has_method("new_owner"):
 		newSkill.new_owner(self)
 
-func get_current_state() -> String:
-	if !is_instance_valid(state_machine):
-		return ""
-	if state_machine.get_state_name() == "Skilling":
-		return skill_tree.get_state_name()
-	
-	return state_machine.get_state_name()
 
 func connect_signals() -> int:
 	var __ = connect("health_point_changed", self, "_on_health_point_changed")
@@ -409,33 +427,6 @@ func use_skill(skill_name : String) -> int:
 		return 1
 	return 0
 
-func set_state(new_state : String) -> void:
-	if can_change_state():
-		state_machine.set_state(new_state)
-	
-func can_change_state() -> bool:
-	var changeable = false
-	if state_machine.current_state.name == "Skilling":
-		if !is_instance_valid(skill_tree.current_state) or skill_tree.current_state.is_cancelable():
-			changeable = true
-	else:
-		changeable = true
-	return changeable
-
-
-func prep_guardBreak() -> void:
-	if is_recovering():
-		return
-	if(state_machine.get_state_name() == "Attack" or state_machine.get_state_name() == "GuardBreak"):
-		return
-	set_state("GuardBreak")
-	
-func guardBreak() -> void:
-	if is_recovering():
-		return
-	if(state_machine.get_state_name() == "GuardBreak"):
-		state_machine.current_state.hit()
-
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
@@ -494,8 +485,7 @@ func _on_look_direction_changed(_dir: float) -> void:
 	pass
 
 func _on_animation_finished() -> void:
-	if animated_sprite.get_animation() == "Hit":
-		pass
+	pass
 
 func _on_AnimatedSprite_frame_changed() -> void:
 	pass # Replace with function body.
