@@ -293,7 +293,6 @@ func connect_signals() -> void:
 	__ = connect("pathfinder_changed", self, "_on_pathfinder_changed")
 	__ = connect("weight_changed", self, "_on_weight_changed")
 	
-	return 0
 	
 func _physics_process(_delta: float) -> void:
 	if not is_stunned():
