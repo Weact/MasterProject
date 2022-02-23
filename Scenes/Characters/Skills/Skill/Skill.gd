@@ -73,7 +73,7 @@ func new_owner(new_owner : Node2D) -> void:
 		parent_character.weapon_node.connect("collided", self, "_on_left_weapon_hit")
 		parent_character.shield_node.connect("collided", self, "_on_right_weapon_hit")
 		
-func transfer_animations(weapon_left_path : NodePath, weapon_right_path : NodePath, new_anim_player : AnimationPlayer) -> void:
+func _transfer_animations(weapon_left_path : NodePath, weapon_right_path : NodePath, new_anim_player : AnimationPlayer) -> void:
 	if !is_instance_valid(parent_character) or !parent_character is Character:
 		print("No valid owner to this skill")
 		return
