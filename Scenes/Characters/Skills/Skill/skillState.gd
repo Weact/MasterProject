@@ -7,9 +7,9 @@ func get_class() -> String: return "SkillState"
 export var cancelable : bool = true
 export var auto_advance : bool = true
 export var stamina_cost : float = 0.0
-export var state_velocity_factor = 1.0
-export var state_rotation_factor = 1.0
-export var state_stamina_regen_factor = 1.0
+export var state_velocity_factor : float = 1.0
+export var state_rotation_factor : float = 1.0
+export var state_stamina_regen_factor : float = 1.0
 var ready : bool = false
 
 #### ACCESSORS ####
