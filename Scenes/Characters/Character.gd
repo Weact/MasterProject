@@ -267,7 +267,7 @@ func get_current_state() -> String:
 	
 	return state_machine.get_state_name()
 
-func connect_signals() -> int:
+func connect_signals() -> void:
 	var __ = connect("health_point_changed", self, "_on_health_point_changed")
 	__ = connect("stamina_changed", self, "_on_stamina_changed")
 
