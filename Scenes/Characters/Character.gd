@@ -73,7 +73,6 @@ var velocity_factor : float = 1.0
 var stamina_regen_factor : float = 1.0
 
 export var white_mat : Material = null
-onready var dodge_sprite_animation : PackedScene = preload("res://Scenes/Characters/Player/DodgeSprite/DodgeSprite.tscn")
 
 export var facing_left : bool = false setget set_facing_left, is_facing_left
 
@@ -247,6 +246,9 @@ func _ready() -> void:
 	init_panels()
 	add_skill("Attack")
 	add_skill("Block")
+	add_skill("ChargedAttack")
+	add_skill("Dodge")
+	add_skill("GuardBreak")
 	
 	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
 
@@ -328,27 +330,6 @@ func stun() -> void:
 func unstun() -> void:
 	set_stunned(false)
 
-func dodge() -> void:
-	if  get_state_name() != "Move" and get_state_name() != "Idle":
-		if is_recovering():
-			pass
-		else:
-			return
-		
-	if stamina >= dodge_cost and not get_state_name() == "Dodge":
-		set_state("Dodge")
-		
-		yield(get_tree().create_timer(dodging_time), "timeout")
-		reset_dodge()
-
-func reset_dodge() -> void:
-	is_dodging = false
-	set_state("Idle")
-
-func animate_dodging() -> void:
-	var dodge_anim = dodge_sprite_animation.instance()
-	dodge_anim.global_position = global_position
-	get_parent().add_child(dodge_anim)
 
 func init_panels() -> void:
 	ressources_panel.get_child(0).set_text( \
@@ -428,24 +409,6 @@ func use_skill(skill_name : String) -> int:
 		return 1
 	return 0
 
-func attack(mode : String = "basic") -> void:
-	if is_recovering():
-		return
-	#if can_attack && state_machine.get_state_name() != "GuardBreak":
-	
-		#if not is_instance_valid(attack_cd_timer):
-			#attack_cd_timer = GAME._create_timer_delay(attack_cooldown, true, true, self, "_on_attack_cd_timeout")
-			#attack_cd_timer.set_name(get_name() + "AttackCooldownTimer")
-			#add_child(attack_cd_timer)
-		
-		#var charged_attack_state := get_node("StateMachine/ChargedAttack")
-	if mode == "basic":
-		if use_skill("Attack"):
-			pass
-		#elif !stamina < charged_attack_state.stamina_cost:
-			#prep_charged_attack()
-			
-
 func set_state(new_state : String) -> void:
 	if can_change_state():
 		state_machine.set_state(new_state)
@@ -472,18 +435,6 @@ func guardBreak() -> void:
 		return
 	if(state_machine.get_state_name() == "GuardBreak"):
 		state_machine.current_state.hit()
-
-# TO BE REPLACED WITH SKILLS NODE AND USE A SKILL TREE
-func prep_charged_attack() -> void:
-	if is_recovering():
-		return
-	set_state("ChargedAttack")
-
-func charged_attack() -> void:
-	if is_recovering():
-		return
-	if(state_machine.get_state_name() == "ChargedAttack"):
-		state_machine.current_state.trigger_attack()
 
 #### INPUTS ####
 
@@ -544,7 +495,7 @@ func _on_look_direction_changed(_dir: float) -> void:
 
 func _on_animation_finished() -> void:
 	if animated_sprite.get_animation() == "Hit":
-		set_state("Idle")
+		pass
 
 func _on_AnimatedSprite_frame_changed() -> void:
 	pass # Replace with function body.

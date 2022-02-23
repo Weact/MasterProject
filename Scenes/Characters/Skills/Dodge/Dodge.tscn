@@ -1,13 +1,14 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Scenes/Characters/Skills/Skill/RecoverySkill.gd" type="Script" id=1]
-[ext_resource path="res://Scenes/Characters/Skills/Skill/ExecuteSkill.gd" type="Script" id=2]
-[ext_resource path="res://Scenes/Characters/Skills/Skill/Skill.gd" type="Script" id=3]
-[ext_resource path="res://Scenes/Characters/Skills/Skill/PreparationSkill.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/Characters/Skills/Skill/Skill.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Characters/Skills/Dodge/DodgeRecov.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/Characters/Skills/Dodge/DodgePrep.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/Characters/Skills/Dodge/Dodge.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/Characters/Skills/Dodge/DodgeExec.gd" type="Script" id=5]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Execute"
-length = 0.3
+length = 0.15
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimationPlayer/Weapon_Left_mock:position")
 tracks/0/interp = 1
@@ -111,7 +112,7 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id=3]
 resource_name = "Recovery"
-length = 0.1
+length = 0.05
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimationPlayer/Weapon_Left_mock:position")
 tracks/0/interp = 1
@@ -161,25 +162,26 @@ tracks/3/keys = {
 "values": [  ]
 }
 
-[node name="Skill" type="Node"]
-script = ExtResource( 3 )
-
-[node name="Preparation" type="Node" parent="."]
+[node name="Dodge" instance=ExtResource( 1 )]
 script = ExtResource( 4 )
 
-[node name="Execute" type="Node" parent="."]
+[node name="Preparation" parent="." index="0"]
+script = ExtResource( 3 )
+cancelable = false
+state_velocity_factor = 0.1
+state_rotation_factor = 0.3
+
+[node name="Execute" parent="." index="1"]
+script = ExtResource( 5 )
+stamina_cost = 15.0
+state_velocity_factor = 3.0
+
+[node name="Recovery" parent="." index="2"]
 script = ExtResource( 2 )
-cancelable = false
+state_velocity_factor = 0.25
+state_rotation_factor = 0.3
 
-[node name="Recovery" type="Node" parent="."]
-script = ExtResource( 1 )
-cancelable = false
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" parent="." index="3"]
 anims/Execute = SubResource( 1 )
 anims/Preparation = SubResource( 2 )
 anims/Recovery = SubResource( 3 )
-
-[node name="Weapon_Left_mock" type="Node2D" parent="AnimationPlayer"]
-
-[node name="Weapon_Right_mock" type="Node2D" parent="AnimationPlayer"]

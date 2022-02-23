@@ -6,26 +6,18 @@ func get_class() -> String: return ""
 
 #### BUILT-IN ####
 
-
-
 #### VIRTUALS ####
-
-
 
 #### LOGIC ####
 
-
-
 #### INPUTS ####
-
-
 
 #### SIGNAL RESPONSES ####
 func _on_right_weapon_hit(body) -> void:
-	if body == self or !body is Sword:
+	if body == self or !body is Shield:
+		print(body.name)
 		return
-		
 	var bodyParent = body.weapon_handler_node
 	if is_instance_valid(bodyParent):
 		bodyParent.set_stunned(true)
-		parent_character.remove_stamina(bodyParent.get_attack_power())
+		bodyParent.remove_stamina(parent_character.get_attack_power())

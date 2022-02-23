@@ -8,6 +8,22 @@
 [ext_resource path="res://Scenes/Characters/Player/Inputs/Inputs.gd" type="Script" id=6]
 [ext_resource path="res://Scenes/StateMachine/StateLabel.gd" type="Script" id=7]
 
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 15, 22 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 4 )
+region = Rect2( 15, 0, 15, 22 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 4 )
+region = Rect2( 30, 0, 15, 22 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 4 )
+region = Rect2( 45, 0, 15, 22 )
+
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 15, 20 )
@@ -28,24 +44,13 @@ region = Rect2( 45, 0, 15, 20 )
 atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 16, 28 )
 
-[sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 4 )
-region = Rect2( 0, 0, 15, 22 )
-
-[sub_resource type="AtlasTexture" id=13]
-atlas = ExtResource( 4 )
-region = Rect2( 15, 0, 15, 22 )
-
-[sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 4 )
-region = Rect2( 30, 0, 15, 22 )
-
-[sub_resource type="AtlasTexture" id=15]
-atlas = ExtResource( 4 )
-region = Rect2( 45, 0, 15, 22 )
-
 [sub_resource type="SpriteFrames" id=10]
 animations = [ {
+"frames": [ SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ) ],
+"loop": true,
+"name": "Move",
+"speed": 9.0
+}, {
 "frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
 "loop": true,
 "name": "Idle",
@@ -55,11 +60,6 @@ animations = [ {
 "loop": true,
 "name": "Hit",
 "speed": 5.0
-}, {
-"frames": [ SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ) ],
-"loop": true,
-"name": "Move",
-"speed": 9.0
 } ]
 
 [sub_resource type="Animation" id=17]
@@ -147,11 +147,11 @@ script = ExtResource( 6 )
 position = Vector2( 0, -4 )
 frames = SubResource( 10 )
 animation = "Idle"
-frame = 3
 playing = true
 
 [node name="AnimationPlayer" parent="WeaponsPoint" index="0"]
 anims/unblock = SubResource( 17 )
+blend_times = [  ]
 
 [node name="CollisionShape2D" parent="." index="4"]
 shape = SubResource( 11 )
@@ -159,7 +159,7 @@ shape = SubResource( 11 )
 [node name="StateMachine" parent="." index="6"]
 visible = true
 
-[node name="StateLabel" type="Label" parent="StateMachine" index="8"]
+[node name="StateLabel" type="Label" parent="StateMachine" index="7"]
 margin_left = -12.0
 margin_top = -76.0
 margin_right = 28.0

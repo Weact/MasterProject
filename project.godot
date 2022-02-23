@@ -104,7 +104,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Characters/Skills/ChargedAttack/ChargedAttackHittingState.gd"
 }, {
-"base": "State",
+"base": "SkillState",
 "class": "ChargedAttackPrepState",
 "language": "GDScript",
 "path": "res://Scenes/Characters/Skills/ChargedAttack/ChargedAttackPrepState.gd"
@@ -114,8 +114,8 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Characters/Skills/ChargedAttack/ChargedAttackRecoveryState.gd"
 }, {
-"base": "StateMachine",
-"class": "ChargedAttackSkillStateMachine",
+"base": "Skill",
+"class": "ChargedAttackSkill",
 "language": "GDScript",
 "path": "res://Scenes/Characters/Skills/ChargedAttack/ChargedAttack.gd"
 }, {
@@ -291,7 +291,7 @@ _global_script_class_icons={
 "ChargedAttackHittingState": "",
 "ChargedAttackPrepState": "",
 "ChargedAttackRecoveryState": "",
-"ChargedAttackSkillStateMachine": "",
+"ChargedAttackSkill": "",
 "DamageableBehavior": "",
 "ExecuteSkill": "",
 "NPC": "",

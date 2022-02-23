@@ -18,6 +18,9 @@ func get_stamina_cost() -> float:
 	return cost
 	
 #### BUILT-IN ####
+func exit_state() -> void:
+	.exit_state()
+	
 
 #### VIRTUALS ####
 
@@ -33,13 +36,25 @@ func play_current_state_anim() -> void:
 	parent_character.weapons_animation_player_node.play(String(name) +"_"+ String(current_state.name))
 
 func prepare() -> void:
+	if state_machine.current_state != self:
+		return
 	set_state("Preparation")
 	
 func execute() -> void:
+	if state_machine.current_state != self:
+		return
 	set_state("Execute")
 	
 func recover() -> void:
+	if state_machine.current_state != self:
+		return
 	set_state("Recovery")
+
+func is_ready() -> bool:
+	if is_instance_valid(current_state):
+		return current_state.ready
+	return false
+	
 	
 func new_owner(new_owner : Node2D) -> void:
 	if !is_instance_valid(new_owner):
@@ -105,6 +120,7 @@ func _on_weapons_animation_finished() -> void:
 	if !is_instance_valid(parent_character) or parent_character.state_machine.current_state.name != "Skilling" or state_machine.current_state != self:
 		return
 	
+	current_state.ready = true
 	if current_state.auto_advance == true:
 		if get_state_name() == "Recovery":
 			owner.state_machine.set_state("Idle")

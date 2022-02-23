@@ -2,7 +2,7 @@
 
 [resource]
 resource_name = "Preparation"
-length = 0.075
+length = 0.15
 step = 0.025
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimationPlayer/Weapon_Left_mock:position")
@@ -11,7 +11,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.05, 0.075 ),
+"times": PoolRealArray( 0, 0.1, 0.15 ),
 "transitions": PoolRealArray( 1.27456, 1.46409, 1.46409 ),
 "update": 0,
 "values": [ Vector2( 3, 0 ), Vector2( 1, 0 ), Vector2( -1, 0 ) ]
@@ -23,10 +23,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.05, 0.075 ),
+"times": PoolRealArray( 0, 0.1, 0.15 ),
 "transitions": PoolRealArray( 1.27456, 1.46409, 1.46409 ),
 "update": 0,
-"values": [ -20.0, 0.0, 0.0 ]
+"values": [ 0.0, 0.0, 0.0 ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("AnimationPlayer/Weapon_Right_mock:position")
@@ -35,7 +35,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.05, 0.075 ),
+"times": PoolRealArray( 0, 0.1, 0.15 ),
 "transitions": PoolRealArray( 1.27456, 1.46409, 1.46409 ),
 "update": 0,
 "values": [ Vector2( 3, 1 ), Vector2( 2, 2 ), Vector2( 2, 2 ) ]
@@ -50,5 +50,5 @@ tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 0.0 ]
+"values": [ 20.0 ]
 }

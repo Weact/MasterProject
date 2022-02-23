@@ -97,19 +97,18 @@ func action(action_name: String) -> void:
 			dirDown = 0
 		"Attack_Pressed":
 			if blockPressed:
-				prep_guardBreak()
+				var __ = use_skill("GuardBreak")
 			else:
-				attack("charge")
+				var __ = use_skill("ChargedAttack")
 				
 			attackPressed = true
 			
 		"Attack_Released":
-			if blockPressed:
-				guardBreak()
-			if charged_ready:
-				charged_attack()
-			else:
-				attack()
+			var charged_attack = skill_tree.get_skill("ChargedAttack")
+			if is_instance_valid(charged_attack) and charged_attack.is_ready():
+				charged_attack.execute()
+			elif get_current_state() == "ChargedAttack":
+				var __ = use_skill("Attack")
 			attackPressed = false
 		"Block_Pressed":
 			var __ = use_skill("Block")
@@ -118,7 +117,7 @@ func action(action_name: String) -> void:
 			unblock()
 			blockPressed = false
 		"Dodge_Pressed":
-			dodge()
+			use_skill("Dodge")
 		"Dodge_Released":
 			pass
 		_:
@@ -128,7 +127,7 @@ func action(action_name: String) -> void:
 
 func unblock() -> void:
 	var block_skill = skill_tree.get_skill("Block")
-	if block_skill:
+	if is_instance_valid(block_skill):
 		block_skill.recover()
  
 #### INPUTS ####

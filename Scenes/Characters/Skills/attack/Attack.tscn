@@ -19,7 +19,7 @@ state_rotation_factor = 0.2
 
 [node name="Execute" parent="." index="1"]
 script = ExtResource( 2 )
-stamina_cost = 15.0
+stamina_cost = 10.0
 state_velocity_factor = 0.2
 state_rotation_factor = 0.2
 
@@ -34,7 +34,8 @@ anims/Preparation = ExtResource( 6 )
 anims/Recovery = ExtResource( 5 )
 
 [node name="Weapon_Left_mock" parent="AnimationPlayer" index="0"]
-position = Vector2( 5.61206, 0 )
+position = Vector2( 1.61392, 0 )
 
 [node name="Weapon_Right_mock" parent="AnimationPlayer" index="1"]
-position = Vector2( 2.36734, 2.36734 )
+position = Vector2( 2.30696, 1.69304 )
+rotation = 0.349066

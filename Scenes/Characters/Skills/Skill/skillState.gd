@@ -10,6 +10,7 @@ export var stamina_cost : float = 0.0
 export var state_velocity_factor = 1.0
 export var state_rotation_factor = 1.0
 export var state_stamina_regen_factor = 1.0
+var ready = false
 
 #### ACCESSORS ####
 
@@ -19,6 +20,7 @@ func call_state() -> void:
 		return
 	if !state_machine.parent_character is Character:
 		return
+	ready = false
 	state_machine.parent_character.remove_stamina(stamina_cost)
 	state_machine.parent_character.velocity_factor = state_velocity_factor
 	state_machine.parent_character.rotation_factor = state_rotation_factor
@@ -27,7 +29,7 @@ func call_state() -> void:
 func exit_state() -> void:
 	if !is_instance_valid(state_machine.parent_character):
 		return
-	if !state_machine.parent_character is Character:
+	if state_machine.parent_character is Character:
 		state_machine.parent_character.velocity_factor = 1.0
 		state_machine.parent_character.rotation_factor = 1.0
 		state_machine.parent_character.stamina_regen_factor = 1.0

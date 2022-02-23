@@ -24,7 +24,7 @@ func exit_state():
 func update(_delta):
 	var is_moving : bool = owner.get_velocity() != Vector2.ZERO
 	
-	owner.update_weapon_rotation(_delta, owner.rot_velocity)
+	#owner.update_weapon_rotation(_delta, owner.rot_velocity)
 	if is_moving:
 		owner.set_state("Move")
 
