@@ -22,7 +22,7 @@ func update(_delta : float) ->void:
 
 	owner.update_move_path(owner.target.position)
 	if owner.position.distance_to(owner.target.position) < minDist:
-		if owner.has_method("attack"):
-			owner.attack()
+		if owner.skill_tree.get_skill("Attack"):
+			owner.use_skill("Attack")
 		
 		

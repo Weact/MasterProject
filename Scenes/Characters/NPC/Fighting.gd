@@ -91,9 +91,8 @@ func tryDodge() -> void:
 	var rdm =  randi()%int(chanceToDodge+chanceToNotDodge)
 
 	if rdm > chanceToNotDodge:
-		owner.dodge()
-			
-			
+		owner.use_skill("Dodge")
+	
 func kite() -> void:
 	if owner == null or owner.target == null:
 		return

@@ -16,10 +16,6 @@ var attackPressed : bool = false
 
 #### BUILT-IN ####
 
-func _ready() -> void:
-	pass
-
-
 #### VIRTUALS ####
 
 #### LOGIC ####
@@ -101,28 +97,27 @@ func action(action_name: String) -> void:
 			dirDown = 0
 		"Attack_Pressed":
 			if blockPressed:
-				prep_guardBreak()
+				var __ = use_skill("GuardBreak")
 			else:
-				attack("charge")
+				var __ = use_skill("ChargedAttack")
 				
 			attackPressed = true
 			
 		"Attack_Released":
-			if blockPressed:
-				guardBreak()
-			if charged_ready:
-				charged_attack()
-			else:
-				attack()
+			var charged_attack = skill_tree.get_skill("ChargedAttack")
+			if is_instance_valid(charged_attack) and charged_attack.is_ready():
+				charged_attack.execute()
+			elif get_current_state() == "ChargedAttack":
+				var __ = use_skill("Attack")
 			attackPressed = false
 		"Block_Pressed":
-			block()
+			var __ = use_skill("Block")
 			blockPressed = true
 		"Block_Released":
 			unblock()
 			blockPressed = false
 		"Dodge_Pressed":
-			dodge()
+			use_skill("Dodge")
 		"Dodge_Released":
 			pass
 		_:
@@ -131,8 +126,9 @@ func action(action_name: String) -> void:
 	set_direction(Vector2(dirRight - dirLeft, dirDown - dirUp))
 
 func unblock() -> void:
-	if not is_recovering() and (state_machine.get_state_name() != "Attack" and (state_machine.get_state_name() != "GuardBreak" or state_machine.current_state.get_state_name() == "Prep")):
-		state_machine.set_state("Idle")
+	var block_skill = skill_tree.get_skill("Block")
+	if is_instance_valid(block_skill):
+		block_skill.recover()
  
 #### INPUTS ####
 

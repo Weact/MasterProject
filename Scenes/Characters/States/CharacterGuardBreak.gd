@@ -14,7 +14,7 @@ var tryingToHit : bool = false
 func enter_state():
 	tryingToHit = false
 	readyToHit = false
-	var __ = owner.shield_node.connect("anim_done", self, "_on_shield_anim_finished")
+	var __ = owner.weapons_node.connect("animation_finished", self, "_on_weapons_anim_finished")
 	if is_instance_valid(owner):
 		owner.velocity_factor = 0.1
 		owner.rotation_factor = 0.1
@@ -27,7 +27,7 @@ func exit_state():
 		owner.velocity_factor = 1.0
 		owner.rotation_factor = 1.0
 		owner.stamina_regen_factor = 1.0
-		var __ = owner.shield_node.disconnect("anim_done", self, "_on_shield_anim_finished")
+		var __ = owner.weapons_node.disconnect("animation_finished", self, "_on_weapons_anim_finished")
 		
 		owner.weapons_node.get_node_or_null("AnimationPlayer").play("unblock")
 		if is_instance_valid(owner.weapon_node) and is_instance_valid(owner.weapon_node):
@@ -59,7 +59,7 @@ func recovery():
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
-func _on_shield_anim_finished() :
+func _on_weapons_anim_finished() :
 	if get_state_name() == "Recovery":
 		owner.set_state("Idle")
 	if get_state_name() == "Hitting":

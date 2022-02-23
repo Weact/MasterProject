@@ -19,14 +19,10 @@ __meta__ = {
 }
 
 [node name="Area2D" type="Area2D" parent="Sprite"]
-rotation = 0.000711173
-__meta__ = {
-"_edit_group_": true,
-"_edit_lock_": true
-}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/Area2D"]
-position = Vector2( -0.000714672, 1.99964 )
+position = Vector2( -0.00213676, 1.99964 )
+rotation = 0.000711173
 shape = SubResource( 1 )
 __meta__ = {
 "_edit_lock_": true

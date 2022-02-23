@@ -147,23 +147,25 @@ script = ExtResource( 6 )
 position = Vector2( 0, -4 )
 frames = SubResource( 10 )
 animation = "Idle"
+frame = 2
 playing = true
 
 [node name="AnimationPlayer" parent="WeaponsPoint" index="0"]
 anims/unblock = SubResource( 17 )
-
-[node name="WeaponPoint" parent="WeaponsPoint" index="2"]
-position = Vector2( 1, 0 )
+blend_times = [  ]
 
 [node name="CollisionShape2D" parent="." index="4"]
 shape = SubResource( 11 )
 
-[node name="StateMachine" parent="." index="5"]
+[node name="StateMachine" parent="." index="6"]
 visible = true
 
-[node name="StateLabel" type="Label" parent="StateMachine" index="8"]
+[node name="StateLabel" type="Label" parent="StateMachine" index="7"]
 margin_left = -12.0
 margin_top = -76.0
 margin_right = 28.0
 margin_bottom = -62.0
 script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

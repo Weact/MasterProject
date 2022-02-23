@@ -9,16 +9,16 @@ func get_class() -> String: return "NPCBlockBehavior"
 func enter_state() -> void:
 	if owner.state_machine == null:
 		return
-	if owner.has_method("block"):
-		owner.block()
+	if owner.skill_tree.get_skill("Block"):
+		owner.use_skill("Block")
 	if !is_instance_valid(owner.target):
 		return
 	
 func update(_delta : float) ->void:
 	if owner == null or owner.state_machine == null:
 		return
-	if owner.has_method("block"):
-		owner.block()
+	if owner.skill_tree.get_skill("Block"):
+		owner.use_skill("Block")
 	if owner.target == null:
 		return
 	owner.set_look_direction(state_machine.get_target_direction())

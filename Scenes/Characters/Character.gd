@@ -4,6 +4,7 @@ class_name Character
 func is_class(value: String): return value == "Character" or .is_class(value)
 func get_class() -> String: return "Character"
 
+onready var skill_tree = get_node("Skills")
 onready var state_machine = get_node("StateMachine")
 onready var animated_sprite : AnimatedSprite = get_node("AnimatedSprite")
 onready var collision_shape : CollisionShape2D = get_node("CollisionShape2D")
@@ -16,6 +17,8 @@ signal pathfinder_changed
 
 ## WEAPONS
 onready var weapons_node : Node2D = get_node_or_null("WeaponsPoint")
+onready var weapon_point : Node2D = weapons_node.get_node_or_null("WeaponPoint")
+onready var shield_point : Node2D = weapons_node.get_node_or_null("ShieldPoint")
 onready var weapon_node : Node2D = weapons_node.get_node_or_null("WeaponPoint/Weapon")
 onready var shield_node : Node2D = weapons_node.get_node_or_null("ShieldPoint/Shield")
 
@@ -30,7 +33,7 @@ export var health_point : int = 0
 signal health_point_changed()
 
 export var stamina : float = 0.0
-var regen_stamina_value : float = 1.0
+var regen_stamina_value : float = 3.0
 var stamina_regen_delay : float = 0.5
 var timer_stamina_regen : Timer = null
 signal stamina_changed()
@@ -70,7 +73,6 @@ var velocity_factor : float = 1.0
 var stamina_regen_factor : float = 1.0
 
 export var white_mat : Material = null
-onready var dodge_sprite_animation : PackedScene = preload("res://Scenes/Characters/Player/DodgeSprite/DodgeSprite.tscn")
 
 export var facing_left : bool = false setget set_facing_left, is_facing_left
 
@@ -102,12 +104,33 @@ signal shield_hit
 ## STATES
 export var default_state : String = ""
 
-func set_state(value): $StateMachine.set_state(value)
 func get_state() -> Object: return $StateMachine.get_state()
 func get_state_name() -> String: return $StateMachine.get_state_name()
 func is_recovering() -> bool: return $StateMachine.get_state_name() == "ChargedAttack" and $StateMachine.current_state.get_state_name() == "Recovering"
 
+func get_current_state() -> String:
+	if !is_instance_valid(state_machine):
+		return ""
+	if state_machine.get_state_name() == "Skilling":
+		return skill_tree.get_state_name()
+
+	return state_machine.get_state_name()
+
 #### ACCESSORS ####
+func set_state(new_state : String) -> void:
+	if can_change_state():
+		state_machine.set_state(new_state)
+
+func can_change_state() -> bool:
+	var changeable = false
+	if state_machine.current_state.name == "Skilling":
+		if !is_instance_valid(skill_tree.current_state) or skill_tree.current_state.is_cancelable():
+			changeable = true
+	else:
+		changeable = true
+	return changeable
+
+
 ##PATHFINDER WEIGHT
 func set_pathfinder(newPath : Pathfinder) -> void:
 	if pathfinder != newPath:
@@ -241,11 +264,33 @@ func is_facing_left() -> bool: return facing_left
 #### BUILT-IN ####
 
 func _ready() -> void:
+	var __ = connect_signals()
+	init_panels()
+	setup_skills()
+
+	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
+
+func setup_skills() -> void:
+	add_skill("Attack")
+	add_skill("Block")
+	add_skill("ChargedAttack")
+	add_skill("Dodge")
+	add_skill("GuardBreak")
+
+func add_skill(skill_name : String) -> void:
+	var newSkill = SKILL_LIST.get_skill(skill_name)
+
+	skill_tree.add_child(newSkill)
+	if newSkill.has_method("new_owner"):
+		newSkill.new_owner(self)
+
+
+func connect_signals() -> void:
 	var __ = connect("health_point_changed", self, "_on_health_point_changed")
 	__ = connect("stamina_changed", self, "_on_stamina_changed")
 
 	__ = connect("max_speed_changed", self, "_on_max_speed_changed")
-	
+
 	__ = connect("stun_changed", self, "_on_stun_changed")
 
 	__ = connect("velocity_changed", self, "_on_velocity_changed")
@@ -265,11 +310,7 @@ func _ready() -> void:
 	__ = connect("current_tile_changed", self, "_on_current_tile_changed")
 	__ = connect("pathfinder_changed", self, "_on_pathfinder_changed")
 	__ = connect("weight_changed", self, "_on_weight_changed")
-	init_panels()
 
-	weapon_node.set_anim_player(weapons_animation_player_node)
-	shield_node.set_anim_player(weapons_animation_player_node)
-	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
 
 func _physics_process(_delta: float) -> void:
 	if not is_stunned():
@@ -306,27 +347,6 @@ func stun() -> void:
 func unstun() -> void:
 	set_stunned(false)
 
-func dodge() -> void:
-	if  get_state_name() != "Move" and get_state_name() != "Idle":
-		if is_recovering():
-			pass
-		else:
-			return
-		
-	if stamina >= dodge_cost and not get_state_name() == "Dodge":
-		set_state("Dodge")
-		
-		yield(get_tree().create_timer(dodging_time), "timeout")
-		reset_dodge()
-
-func reset_dodge() -> void:
-	is_dodging = false
-	set_state("Idle")
-
-func animate_dodging() -> void:
-	var dodge_anim = dodge_sprite_animation.instance()
-	dodge_anim.global_position = global_position
-	get_parent().add_child(dodge_anim)
 
 func init_panels() -> void:
 	ressources_panel.get_child(0).set_text( \
@@ -366,20 +386,20 @@ func flip():
 func damaged(damage_taken) -> void:
 	if get_state_name() == "Dodge":
 		return
-	
+
 	if get_state_name() == "Block":
 		var damage_to_take = max(damage_taken - block_power, 0)
 		var damage_to_block = min(block_power, damage_taken)
 		remove_health_point(damage_to_take)
-		
+
 		if damage_to_block > stamina:
 			remove_health_point(damage_to_block - stamina)
 		remove_stamina(damage_to_block)
 		return
-	
+
 	set_stunned(true)
 	remove_health_point(damage_taken)
-	
+
 func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: bool = false) -> Timer:
 	var new_timer = Timer.new()
 	new_timer.set_wait_time(time)
@@ -395,55 +415,16 @@ func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: boo
 
 func _regen_stamina() -> void:
 	add_stamina(regen_stamina_value * stamina_regen_factor)
-		
+
 func die() -> void:
 	set_weight(0)
 	set_state("Death")
 
-func attack(mode : String = "basic") -> void:
-	if is_recovering():
-		return
-	if can_attack && state_machine.get_state_name() != "GuardBreak":
-		
-		if not is_instance_valid(attack_cd_timer):
-			attack_cd_timer = GAME._create_timer_delay(attack_cooldown, true, true, self, "_on_attack_cd_timeout")
-			attack_cd_timer.set_name(get_name() + "AttackCooldownTimer")
-			add_child(attack_cd_timer)
-		
-		var charged_attack_state := get_node("StateMachine/ChargedAttack")
-		if mode == "basic":
-			set_state("Attack")
-		elif !stamina < charged_attack_state.stamina_cost:
-			prep_charged_attack()
-
-func block() -> void:
-	if not is_recovering() and (can_block and state_machine.get_state_name() != "Attack" and state_machine.get_state_name() != "GuardBreak"):
-		state_machine.set_state("Block")
-
-func prep_guardBreak() -> void:
-	if is_recovering():
-		return
-	if(state_machine.get_state_name() == "Attack" or state_machine.get_state_name() == "GuardBreak"):
-		return
-	state_machine.set_state("GuardBreak")
-	
-func guardBreak() -> void:
-	if is_recovering():
-		return
-	if(state_machine.get_state_name() == "GuardBreak"):
-		state_machine.current_state.hit()
-
-# TO BE REPLACED WITH SKILLS NODE AND USE A SKILL TREE
-func prep_charged_attack() -> void:
-	if is_recovering():
-		return
-	state_machine.set_state("ChargedAttack")
-
-func charged_attack() -> void:
-	if is_recovering():
-		return
-	if(state_machine.get_state_name() == "ChargedAttack"):
-		state_machine.current_state.trigger_attack()
+func use_skill(skill_name : String) -> int:
+	if can_change_state() and skill_tree.use_skill(skill_name):
+		set_state("Skilling")
+		return 1
+	return 0
 
 #### INPUTS ####
 
@@ -458,7 +439,7 @@ func _on_stun_changed(stun_state: bool) -> void:
 		elif get_state_name() == "Block":
 			state_machine.set_state("Idle")
 			duration = duration*3
-		
+
 		var stun_timer = GAME._create_timer_delay(duration, true, true, self, "_on_stun_timer_timeout")
 		add_child(stun_timer, true)
 		can_attack = false
@@ -503,8 +484,7 @@ func _on_look_direction_changed(_dir: float) -> void:
 	pass
 
 func _on_animation_finished() -> void:
-	if animated_sprite.get_animation() == "Hit":
-		set_state("Idle")
+	pass
 
 func _on_AnimatedSprite_frame_changed() -> void:
 	pass # Replace with function body.
