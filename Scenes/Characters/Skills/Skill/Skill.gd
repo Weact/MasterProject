@@ -75,7 +75,7 @@ func new_owner(new_owner : Node2D) -> void:
 		
 func _transfer_animations(weapon_left_path : NodePath, weapon_right_path : NodePath, new_anim_player : AnimationPlayer) -> void:
 	if !is_instance_valid(parent_character) or !parent_character is Character:
-		print("No valid owner to this skill")
+		push_error("No valid owner to this skill")
 		return
 	var anim_name_list : PoolStringArray = anim_player.get_animation_list()
 	
