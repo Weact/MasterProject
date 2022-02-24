@@ -6,6 +6,8 @@ func get_class() -> String: return "Skill"
 
 var parent_character : Node2D = null
 
+export var recovery_canceler : bool = false
+
 onready var anim_player : AnimationPlayer = get_node_or_null("AnimationPlayer")
 #### ACCESSORS ####
 func get_stamina_cost() -> float:
@@ -59,6 +61,21 @@ func recover() -> void:
 	if state_machine.current_state != self:
 		return
 	set_state("Recovery")
+	
+func is_preparing() -> bool:
+	if state_machine.current_state != self:
+		return false
+	return get_state_name() == "Preparation"
+	
+func is_executing() -> bool:
+	if state_machine.current_state != self:
+		return false
+	return get_state_name() == "Execute"
+	
+func is_recovering() -> bool:
+	if state_machine.current_state != self:
+		return false
+	return get_state_name() == "Recovery"
 
 func is_ready() -> bool:
 	if is_instance_valid(current_state):
@@ -124,7 +141,6 @@ func _on_weapons_animation_finished() -> void:
 	if !is_instance_valid(parent_character) or parent_character.state_machine.current_state.name != "Skilling" or state_machine.current_state != self:
 		return
 	
-	current_state.ready = true
 	if current_state.auto_advance == true:
 		if get_state_name() == "Recovery":
 			owner.state_machine.set_state("Idle")
@@ -132,3 +148,5 @@ func _on_weapons_animation_finished() -> void:
 			recover()
 		if get_state_name() == "Preparation":
 			execute()
+	else:
+		current_state.ready = true
