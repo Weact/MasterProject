@@ -18,9 +18,19 @@ func get_stamina_cost() -> float:
 	return cost
 	
 #### BUILT-IN ####
+func enter_state() -> void:
+	.enter_state()
+	parent_character.weapons_node.connect("animation_finished", self, "_on_weapons_animation_finished")
+	parent_character.weapon_node.connect("collided", self, "_on_left_weapon_hit")
+	parent_character.shield_node.connect("collided", self, "_on_right_weapon_hit")
+	
+	
 func exit_state() -> void:
 	.exit_state()
-	
+	parent_character.weapons_node.disconnect("animation_finished", self, "_on_weapons_animation_finished")
+	parent_character.weapon_node.disconnect("collided", self, "_on_left_weapon_hit")
+	parent_character.shield_node.disconnect("collided", self, "_on_right_weapon_hit")
+
 
 #### VIRTUALS ####
 
@@ -59,19 +69,13 @@ func is_ready() -> bool:
 func new_owner(new_owner : Node2D) -> void:
 	if !is_instance_valid(new_owner):
 		return
-	if is_instance_valid(parent_character):
-		parent_character.weapons_node.disconnect("animation_finished", self, "_on_weapons_animation_finished")
-		parent_character.weapon_node.disconnect("collided", self, "_on_left_weapon_hit")
-		parent_character.shield_node.disconnect("collided", self, "_on_right_weapon_hit")
-
+	
 	state_machine = get_parent()
 	owner = new_owner
 	parent_character = new_owner
 	if parent_character is Character:
 		_transfer_animations(parent_character.weapon_point.get_path(), parent_character.shield_point.get_path(), parent_character.weapons_animation_player_node)
-		parent_character.weapons_node.connect("animation_finished", self, "_on_weapons_animation_finished")
-		parent_character.weapon_node.connect("collided", self, "_on_left_weapon_hit")
-		parent_character.shield_node.connect("collided", self, "_on_right_weapon_hit")
+		
 		
 func _transfer_animations(weapon_left_path : NodePath, weapon_right_path : NodePath, new_anim_player : AnimationPlayer) -> void:
 	if !is_instance_valid(parent_character) or !parent_character is Character:
