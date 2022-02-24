@@ -120,7 +120,7 @@ func set_state(new_state : String) -> void:
 	if can_change_state():
 		state_machine.set_state(new_state)
 
-func can_change_state() -> bool:
+func can_change_state(new_skill = null) -> bool:
 	var changeable = false
 	if skill_tree.is_skilling():
 		if !is_instance_valid(skill_tree.current_state) or skill_tree.current_state.is_cancelable():
@@ -128,7 +128,6 @@ func can_change_state() -> bool:
 	else:
 		changeable = true
 	return changeable
-
 
 ##PATHFINDER WEIGHT
 func set_pathfinder(newPath : Pathfinder) -> void:
@@ -263,10 +262,10 @@ func is_facing_left() -> bool: return facing_left
 #### BUILT-IN ####
 
 func _ready() -> void:
-	var __ = connect_signals()
+	connect_signals()
 	init_panels()
 	setup_skills()
-	
+
 	regen_stamina.value = 3.0
 	rotation_factor.value = 1.0
 	velocity_factor.value = 1.0
@@ -424,7 +423,13 @@ func die() -> void:
 	set_state("Death")
 
 func use_skill(skill_name : String) -> int:
+<<<<<<< HEAD
 	if can_change_state() and skill_tree.use_skill(skill_name):
+=======
+	var new_skill = skill_tree.get_skill(skill_name)
+	if can_change_state(new_skill) and skill_tree.use_skill(skill_name):
+		set_state("Skilling")
+>>>>>>> 927f6ce (make skill recovery cancelable)
 		return 1
 	return 0
 
