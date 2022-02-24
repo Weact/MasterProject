@@ -74,22 +74,20 @@ radius = 145.986
 
 [node name="NPC" groups=["NPC"] instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-health_point = 10
+health_point = 100
+stamina = 100.0
 movement_speed = 50.0
 max_speed = 50.0
-attack_power = 5
+attack_power = 10
 attack_cooldown = 1.0
-block_power = 4
+block_power = 5
 
 [node name="AnimatedSprite" parent="." index="0"]
 position = Vector2( 0, -9 )
 frames = SubResource( 5 )
 animation = "Move"
-frame = 2
+frame = 1
 playing = true
-
-[node name="AnimationPlayer" parent="WeaponsPoint" index="0"]
-blend_times = [  ]
 
 [node name="CollisionShape2D" parent="." index="2"]
 shape = SubResource( 13 )
