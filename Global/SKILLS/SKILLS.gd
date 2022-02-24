@@ -1,4 +1,6 @@
 extends Node
+func is_class(value: String): return value == "SKILL_LIST" or .is_class(value)
+func get_class() -> String: return "SKILL_LIST"
 
 #### ACCESSORS ####
 func get_skill(skill_name : String) -> Node:

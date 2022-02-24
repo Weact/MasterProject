@@ -264,7 +264,7 @@ func is_facing_left() -> bool: return facing_left
 #### BUILT-IN ####
 
 func _ready() -> void:
-	var __ = connect_signals()
+	connect_signals()
 	init_panels()
 	setup_skills()
 
