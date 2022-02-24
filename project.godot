@@ -424,7 +424,7 @@ config/icon="res://icon.png"
 
 EVENTS="*res://Global/EVENTS.gd"
 GAME="*res://Global/GAME.gd"
-SKILL_LIST="*res://Global/SkillList.tscn"
+SKILL_LIST="*res://Global/SKILLS/SkillList.tscn"
 
 [debug]
 
