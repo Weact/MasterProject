@@ -12,8 +12,6 @@ func call_state() -> void:
 	state_machine.play_current_state_anim()
 	state_machine.parent_character.shield_node.hitbox.call_deferred("set_disabled", false)
 	
-	print("exec")
-	
 func exit_state() -> void:
 	.exit_state()
 	state_machine.parent_character.shield_node.hitbox.call_deferred("set_disabled", true)
