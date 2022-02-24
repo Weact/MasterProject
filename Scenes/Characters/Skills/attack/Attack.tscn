@@ -14,6 +14,7 @@ script = ExtResource( 8 )
 
 [node name="Preparation" parent="." index="0"]
 script = ExtResource( 3 )
+cancelable = false
 state_velocity_factor = 0.2
 state_rotation_factor = 0.2
 
