@@ -1,11 +1,12 @@
 [gd_resource type="Resource" load_steps=3 format=2]
 
 [ext_resource path="res://Data/Items/Database/Item.gd" type="Script" id=1]
-[ext_resource path="res://Scenes/Weapons/Melee/Sprites/shield.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Weapons/Melee/Sprites/weapon_knight_sword.png" type="Texture" id=2]
 
 [resource]
 script = ExtResource( 1 )
-name = "Basic Shield"
-type = 3
-slot = 7
+name = "Big Sword"
+type = 2
+rarity = 1
+slot = 6
 texture = ExtResource( 2 )

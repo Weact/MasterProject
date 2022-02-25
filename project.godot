@@ -207,7 +207,7 @@ _global_script_classes=[ {
 "base": "Resource",
 "class": "ItemResource",
 "language": "GDScript",
-"path": "res://Data/Items/Item.gd"
+"path": "res://Data/Items/Database/Item.gd"
 }, {
 "base": "Character",
 "class": "NPC",
@@ -437,7 +437,8 @@ config/icon="res://icon.png"
 EVENTS="*res://Global/EVENTS.gd"
 GAME="*res://Global/GAME.gd"
 SKILL_LIST="*res://Global/SKILLS/SkillList.tscn"
-ItemsDatabase="*res://Data/Items/ItemsDatabase.gd"
+ItemsDatabase="*res://Data/Items/Database/ItemsDatabase.gd"
+CharacterInventory="*res://Data/Items/Character/CharacterInventory.tscn"
 
 [debug]
 

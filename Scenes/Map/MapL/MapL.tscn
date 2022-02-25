@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scenes/Map/Base/MapBase.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Characters/Player/Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Scenes/Characters/NPC/NPC.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Environnement/Rock.tscn" type="PackedScene" id=4]
 
 [node name="MapL" instance=ExtResource( 1 )]
@@ -13,25 +12,6 @@ tile_data = PoolIntArray( 0, 1073741828, 0, 1, 1073741828, 0, 2, 1073741828, 0, 
 [node name="Player" parent="Player" index="0" instance=ExtResource( 2 )]
 position = Vector2( 408, 456 )
 movement_speed = 130.0
-block_power = 10
-
-[node name="NPC2" parent="NPC" index="0" instance=ExtResource( 3 )]
-position = Vector2( 440, 488 )
-
-[node name="NPC3" parent="NPC" index="1" instance=ExtResource( 3 )]
-position = Vector2( 424, 504 )
-
-[node name="NPC4" parent="NPC" index="2" instance=ExtResource( 3 )]
-position = Vector2( 408, 520 )
-
-[node name="NPC5" parent="NPC" index="3" instance=ExtResource( 3 )]
-position = Vector2( 392, 520 )
-
-[node name="NPC6" parent="NPC" index="4" instance=ExtResource( 3 )]
-position = Vector2( 456, 472 )
-
-[node name="NPC7" parent="NPC" index="5" instance=ExtResource( 3 )]
-position = Vector2( 472, 440 )
 
 [node name="Rock" parent="Obstacles/Rocks" index="0" instance=ExtResource( 4 )]
 position = Vector2( 424, 488 )

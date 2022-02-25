@@ -17,7 +17,6 @@ script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-inventory_size = 3000
 
 [node name="Background" type="NinePatchRect" parent="."]
 anchor_right = 1.0
