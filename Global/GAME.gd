@@ -23,14 +23,17 @@ func _input(event: InputEvent) -> void:
 			map_valentin_player = get_tree().get_root().get_node_or_null("MapV/Player/Player")
 			map_lucas_player = get_tree().get_root().get_node_or_null("MapL/Player/Player")
 			cheat_stats(map_valentin_player, map_lucas_player)
+		
+		elif event.is_action_pressed("shuffle_inventory"):
+			CharacterInventory.shuffle_inventory()
 
 func cheat_health_stamina(player_v, player_l) -> void:
 	if is_instance_valid(player_v):
-		player_v.set_health_point(1000)
-		player_v.set_stamina(1000)
+		player_v.set_health_point(1000, true)
+		player_v.set_stamina(1000, true)
 	elif is_instance_valid(player_l):
-		player_l.set_health_point(1000)
-		player_l.set_stamina(1000)
+		player_l.set_health_point(1000, true)
+		player_l.set_stamina(1000, true)
 
 func cheat_stats(player_v, player_l) -> void:
 	cheat_health_stamina(player_v, player_l)
@@ -38,12 +41,12 @@ func cheat_stats(player_v, player_l) -> void:
 	if is_instance_valid(player_v):
 		player_v.set_attack_power(1000)
 		player_v.set_block_power(1000)
-		player_v.set_stamina(1000)
+		player_v.set_stamina(1000, true)
 		player_v.set_movement_speed(player_v.get_movement_speed() * 2)
 	elif is_instance_valid(player_l):
 		player_l.set_attack_power(1000)
 		player_l.set_block_power(1000)
-		player_l.set_stamina(1000)
+		player_l.set_stamina(1000, true)
 		player_l.set_movement_speed(player_l.get_movement_speed() * 2)
 
 func _create_timer_delay(time: float = 1.0, autostart: bool = true, oneshot: bool = true, connected_object : Node = null, signal_result_method : String = "") -> Timer:

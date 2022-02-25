@@ -448,7 +448,6 @@ settings/fps/force_fps=60
 
 window/size/width=960
 window/size/height=540
-window/size/fullscreen=true
 window/dpi/allow_hidpi=true
 window/vsync/use_vsync=false
 window/stretch/mode="2d"
@@ -538,6 +537,11 @@ minimize={
 cheat_stats={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":16777245,"unicode":0,"echo":false,"script":null)
+ ]
+}
+shuffle_inventory={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":16777246,"unicode":0,"echo":false,"script":null)
  ]
 }
 

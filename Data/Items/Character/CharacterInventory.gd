@@ -1,7 +1,9 @@
 extends Node
 
 var character_inv_data : Array = []
-export(int) var character_inv_size = 10
+export(int) var character_inv_size = 50
+
+signal inventory_shuffled
 
 # ACCESORS
 
@@ -18,7 +20,6 @@ func get_inventory_data_as_text() -> String:
 	return items_in_inventory
 
 func add_item(id: int) -> void:
-	print(character_inv_data)
 	var items = ItemsDatabase.get_items()
 	
 	for item in items:
@@ -29,20 +30,37 @@ func add_item(id: int) -> void:
 					return
 
 func remove_item(slot: int) -> void:
-	if slot < 0:
-		push_error("Cannot remove from slot <= -1")
-		return
+	if is_slot_valid(slot):
+		if character_inv_data[slot] != null:
+			character_inv_data[slot] = null
+
+func set_item(slot: int, id: int) -> void:
+	if is_slot_valid(slot):
+		character_inv_data[slot] = ItemsDatabase.get_item(id)
+
+func replace_item(origin_slot: int, target_slot: int) -> void:
+	if is_slot_valid(origin_slot) and is_slot_valid(target_slot):
+		var tmp_slot = character_inv_data[target_slot]
 		
-	if character_inv_data[slot] != null:
-		character_inv_data[slot] = null
+		character_inv_data[target_slot] = character_inv_data[origin_slot]
+		character_inv_data[origin_slot] = tmp_slot
+
+func shuffle_inventory() -> void:
+	character_inv_data.shuffle()
+	emit_signal("inventory_shuffled")
+
+func is_slot_valid(slot: int) -> bool:
+	if slot >= 0:
+		return true
+	
+	push_error("Invalid Slot for Inventory")
+	return false
 
 # BUILTIN
 
 func _ready() -> void:
 	init_inventory()
-#	generate_random_items() # DEBUG FEATURE
-#	remove_item(1)
-	print(get_inventory_data_as_text())
+	generate_random_items() # DEBUG FEATURE
 
 # LOGIC
 
