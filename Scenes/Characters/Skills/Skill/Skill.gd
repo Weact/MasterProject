@@ -121,13 +121,13 @@ func _on_right_weapon_hit(_body) -> void:
 	pass
 	
 func _on_weapons_animation_finished() -> void:
-	if !is_instance_valid(parent_character) or parent_character.state_machine.current_state.name != "Skilling" or state_machine.current_state != self:
+	if !is_instance_valid(parent_character) or state_machine.current_state != self:
 		return
 	
 	current_state.ready = true
 	if current_state.auto_advance == true:
 		if get_state_name() == "Recovery":
-			owner.state_machine.set_state("Idle")
+			state_machine.set_state(null)
 		if get_state_name() == "Execute":
 			recover()
 		if get_state_name() == "Preparation":

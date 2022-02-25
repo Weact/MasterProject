@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scenes/Characters/States/CharacterDeath.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Weapons/Melee/Sword.gd" type="Script" id=3]
@@ -17,7 +17,6 @@
 [ext_resource path="res://Scenes/StateMachine/State.gd" type="Script" id=19]
 [ext_resource path="res://Scenes/Characters/Player/GuardBreak_Hitting.gd" type="Script" id=20]
 [ext_resource path="res://Scenes/Characters/Player/GuardBreak_Prep.gd" type="Script" id=21]
-[ext_resource path="res://Scenes/Characters/CharacterSkilling.gd" type="Script" id=27]
 [ext_resource path="res://Scenes/Characters/Skills/skill_tree.gd" type="Script" id=28]
 
 [node name="Character" type="KinematicBody2D"]
@@ -64,9 +63,6 @@ script = ExtResource( 5 )
 
 [node name="Move" type="Node" parent="StateMachine"]
 script = ExtResource( 6 )
-
-[node name="Skilling" type="Node" parent="StateMachine"]
-script = ExtResource( 27 )
 
 [node name="GuardBreak" type="Node" parent="StateMachine"]
 script = ExtResource( 18 )

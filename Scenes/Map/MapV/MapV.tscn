@@ -12,12 +12,16 @@ tile_data = PoolIntArray( 0, 4, 0, 1, 4, 0, 2, 4, 0, 3, 4, 0, 4, 4, 0, 5, 4, 0, 
 
 [node name="Player2" parent="Player" index="0" instance=ExtResource( 2 )]
 position = Vector2( 232, 376 )
+weight = null
+facing_left = null
 
 [node name="NPC150" parent="NPC" index="0" instance=ExtResource( 3 )]
 position = Vector2( 360, 392 )
+weight = null
 health_point = 100
 stamina = 100
 movement_speed = 100.0
+facing_left = null
 attack_power = 10
 block_power = 5
 difficulty = 0.0

@@ -20,16 +20,18 @@ func set_state(state)->void:
 	if state != null and state == current_state:
 		state.call_state()
 		return
-	
-	if current_state != null:
-		current_state.exit_state()
 		
 	previous_state = current_state
 	current_state = state
 	
+	if previous_state != null:
+		previous_state.exit_state()
+	
 	if current_state != null:
 		current_state.call_state()
 		current_state.enter_state()
+	
+	
 		
 	emit_signal("state_changed", current_state)
 func get_state() -> Node: return current_state

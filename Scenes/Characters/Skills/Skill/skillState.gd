@@ -24,7 +24,7 @@ func call_state() -> void:
 	state_machine.parent_character.remove_stamina(stamina_cost)
 	state_machine.parent_character.velocity_factor = state_velocity_factor
 	state_machine.parent_character.rotation_factor = state_rotation_factor
-	state_machine.parent_character.stamina_regen_factor = state_stamina_regen_factor
+	state_machine.parent_character.regen_stamina.add_variable(state_machine.name+name, state_stamina_regen_factor, 1)
 
 func exit_state() -> void:
 	if !is_instance_valid(state_machine.parent_character):
@@ -32,7 +32,7 @@ func exit_state() -> void:
 	if state_machine.parent_character is Character:
 		state_machine.parent_character.velocity_factor = 1.0
 		state_machine.parent_character.rotation_factor = 1.0
-		state_machine.parent_character.stamina_regen_factor = 1.0
+		state_machine.parent_character.regen_stamina.remove_variable(state_machine.name+name)
 
 #### VIRTUALS ####
 
