@@ -34,7 +34,7 @@ signal health_point_changed()
 
 export var stamina : float = 0.0
 var regen_stamina: Variable = Variable.new()
-var stamina_regen_delay : float = 2.5
+var stamina_regen_delay : float = 0.5
 var timer_stamina_regen : Timer = null
 signal stamina_changed()
 
@@ -68,9 +68,8 @@ signal look_direction_changed(dir)
 
 var rot_velocity : float = 0.0
 
-var rotation_factor : float = 1.0
-var velocity_factor : float = 1.0
-var stamina_regen_factor : float = 1.0
+var rotation_factor : Variable = Variable.new()
+var velocity_factor : Variable = Variable.new()
 
 export var white_mat : Material = null
 
@@ -269,6 +268,8 @@ func _ready() -> void:
 	setup_skills()
 	
 	regen_stamina.value = 3.0
+	rotation_factor.value = 1.0
+	velocity_factor.value = 1.0
 
 	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
 
@@ -318,8 +319,8 @@ func _physics_process(_delta: float) -> void:
 	if not is_stunned():
 		_compute_velocity()
 		_compute_rotation_vel()
-		var __ = move_and_slide(velocity * velocity_factor)
-		update_weapon_rotation(_delta, rot_velocity * rotation_factor)
+		var __ = move_and_slide(velocity * velocity_factor.get_value())
+		update_weapon_rotation(_delta, rot_velocity * rotation_factor.get_value())
 		set_current_tile(position)
 
 

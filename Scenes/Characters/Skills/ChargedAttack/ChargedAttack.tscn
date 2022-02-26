@@ -26,18 +26,16 @@ tracks/0/keys = {
 
 [node name="ChargedAttack" instance=ExtResource( 1 )]
 script = ExtResource( 8 )
-init_default_state = true
 
 [node name="Preparation" parent="." index="0"]
 script = ExtResource( 2 )
 auto_advance = false
 state_velocity_factor = 0.5
 state_rotation_factor = 0.5
-state_stamina_regen_factor = -1.0
+state_stamina_regen_factor = -4.0
 
 [node name="Execute" parent="." index="1"]
 script = ExtResource( 7 )
-auto_advance = true
 stamina_cost = 15.0
 state_velocity_factor = 0.5
 state_rotation_factor = 0.5

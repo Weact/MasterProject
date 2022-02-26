@@ -14,7 +14,7 @@ func get_class() -> String: return "CharacterMoveState"
 func enter_state():
 	if !is_instance_valid(owner):
 		return
-	owner.regen_stamina.add_variable("move_slow", 0.5, 1)
+	owner.regen_stamina.add_variable("move_slow", 0.8, 1)
 
 # Override of State's exit_state
 func exit_state():

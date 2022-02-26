@@ -6,14 +6,17 @@ func get_class() -> String: return "Variable"
 
 enum TYPE {sum, factor}
 export var value : float = 0.0
-export(TYPE) var type = TYPE.factor
+export(TYPE) var type = TYPE.sum
 
 #### ACCESSORS ####
 func get_value() -> float :
+	var name = self.name
 	var final_value : float = value
 	var factors_total : float = 1.0
 	var sums_total : float = 0.0
-	for child in get_children():
+	var children = get_children()
+	for child in children:
+		var child_name = child.name
 		if !child.is_class("Variable"): #Only check variables
 			continue
 			
@@ -23,7 +26,7 @@ func get_value() -> float :
 		else:
 			sums_total += child_value
 			
-	return final_value* factors_total+value*sums_total
+	return (final_value* factors_total+sums_total)
 
 
 #### BUILT-IN ####
@@ -31,13 +34,13 @@ func get_value() -> float :
 #### VIRTUALS ####
 
 #### LOGIC ####
-func add_variable(v_name : String, v_value : float = 0.0, v_type : int = TYPE.factor) -> Variable:
+func add_variable(v_name : String, v_value : float = 0.0, v_type = TYPE.sum) -> Variable:
 	var new_variable = get_variable(v_name)
 	if is_instance_valid(new_variable):
 		update_variable(new_variable, v_value)
 		return new_variable
 	
-	new_variable = self.duplicate()
+	new_variable = load("res://Scenes/Variable/Variable.tscn").instance()
 	new_variable.type = v_type
 	new_variable.value = v_value
 	new_variable.name = v_name
