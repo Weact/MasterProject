@@ -121,15 +121,14 @@ func set_state(new_state : String) -> void:
 	if can_change_state():
 		state_machine.set_state(new_state)
 
-func can_change_state() -> bool:
+func can_change_state(new_skill = null) -> bool:
 	var changeable = false
-	if state_machine.current_state.name == "Skilling":
-		if !is_instance_valid(skill_tree.current_state) or skill_tree.current_state.is_cancelable():
+	if !is_stunned() and state_machine.current_state.name == "Skilling":
+		if !is_instance_valid(skill_tree.current_state) or skill_tree.current_state.is_cancelable() or new_skill != null and new_skill.recovery_canceler and skill_tree.current_state.is_recovering():
 			changeable = true
 	else:
 		changeable = true
 	return changeable
-
 
 ##PATHFINDER WEIGHT
 func set_pathfinder(newPath : Pathfinder) -> void:
@@ -422,7 +421,8 @@ func die() -> void:
 	set_state("Death")
 
 func use_skill(skill_name : String) -> int:
-	if can_change_state() and skill_tree.use_skill(skill_name):
+	var new_skill = skill_tree.get_skill(skill_name)
+	if can_change_state(new_skill) and skill_tree.use_skill(skill_name):
 		set_state("Skilling")
 		return 1
 	return 0

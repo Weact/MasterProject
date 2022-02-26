@@ -16,10 +16,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [  ]
+"values": [ Vector2( 3, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("AnimationPlayer/Weapon_Left_mock:rotation_degrees")
@@ -28,10 +28,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [  ]
+"values": [ 0.0 ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("AnimationPlayer/Weapon_Right_mock:position")
@@ -40,10 +40,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [  ]
+"values": [ Vector2( 3, 1 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("AnimationPlayer/Weapon_Right_mock:rotation_degrees")
@@ -52,10 +52,10 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [  ]
+"values": [ 20.0 ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -164,6 +164,7 @@ tracks/3/keys = {
 
 [node name="Dodge" instance=ExtResource( 1 )]
 script = ExtResource( 4 )
+recovery_canceler = true
 
 [node name="Preparation" parent="." index="0"]
 script = ExtResource( 3 )
