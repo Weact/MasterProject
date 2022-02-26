@@ -117,7 +117,7 @@ func action(action_name: String) -> void:
 			unblock()
 			blockPressed = false
 		"Dodge_Pressed":
-			use_skill("Dodge")
+			var __ = use_skill("Dodge")
 		"Dodge_Released":
 			pass
 		_:

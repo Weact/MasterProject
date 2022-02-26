@@ -164,7 +164,7 @@ tracks/3/keys = {
 
 [node name="Dodge" instance=ExtResource( 1 )]
 script = ExtResource( 4 )
-recovery_canceler = null
+recovery_canceler = true
 
 [node name="Preparation" parent="." index="0"]
 script = ExtResource( 3 )
