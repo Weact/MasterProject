@@ -120,10 +120,12 @@ radius = 4.0
 
 [node name="Player" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+weight = 5
 health_point = 100
 stamina = 100.0
 movement_speed = 100.0
 max_speed = 200.0
+facing_left = false
 attack_power = 10
 attack_cooldown = 0.5
 block_power = 15
@@ -147,7 +149,6 @@ script = ExtResource( 6 )
 position = Vector2( 0, -4 )
 frames = SubResource( 10 )
 animation = "Idle"
-frame = 1
 playing = true
 
 [node name="AnimationPlayer" parent="WeaponsPoint" index="0"]

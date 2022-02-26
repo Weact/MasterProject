@@ -122,7 +122,7 @@ func set_state(new_state : String) -> void:
 
 func can_change_state(new_skill = null) -> bool:
 	var changeable = false
-	if !is_stunned() and state_machine.current_state.name == "Skilling":
+	if !is_stunned():
 		if !is_instance_valid(skill_tree.current_state) or skill_tree.current_state.is_cancelable() or new_skill != null and new_skill.recovery_canceler and skill_tree.current_state.is_recovering():
 			changeable = true
 	else:
@@ -422,7 +422,7 @@ func die() -> void:
 	set_weight(0)
 	set_state("Death")
 
-func use_skill(skill_name : String) -> int
+func use_skill(skill_name : String) -> int:
 	var new_skill = skill_tree.get_skill(skill_name)
 	if can_change_state(new_skill) and skill_tree.use_skill(skill_name):
 		return 1

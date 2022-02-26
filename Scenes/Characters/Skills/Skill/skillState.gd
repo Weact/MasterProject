@@ -9,7 +9,7 @@ export var auto_advance : bool = true
 export var stamina_cost : float = 0.0
 export var state_velocity_factor : float = 1.0
 export var state_rotation_factor : float = 1.0
-export var state_stamina_regen_factor : float = 1.0
+export var state_stamina_regen_factor : float = 0.0
 var ready : bool = false
 
 #### ACCESSORS ####
