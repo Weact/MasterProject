@@ -147,11 +147,7 @@ script = ExtResource( 6 )
 position = Vector2( 0, -4 )
 frames = SubResource( 10 )
 animation = "Idle"
-<<<<<<< HEAD
-frame = 3
-=======
 frame = 1
->>>>>>> 43c69d0 (make attack not cancalable)
 playing = true
 
 [node name="AnimationPlayer" parent="WeaponsPoint" index="0"]
