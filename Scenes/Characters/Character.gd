@@ -418,7 +418,7 @@ func die() -> void:
 	set_weight(0)
 	state_machine.set_state("Death")
 
-func use_skill(skill_name : String) -> int:
+func use_skill(skill_name) -> int:
 	if can_change_state() and skill_tree.use_skill(skill_name):
 		return 1
 	return 0
@@ -446,6 +446,11 @@ func _on_stun_changed(stun_state: bool) -> void:
 		can_attack = true
 		can_block = true
 		animated_sprite.set_material(get_material())
+
+func unblock() -> void:
+	var block_skill = skill_tree.get_skill("Block")
+	if is_instance_valid(block_skill):
+		block_skill.recover()
 
 ## STATS
 func _on_health_point_changed() -> void:

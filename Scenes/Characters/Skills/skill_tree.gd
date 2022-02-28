@@ -32,8 +32,13 @@ func get_skill(skill_name : String) -> Node2D:
 			
 	return null
 	
-func use_skill(skill_name : String) -> int: #return 1 if found skill, 0 otherwise
-	var new_skill = get_skill(skill_name)
+func use_skill(skill_name) -> int: #return 1 if found skill, 0 otherwise
+	var new_skill = null
+	if skill_name is String:
+		new_skill = get_skill(skill_name)
+	else:
+		new_skill = skill_name
+	
 	if can_change_skill(new_skill):
 		set_state(new_skill)
 		return 1
@@ -41,10 +46,10 @@ func use_skill(skill_name : String) -> int: #return 1 if found skill, 0 otherwis
 #### INPUTS ####
 
 func can_change_skill(new_skill : Skill) -> int:
-	if !is_instance_valid(new_skill):
+	if new_skill == current_state:
 		return 0
 		
-	if new_skill.get_stamina_cost() > owner.stamina :
+	if is_instance_valid(new_skill) and new_skill.get_stamina_cost() > owner.stamina :
 		return 0
 		
 	if !is_instance_valid(current_state):
