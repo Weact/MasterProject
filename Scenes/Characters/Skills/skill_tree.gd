@@ -13,6 +13,9 @@ func get_class() -> String: return "SkillTree"
 
 
 #### LOGIC ####
+func is_skilling() -> bool:
+	return current_state != null
+
 func has_skill(skill_name : String) -> bool:
 	var exist : bool = false
 	

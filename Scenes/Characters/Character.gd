@@ -33,7 +33,7 @@ export var health_point : int = 0
 signal health_point_changed()
 
 export var stamina : float = 0.0
-var regen_stamina_value : float = 3.0
+var regen_stamina: Variable = Variable.new()
 var stamina_regen_delay : float = 0.5
 var timer_stamina_regen : Timer = null
 signal stamina_changed()
@@ -68,9 +68,8 @@ signal look_direction_changed(dir)
 
 var rot_velocity : float = 0.0
 
-var rotation_factor : float = 1.0
-var velocity_factor : float = 1.0
-var stamina_regen_factor : float = 1.0
+var rotation_factor : Variable = Variable.new()
+var velocity_factor : Variable = Variable.new()
 
 export var white_mat : Material = null
 
@@ -111,7 +110,7 @@ func is_recovering() -> bool: return $StateMachine.get_state_name() == "ChargedA
 func get_current_state() -> String:
 	if !is_instance_valid(state_machine):
 		return ""
-	if state_machine.get_state_name() == "Skilling":
+	if skill_tree.is_skilling():
 		return skill_tree.get_state_name()
 
 	return state_machine.get_state_name()
@@ -123,7 +122,7 @@ func set_state(new_state : String) -> void:
 
 func can_change_state(new_skill = null) -> bool:
 	var changeable = false
-	if !is_stunned() and state_machine.current_state.name == "Skilling":
+	if !is_stunned():
 		if !is_instance_valid(skill_tree.current_state) or skill_tree.current_state.is_cancelable() or new_skill != null and new_skill.recovery_canceler and skill_tree.current_state.is_recovering():
 			changeable = true
 	else:
@@ -267,6 +266,10 @@ func _ready() -> void:
 	init_panels()
 	setup_skills()
 
+	regen_stamina.value = 3.0
+	rotation_factor.value = 1.0
+	velocity_factor.value = 1.0
+
 	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
 
 func setup_skills() -> void:
@@ -315,8 +318,8 @@ func _physics_process(_delta: float) -> void:
 	if not is_stunned():
 		_compute_velocity()
 		_compute_rotation_vel()
-		var __ = move_and_slide(velocity * velocity_factor)
-		update_weapon_rotation(_delta, rot_velocity * rotation_factor)
+		var __ = move_and_slide(velocity * velocity_factor.get_value())
+		update_weapon_rotation(_delta, rot_velocity * rotation_factor.get_value())
 		set_current_tile(position)
 
 
@@ -413,7 +416,7 @@ func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: boo
 	return new_timer
 
 func _regen_stamina() -> void:
-	add_stamina(regen_stamina_value * stamina_regen_factor)
+	add_stamina(regen_stamina.get_value())
 
 func die() -> void:
 	set_weight(0)
@@ -422,7 +425,6 @@ func die() -> void:
 func use_skill(skill_name : String) -> int:
 	var new_skill = skill_tree.get_skill(skill_name)
 	if can_change_state(new_skill) and skill_tree.use_skill(skill_name):
-		set_state("Skilling")
 		return 1
 	return 0
 

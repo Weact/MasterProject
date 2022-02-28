@@ -212,18 +212,36 @@ position = Vector2( 504, 584 )
 
 [node name="NPC2" parent="." index="4" instance=ExtResource( 3 )]
 position = Vector2( 440, 488 )
+weight = 5
+stamina = 0.0
+facing_left = false
 
 [node name="NPC3" parent="." index="5" instance=ExtResource( 3 )]
 position = Vector2( 424, 504 )
+weight = 5
+stamina = 0.0
+facing_left = false
 
 [node name="NPC4" parent="." index="6" instance=ExtResource( 3 )]
 position = Vector2( 408, 520 )
+weight = 5
+stamina = 0.0
+facing_left = false
 
 [node name="NPC5" parent="." index="7" instance=ExtResource( 3 )]
 position = Vector2( 392, 520 )
+weight = 5
+stamina = 0.0
+facing_left = false
 
 [node name="NPC6" parent="." index="8" instance=ExtResource( 3 )]
 position = Vector2( 456, 472 )
+weight = 5
+stamina = 0.0
+facing_left = false
 
 [node name="NPC7" parent="." index="9" instance=ExtResource( 3 )]
 position = Vector2( 472, 440 )
+weight = 5
+stamina = 0.0
+facing_left = false

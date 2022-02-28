@@ -32,7 +32,7 @@ script = ExtResource( 2 )
 auto_advance = false
 state_velocity_factor = 0.5
 state_rotation_factor = 0.5
-state_stamina_regen_factor = -1.0
+state_stamina_regen_factor = -4.0
 
 [node name="Execute" parent="." index="1"]
 script = ExtResource( 7 )
