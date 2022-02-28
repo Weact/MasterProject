@@ -147,9 +147,7 @@ func set_current_tile(tilePos : Vector2) -> void:
 func set_health_point(new_health_point: int) -> void:
 	if health_point != new_health_point:
 		health_point = new_health_point
-
-		if health_point < 0: 
-			die()
+		
 		emit_signal("health_point_changed")
 
 func get_health_point() -> int:
