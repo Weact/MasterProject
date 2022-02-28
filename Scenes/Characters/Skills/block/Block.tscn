@@ -127,7 +127,7 @@ cancelable = true
 auto_advance = false
 state_velocity_factor = 0.3
 state_rotation_factor = 0.3
-state_stamina_regen_factor = -3.0
+state_stamina_regen_factor = -1.0
 
 [node name="Recovery" parent="." index="2"]
 script = ExtResource( 5 )

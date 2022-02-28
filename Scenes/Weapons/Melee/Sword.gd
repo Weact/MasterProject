@@ -1,4 +1,4 @@
-extends WeaponPointMelee
+extends Weapon
 class_name Sword
 
 func is_class(value: String): return value == "Sword" or .is_class(value)
