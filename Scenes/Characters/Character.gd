@@ -350,10 +350,9 @@ func init_panels() -> void:
 	"\n" + str(get_stamina()) )
 
 
-func _compute_initial_velocity() -> Vector2:
+func _compute_raw_velocity() -> void:
 	var new_vel = direction.normalized() * movement_speed
 	set_velocity(new_vel)
-	return new_vel
 
 # Flip the actor accordingly to the direction it is facing
 func flip():
