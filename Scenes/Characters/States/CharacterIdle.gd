@@ -14,7 +14,6 @@ func get_class() -> String: return "CharacterIdleState"
 func enter_state():
 	if !is_instance_valid(owner):
 		return
-	owner.stamina_regen_factor = 1.0
 
 # Override of State's exit_state
 func exit_state():

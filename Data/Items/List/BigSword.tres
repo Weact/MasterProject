@@ -5,8 +5,10 @@
 
 [resource]
 script = ExtResource( 1 )
-name = "Big Sword"
-type = 2
-rarity = 1
-slot = 6
+name = "Magic Potion"
+stackable = true
+max_stack_size = 99
+type = 1
+rarity = 3
+slot = 0
 texture = ExtResource( 2 )

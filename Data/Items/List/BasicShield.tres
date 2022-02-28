@@ -6,6 +6,9 @@
 [resource]
 script = ExtResource( 1 )
 name = "Basic Shield"
+stackable = false
+max_stack_size = 1
 type = 3
+rarity = 0
 slot = 7
 texture = ExtResource( 2 )

@@ -25,6 +25,10 @@ func _input(event: InputEvent) -> void:
 			cheat_stats(map_valentin_player, map_lucas_player)
 		
 		elif event.is_action_pressed("shuffle_inventory"):
+			if event.is_action_pressed("sort_inventory"):
+				CharacterInventory.sort_inventory(CharacterInventory.INVENTORY_SORTING_MODE.NAME)
+				return
+				
 			CharacterInventory.shuffle_inventory()
 
 func cheat_health_stamina(player_v, player_l) -> void:

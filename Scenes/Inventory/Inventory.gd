@@ -10,8 +10,9 @@ signal clear_finished
 
 func _ready() -> void:
 	var __ = CharacterInventory.connect("inventory_shuffled", self, "_on_inventory_shuffled")
+	__ = CharacterInventory.connect("inventory_sorted", self, "_on_inventory_sorted")
 	__ = connect("clear_finished", self, "_on_clear_finished")
-	
+
 	generate_inventory()
 
 func clear_inventory() -> void:
@@ -33,13 +34,13 @@ func clear_inventory() -> void:
 func generate_inventory() -> void:
 	var character_inventory_data : Array = CharacterInventory.get_character_inv_data_as_array()
 	create_slots(character_inventory_data)
-
+	
 func create_slots(inventory) -> void:
 	for slot in range(0, CharacterInventory.character_inv_size):
 		var next_slot = create_slot(inventory, slot)
 		slots_container_node.add_child(next_slot, true)
 
-# Inventory : CharacterInventory array data <given at generate_inventory():34>
+# Inventory : CharacterInventory array data <given at generate_inventory()>
 func create_slot(inventory, slot):
 	var new_slot = inv_slot.instance()
 	if inventory[slot] != null:
@@ -47,6 +48,14 @@ func create_slot(inventory, slot):
 		new_slot.get_node("Icon").set_texture(item_texture)
 	
 	return new_slot
+
+func safe_regenerate_inventory() -> void:
+	clear_inventory()
+	
+	if !slots_container_node.get_children().empty():
+		yield(self, "clear_finished")
+		
+	generate_inventory()
 
 # | Called when user press F3 to shuffle its inventory
 #
@@ -59,12 +68,10 @@ func create_slot(inventory, slot):
 # | Instead of pressing F3 to shuffle, we can imagine a button in the inventory
 # 	pannel that triggers this event
 func _on_inventory_shuffled() -> void:
-	clear_inventory()
-	
-	if !slots_container_node.get_children().empty():
-		yield(self, "clear_finished")
-		
-	generate_inventory()
+	safe_regenerate_inventory()
+
+func _on_inventory_sorted() -> void:
+	safe_regenerate_inventory()
 
 # Do not put code in there except if you want to do something when inventory has been cleared
 func _on_clear_finished() -> void:

@@ -14,13 +14,14 @@ func get_class() -> String: return "CharacterMoveState"
 func enter_state():
 	if !is_instance_valid(owner):
 		return
-	owner.stamina_regen_factor = 0.9
+	owner.regen_stamina.add_variable("move_slow", 0.8, 1)
 
 # Override of State's exit_state
 func exit_state():
 	if !is_instance_valid(owner):
 		return
-	owner.stamina_regen_factor = 1.0
+	
+	owner.regen_stamina.remove_variable("move_slow")
 
 # Override of State's update_state
 func update(_delta):
