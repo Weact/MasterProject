@@ -1,7 +1,7 @@
 extends Node
 class_name Variable
 
-func is_class(value: String): return value == "Variable" or .is_class(value)
+func is_class(class_value: String): return class_value == "Variable" or .is_class(class_value)
 func get_class() -> String: return "Variable"
 
 enum TYPE {sum, factor}
@@ -10,13 +10,11 @@ export(TYPE) var type = TYPE.sum
 
 #### ACCESSORS ####
 func get_value() -> float :
-	var name = self.name
 	var final_value : float = value
 	var factors_total : float = 1.0
 	var sums_total : float = 0.0
 	var children = get_children()
 	for child in children:
-		var child_name = child.name
 		if !child.is_class("Variable"): #Only check variables
 			continue
 			
