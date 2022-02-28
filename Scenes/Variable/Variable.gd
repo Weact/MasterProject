@@ -46,6 +46,11 @@ func add_variable(v_name : String, v_value : float = 0.0, v_type = TYPE.sum) -> 
 	add_child(new_variable)
 	
 	return new_variable
+
+func _init(v_value: float = 0, v_type = TYPE.sum):
+	value = v_value
+	type = v_type
+	
 	
 func update_variable(variable : Variable, v_value: float) -> void:
 	if !is_instance_valid(variable) :

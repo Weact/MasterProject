@@ -33,7 +33,7 @@ export var health_point : int = 0
 signal health_point_changed()
 
 export var stamina : float = 0.0
-var regen_stamina: Variable = Variable.new()
+var regen_stamina: Variable = Variable.new(3.0)
 var stamina_regen_delay : float = 0.5
 var timer_stamina_regen : Timer = null
 signal stamina_changed()
@@ -68,8 +68,8 @@ signal look_direction_changed(dir)
 
 var rot_velocity : float = 0.0
 
-var rotation_factor : Variable = Variable.new()
-var velocity_factor : Variable = Variable.new()
+var rotation_factor : Variable = Variable.new(1.0)
+var velocity_factor : Variable = Variable.new(1.0)
 
 export var white_mat : Material = null
 
@@ -265,10 +265,6 @@ func _ready() -> void:
 	connect_signals()
 	init_panels()
 	setup_skills()
-
-	regen_stamina.value = 3.0
-	rotation_factor.value = 1.0
-	velocity_factor.value = 1.0
 
 	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
 
