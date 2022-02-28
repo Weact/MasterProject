@@ -34,12 +34,28 @@ func get_skill(skill_name : String) -> Node2D:
 	
 func use_skill(skill_name : String) -> int: #return 1 if found skill, 0 otherwise
 	var new_skill = get_skill(skill_name)
-	if is_instance_valid(new_skill) and new_skill.get_stamina_cost() <= owner.stamina or is_instance_valid(current_state) and (current_state.is_cancelable() or new_skill.recovery_canceler and current_state.is_recovering()):
+	if can_change_skill(new_skill):
 		set_state(new_skill)
 		return 1
 	return 0
 #### INPUTS ####
 
-
+func can_change_skill(new_skill : Skill) -> int:
+	if !is_instance_valid(new_skill):
+		return 0
+		
+	if new_skill.get_stamina_cost() > owner.stamina :
+		return 0
+		
+	if !is_instance_valid(current_state):
+		return 1
+		
+	if current_state.is_cancelable():
+		return 1
+		
+	if new_skill.recovery_canceler and current_state.is_recovering():
+		return 1
+		
+	return 0
 
 #### SIGNAL RESPONSES ####
