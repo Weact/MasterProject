@@ -227,11 +227,10 @@ func set_velocity(new_velocity: Vector2):
 		emit_signal("velocity_changed", velocity)
 
 func get_velocity() -> Vector2:
-	return velocity
+	return _compute_initial_velocity()
 	
 func get_current_velocity() -> Vector2:
-	_compute_velocity()
-	return velocity * velocity_factor.get_value()
+	return _compute_initial_velocity()* velocity_factor.get_value()
 
 func set_direction(new_direction : Vector2):
 	if direction != new_direction.normalized():
@@ -351,8 +350,10 @@ func init_panels() -> void:
 	"\n" + str(get_stamina()) )
 
 
-func _compute_velocity() -> void:
-	set_velocity(direction.normalized() * movement_speed)
+func _compute_initial_velocity() -> Vector2:
+	var new_vel = direction.normalized() * movement_speed
+	set_velocity(new_vel)
+	return new_vel
 
 # Flip the actor accordingly to the direction it is facing
 func flip():
