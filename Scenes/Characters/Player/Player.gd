@@ -125,10 +125,6 @@ func action(action_name: String) -> void:
 
 	set_direction(Vector2(dirRight - dirLeft, dirDown - dirUp))
 
-func unblock() -> void:
-	var block_skill = skill_tree.get_skill("Block")
-	if is_instance_valid(block_skill):
-		block_skill.recover()
  
 #### INPUTS ####
 

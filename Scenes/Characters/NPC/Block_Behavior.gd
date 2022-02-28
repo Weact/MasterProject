@@ -26,7 +26,7 @@ func update(_delta : float) ->void:
 func exit_state() -> void:
 	if owner == null or owner.state_machine == null:
 		return
-	owner.use_skill(null)
+	owner.unblock()
 	
 
 #### VIRTUALS ####

@@ -447,6 +447,11 @@ func _on_stun_changed(stun_state: bool) -> void:
 		can_block = true
 		animated_sprite.set_material(get_material())
 
+func unblock() -> void:
+	var block_skill = skill_tree.get_skill("Block")
+	if is_instance_valid(block_skill):
+		block_skill.recover()
+
 ## STATS
 func _on_health_point_changed() -> void:
 	init_panels()
