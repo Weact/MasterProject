@@ -289,7 +289,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Characters/Skills/Skill/RecoverySkill.gd"
 }, {
-"base": "WeaponPointMelee",
+"base": "Weapon",
 "class": "Shield",
 "language": "GDScript",
 "path": "res://Scenes/Weapons/Melee/Shield.gd"
@@ -324,7 +324,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/StateMachine/StateMachine.gd"
 }, {
-"base": "WeaponPointMelee",
+"base": "Weapon",
 "class": "Sword",
 "language": "GDScript",
 "path": "res://Scenes/Weapons/Melee/Sword.gd"
@@ -335,9 +335,9 @@ _global_script_classes=[ {
 "path": "res://Scenes/Variable/Variable.gd"
 }, {
 "base": "Node2D",
-"class": "WeaponPointMelee",
+"class": "Weapon",
 "language": "GDScript",
-"path": "res://Scenes/Weapons/Melee/WeaponPointMelee.gd"
+"path": "res://Scenes/Weapons/Weapon.gd"
 }, {
 "base": "State",
 "class": "gotoState",
@@ -415,7 +415,7 @@ _global_script_class_icons={
 "StateMachine": "",
 "Sword": "",
 "Variable": "",
-"WeaponPointMelee": "",
+"Weapon": "",
 "gotoState": "",
 "waitState": ""
 }

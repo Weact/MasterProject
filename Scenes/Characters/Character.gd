@@ -33,8 +33,8 @@ export var health_point : int = 0
 signal health_point_changed()
 
 export var stamina : float = 0.0
-var regen_stamina: Variable = Variable.new(3.0)
-var stamina_regen_delay : float = 0.5
+var regen_stamina: Variable = Variable.new(1.0)
+var stamina_regen_delay : float = 0.1
 var timer_stamina_regen : Timer = null
 signal stamina_changed()
 
@@ -80,7 +80,6 @@ export var attack_power : int = 0 setget set_attack_power, get_attack_power
 onready var initial_attack_power : int = attack_power
 signal attack_power_changed
 
-export var attack_cooldown : float = 3.0
 var can_attack : bool = true
 var can_block : bool = true
 var attack_cd_timer : Timer = null
@@ -120,12 +119,9 @@ func set_state(new_state : String) -> void:
 	if can_change_state():
 		state_machine.set_state(new_state)
 
-func can_change_state(new_skill = null) -> bool:
+func can_change_state() -> bool:
 	var changeable = false
 	if !is_stunned():
-		if !is_instance_valid(skill_tree.current_state) or skill_tree.current_state.is_cancelable() or new_skill != null and new_skill.recovery_canceler and skill_tree.current_state.is_recovering():
-			changeable = true
-	else:
 		changeable = true
 	return changeable
 
@@ -151,8 +147,7 @@ func set_current_tile(tilePos : Vector2) -> void:
 func set_health_point(new_health_point: int) -> void:
 	if health_point != new_health_point:
 		health_point = new_health_point
-
-		if health_point < 0: health_point = 0
+		
 		emit_signal("health_point_changed")
 
 func get_health_point() -> int:
@@ -162,7 +157,6 @@ func add_health_point(value: int) -> void:
 	set_health_point(health_point + value)
 
 func remove_health_point(value: int) -> void:
-	if value < 0: value = 0
 	set_health_point(health_point - value)
 
 ## STUN
@@ -234,6 +228,9 @@ func set_velocity(new_velocity: Vector2):
 
 func get_velocity() -> Vector2:
 	return velocity
+	
+func get_computed_velocity() -> Vector2:
+	return _compute_raw_velocity() * velocity_factor.get_value()
 
 func set_direction(new_direction : Vector2):
 	if direction != new_direction.normalized():
@@ -312,10 +309,8 @@ func connect_signals() -> void:
 
 func _physics_process(_delta: float) -> void:
 	if not is_stunned():
-		_compute_velocity()
-		_compute_rotation_vel()
-		var __ = move_and_slide(velocity * velocity_factor.get_value())
-		update_weapon_rotation(_delta, rot_velocity * rotation_factor.get_value())
+		var __ = move_and_slide(get_computed_velocity())
+		update_weapon_rotation(_delta, get_current_rotation_velocity())
 		set_current_tile(position)
 
 
@@ -330,6 +325,9 @@ func _compute_rotation_vel() -> void:
 	if short_angle_dist < 0:
 		rot_velocity = -rot_velocity
 
+func get_current_rotation_velocity() -> float:
+	_compute_rotation_vel()
+	return rot_velocity * rotation_factor.get_value()
 
 func update_weapon_rotation(_delta, rot_vel) -> void:
 	var difference = fmod(look_direction - $WeaponsPoint.rotation_degrees, 360)
@@ -352,8 +350,10 @@ func init_panels() -> void:
 	"\n" + str(get_stamina()) )
 
 
-func _compute_velocity() -> void:
-	set_velocity(direction.normalized() * movement_speed)
+func _compute_raw_velocity() -> Vector2:
+	var new_vel = direction.normalized() * movement_speed
+	set_velocity(new_vel)
+	return new_vel
 
 # Flip the actor accordingly to the direction it is facing
 func flip():
@@ -416,11 +416,10 @@ func _regen_stamina() -> void:
 
 func die() -> void:
 	set_weight(0)
-	set_state("Death")
+	state_machine.set_state("Death")
 
 func use_skill(skill_name : String) -> int:
-	var new_skill = skill_tree.get_skill(skill_name)
-	if can_change_state(new_skill) and skill_tree.use_skill(skill_name):
+	if can_change_state() and skill_tree.use_skill(skill_name):
 		return 1
 	return 0
 

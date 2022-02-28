@@ -22,9 +22,9 @@ func call_state() -> void:
 		return
 	ready = false
 	state_machine.parent_character.remove_stamina(stamina_cost)
-	state_machine.parent_character.velocity_factor.add_variable(state_machine.name+name, state_velocity_factor, 1)
-	state_machine.parent_character.rotation_factor.add_variable(state_machine.name+name, state_rotation_factor, 1)
-	state_machine.parent_character.regen_stamina.add_variable(state_machine.name+name, state_stamina_regen_factor, 0)
+	state_machine.parent_character.velocity_factor.add_variable(state_machine.name+name, state_velocity_factor, 2)
+	state_machine.parent_character.rotation_factor.add_variable(state_machine.name+name, state_rotation_factor, 2)
+	state_machine.parent_character.regen_stamina.add_variable(state_machine.name+name, state_stamina_regen_factor, 1)
 
 func exit_state() -> void:
 	if !is_instance_valid(state_machine.parent_character):

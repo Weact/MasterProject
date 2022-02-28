@@ -1,8 +1,8 @@
 extends Node2D
-class_name WeaponPointMelee
+class_name Weapon
 
-func is_class(value: String): return value == "WeaponPointMelee" or .is_class(value)
-func get_class() -> String: return "WeaponPointMelee"
+func is_class(value: String): return value == "Weapon" or .is_class(value)
+func get_class() -> String: return "Weapon"
 
 export(NodePath) onready var weapon_handler_node_path : NodePath
 onready var weapon_handler_node : PhysicsBody2D = null
@@ -34,7 +34,7 @@ func _ready() -> void:
 
 func _on_area_entered(body: Area2D):
 	if body != self and is_instance_valid(body):
-		if body != weapon_handler_node and is_instance_valid(body.owner) and body.owner.is_class("WeaponPointMelee"):
+		if body != weapon_handler_node and is_instance_valid(body.owner) and body.owner.is_class("Weapon"):
 			emit_signal("collided", body.owner)
 			weapon_handler_node.emit_signal("attack_hit")
 			
