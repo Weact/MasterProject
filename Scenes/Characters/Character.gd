@@ -229,8 +229,8 @@ func set_velocity(new_velocity: Vector2):
 func get_velocity() -> Vector2:
 	return velocity
 	
-func get_current_velocity() -> Vector2:
-	return _compute_initial_velocity()* velocity_factor.get_value()
+func get_computed_velocity() -> Vector2:
+	return velocity * velocity_factor.get_value()
 
 func set_direction(new_direction : Vector2):
 	if direction != new_direction.normalized():
