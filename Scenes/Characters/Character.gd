@@ -418,7 +418,7 @@ func die() -> void:
 	set_weight(0)
 	state_machine.set_state("Death")
 
-func use_skill(skill_name : String) -> int:
+func use_skill(skill_name) -> int:
 	if can_change_state() and skill_tree.use_skill(skill_name):
 		return 1
 	return 0
