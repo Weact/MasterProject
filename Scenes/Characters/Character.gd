@@ -227,7 +227,7 @@ func set_velocity(new_velocity: Vector2):
 		emit_signal("velocity_changed", velocity)
 
 func get_velocity() -> Vector2:
-	return _compute_initial_velocity()
+	return velocity
 	
 func get_current_velocity() -> Vector2:
 	return _compute_initial_velocity()* velocity_factor.get_value()
