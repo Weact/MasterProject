@@ -230,7 +230,7 @@ func get_velocity() -> Vector2:
 	return velocity
 	
 func get_computed_velocity() -> Vector2:
-	return velocity * velocity_factor.get_value()
+	return _compute_raw_velocity() * velocity_factor.get_value()
 
 func set_direction(new_direction : Vector2):
 	if direction != new_direction.normalized():
@@ -309,7 +309,7 @@ func connect_signals() -> void:
 
 func _physics_process(_delta: float) -> void:
 	if not is_stunned():
-		var __ = move_and_slide(get_current_velocity())
+		var __ = move_and_slide(get_computed_velocity())
 		update_weapon_rotation(_delta, get_current_rotation_velocity())
 		set_current_tile(position)
 
@@ -350,9 +350,10 @@ func init_panels() -> void:
 	"\n" + str(get_stamina()) )
 
 
-func _compute_raw_velocity() -> void:
+func _compute_raw_velocity() -> Vector2:
 	var new_vel = direction.normalized() * movement_speed
 	set_velocity(new_vel)
+	return new_vel
 
 # Flip the actor accordingly to the direction it is facing
 func flip():
