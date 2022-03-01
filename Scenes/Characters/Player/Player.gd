@@ -121,8 +121,8 @@ func action(action_name: String) -> void:
 				charged_attack.execute()
 			elif get_current_state() == "ChargedAttack":
 				var __ = use_skill("Attack")
-			elif is_instance_valid(shoot_skill):
-				shoot_skill.advance_on_rdy()
+			elif is_instance_valid(shoot_skill) and shoot_skill.is_preparing():
+				shoot_skill.execute()
 				
 			attackPressed = false
 		"Block_Pressed":

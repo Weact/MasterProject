@@ -24,11 +24,14 @@ func _physics_process(_delta: float) -> void:
 	if launched:
 		set_movement_speed(movement_speed - _delta * 700)
 		if get_movement_speed() <= 150:
-			movement_speed = 0
-			launched = false
-			$AnimationPlayer.play("Stop")
-			$Area2D/CollisionShape2D.call_deferred("set_disabled", true)
-			$Timer.start()
+			stop()
+	
+func stop():
+	movement_speed = 0
+	launched = false
+	$AnimationPlayer.play("Stop")
+	$Area2D/CollisionShape2D.call_deferred("set_disabled", true)
+	$Timer.start()
 	
 func prep(duration = 1.0) -> void:
 	$AnimationPlayer.play("Charge", -1, 1.0/duration)
@@ -51,6 +54,7 @@ func _on_body_entered(body) -> void:
 	
 	var damageable = body.get_node_or_null("DamageableBehavior")
 	if !is_instance_valid(damageable):
+		stop()
 		return
 	
 	if is_instance_valid(shooter):
