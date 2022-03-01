@@ -6,6 +6,7 @@ func get_class() -> String: return "SkillState"
 
 export var cancelable : bool = true
 export var auto_advance : bool = true
+var force_advance : bool = false
 export var stamina_cost : float = 0.0
 export var state_velocity_factor : float = 1.0
 export var state_rotation_factor : float = 1.0
@@ -27,6 +28,7 @@ func call_state() -> void:
 	state_machine.parent_character.regen_stamina.add_variable(state_machine.name+name, state_stamina_regen_factor, 1)
 
 func exit_state() -> void:
+	force_advance = false
 	if !is_instance_valid(state_machine.parent_character):
 		return
 	if state_machine.parent_character is Character:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Global/SKILLS.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Characters/Skills/block/Block.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Scenes/Characters/Skills/ChargedAttack/ChargedAttack.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/Characters/Skills/Dodge/Dodge.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/Characters/Skills/GuardBreak/GuardBreak.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/Characters/Skills/Shoot/Shoot.tscn" type="PackedScene" id=7]
 
 [node name="SkillList" type="Node"]
 script = ExtResource( 1 )
@@ -17,5 +18,8 @@ script = ExtResource( 1 )
 [node name="ChargedAttack" parent="." instance=ExtResource( 4 )]
 
 [node name="Dodge" parent="." instance=ExtResource( 5 )]
+init_default_state = true
 
 [node name="GuardBreak" parent="." instance=ExtResource( 6 )]
+
+[node name="Shoot" parent="." instance=ExtResource( 7 )]

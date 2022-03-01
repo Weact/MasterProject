@@ -141,7 +141,8 @@ anims/Preparation = ExtResource( 3 )
 anims/Recovery = SubResource( 2 )
 
 [node name="Weapon_Left_mock" parent="AnimationPlayer" index="0"]
-rotation = 0.349066
+position = Vector2( 3, 0 )
 
 [node name="Weapon_Right_mock" parent="AnimationPlayer" index="1"]
-position = Vector2( 6, 0 )
+position = Vector2( 3, 1 )
+rotation = 0.349066

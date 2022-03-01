@@ -67,6 +67,12 @@ func _input(event: InputEvent) -> void:
 
 	elif event.is_action_released(inputs_node.get_input("Dodge")):
 		action_name = "Dodge_Released"
+		
+	elif event.is_action_pressed(inputs_node.get_input("Interact")):
+		action_name = "Interact_Pressed"
+
+	elif event.is_action_released(inputs_node.get_input("Interact")):
+		action_name = "Interact_Released"
 
 	action(action_name)
 
@@ -99,16 +105,25 @@ func action(action_name: String) -> void:
 			if blockPressed:
 				var __ = use_skill("GuardBreak")
 			else:
-				var __ = use_skill("ChargedAttack")
+				var charged_attack = skill_tree.get_skill("ChargedAttack")
+				var shoot_skill = skill_tree.get_skill("Shoot")
+				if is_instance_valid(charged_attack):
+					var __ = use_skill("ChargedAttack")
+				elif is_instance_valid(shoot_skill):
+					var __ = use_skill("Shoot")
 				
 			attackPressed = true
 			
 		"Attack_Released":
 			var charged_attack = skill_tree.get_skill("ChargedAttack")
+			var shoot_skill = skill_tree.get_skill("Shoot")
 			if is_instance_valid(charged_attack) and charged_attack.is_ready():
 				charged_attack.execute()
 			elif get_current_state() == "ChargedAttack":
 				var __ = use_skill("Attack")
+			elif is_instance_valid(shoot_skill):
+				shoot_skill.advance_on_rdy()
+				
 			attackPressed = false
 		"Block_Pressed":
 			var __ = use_skill("Block")
@@ -119,6 +134,10 @@ func action(action_name: String) -> void:
 		"Dodge_Pressed":
 			var __ = use_skill("Dodge")
 		"Dodge_Released":
+			pass
+		"Interact_Pressed":
+			pick_up()
+		"Interact_Released":
 			pass
 		_:
 			return

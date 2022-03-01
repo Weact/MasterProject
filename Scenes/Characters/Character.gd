@@ -1,4 +1,4 @@
-extends KinematicBody2D
+extends Entity
 class_name Character
 
 func is_class(value: String): return value == "Character" or .is_class(value)
@@ -19,10 +19,12 @@ signal pathfinder_changed
 onready var weapons_node : Node2D = get_node_or_null("WeaponsPoint")
 onready var weapon_point : Node2D = weapons_node.get_node_or_null("WeaponPoint")
 onready var shield_point : Node2D = weapons_node.get_node_or_null("ShieldPoint")
-onready var weapon_node : Node2D = weapons_node.get_node_or_null("WeaponPoint/Weapon")
-onready var shield_node : Node2D = weapons_node.get_node_or_null("ShieldPoint/Shield")
+onready var weapon_node : Node2D = null
+onready var shield_node : Node2D = null
 
 onready var weapons_animation_player_node : AnimationPlayer = get_node_or_null("WeaponsPoint/AnimationPlayer")
+
+onready var pick_up_area : Area2D = $PickUpArea
 
 ## STATS
 
@@ -43,33 +45,13 @@ var stunned : bool = false setget set_stunned, is_stunned
 signal stun_changed(stun_state)
 var stun_duration : float = 0.2
 
-export var movement_speed : float = 0.0 setget set_movement_speed, get_movement_speed
-signal movement_speed_changed(movement_speed)
-
 export var max_speed : float = 0.0
 signal max_speed_changed(max_speed)
-
-var velocity : Vector2 = Vector2.ZERO
-signal velocity_changed(vel)
-
-var direction : Vector2 = Vector2.ZERO
-signal direction_changed(dir)
 
 var is_dodging : bool = false
 var dodging_time : float = 0.08
 var dodge_power : float = 300.0
 var dodge_cost : int = 10
-
-
-var rotation_speed : float = 750.0
-
-var look_direction : float = 0.0
-signal look_direction_changed(dir)
-
-var rot_velocity : float = 0.0
-
-var rotation_factor : Variable = Variable.new(1.0)
-var velocity_factor : Variable = Variable.new(1.0)
 
 export var white_mat : Material = null
 
@@ -205,13 +187,6 @@ func get_block_power() -> int:
 	return block_power
 
 ## MOVEMENTS
-func set_movement_speed(new_value : float) -> void:
-	if movement_speed != new_value:
-		movement_speed = new_value
-		emit_signal("movement_speed_changed", movement_speed)
-
-func get_movement_speed() -> float:
-	return movement_speed
 
 func set_max_speed(new_max_speed: float) -> void:
 	if max_speed != new_max_speed:
@@ -220,34 +195,6 @@ func set_max_speed(new_max_speed: float) -> void:
 
 func get_max_speed() -> float:
 	return max_speed
-
-func set_velocity(new_velocity: Vector2):
-	if velocity != new_velocity:
-		velocity = new_velocity
-		emit_signal("velocity_changed", velocity)
-
-func get_velocity() -> Vector2:
-	return velocity
-	
-func get_computed_velocity() -> Vector2:
-	return _compute_raw_velocity() * velocity_factor.get_value()
-
-func set_direction(new_direction : Vector2):
-	if direction != new_direction.normalized():
-		new_direction = new_direction.normalized()
-		direction = new_direction
-		emit_signal("direction_changed", direction)
-
-func get_direction() -> Vector2:
-	return direction
-
-func set_look_direction(new_direction : float):
-	if look_direction != new_direction:
-		look_direction = new_direction
-		emit_signal("look_direction_changed", look_direction)
-
-func get_look_direction() -> float:
-	return look_direction
 
 func set_facing_left(value: bool) -> void:
 	if value != facing_left:
@@ -259,28 +206,35 @@ func is_facing_left() -> bool: return facing_left
 #### BUILT-IN ####
 
 func _ready() -> void:
-	connect_signals()
 	init_panels()
 	setup_skills()
 
 	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
 
 func setup_skills() -> void:
-	add_skill("Attack")
-	add_skill("Block")
-	add_skill("ChargedAttack")
 	add_skill("Dodge")
-	add_skill("GuardBreak")
 
 func add_skill(skill_name : String) -> void:
-	var newSkill = SKILL_LIST.get_skill(skill_name)
+	var new_skill = SKILL_LIST.get_skill(skill_name)
 
-	skill_tree.add_child(newSkill)
-	if newSkill.has_method("new_owner"):
-		newSkill.new_owner(self)
+	if !is_instance_valid(new_skill):
+		return
+		
+	skill_tree.add_child(new_skill)
+	if new_skill.has_method("new_owner"):
+		new_skill.new_owner(self)
+
+func remove_skill(skill_name : String) -> void:
+	var skill = skill_tree.get_skill(skill_name)
+	
+	if !is_instance_valid(skill):
+		return
+	
+	skill_tree.remove_child(skill)
 
 
-func connect_signals() -> void:
+func _connect_signals() -> void:
+	._connect_signals()
 	var __ = connect("health_point_changed", self, "_on_health_point_changed")
 	__ = connect("stamina_changed", self, "_on_stamina_changed")
 
@@ -288,23 +242,18 @@ func connect_signals() -> void:
 
 	__ = connect("stun_changed", self, "_on_stun_changed")
 
-	__ = connect("velocity_changed", self, "_on_velocity_changed")
-	__ = connect("movement_speed_changed", self, "_on_movement_speed_changed")
-	__ = connect("direction_changed", self, "_on_direction_changed")
-	__ = connect("look_direction_changed", self, "_on_look_direction_changed")
-	__ = animated_sprite.connect("frame_changed", self, "_on_AnimatedSprite_frame_changed")
-	__ = animated_sprite.connect("animation_finished", self, "_on_AnimatedSprite_animation_finished")
-
+	__ = $AnimatedSprite.connect("frame_changed", self, "_on_AnimatedSprite_frame_changed")
+	
 	__ = connect("attack_power_changed", self, "_on_attack_power_changed")
 	__ = connect("block_power_changed", self, "_on_block_power_changed")
-	__ = connect("attack_hit", self, "_on_weapon_hit")
-	__ = connect("shield_hit", self, "_on_shield_hit")
 
-	__ = animated_sprite.connect("animation_finished", self, "_on_animation_finished")
+	__ = $AnimatedSprite.connect("animation_finished", self, "_on_animation_finished")
 
 	__ = connect("current_tile_changed", self, "_on_current_tile_changed")
 	__ = connect("pathfinder_changed", self, "_on_pathfinder_changed")
 	__ = connect("weight_changed", self, "_on_weight_changed")
+	
+
 
 
 func _physics_process(_delta: float) -> void:
@@ -317,17 +266,6 @@ func _physics_process(_delta: float) -> void:
 #### VIRTUALS ####
 
 #### LOGIC ####
-func _compute_rotation_vel() -> void:
-	var difference = fmod(look_direction - $WeaponsPoint.rotation_degrees, 360)
-	var short_angle_dist = fmod(2*difference, 360) - difference
-
-	rot_velocity = rotation_speed
-	if short_angle_dist < 0:
-		rot_velocity = -rot_velocity
-
-func get_current_rotation_velocity() -> float:
-	_compute_rotation_vel()
-	return rot_velocity * rotation_factor.get_value()
 
 func update_weapon_rotation(_delta, rot_vel) -> void:
 	var difference = fmod(look_direction - $WeaponsPoint.rotation_degrees, 360)
@@ -350,11 +288,6 @@ func init_panels() -> void:
 	"\n" + str(get_stamina()) )
 
 
-func _compute_raw_velocity() -> Vector2:
-	var new_vel = direction.normalized() * movement_speed
-	set_velocity(new_vel)
-	return new_vel
-
 # Flip the actor accordingly to the direction it is facing
 func flip():
 	if !is_instance_valid(animated_sprite):
@@ -371,15 +304,13 @@ func flip():
 
 	if !is_instance_valid($WeaponsPoint):
 		yield(self, "ready")
-	if !is_instance_valid($WeaponsPoint/ShieldPoint/Shield):
-		yield(self, "ready")
 
-	$WeaponsPoint/ShieldPoint/Shield/Sprite.set_flip_v(facing_left)
+	
+	if is_instance_valid(shield_node):
+		shield_node.get_node_or_null("Sprite").set_flip_v(facing_left)
 
-	if !is_instance_valid($WeaponsPoint/WeaponPoint/Weapon):
-		yield(self, "ready")
-
-	weapon_node.get_node_or_null("Sprite").set_flip_h(facing_left)
+	if is_instance_valid(weapon_node):
+		weapon_node.get_node_or_null("Sprite").set_flip_h(facing_left)
 
 func damaged(damage_taken) -> void:
 	if get_state_name() == "Dodge":
@@ -423,10 +354,128 @@ func use_skill(skill_name) -> int:
 		return 1
 	return 0
 
+func pick_up() -> void:
+	var areas = pick_up_area.get_overlapping_areas()
+	var closest_body = null
+	
+	for area in areas:
+		var body = area.owner
+		if !is_instance_valid(body):
+			continue
+		
+		if !body.is_class("Weapon"):
+			continue
+		
+		if closest_body == null or position.distance_to(body.position) < position.distance_to(closest_body.position):
+			closest_body = body
+	
+	if closest_body != null:
+		equip_item(closest_body)
+
+func equip_item(item) -> void:
+	if !item.is_class("Weapon"):
+		return
+		
+	item.equip(self)
+	skill_tree.use_skill(null)
+	
+	if item.is_class("Sword") :
+		var __ = drop_weapon()
+		if is_instance_valid(get_shield()):
+			if get_shield().is_class("Bow"):
+				__ = drop_shield()
+		__ = item.connect("collided", self, "_on_weapon_hit")
+		weapon_node = item
+		move_weapon(item)
+		weapon_point.call_deferred("add_child", item)
+		
+	elif item.is_class("Shield"):
+		var __ = drop_shield()
+		__ = item.connect("collided", self, "_on_shield_hit")
+		shield_node = item
+		move_weapon(item)
+		shield_point.call_deferred("add_child", item)
+	
+	elif item.is_class("Bow"):
+		var __ = drop_weapon()
+		__ = drop_shield()
+		__ = item.connect("collided", self, "_on_shield_hit")
+		shield_node = item
+		move_weapon(item)
+		shield_point.call_deferred("add_child", item)
+		
+		
+
+func move_weapon(weapon) -> void:
+	var _point = weapon.get_parent()
+	if is_instance_valid(_point):
+		_point.call_deferred("remove_child", weapon)
+	weapon.set_position(Vector2(0,0))
+
+func unequip_item(item) -> void:
+	if !item.is_class("Weapon"):
+		return
+		
+	var child = shield_point.get_child(0)
+	if child == item:
+		var __ = drop_shield()
+		return
+			
+	child = weapon_point.get_child(0)
+	if child == item:
+		var __ = drop_weapon()
+		return
+
+func drop_weapon() -> Node:
+	weapon_node = null
+	return free_first_child(weapon_point)
+		
+func drop_shield() -> Node:
+	shield_node = null
+	return free_first_child(shield_point)
+
+func free_first_child(node) -> Node:
+	if node.get_child_count() > 0:
+		var weapon = node.get_child(0)
+		if !is_instance_valid(weapon):
+			return null
+		if weapon.is_class("Bow") or weapon.is_class("Shield"):
+			weapon.disconnect("collided", self, "_on_shield_hit")
+		elif weapon.is_class("Weapon"):
+			weapon.disconnect("collided", self, "_on_weapon_hit")
+			
+		node.remove_child(weapon)
+		weapon.unequip()
+		weapon.set_position(get_global_position())
+		owner.call_deferred("add_child", weapon)
+		return weapon
+		
+	return null
+	
+func get_weapon() -> Node:
+	if weapon_point.get_child_count() > 0:
+		return weapon_point.get_child(0)
+	return null
+	
+func get_shield() -> Node:
+	if shield_point.get_child_count() > 0:
+		return shield_point.get_child(0)
+	return null
+
+func has_weapon() -> bool:
+	var has_bow = false
+	for child in shield_point.get_children():
+		if child.is_class("Bow"):
+			has_bow = true
+			
+	return has_bow or weapon_point.get_child_count() <= 0
+	
+func has_shield() -> bool:
+	return shield_point.get_child_count() <= 0
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
-
+	
 ## STUN
 func _on_stun_changed(stun_state: bool) -> void:
 	if stun_state:
@@ -472,27 +521,18 @@ func _on_block_power_changed() -> void:
 func _on_max_speed_changed(_max_speed: float) -> void:
 	pass
 
-func _on_velocity_changed(_vel: Vector2) -> void:
-	pass
 
-func _on_movement_speed_changed(_ms: float) -> void:
-	pass
 
 func _on_direction_changed(dir: Vector2) -> void:
 	if dir != Vector2.ZERO and dir != Vector2.UP and dir != Vector2.DOWN :
 		pass
 
-func _on_look_direction_changed(_dir: float) -> void:
-	pass
 
 func _on_animation_finished() -> void:
 	pass
 
 func _on_AnimatedSprite_frame_changed() -> void:
 	pass # Replace with function body.
-
-func _on_AnimatedSprite_animation_finished() -> void:
-	pass
 
 func _on_current_tile_changed(oldTilePos, tilePos) -> void:
 	if pathfinder != null:
@@ -508,12 +548,12 @@ func _on_weight_changed(oldWeight, newWeight) -> void:
 		pathfinder.update_pos_point(current_tile, -oldWeight)
 		pathfinder.update_pos_point(current_tile, newWeight)
 
-func _on_weapon_hit() -> void:
-	pass
+func _on_weapon_hit(body) -> void:
+	emit_signal("attack_hit", body)
 #	set_state("Idle")
 
-func _on_shield_hit() -> void:
-	set_state("Idle")
+func _on_shield_hit(body) -> void:
+	emit_signal("shield_hit", body)
 
 func _on_attack_cd_timeout(timer_timeout : Timer) -> void:
 	timer_timeout.queue_free()
