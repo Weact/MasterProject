@@ -6,7 +6,6 @@
 
 [node name="Bow" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-weapon_handler_node_path = NodePath(".")
 
 [node name="Sprite" parent="." index="0"]
 position = Vector2( 0, 0 )

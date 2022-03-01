@@ -257,7 +257,6 @@ difficulty = 1.0
 
 [node name="Bow" parent="." index="10" instance=ExtResource( 7 )]
 position = Vector2( 134, 101 )
-weapon_handler_node_path = NodePath("")
 
 [node name="Sword" parent="." index="11" instance=ExtResource( 5 )]
 position = Vector2( 170, 94 )

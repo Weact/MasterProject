@@ -349,17 +349,16 @@ func die() -> void:
 	set_weight(0)
 	state_machine.set_state("Death")
 
-func use_skill(skill_name) -> int:
-	if can_change_state() and skill_tree.use_skill(skill_name):
-		return 1
-	return 0
+func use_skill(skill_name) -> bool:
+	return ( can_change_state() and skill_tree.use_skill(skill_name) )
 
 func pick_up() -> void:
 	var areas = pick_up_area.get_overlapping_areas()
 	var closest_body = null
 	
 	for area in areas:
-		var body = area.owner
+		var body = area.get_owner() if is_instance_valid(area) else null
+		
 		if !is_instance_valid(body):
 			continue
 		
@@ -369,14 +368,17 @@ func pick_up() -> void:
 		if closest_body == null or position.distance_to(body.position) < position.distance_to(closest_body.position):
 			closest_body = body
 	
-	if closest_body != null:
+	if is_instance_valid(closest_body):
 		equip_item(closest_body)
 
 func equip_item(item) -> void:
 	if !item.is_class("Weapon"):
 		return
 		
+	# To check :
+	# (item as Weapon).equip(self)
 	item.equip(self)
+	
 	skill_tree.use_skill(null)
 	
 	if item.is_class("Sword") :
@@ -403,8 +405,6 @@ func equip_item(item) -> void:
 		shield_node = item
 		move_weapon(item)
 		shield_point.call_deferred("add_child", item)
-		
-		
 
 func move_weapon(weapon) -> void:
 	var _point = weapon.get_parent()
@@ -429,7 +429,7 @@ func unequip_item(item) -> void:
 func drop_weapon() -> Node:
 	weapon_node = null
 	return free_first_child(weapon_point)
-		
+
 func drop_shield() -> Node:
 	shield_node = null
 	return free_first_child(shield_point)
@@ -453,9 +453,9 @@ func free_first_child(node) -> Node:
 	return null
 	
 func get_weapon() -> Node:
-	if weapon_point.get_child_count() > 0:
-		return weapon_point.get_child(0)
-	return null
+	var wp = weapon_point.get_child(0)
+	var wp1 = weapon_point.get_child(55)
+	return weapon_point.get_child(0)
 	
 func get_shield() -> Node:
 	if shield_point.get_child_count() > 0:
@@ -463,15 +463,19 @@ func get_shield() -> Node:
 	return null
 
 func has_weapon() -> bool:
-	var has_bow = false
-	for child in shield_point.get_children():
-		if child.is_class("Bow"):
-			has_bow = true
-			
-	return has_bow or weapon_point.get_child_count() <= 0
+	# Get all children from "WeaponsPoint" node
+	for child in weapons_node.get_children():
+		if child.get_child_count() > 0:
+			# Try to get the weapon in the child of "WeaponsPoint" node
+			for weapon_child in child.get_children():
+				if weapon_child is Weapon:
+					return true # true if this child is a weapon
+		
+	return false
 	
 func has_shield() -> bool:
 	return shield_point.get_child_count() <= 0
+
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####

@@ -11,18 +11,14 @@ func get_class() -> String: return "Bow"
 
 #### VIRTUALS ####
 
-
+func add_weapon_skills() -> void:
+	weapon_handler_node.add_skill("Shoot")
+	
+func remove_weapon_skills() -> void:
+	weapon_handler_node.remove_skill("Shoot")
 
 #### LOGIC ####
 
-func add_weapon_skills():
-	weapon_handler_node.add_skill("Shoot")
-	
-func remove_weapon_skills():
-	weapon_handler_node.remove_skill("Shoot")
-
 #### INPUTS ####
-
-
 
 #### SIGNAL RESPONSES ####
