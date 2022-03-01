@@ -26,6 +26,7 @@ func _physics_process(_delta: float) -> void:
 		if get_movement_speed() <= 150:
 			movement_speed = 0
 			launched = false
+			$AnimationPlayer.play("Stop")
 			$Area2D/CollisionShape2D.call_deferred("set_disabled", true)
 			$Timer.start()
 	
