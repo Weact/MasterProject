@@ -58,7 +58,7 @@ func can_change_skill(new_skill : Skill) -> int:
 	if current_state.is_cancelable():
 		return 1
 		
-	if new_skill.recovery_canceler and current_state.is_recovering():
+	if is_instance_valid(new_skill) and new_skill.recovery_canceler and current_state.is_recovering():
 		return 1
 		
 	return 0

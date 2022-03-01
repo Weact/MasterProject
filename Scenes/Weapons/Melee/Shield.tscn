@@ -23,4 +23,3 @@ __meta__ = {
 position = Vector2( -0.0143991, 1.19548e-07 )
 rotation = 0.000711173
 shape = SubResource( 1 )
-disabled = true

@@ -1,7 +1,6 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scenes/Characters/States/CharacterDeath.gd" type="Script" id=1]
-[ext_resource path="res://Scenes/Weapons/Melee/Sword.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/StateMachine/StateMachine.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/Characters/States/CharacterIdle.gd" type="Script" id=5]
 [ext_resource path="res://Scenes/Characters/States/CharacterMove.gd" type="Script" id=6]
@@ -9,12 +8,13 @@
 [ext_resource path="res://Scenes/Characters/States/CharacterInteract.gd" type="Script" id=8]
 [ext_resource path="res://Scenes/Characters/Character.gd" type="Script" id=9]
 [ext_resource path="res://Behaviors/Damage/DamageableBehavior.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Scenes/Weapons/Melee/Shield.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scenes/Characters/WeaponsPoint.gd" type="Script" id=12]
-[ext_resource path="res://Scenes/Weapons/Weapon.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Scenes/Characters/Materials/HitEffect/HitEffect.tres" type="Material" id=16]
 [ext_resource path="res://Scenes/Characters/CharacterSkilling.gd" type="Script" id=27]
 [ext_resource path="res://Scenes/Characters/Skills/skill_tree.gd" type="Script" id=28]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 13.0384
 
 [node name="Character" type="KinematicBody2D"]
 z_index = 1
@@ -35,15 +35,8 @@ script = ExtResource( 12 )
 [node name="ShieldPoint" type="Node2D" parent="WeaponsPoint"]
 position = Vector2( 10, 0 )
 
-[node name="Shield" parent="WeaponsPoint/ShieldPoint" instance=ExtResource( 11 )]
-weapon_handler_node_path = NodePath("../../..")
-
 [node name="WeaponPoint" type="Node2D" parent="WeaponsPoint"]
 rotation = 0.349066
-
-[node name="Weapon" parent="WeaponsPoint/WeaponPoint" instance=ExtResource( 14 )]
-script = ExtResource( 3 )
-weapon_handler_node_path = NodePath("../../..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
@@ -108,3 +101,9 @@ margin_bottom = 27.0
 
 [node name="DamageableBehavior" parent="." instance=ExtResource( 10 )]
 owner_object_path = NodePath("..")
+
+[node name="PickUpArea" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickUpArea"]
+shape = SubResource( 1 )

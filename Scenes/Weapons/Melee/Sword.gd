@@ -11,6 +11,13 @@ func get_class() -> String: return "Sword"
 
 
 #### VIRTUALS ####
+func add_weapon_skills():
+	weapon_handler_node.add_skill("Attack")
+	weapon_handler_node.add_skill("ChargedAttack")
+	
+func remove_weapon_skills():
+	weapon_handler_node.remove_skill("Attack")
+	weapon_handler_node.remove_skill("ChargedAttack")
 
 
 

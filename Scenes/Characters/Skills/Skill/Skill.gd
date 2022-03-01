@@ -23,15 +23,15 @@ func get_stamina_cost() -> float:
 func enter_state() -> void:
 	.enter_state()
 	parent_character.weapons_node.connect("animation_finished", self, "_on_weapons_animation_finished")
-	parent_character.weapon_node.connect("collided", self, "_on_left_weapon_hit")
-	parent_character.shield_node.connect("collided", self, "_on_right_weapon_hit")
+	var __ = parent_character.connect("attack_hit", self, "_on_left_weapon_hit")
+	__ = parent_character.connect("shield_hit", self, "_on_right_weapon_hit")
 	
 	
 func exit_state() -> void:
 	.exit_state()
 	parent_character.weapons_node.disconnect("animation_finished", self, "_on_weapons_animation_finished")
-	parent_character.weapon_node.disconnect("collided", self, "_on_left_weapon_hit")
-	parent_character.shield_node.disconnect("collided", self, "_on_right_weapon_hit")
+	parent_character.disconnect("attack_hit", self, "_on_left_weapon_hit")
+	parent_character.disconnect("shield_hit", self, "_on_right_weapon_hit")
 
 
 #### VIRTUALS ####
@@ -45,7 +45,10 @@ func play_current_state_anim() -> void:
 	if !is_instance_valid(parent_character):
 		return
 	
-	parent_character.weapons_animation_player_node.play(String(name) +"_"+ String(current_state.name))
+	parent_character.weapons_animation_player_node.play(get_current_anim_name())
+
+func get_current_anim_name() -> String:
+	return String(name) +"_"+ String(current_state.name)
 
 func prepare() -> void:
 	if state_machine.current_state != self:
@@ -56,6 +59,16 @@ func execute() -> void:
 	if state_machine.current_state != self:
 		return
 	set_state("Execute")
+	
+func advance_on_rdy() -> void:
+	if state_machine.current_state != self:
+		return
+		
+	if is_instance_valid(current_state):
+		if current_state.ready == true:
+			advance_state()
+		else:
+			current_state.force_advance = true
 	
 func recover() -> void:
 	if state_machine.current_state != self:
@@ -128,6 +141,14 @@ func _transfer_animations(weapon_left_path : NodePath, weapon_right_path : NodeP
 		
 		var __ = new_anim_player.add_animation(name+"_"+anim_name, anim)
 
+func advance_state() -> void:
+	if get_state_name() == "Recovery":
+		state_machine.set_state(null)
+	if get_state_name() == "Execute":
+		recover()
+	if get_state_name() == "Preparation":
+		execute()
+
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
@@ -141,12 +162,7 @@ func _on_weapons_animation_finished() -> void:
 	if !is_instance_valid(parent_character) or state_machine.current_state != self:
 		return
 	
-	if current_state.auto_advance == true:
-		if get_state_name() == "Recovery":
-			state_machine.set_state(null)
-		if get_state_name() == "Execute":
-			recover()
-		if get_state_name() == "Preparation":
-			execute()
+	if current_state.auto_advance == true or current_state.force_advance == true:
+		advance_state()
 	else:
 		current_state.ready = true
