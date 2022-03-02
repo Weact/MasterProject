@@ -169,8 +169,6 @@ recovery_canceler = true
 [node name="Preparation" parent="." index="0"]
 script = ExtResource( 3 )
 cancelable = false
-state_velocity_factor = 0.1
-state_rotation_factor = 0.3
 
 [node name="Execute" parent="." index="1"]
 script = ExtResource( 5 )
@@ -179,8 +177,6 @@ state_velocity_factor = 3.0
 
 [node name="Recovery" parent="." index="2"]
 script = ExtResource( 2 )
-state_velocity_factor = 0.25
-state_rotation_factor = 0.3
 
 [node name="AnimationPlayer" parent="." index="3"]
 anims/Execute = SubResource( 1 )

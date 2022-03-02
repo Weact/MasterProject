@@ -214,6 +214,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Characters/Skills/GuardBreak/GuardBreak.gd"
 }, {
+"base": "Control",
+"class": "Inventory",
+"language": "GDScript",
+"path": "res://Scenes/Inventory/Inventory.gd"
+}, {
+"base": "Resource",
+"class": "ItemResource",
+"language": "GDScript",
+"path": "res://Data/Items/Database/Item.gd"
+}, {
 "base": "Character",
 "class": "NPC",
 "language": "GDScript",
@@ -411,6 +421,8 @@ _global_script_class_icons={
 "GuardBreakPreparationSkill": "",
 "GuardBreakRecoverySkill": "",
 "GuardBreakSkill": "",
+"Inventory": "",
+"ItemResource": "",
 "NPC": "",
 "NPCBehaviorTree": "",
 "NPCBlockBehavior": "",
@@ -454,7 +466,9 @@ config/icon="res://icon.png"
 
 EVENTS="*res://Global/EVENTS.gd"
 GAME="*res://Global/GAME.gd"
-SKILL_LIST="*res://Global/SkillList.tscn"
+SKILL_LIST="*res://Global/SKILLS/SkillList.tscn"
+ItemsDatabase="*res://Data/Items/Database/ItemsDatabase.gd"
+CharacterInventory="*res://Data/Items/Character/CharacterInventory.tscn"
 
 [debug]
 
@@ -464,7 +478,6 @@ settings/fps/force_fps=60
 
 window/size/width=960
 window/size/height=540
-window/size/fullscreen=true
 window/dpi/allow_hidpi=true
 window/vsync/use_vsync=false
 window/stretch/mode="2d"
@@ -554,6 +567,16 @@ minimize={
 cheat_stats={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":16777245,"unicode":0,"echo":false,"script":null)
+ ]
+}
+shuffle_inventory={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":16777246,"unicode":0,"echo":false,"script":null)
+ ]
+}
+sort_inventory={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":true,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":16777246,"unicode":0,"echo":false,"script":null)
  ]
 }
 

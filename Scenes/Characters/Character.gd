@@ -126,7 +126,7 @@ func set_current_tile(tilePos : Vector2) -> void:
 		emit_signal("current_tile_changed", oldTile, current_tile)
 
 ## HEALTH POINT
-func set_health_point(new_health_point: int) -> void:
+func set_health_point(new_health_point: int, cheats: bool = false) -> void:
 	if health_point != new_health_point:
 		health_point = new_health_point
 
@@ -151,12 +151,12 @@ func is_stunned() -> bool:
 	return stunned
 
 ## STAMINA
-func set_stamina(new_stamina: float) -> void:
+func set_stamina(new_stamina: float, cheats: bool = false) -> void:
 	if stamina != new_stamina:
 		stamina = new_stamina
 
 		if stamina < 0: stamina = 0
-		if stamina > 100: stamina = 100
+		if stamina > 100 and not cheats: stamina = 100
 		emit_signal("stamina_changed")
 
 
