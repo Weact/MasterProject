@@ -68,10 +68,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [  ]
+"values": [ Vector2( 5, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("AnimationPlayer/Weapon_Left_mock:rotation_degrees")
@@ -80,10 +80,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [  ]
+"values": [ 0.0 ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("AnimationPlayer/Weapon_Right_mock:position")
@@ -165,18 +165,17 @@ tracks/3/keys = {
 [node name="Shoot" instance=ExtResource( 1 )]
 script = ExtResource( 3 )
 init_default_state = false
-max_charge_time = 0.6
 
 [node name="Preparation" parent="." index="0"]
 script = ExtResource( 5 )
 auto_advance = false
 state_velocity_factor = 0.5
 state_rotation_factor = 0.5
-state_stamina_regen_factor = -1.0
+state_stamina_regen_factor = -1.1
 
 [node name="Execute" parent="." index="1"]
 script = ExtResource( 4 )
-stamina_cost = 10.0
+stamina_cost = 15.0
 
 [node name="Recovery" parent="." index="2"]
 script = ExtResource( 2 )

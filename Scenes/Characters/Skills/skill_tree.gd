@@ -25,7 +25,7 @@ func has_skill(skill_name : String) -> bool:
 	
 	return exist
 
-func get_skill(skill_name : String) -> Node2D:
+func get_skill(skill_name : String) -> Node:
 	for skill in get_children():
 		if skill.name == skill_name:
 			return skill
