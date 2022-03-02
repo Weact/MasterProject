@@ -19,7 +19,7 @@ func release() -> void:
 	
 	if is_instance_valid(charged_skill) and charged_skill.is_ready():
 		charged_skill.execute()
-	elif weapon_handler_node.get_current_state() == "ChargedAttack":
+	else:
 		var __ = weapon_handler_node.use_skill("Attack")
 		
 func add_weapon_skills():

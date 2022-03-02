@@ -63,14 +63,14 @@ animations = [ {
 "speed": 10.51
 } ]
 
+[sub_resource type="CircleShape2D" id=13]
+radius = 5.0
+
 [sub_resource type="CircleShape2D" id=7]
 radius = 18.0278
 
 [sub_resource type="CircleShape2D" id=6]
 radius = 145.986
-
-[sub_resource type="CircleShape2D" id=13]
-radius = 5.0
 
 [node name="NPC" groups=["NPC"] instance=ExtResource( 1 )]
 script = ExtResource( 2 )
@@ -84,6 +84,9 @@ frames = SubResource( 5 )
 animation = "Move"
 frame = 1
 playing = true
+
+[node name="CollisionShape2D" parent="." index="2"]
+shape = SubResource( 13 )
 
 [node name="BehaviorTree" type="Node2D" parent="." index="3"]
 script = ExtResource( 4 )
@@ -158,10 +161,7 @@ visible = false
 [node name="area" type="CollisionShape2D" parent="chaseArea" index="0"]
 shape = SubResource( 6 )
 
-[node name="CollisionShape2D" parent="." index="6"]
-shape = SubResource( 13 )
-
-[node name="StateMachine" parent="." index="8"]
+[node name="StateMachine" parent="." index="7"]
 visible = true
 
 [node name="StateLabel" type="Label" parent="StateMachine" index="6"]
