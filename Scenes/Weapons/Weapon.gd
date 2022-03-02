@@ -30,7 +30,7 @@ func _ready() -> void:
 #### LOGIC ####
 
 func _is_valid(instance) -> int:
-	return ( not is_instance_valid(instance) and instance != self and instance != weapon_handler_node )
+	return ( is_instance_valid(instance) and instance != self and instance != weapon_handler_node )
 
 func equip(weapon_handler) -> bool:
 	if !is_instance_valid(weapon_handler):

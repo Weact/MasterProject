@@ -9,7 +9,6 @@ extents = Vector2( 3, 12.5004 )
 
 [node name="Bow" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-weapon_handler_node_path = NodePath(".")
 rotate_v = true
 rotate_h = false
 

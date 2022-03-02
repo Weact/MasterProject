@@ -396,7 +396,7 @@ func equip_item(item) -> void:
 
 	elif item.is_class("Bow"):
 		set_weapon_node(item)
-		var __ = drop_shield()
+		__ = drop_shield()
 
 func set_weapon_node(item) -> void:
 	var __ = drop_weapon()
