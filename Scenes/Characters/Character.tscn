@@ -19,6 +19,8 @@ radius = 13.0384
 [node name="Character" type="KinematicBody2D"]
 z_index = 1
 script = ExtResource( 9 )
+movement_speed = 80.0
+max_speed = 80.0
 white_mat = ExtResource( 16 )
 default_state = "Idle"
 

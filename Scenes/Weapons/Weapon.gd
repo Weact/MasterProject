@@ -10,6 +10,9 @@ onready var animation_player : AnimationPlayer = null
 
 var weapon_handler_node : Node = null
 
+export var rotate_v : bool = false
+export var rotate_h : bool = true
+
 signal collided
 #### ACCESSORS ####
 
@@ -32,7 +35,7 @@ func _is_valid(instance) -> int:
 func equip(weapon_handler) -> bool:
 	if !is_instance_valid(weapon_handler):
 		return false
-	
+
 	weapon_handler_node = weapon_handler
 	hitbox.call_deferred("set_disabled", true)
 	add_weapon_skills()
@@ -52,16 +55,24 @@ func remove_weapon_skills() -> void:
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
-	
+
 func _on_area_entered(area: Area2D) -> void:
 	if !_is_valid(area) or !area.get_owner().is_class("Weapon"):
-		return 
+		return
 
 	emit_signal("collided", area.get_owner())
 
 func _on_body_entered(body: PhysicsBody2D) -> void:
 	if !_is_valid(body):
 		return
-	
+
 	emit_signal("collided", body)
-	
+
+func press() -> void:
+	pass
+
+func release() -> void:
+	pass
+
+func trigger() -> void:
+	pass

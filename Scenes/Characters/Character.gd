@@ -129,7 +129,7 @@ func set_current_tile(tilePos : Vector2) -> void:
 func set_health_point(new_health_point: int) -> void:
 	if health_point != new_health_point:
 		health_point = new_health_point
-		
+
 		emit_signal("health_point_changed")
 
 func get_health_point() -> int:
@@ -219,17 +219,20 @@ func add_skill(skill_name : String) -> void:
 
 	if !is_instance_valid(new_skill):
 		return
-		
+
 	skill_tree.add_child(new_skill)
 	if new_skill.has_method("new_owner"):
 		new_skill.new_owner(self)
 
+func get_skill(skill_name : String) -> Node:
+	return skill_tree.get_skill(skill_name)
+
 func remove_skill(skill_name : String) -> void:
 	var skill = skill_tree.get_skill(skill_name)
-	
+
 	if !is_instance_valid(skill):
 		return
-	
+
 	skill_tree.remove_child(skill)
 
 
@@ -243,7 +246,7 @@ func _connect_signals() -> void:
 	__ = connect("stun_changed", self, "_on_stun_changed")
 
 	__ = $AnimatedSprite.connect("frame_changed", self, "_on_AnimatedSprite_frame_changed")
-	
+
 	__ = connect("attack_power_changed", self, "_on_attack_power_changed")
 	__ = connect("block_power_changed", self, "_on_block_power_changed")
 
@@ -252,7 +255,7 @@ func _connect_signals() -> void:
 	__ = connect("current_tile_changed", self, "_on_current_tile_changed")
 	__ = connect("pathfinder_changed", self, "_on_pathfinder_changed")
 	__ = connect("weight_changed", self, "_on_weight_changed")
-	
+
 
 
 
@@ -305,12 +308,18 @@ func flip():
 	if !is_instance_valid(weapons_node):
 		yield(self, "ready")
 
-	
+
 	if is_instance_valid(shield_node):
-		shield_node.get_node_or_null("Sprite").set_flip_v(facing_left)
+		flip_weapon(shield_node)
 
 	if is_instance_valid(weapon_node):
-		weapon_node.get_node_or_null("Sprite").set_flip_h(facing_left)
+		flip_weapon(weapon_node)
+
+func flip_weapon(weapon) -> void:
+	if weapon.rotate_h:
+		weapon.get_node_or_null("Sprite").set_flip_h(facing_left)
+	if weapon.rotate_v:
+		weapon.get_node_or_null("Sprite").set_flip_v(facing_left)
 
 func damaged(damage_taken) -> void:
 	if get_state_name() == "Dodge":
@@ -355,54 +364,57 @@ func use_skill(skill_name) -> bool:
 func pick_up() -> void:
 	var areas = pick_up_area.get_overlapping_areas()
 	var closest_body = null
-	
+
 	for area in areas:
 		var body = area.get_owner() if is_instance_valid(area) else null
-		
+
 		if !is_instance_valid(body):
 			continue
-		
+
 		if !body.is_class("Weapon"):
 			continue
-		
+
 		if closest_body == null or position.distance_to(body.position) < position.distance_to(closest_body.position):
 			closest_body = body
-	
+
 	if is_instance_valid(closest_body):
 		equip_item(closest_body)
 
 func equip_item(item) -> void:
 	if not item.is_class("Weapon"):
 		return
-		
+
 	item.equip(self)
-	
+
 	var __ = skill_tree.use_skill(null)
-	
+
 	if item.is_class("Sword") :
-		__ = drop_weapon()
-		if is_instance_valid(get_shield()):
-			if get_shield().is_class("Bow"):
-				__ = drop_shield()
-		__ = item.connect("collided", self, "_on_weapon_hit")
-		weapon_node = item
-		move_weapon(item)
-		weapon_point.call_deferred("add_child", item)
-	
+		set_weapon_node(item)
+
 	elif item.is_class("Shield"):
-		__ = drop_shield()
-		__ = item.connect("collided", self, "_on_shield_hit")
-		shield_node = item
-		move_weapon(item)
-		shield_point.call_deferred("add_child", item)
-	
+		set_shield_node(item)
+
 	elif item.is_class("Bow"):
-		__ = drop_weapon()
-		__ = drop_shield()
-		__ = item.connect("collided", self, "_on_shield_hit")
-		shield_node = item
-		move_weapon(item)
-		shield_point.call_deferred("add_child", item)
+		set_weapon_node(item)
+		var __ = drop_shield()
+
+func set_weapon_node(item) -> void:
+	var __ = drop_weapon()
+	__ = item.connect("collided", self, "_on_weapon_hit")
+	weapon_node = item
+	move_weapon(item)
+	weapon_point.call_deferred("add_child", item)
+
+func set_shield_node(item) -> void:
+	var __ = drop_shield()
+	if is_instance_valid(get_weapon()):
+		if get_weapon().is_class("Bow"):
+			__ = drop_weapon()
+	__ = item.connect("collided", self, "_on_shield_hit")
+	shield_node = item
+	move_weapon(item)
+	shield_point.call_deferred("add_child", item)
+
 
 func move_weapon(weapon) -> void:
 	var _point = weapon.get_parent()
@@ -413,12 +425,12 @@ func move_weapon(weapon) -> void:
 func unequip_item(item) -> void:
 	if !item.is_class("Weapon"):
 		return
-		
+
 	var child = shield_point.get_child(0)
 	if child == item:
 		var __ = drop_shield()
 		return
-			
+
 	child = weapon_point.get_child(0)
 	if child == item:
 		var __ = drop_weapon()
@@ -437,24 +449,24 @@ func free_first_child(node) -> Node:
 		var weapon = node.get_child(0)
 		if !is_instance_valid(weapon):
 			return null
-		if weapon.is_class("Bow") or weapon.is_class("Shield"):
+		if weapon.is_class("Shield"):
 			weapon.disconnect("collided", self, "_on_shield_hit")
-		elif weapon.is_class("Weapon"):
+		elif weapon.is_class("Bow") or weapon.is_class("Weapon"):
 			weapon.disconnect("collided", self, "_on_weapon_hit")
-			
+
 		node.remove_child(weapon)
 		weapon.unequip()
 		weapon.set_position(get_global_position())
 		owner.call_deferred("add_child", weapon)
 		return weapon
-		
+
 	return null
-	
+
 func get_weapon() -> Node:
 	if weapon_point.get_child_count() > 0:
 		return weapon_point.get_child(0)
 	return null
-	
+
 func get_shield() -> Node:
 	if shield_point.get_child_count() > 0:
 		return shield_point.get_child(0)
@@ -466,18 +478,18 @@ func has_weapon() -> bool:
 		if child.get_child_count() > 0:
 			# Try to get the weapon in the child of "WeaponsPoint" node
 			for weapon_child in child.get_children():
-				if weapon_child is Weapon:
+				if weapon_child is Weapon and not weapon_child is Shield:
 					return true # true if this child is a weapon
-		
+
 	return false
-	
+
 func has_shield() -> bool:
 	return shield_point.get_child_count() <= 0
 
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
-	
+
 ## STUN
 func _on_stun_changed(stun_state: bool) -> void:
 	if stun_state:
@@ -497,11 +509,6 @@ func _on_stun_changed(stun_state: bool) -> void:
 		can_attack = true
 		can_block = true
 		animated_sprite.set_material(get_material())
-
-func unblock() -> void:
-	var block_skill = skill_tree.get_skill("Block")
-	if is_instance_valid(block_skill):
-		block_skill.recover()
 
 ## STATS
 func _on_health_point_changed() -> void:

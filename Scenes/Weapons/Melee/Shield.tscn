@@ -8,6 +8,8 @@ extents = Vector2( 4.00284, 3.99715 )
 
 [node name="Shield" type="Node2D"]
 script = ExtResource( 2 )
+rotate_v = true
+rotate_h = false
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 5.0144, 0 )

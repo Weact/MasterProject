@@ -6,6 +6,8 @@ func get_class() -> String: return "ShootSkill"
 
 var arrow = preload("res://Scenes/Weapons/Bow/Arrow.tscn")
 var new_arrow = null
+var chargeTime = 0.0
+export var max_charge_time = 0.75
 
 #### ACCESSORS ####
 

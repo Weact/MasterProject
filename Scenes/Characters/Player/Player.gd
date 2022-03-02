@@ -103,33 +103,25 @@ func action(action_name: String) -> void:
 			dirDown = 0
 		"Attack_Pressed":
 			if blockPressed:
-				var __ = use_skill("GuardBreak")
+				if is_instance_valid(shield_node):
+					shield_node.trigger()
 			else:
-				var charged_attack = skill_tree.get_skill("ChargedAttack")
-				var shoot_skill = skill_tree.get_skill("Shoot")
-				if is_instance_valid(charged_attack):
-					var __ = use_skill("ChargedAttack")
-				elif is_instance_valid(shoot_skill):
-					var __ = use_skill("Shoot")
-				
+				if is_instance_valid(weapon_node):
+					weapon_node.press()
 			attackPressed = true
 			
 		"Attack_Released":
-			var charged_attack = skill_tree.get_skill("ChargedAttack")
-			var shoot_skill = skill_tree.get_skill("Shoot")
-			if is_instance_valid(charged_attack) and charged_attack.is_ready():
-				charged_attack.execute()
-			elif get_current_state() == "ChargedAttack":
-				var __ = use_skill("Attack")
-			elif is_instance_valid(shoot_skill):
-				shoot_skill.advance_on_rdy()
+			if is_instance_valid(weapon_node):
+				weapon_node.release()
 				
 			attackPressed = false
 		"Block_Pressed":
-			var __ = use_skill("Block")
+			if is_instance_valid(shield_node):
+				shield_node.press()
 			blockPressed = true
 		"Block_Released":
-			unblock()
+			if is_instance_valid(shield_node):
+				shield_node.release()
 			blockPressed = false
 		"Dodge_Pressed":
 			var __ = use_skill("Dodge")

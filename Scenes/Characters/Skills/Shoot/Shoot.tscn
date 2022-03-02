@@ -8,7 +8,7 @@
 
 [sub_resource type="Animation" id=1]
 resource_name = "Execute"
-length = 0.1
+length = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimationPlayer/Weapon_Left_mock:position")
 tracks/0/interp = 1
@@ -60,7 +60,7 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id=2]
 resource_name = "Preparation"
-length = 0.3
+length = 0.75
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimationPlayer/Weapon_Left_mock:position")
 tracks/0/interp = 1
@@ -68,10 +68,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [  ]
+"values": [ Vector2( 5, 0 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("AnimationPlayer/Weapon_Left_mock:rotation_degrees")
@@ -80,10 +80,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [  ]
+"values": [ 0.0 ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("AnimationPlayer/Weapon_Right_mock:position")
@@ -112,7 +112,7 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id=3]
 resource_name = "Recovery"
-length = 0.1
+length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimationPlayer/Weapon_Left_mock:position")
 tracks/0/interp = 1
@@ -171,11 +171,11 @@ script = ExtResource( 5 )
 auto_advance = false
 state_velocity_factor = 0.5
 state_rotation_factor = 0.5
-state_stamina_regen_factor = -1.0
+state_stamina_regen_factor = -1.1
 
 [node name="Execute" parent="." index="1"]
 script = ExtResource( 4 )
-stamina_cost = 10.0
+stamina_cost = 15.0
 
 [node name="Recovery" parent="." index="2"]
 script = ExtResource( 2 )
@@ -187,3 +187,5 @@ anims/Recovery = SubResource( 3 )
 
 [node name="Weapon_Right_mock" parent="AnimationPlayer" index="1"]
 position = Vector2( 5, 0 )
+
+[node name="Timer" type="Timer" parent="." index="4"]
