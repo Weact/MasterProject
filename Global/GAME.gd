@@ -26,7 +26,7 @@ func _input(event: InputEvent) -> void:
 		
 		elif event.is_action_pressed("shuffle_inventory"):
 			if event.is_action_pressed("sort_inventory"):
-				CharacterInventory.sort_inventory(CharacterInventory.INVENTORY_SORTING_MODE.NAME)
+				CharacterInventory.sort_inventory(CharacterInventory.INVENTORY_SORTING_MODE.TYPE)
 				return
 				
 			CharacterInventory.shuffle_inventory()

@@ -80,13 +80,10 @@ func sort_inventory(mode: int = 1) -> void:
 	match(mode):
 		1:
 			character_inv_data.sort_custom(self, "sort_inventory_by_name")
-#			print("Sorted inventory by name : %s" % character_inv_data)
 		2:
 			character_inv_data.sort_custom(self, "sort_inventory_by_rarity")
-#			print("Sorted inventory by rarity : %s" % character_inv_data)
 		3:
 			character_inv_data.sort_custom(self, "sort_inventory_by_type")
-#			print("Sorted inventory by type : %s" % character_inv_data)
 		_:
 			push_error("incorrect inventory sorting mode")
 			

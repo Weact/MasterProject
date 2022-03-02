@@ -39,7 +39,6 @@ script = ExtResource( 7 )
 stamina_cost = 15.0
 state_velocity_factor = 0.5
 state_rotation_factor = 0.5
-state_stamina_regen_factor = 0.0
 
 [node name="Recovery" parent="." index="2"]
 script = ExtResource( 6 )
