@@ -310,10 +310,16 @@ func flip():
 
 	
 	if is_instance_valid(shield_node):
-		shield_node.get_node_or_null("Sprite").set_flip_v(facing_left)
+		flip_weapon(shield_node)
 
 	if is_instance_valid(weapon_node):
-		weapon_node.get_node_or_null("Sprite").set_flip_h(facing_left)
+		flip_weapon(weapon_node)
+
+func flip_weapon(weapon) -> void:
+	if weapon.rotate_h:
+		weapon.get_node_or_null("Sprite").set_flip_h(facing_left)
+	if weapon.rotate_v:
+		weapon.get_node_or_null("Sprite").set_flip_v(facing_left)
 
 func damaged(damage_taken) -> void:
 	if get_state_name() == "Dodge":
@@ -383,31 +389,32 @@ func equip_item(item) -> void:
 	skill_tree.use_skill(null)
 	
 	if item.is_class("Sword") :
-		var __ = drop_weapon()
-		if is_instance_valid(get_shield()):
-			if get_shield().is_class("Bow"):
-				__ = drop_shield()
-		__ = item.connect("collided", self, "_on_weapon_hit")
-		weapon_node = item
-		move_weapon(item)
-		weapon_point.call_deferred("add_child", item)
+		set_weapon_node(item)
 		
 	elif item.is_class("Shield"):
-		var __ = drop_shield()
-		__ = item.connect("collided", self, "_on_shield_hit")
-		shield_node = item
-		move_weapon(item)
-		shield_point.call_deferred("add_child", item)
+		set_shield_node(item)
 	
 	elif item.is_class("Bow"):
-		var __ = drop_weapon()
-		__ = drop_shield()
-		__ = item.connect("collided", self, "_on_shield_hit")
-		shield_node = item
-		move_weapon(item)
-		shield_point.call_deferred("add_child", item)
+		set_weapon_node(item)
+		var __ = drop_shield()
 		
-		
+func set_weapon_node(item) -> void:
+	var __ = drop_weapon()
+	__ = item.connect("collided", self, "_on_weapon_hit")
+	weapon_node = item
+	move_weapon(item)
+	weapon_point.call_deferred("add_child", item)
+
+func set_shield_node(item) -> void:
+	var __ = drop_shield()
+	if is_instance_valid(get_weapon()):
+		if get_weapon().is_class("Bow"):
+			__ = drop_weapon()
+	__ = item.connect("collided", self, "_on_shield_hit")
+	shield_node = item
+	move_weapon(item)
+	shield_point.call_deferred("add_child", item)
+	
 
 func move_weapon(weapon) -> void:
 	var _point = weapon.get_parent()
@@ -442,9 +449,9 @@ func free_first_child(node) -> Node:
 		var weapon = node.get_child(0)
 		if !is_instance_valid(weapon):
 			return null
-		if weapon.is_class("Bow") or weapon.is_class("Shield"):
+		if weapon.is_class("Shield"):
 			weapon.disconnect("collided", self, "_on_shield_hit")
-		elif weapon.is_class("Weapon"):
+		elif weapon.is_class("Bow") or weapon.is_class("Weapon"):
 			weapon.disconnect("collided", self, "_on_weapon_hit")
 			
 		node.remove_child(weapon)

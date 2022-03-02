@@ -10,6 +10,9 @@ onready var area : Area2D = get_node("Sprite/Area2D")
 onready var hitbox : CollisionShape2D = area.get_node_or_null("CollisionShape2D")
 onready var animation_player : AnimationPlayer = null
 
+export var rotate_v : bool = false
+export var rotate_h : bool = true
+
 signal collided
 #### ACCESSORS ####
 
