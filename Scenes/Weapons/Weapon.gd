@@ -84,3 +84,11 @@ func _on_body_entered(body: PhysicsBody2D):
 	
 	emit_signal("collided", body)
 	
+func press() -> void:
+	pass
+
+func release() -> void:
+	pass
+	
+func trigger() -> void:
+	pass

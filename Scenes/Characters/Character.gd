@@ -224,6 +224,9 @@ func add_skill(skill_name : String) -> void:
 	if new_skill.has_method("new_owner"):
 		new_skill.new_owner(self)
 
+func get_skill(skill_name : String) -> Node:
+	return skill_tree.get_skill(skill_name)
+
 func remove_skill(skill_name : String) -> void:
 	var skill = skill_tree.get_skill(skill_name)
 	
@@ -495,11 +498,6 @@ func _on_stun_changed(stun_state: bool) -> void:
 		can_attack = true
 		can_block = true
 		animated_sprite.set_material(get_material())
-
-func unblock() -> void:
-	var block_skill = skill_tree.get_skill("Block")
-	if is_instance_valid(block_skill):
-		block_skill.recover()
 
 ## STATS
 func _on_health_point_changed() -> void:
