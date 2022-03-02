@@ -4,11 +4,11 @@ class_name Weapon
 func is_class(value: String): return value == "Weapon" or .is_class(value)
 func get_class() -> String: return "Weapon"
 
-export(NodePath) onready var weapon_handler_node_path : NodePath
-onready var weapon_handler_node : Node = null
-onready var area : Area2D = get_node("Sprite/Area2D")
-onready var hitbox : CollisionShape2D = area.get_node_or_null("CollisionShape2D")
+onready var sprite_area : Area2D = get_node("Sprite/Area2D")
+onready var hitbox : CollisionShape2D = sprite_area.get_node_or_null("CollisionShape2D")
 onready var animation_player : AnimationPlayer = null
+
+var weapon_handler_node : Node = null
 
 export var rotate_v : bool = false
 export var rotate_h : bool = true
@@ -16,82 +16,63 @@ export var rotate_h : bool = true
 signal collided
 #### ACCESSORS ####
 
+func is_equipped() -> bool:
+	return weapon_handler_node == null
+
 #### BUILT-IN ####
 
 func _ready() -> void:
-	
-	set_weapon_handler(get_node_or_null(weapon_handler_node_path))
-		
-	var __ = area.connect("area_entered", self, "_on_area_entered")
-	__ = area.connect("body_entered", self, "_on_body_entered")
-	
+	var __ = sprite_area.connect("area_entered", self, "_on_area_entered")
+	__ = sprite_area.connect("body_entered", self, "_on_body_entered")
+
 #### VIRTUALS ####
 
 #### LOGIC ####
-func is_equipped() -> int:
-	if weapon_handler_node == null:
-		return 0
-		
-	return 1
 
-func equip(weapon_handler) -> int:
+func _is_valid(instance) -> int:
+	return ( is_instance_valid(instance) and instance != self and instance != weapon_handler_node )
+
+func equip(weapon_handler) -> bool:
 	if !is_instance_valid(weapon_handler):
-		return 0
-	
-	if weapon_handler is Character:
-		set_weapon_handler(weapon_handler)
-		hitbox.call_deferred("set_disabled", true)
-		if has_method("add_weapon_skills"):
-			var selfReference = self
-			selfReference.add_weapon_skills()
-		return 1
-	
-	return 0
+		return false
+
+	weapon_handler_node = weapon_handler
+	hitbox.call_deferred("set_disabled", true)
+	add_weapon_skills()
+	return true
 
 func unequip() -> void:
-	if has_method("remove_weapon_skills"):
-		var selfReference = self
-		selfReference.remove_weapon_skills()
+	remove_weapon_skills()
 	hitbox.call_deferred("set_disabled", false)
 	weapon_handler_node = null
-	
-func set_weapon_handler(weapon_handler) -> void:
-	if is_instance_valid(weapon_handler):
-		weapon_handler_node = weapon_handler
-	
+
+func add_weapon_skills() -> void:
+	pass
+
+func remove_weapon_skills() -> void:
+	pass
 
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
-func _is_valid_body(body) -> int:
-	if body == self:
-		return 0
-		
-	if body == weapon_handler_node:
-		return 0
-	
-	return 1
-	
-func _on_area_entered(body: Area2D):
-	if !_is_valid_body(body):
-		return 
-		
-	if !is_instance_valid(body.owner) or !body.owner.is_class("Weapon"):
+
+func _on_area_entered(area: Area2D) -> void:
+	if !_is_valid(area) or !area.get_owner().is_class("Weapon"):
 		return
 
-	emit_signal("collided", body.owner)
-			
-func _on_body_entered(body: PhysicsBody2D):
-	if !_is_valid_body(body):
-		return 0
-	
+	emit_signal("collided", area.get_owner())
+
+func _on_body_entered(body: PhysicsBody2D) -> void:
+	if !_is_valid(body):
+		return
+
 	emit_signal("collided", body)
-	
+
 func press() -> void:
 	pass
 
 func release() -> void:
 	pass
-	
+
 func trigger() -> void:
 	pass

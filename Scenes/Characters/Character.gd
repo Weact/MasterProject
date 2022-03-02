@@ -129,7 +129,7 @@ func set_current_tile(tilePos : Vector2) -> void:
 func set_health_point(new_health_point: int) -> void:
 	if health_point != new_health_point:
 		health_point = new_health_point
-		
+
 		emit_signal("health_point_changed")
 
 func get_health_point() -> int:
@@ -219,7 +219,7 @@ func add_skill(skill_name : String) -> void:
 
 	if !is_instance_valid(new_skill):
 		return
-		
+
 	skill_tree.add_child(new_skill)
 	if new_skill.has_method("new_owner"):
 		new_skill.new_owner(self)
@@ -229,10 +229,10 @@ func get_skill(skill_name : String) -> Node:
 
 func remove_skill(skill_name : String) -> void:
 	var skill = skill_tree.get_skill(skill_name)
-	
+
 	if !is_instance_valid(skill):
 		return
-	
+
 	skill_tree.remove_child(skill)
 
 
@@ -246,7 +246,7 @@ func _connect_signals() -> void:
 	__ = connect("stun_changed", self, "_on_stun_changed")
 
 	__ = $AnimatedSprite.connect("frame_changed", self, "_on_AnimatedSprite_frame_changed")
-	
+
 	__ = connect("attack_power_changed", self, "_on_attack_power_changed")
 	__ = connect("block_power_changed", self, "_on_block_power_changed")
 
@@ -255,7 +255,7 @@ func _connect_signals() -> void:
 	__ = connect("current_tile_changed", self, "_on_current_tile_changed")
 	__ = connect("pathfinder_changed", self, "_on_pathfinder_changed")
 	__ = connect("weight_changed", self, "_on_weight_changed")
-	
+
 
 
 
@@ -271,13 +271,13 @@ func _physics_process(_delta: float) -> void:
 #### LOGIC ####
 
 func update_weapon_rotation(_delta, rot_vel) -> void:
-	var difference = fmod(look_direction - $WeaponsPoint.rotation_degrees, 360)
+	var difference = fmod(look_direction - weapons_node.rotation_degrees, 360)
 	var short_angle_dist = fmod(2*difference, 360) - difference
 	if abs(rot_vel*_delta) > abs(short_angle_dist):
-		$WeaponsPoint.rotation_degrees = look_direction
+		weapons_node.rotation_degrees = look_direction
 	else:
-		$WeaponsPoint.rotation_degrees = $WeaponsPoint.rotation_degrees + rot_vel*_delta
-	set_facing_left($WeaponsPoint.rotation_degrees < -90 or $WeaponsPoint.rotation_degrees > 90)
+		weapons_node.rotation_degrees = weapons_node.rotation_degrees + rot_vel*_delta
+	set_facing_left(weapons_node.rotation_degrees < -90 or weapons_node.rotation_degrees > 90)
 
 func stun() -> void:
 	set_stunned(true)
@@ -305,10 +305,10 @@ func flip():
 	else:
 		animated_sprite.offset.x = abs(animated_sprite.offset.x)
 
-	if !is_instance_valid($WeaponsPoint):
+	if !is_instance_valid(weapons_node):
 		yield(self, "ready")
 
-	
+
 	if is_instance_valid(shield_node):
 		flip_weapon(shield_node)
 
@@ -359,45 +359,45 @@ func die() -> void:
 	state_machine.set_state("Death")
 
 func use_skill(skill_name) -> bool:
-	if can_change_state() and skill_tree.use_skill(skill_name):
-		return true
-	return false
+	return ( can_change_state() and skill_tree.use_skill(skill_name) )
 
 func pick_up() -> void:
 	var areas = pick_up_area.get_overlapping_areas()
 	var closest_body = null
-	
+
 	for area in areas:
-		var body = area.owner
+		var body = area.get_owner() if is_instance_valid(area) else null
+
 		if !is_instance_valid(body):
 			continue
-		
+
 		if !body.is_class("Weapon"):
 			continue
-		
+
 		if closest_body == null or position.distance_to(body.position) < position.distance_to(closest_body.position):
 			closest_body = body
-	
-	if closest_body != null:
+
+	if is_instance_valid(closest_body):
 		equip_item(closest_body)
 
 func equip_item(item) -> void:
-	if !item.is_class("Weapon"):
+	if not item.is_class("Weapon"):
 		return
-		
+
 	item.equip(self)
-	skill_tree.use_skill(null)
-	
+
+	var __ = skill_tree.use_skill(null)
+
 	if item.is_class("Sword") :
 		set_weapon_node(item)
-		
+
 	elif item.is_class("Shield"):
 		set_shield_node(item)
-	
+
 	elif item.is_class("Bow"):
 		set_weapon_node(item)
-		var __ = drop_shield()
-		
+		__ = drop_shield()
+
 func set_weapon_node(item) -> void:
 	var __ = drop_weapon()
 	__ = item.connect("collided", self, "_on_weapon_hit")
@@ -414,7 +414,7 @@ func set_shield_node(item) -> void:
 	shield_node = item
 	move_weapon(item)
 	shield_point.call_deferred("add_child", item)
-	
+
 
 func move_weapon(weapon) -> void:
 	var _point = weapon.get_parent()
@@ -425,12 +425,12 @@ func move_weapon(weapon) -> void:
 func unequip_item(item) -> void:
 	if !item.is_class("Weapon"):
 		return
-		
+
 	var child = shield_point.get_child(0)
 	if child == item:
 		var __ = drop_shield()
 		return
-			
+
 	child = weapon_point.get_child(0)
 	if child == item:
 		var __ = drop_weapon()
@@ -439,7 +439,7 @@ func unequip_item(item) -> void:
 func drop_weapon() -> Node:
 	weapon_node = null
 	return free_first_child(weapon_point)
-		
+
 func drop_shield() -> Node:
 	shield_node = null
 	return free_first_child(shield_point)
@@ -453,39 +453,43 @@ func free_first_child(node) -> Node:
 			weapon.disconnect("collided", self, "_on_shield_hit")
 		elif weapon.is_class("Bow") or weapon.is_class("Weapon"):
 			weapon.disconnect("collided", self, "_on_weapon_hit")
-			
+
 		node.remove_child(weapon)
 		weapon.unequip()
 		weapon.set_position(get_global_position())
 		owner.call_deferred("add_child", weapon)
 		return weapon
-		
+
 	return null
-	
+
 func get_weapon() -> Node:
 	if weapon_point.get_child_count() > 0:
 		return weapon_point.get_child(0)
 	return null
-	
+
 func get_shield() -> Node:
 	if shield_point.get_child_count() > 0:
 		return shield_point.get_child(0)
 	return null
 
 func has_weapon() -> bool:
-	var has_bow = false
-	for child in shield_point.get_children():
-		if child.is_class("Bow"):
-			has_bow = true
-			
-	return has_bow or weapon_point.get_child_count() <= 0
-	
+	# Get all children from "WeaponsPoint" node
+	for child in weapons_node.get_children():
+		if child.get_child_count() > 0:
+			# Try to get the weapon in the child of "WeaponsPoint" node
+			for weapon_child in child.get_children():
+				if weapon_child is Weapon and not weapon_child is Shield:
+					return true # true if this child is a weapon
+
+	return false
+
 func has_shield() -> bool:
 	return shield_point.get_child_count() <= 0
+
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
-	
+
 ## STUN
 func _on_stun_changed(stun_state: bool) -> void:
 	if stun_state:

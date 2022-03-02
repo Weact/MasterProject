@@ -19,8 +19,7 @@ var ready : bool = false
 func call_state() -> void:
 	if !is_instance_valid(state_machine.parent_character):
 		return
-	if !state_machine.parent_character is Character:
-		return
+		
 	ready = false
 	state_machine.parent_character.remove_stamina(stamina_cost)
 	state_machine.parent_character.velocity_factor.add_variable(state_machine.name+name, state_velocity_factor, 2)
@@ -31,10 +30,9 @@ func exit_state() -> void:
 	force_advance = false
 	if !is_instance_valid(state_machine.parent_character):
 		return
-	if state_machine.parent_character is Character:
-		state_machine.parent_character.velocity_factor.remove_variable(state_machine.name+name)
-		state_machine.parent_character.rotation_factor.remove_variable(state_machine.name+name)
-		state_machine.parent_character.regen_stamina.remove_variable(state_machine.name+name)
+	state_machine.parent_character.velocity_factor.remove_variable(state_machine.name+name)
+	state_machine.parent_character.rotation_factor.remove_variable(state_machine.name+name)
+	state_machine.parent_character.regen_stamina.remove_variable(state_machine.name+name)
 
 #### VIRTUALS ####
 
