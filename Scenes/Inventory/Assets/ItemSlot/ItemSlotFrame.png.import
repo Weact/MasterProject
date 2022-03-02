@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Tileset.png-87f5e9301d8d95d0193dfa7adb1840e2.stex"
+path="res://.import/ItemSlotFrame.png-0836dfabdba43e548b1fad20ee6ab958.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Map/Tileset/Tileset.png"
-dest_files=[ "res://.import/Tileset.png-87f5e9301d8d95d0193dfa7adb1840e2.stex" ]
+source_file="res://Scenes/Inventory/Assets/ItemSlot/ItemSlotFrame.png"
+dest_files=[ "res://.import/ItemSlotFrame.png-0836dfabdba43e548b1fad20ee6ab958.stex" ]
 
 [params]
 
