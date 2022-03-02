@@ -4,8 +4,8 @@ class_name Weapon
 func is_class(value: String): return value == "Weapon" or .is_class(value)
 func get_class() -> String: return "Weapon"
 
-onready var area : Area2D = get_node("Sprite/Area2D")
-onready var hitbox : CollisionShape2D = area.get_node_or_null("CollisionShape2D")
+onready var sprite_area : Area2D = get_node("Sprite/Area2D")
+onready var hitbox : CollisionShape2D = sprite_area.get_node_or_null("CollisionShape2D")
 onready var animation_player : AnimationPlayer = null
 
 var weapon_handler_node : Node = null
@@ -19,8 +19,8 @@ func is_equipped() -> bool:
 #### BUILT-IN ####
 
 func _ready() -> void:
-	var __ = area.connect("area_entered", self, "_on_area_entered")
-	__ = area.connect("body_entered", self, "_on_body_entered")
+	var __ = sprite_area.connect("area_entered", self, "_on_area_entered")
+	__ = sprite_area.connect("body_entered", self, "_on_body_entered")
 
 #### VIRTUALS ####
 
@@ -29,7 +29,7 @@ func _ready() -> void:
 func _is_valid(instance) -> int:
 	return ( not is_instance_valid(instance) and instance != self and instance != weapon_handler_node )
 
-func equip(weapon_handler : Character) -> bool:
+func equip(weapon_handler) -> bool:
 	if !is_instance_valid(weapon_handler):
 		return false
 	

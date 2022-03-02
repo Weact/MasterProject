@@ -38,6 +38,8 @@ position = Vector2( 10, 0 )
 [node name="WeaponPoint" type="Node2D" parent="WeaponsPoint"]
 rotation = 0.349066
 
+[node name="trucPoint" type="Node2D" parent="."]
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
 [node name="Skills" type="Node" parent="."]

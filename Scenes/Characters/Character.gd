@@ -268,13 +268,13 @@ func _physics_process(_delta: float) -> void:
 #### LOGIC ####
 
 func update_weapon_rotation(_delta, rot_vel) -> void:
-	var difference = fmod(look_direction - $WeaponsPoint.rotation_degrees, 360)
+	var difference = fmod(look_direction - weapons_node.rotation_degrees, 360)
 	var short_angle_dist = fmod(2*difference, 360) - difference
 	if abs(rot_vel*_delta) > abs(short_angle_dist):
-		$WeaponsPoint.rotation_degrees = look_direction
+		weapons_node.rotation_degrees = look_direction
 	else:
-		$WeaponsPoint.rotation_degrees = $WeaponsPoint.rotation_degrees + rot_vel*_delta
-	set_facing_left($WeaponsPoint.rotation_degrees < -90 or $WeaponsPoint.rotation_degrees > 90)
+		weapons_node.rotation_degrees = weapons_node.rotation_degrees + rot_vel*_delta
+	set_facing_left(weapons_node.rotation_degrees < -90 or weapons_node.rotation_degrees > 90)
 
 func stun() -> void:
 	set_stunned(true)
@@ -302,7 +302,7 @@ func flip():
 	else:
 		animated_sprite.offset.x = abs(animated_sprite.offset.x)
 
-	if !is_instance_valid($WeaponsPoint):
+	if !is_instance_valid(weapons_node):
 		yield(self, "ready")
 
 	
@@ -372,17 +372,15 @@ func pick_up() -> void:
 		equip_item(closest_body)
 
 func equip_item(item) -> void:
-	if !item.is_class("Weapon"):
+	if not item.is_class("Weapon"):
 		return
 		
-	# To check :
-	# (item as Weapon).equip(self)
 	item.equip(self)
 	
-	skill_tree.use_skill(null)
+	var __ = skill_tree.use_skill(null)
 	
 	if item.is_class("Sword") :
-		var __ = drop_weapon()
+		__ = drop_weapon()
 		if is_instance_valid(get_shield()):
 			if get_shield().is_class("Bow"):
 				__ = drop_shield()
@@ -390,16 +388,16 @@ func equip_item(item) -> void:
 		weapon_node = item
 		move_weapon(item)
 		weapon_point.call_deferred("add_child", item)
-		
+	
 	elif item.is_class("Shield"):
-		var __ = drop_shield()
+		__ = drop_shield()
 		__ = item.connect("collided", self, "_on_shield_hit")
 		shield_node = item
 		move_weapon(item)
 		shield_point.call_deferred("add_child", item)
 	
 	elif item.is_class("Bow"):
-		var __ = drop_weapon()
+		__ = drop_weapon()
 		__ = drop_shield()
 		__ = item.connect("collided", self, "_on_shield_hit")
 		shield_node = item
@@ -453,9 +451,9 @@ func free_first_child(node) -> Node:
 	return null
 	
 func get_weapon() -> Node:
-	var wp = weapon_point.get_child(0)
-	var wp1 = weapon_point.get_child(55)
-	return weapon_point.get_child(0)
+	if weapon_point.get_child_count() > 0:
+		return weapon_point.get_child(0)
+	return null
 	
 func get_shield() -> Node:
 	if shield_point.get_child_count() > 0:
