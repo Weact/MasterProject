@@ -4,27 +4,30 @@ class_name Variable
 func is_class(class_value: String): return class_value == "Variable" or .is_class(class_value)
 func get_class() -> String: return "Variable"
 
-enum TYPE {sum, factor}
+enum TYPE {sum, factor, multiply}
 export var value : float = 0.0
 export(TYPE) var type = TYPE.sum
 
 #### ACCESSORS ####
 func get_value() -> float :
 	var final_value : float = value
-	var factors_total : float = 1.0
+	var factors_total : float = 0.0
 	var sums_total : float = 0.0
+	var mults_total : float = 1.0
 	var children = get_children()
 	for child in children:
 		if !child.is_class("Variable"): #Only check variables
-			continue
+			continue	
 			
 		var child_value : float = child.get_value() #Recursive get_value()
 		if child.type == TYPE.factor:
-			factors_total *= child_value
+			factors_total += child_value
+		elif child.type == TYPE.multiply:
+			mults_total *= child_value
 		else:
 			sums_total += child_value
 			
-	return (final_value* factors_total+sums_total)
+	return ((final_value+sums_total)+(final_value* factors_total))*mults_total
 
 
 #### BUILT-IN ####
@@ -40,7 +43,7 @@ func add_variable(v_name : String, v_value : float = 0.0, v_type = TYPE.sum) -> 
 	
 	new_variable = load("res://Scenes/Variable/Variable.tscn").instance()
 	new_variable.type = v_type
-	new_variable.value = v_value
+	new_variable.value = float(v_value)
 	new_variable.name = v_name
 	
 	add_child(new_variable)

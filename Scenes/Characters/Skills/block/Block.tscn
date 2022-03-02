@@ -127,7 +127,7 @@ cancelable = true
 auto_advance = false
 state_velocity_factor = 0.3
 state_rotation_factor = 0.3
-state_stamina_regen_factor = -3.0
+state_stamina_regen_factor = -1.0
 
 [node name="Recovery" parent="." index="2"]
 script = ExtResource( 5 )
@@ -141,7 +141,8 @@ anims/Preparation = ExtResource( 3 )
 anims/Recovery = SubResource( 2 )
 
 [node name="Weapon_Left_mock" parent="AnimationPlayer" index="0"]
-rotation = 0.349066
+position = Vector2( 3, 0 )
 
 [node name="Weapon_Right_mock" parent="AnimationPlayer" index="1"]
-position = Vector2( 6, 0 )
+position = Vector2( 3, 1 )
+rotation = 0.349066

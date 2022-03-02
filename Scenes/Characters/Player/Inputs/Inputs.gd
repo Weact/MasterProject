@@ -8,7 +8,8 @@ var input_map = {
 	"MoveRight": "player_right",
 	"Attack": "player_attack",
 	"Block": "player_block",
-	"Dodge": "player_dodge"
+	"Dodge": "player_dodge",
+	"Interact": "player_interact"
 }
 
 func get_input(input_name: String) -> String:

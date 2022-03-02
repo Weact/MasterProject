@@ -8,6 +8,8 @@ extents = Vector2( 4.00284, 3.99715 )
 
 [node name="Shield" type="Node2D"]
 script = ExtResource( 2 )
+rotate_v = true
+rotate_h = false
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 5.0144, 0 )
@@ -23,4 +25,3 @@ __meta__ = {
 position = Vector2( -0.0143991, 1.19548e-07 )
 rotation = 0.000711173
 shape = SubResource( 1 )
-disabled = true

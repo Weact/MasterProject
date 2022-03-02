@@ -104,6 +104,8 @@ func is_position_valid(pos: Vector2) -> bool:
 	var cell = tilemap.world_to_map(pos)
 	var point_id = compute_point_index(cell)
 	var exist = astar.has_point(point_id)
+	if !exist:
+		return false
 	var enabled = !astar.is_point_disabled(point_id)
 	return (exist && enabled)
 

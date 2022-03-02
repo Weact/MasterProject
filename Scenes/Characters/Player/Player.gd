@@ -67,6 +67,12 @@ func _input(event: InputEvent) -> void:
 
 	elif event.is_action_released(inputs_node.get_input("Dodge")):
 		action_name = "Dodge_Released"
+		
+	elif event.is_action_pressed(inputs_node.get_input("Interact")):
+		action_name = "Interact_Pressed"
+
+	elif event.is_action_released(inputs_node.get_input("Interact")):
+		action_name = "Interact_Released"
 
 	action(action_name)
 
@@ -97,38 +103,39 @@ func action(action_name: String) -> void:
 			dirDown = 0
 		"Attack_Pressed":
 			if blockPressed:
-				var __ = use_skill("GuardBreak")
+				if is_instance_valid(shield_node):
+					shield_node.trigger()
 			else:
-				var __ = use_skill("ChargedAttack")
-				
+				if is_instance_valid(weapon_node):
+					weapon_node.press()
 			attackPressed = true
 			
 		"Attack_Released":
-			var charged_attack = skill_tree.get_skill("ChargedAttack")
-			if is_instance_valid(charged_attack) and charged_attack.is_ready():
-				charged_attack.execute()
-			elif get_current_state() == "ChargedAttack":
-				var __ = use_skill("Attack")
+			if is_instance_valid(weapon_node):
+				weapon_node.release()
+				
 			attackPressed = false
 		"Block_Pressed":
-			var __ = use_skill("Block")
+			if is_instance_valid(shield_node):
+				shield_node.press()
 			blockPressed = true
 		"Block_Released":
-			unblock()
+			if is_instance_valid(shield_node):
+				shield_node.release()
 			blockPressed = false
 		"Dodge_Pressed":
 			var __ = use_skill("Dodge")
 		"Dodge_Released":
+			pass
+		"Interact_Pressed":
+			pick_up()
+		"Interact_Released":
 			pass
 		_:
 			return
 
 	set_direction(Vector2(dirRight - dirLeft, dirDown - dirUp))
 
-func unblock() -> void:
-	var block_skill = skill_tree.get_skill("Block")
-	if is_instance_valid(block_skill):
-		block_skill.recover()
  
 #### INPUTS ####
 
