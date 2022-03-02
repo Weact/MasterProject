@@ -34,6 +34,7 @@ func _physics_process(_delta: float) -> void:
 func stop():
 	movement_speed = 0
 	launched = false
+	$Area2D/CollisionShape2D.call_deferred("set_disabled", true)
 	$AnimationPlayer.play("Stop")
 	$Timer.start()
 	

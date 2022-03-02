@@ -231,7 +231,7 @@ position = Vector2( 632, 600 )
 position = Vector2( 504, 584 )
 
 [node name="Bow" parent="." index="4" instance=ExtResource( 7 )]
-position = Vector2( 134, 101 )
+position = Vector2( 234, 543 )
 
 [node name="Sword" parent="." index="5" instance=ExtResource( 5 )]
 position = Vector2( 253, 542 )
