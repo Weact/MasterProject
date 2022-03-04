@@ -51,7 +51,6 @@ func is_slot_valid(slot: int) -> bool:
 
 func _ready() -> void:
 	init_inventory()
-	add_item(10002)
 #	generate_random_items() # DEBUG FEATURE
 
 # LOGIC

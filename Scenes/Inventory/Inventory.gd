@@ -5,15 +5,31 @@ func get_class() -> String: return "Inventory"
 
 onready var inv_slot : PackedScene = preload("res://Scenes/Inventory/ItemSlot/ItemSlot.tscn")
 onready var slots_container_node : GridContainer = get_node_or_null("Background/MC/VBC/SC/SlotsContainer")
+onready var exit_button_node : TextureButton = get_node_or_null("Background/MC/VBC/HBC/Exit/ExitTButton")
 
+var inventory_opened : bool = false
 signal clear_finished
 
+## ACCESSORS
+
+func is_inventory_open() -> bool:
+	return inventory_opened
+
+## BUILTIN
+
 func _ready() -> void:
-	var __ = CharacterInventory.connect("inventory_shuffled", self, "_on_inventory_shuffled")
+	var __ = GAME.connect("inventory_state_changed", self, "_on_inventory_state_changed")
+	__ = CharacterInventory.connect("inventory_shuffled", self, "_on_inventory_shuffled")
 	__ = CharacterInventory.connect("inventory_sorted", self, "_on_inventory_sorted")
 	__ = connect("clear_finished", self, "_on_clear_finished")
-
+	__ = exit_button_node.connect("button_down", self, "_on_exit_tbutton_pressed")
+	
 	generate_inventory()
+	
+	if visible:
+		set_visible(false)
+
+## LOGIC
 
 func clear_inventory() -> void:
 	var last_child = null
@@ -57,6 +73,14 @@ func safe_regenerate_inventory() -> void:
 		
 	generate_inventory()
 
+func open_inventory() -> void:
+	inventory_opened = true
+	set_visible(inventory_opened)
+
+func close_inventory() -> void:
+	inventory_opened = false
+	set_visible(inventory_opened)
+
 # | Called when user press F3 to shuffle its inventory
 #
 # | Process :
@@ -78,3 +102,12 @@ func _on_inventory_sorted() -> void:
 # Do not put code in there except if you want to do something when inventory has been cleared
 func _on_clear_finished() -> void:
 	pass
+
+func _on_exit_tbutton_pressed() -> void:
+	close_inventory()
+
+func _on_inventory_state_changed() -> void:
+	if inventory_opened:
+		close_inventory()
+	else:
+		open_inventory()

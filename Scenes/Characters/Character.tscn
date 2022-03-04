@@ -29,6 +29,8 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="HUD" type="CanvasLayer" parent="."]
+
 [node name="WeaponsPoint" type="Node2D" parent="."]
 script = ExtResource( 12 )
 

@@ -126,7 +126,7 @@ func set_current_tile(tilePos : Vector2) -> void:
 		emit_signal("current_tile_changed", oldTile, current_tile)
 
 ## HEALTH POINT
-func set_health_point(new_health_point: int, cheats: bool = false) -> void:
+func set_health_point(new_health_point: int) -> void:
 	if health_point != new_health_point:
 		health_point = new_health_point
 
@@ -390,11 +390,14 @@ func equip_item(item) -> void:
 
 	if item.is_class("Sword") :
 		set_weapon_node(item)
+		CharacterInventory.add_item(10001)
 
 	elif item.is_class("Shield"):
+		CharacterInventory.add_item(10002)
 		set_shield_node(item)
 
 	elif item.is_class("Bow"):
+		CharacterInventory.add_item(10003)
 		set_weapon_node(item)
 		__ = drop_shield()
 

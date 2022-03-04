@@ -78,7 +78,7 @@ margin_right = 290.0
 margin_bottom = 32.0
 size_flags_horizontal = 3
 
-[node name="TextureRect" type="TextureButton" parent="Background/MC/VBC/HBC/Exit"]
+[node name="ExitTButton" type="TextureButton" parent="Background/MC/VBC/HBC/Exit"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -32.0

@@ -18,6 +18,8 @@ export(ITEM_SLOT) var slot = ITEM_SLOT.NONE
 
 export(Texture) var texture
 
+export(PackedScene) var scene_path
+
 # ACCESSORS
 
 func get_name() -> String:
