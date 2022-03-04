@@ -25,6 +25,16 @@ func get_inventory_data_as_text() -> String:
 	
 	return items_in_inventory
 
+func is_inventory_empty() -> bool:
+	return count_valid_items() == 0
+
+func count_valid_items() -> int:
+	var valid_item_count : int = 0
+	for item in character_inv_data:
+		if item != null:
+			valid_item_count += 1
+	
+	return valid_item_count
 
 func set_item(slot: int, id: int) -> void:
 	if is_slot_valid(slot):
@@ -41,9 +51,11 @@ func is_slot_valid(slot: int) -> bool:
 
 func _ready() -> void:
 	init_inventory()
-	generate_random_items() # DEBUG FEATURE
+	add_item(10002)
+#	generate_random_items() # DEBUG FEATURE
 
 # LOGIC
+
 
 func init_inventory() -> void:
 	for i in character_inv_size:
@@ -70,10 +82,16 @@ func replace_item(origin_slot: int, target_slot: int) -> void:
 		character_inv_data[origin_slot] = tmp_slot
 
 func shuffle_inventory() -> void:
+	if is_inventory_empty():
+		return
+		
 	character_inv_data.shuffle()
 	emit_signal("inventory_shuffled")
 
 func sort_inventory(mode: int = 1) -> void:
+	if is_inventory_empty():
+		return
+		
 	if mode <= INVENTORY_SORTING_MODE.NONE:
 		mode = INVENTORY_SORTING_MODE.NAME
 		
@@ -91,21 +109,36 @@ func sort_inventory(mode: int = 1) -> void:
 
 func sort_inventory_by_name(item_a : ItemResource, item_b : ItemResource) -> bool:
 	if item_a == null or item_b == null:
-		return false
+		if item_a != null:
+			return true
+		elif item_b != null:
+			return false
+		else:
+			return false
 	if item_a.get_name() > item_b.get_name() or item_a == item_b:
 		return false
 	return true
 
 func sort_inventory_by_rarity(item_a : ItemResource, item_b : ItemResource) -> bool:
 	if item_a == null or item_b == null:
-		return false
+		if item_a != null:
+			return true
+		elif item_b != null:
+			return false
+		else:
+			return false
 	if item_a.get_rarity() < item_b.get_rarity() or item_a == item_b:
 		return false
 	return true
 
 func sort_inventory_by_type(item_a : ItemResource, item_b : ItemResource) -> bool:
 	if item_a == null or item_b == null:
-		return false
+		if item_a != null:
+			return true
+		elif item_b != null:
+			return false
+		else:
+			return false
 	if item_a.get_type() > item_b.get_type() or item_a == item_b:
 		return false
 	return true

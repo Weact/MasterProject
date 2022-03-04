@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Scenes/Weapons/Bow/Arrow.gd" type="Script" id=1]
-[ext_resource path="res://Scenes/Weapons/Bow/weapon_arrow.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Weapons/Bow/Script/Arrow.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Weapons/Bow/Sprite/weapon_arrow.png" type="Texture" id=2]
 
 [sub_resource type="Animation" id=2]
 resource_name = "Charge"

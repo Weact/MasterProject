@@ -1,14 +1,14 @@
 [gd_resource type="Resource" load_steps=3 format=2]
 
 [ext_resource path="res://Data/Items/Database/Item.gd" type="Script" id=1]
-[ext_resource path="res://Scenes/Weapons/Melee/Sprites/weapon_knight_sword.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Weapons/Bow/Sprite/weapon_bow.png" type="Texture" id=2]
 
 [resource]
 script = ExtResource( 1 )
-name = "Magic Potion"
-stackable = true
-max_stack_size = 99
-type = 1
-rarity = 3
-slot = 0
+name = "Bow"
+stackable = false
+max_stack_size = 1
+type = 2
+rarity = 0
+slot = 6
 texture = ExtResource( 2 )

@@ -52,6 +52,8 @@ func can_drop_data(_position: Vector2, data) -> bool:
 		return true
 
 func drop_data(_position: Vector2, data) -> void:
+	if not is_instance_valid(data["origin_node"]):
+		return
 	var target_inv_slot_name = get_parent().get_name()
 	var origin_inv_slot_name = data["origin_node"].get_parent().get_name()
 	

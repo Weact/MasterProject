@@ -68,9 +68,11 @@ func safe_regenerate_inventory() -> void:
 # | Instead of pressing F3 to shuffle, we can imagine a button in the inventory
 # 	pannel that triggers this event
 func _on_inventory_shuffled() -> void:
+	print("Inventory shuffled")
 	safe_regenerate_inventory()
 
 func _on_inventory_sorted() -> void:
+	print("Inventory sorted")
 	safe_regenerate_inventory()
 
 # Do not put code in there except if you want to do something when inventory has been cleared

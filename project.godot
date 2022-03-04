@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Entity",
 "class": "Arrow",
 "language": "GDScript",
-"path": "res://Scenes/Weapons/Bow/Arrow.gd"
+"path": "res://Scenes/Weapons/Bow/Script/Arrow.gd"
 }, {
 "base": "ExecuteSkill",
 "class": "AttackExecute",
@@ -57,7 +57,7 @@ _global_script_classes=[ {
 "base": "Weapon",
 "class": "Bow",
 "language": "GDScript",
-"path": "res://Scenes/Weapons/Bow/Bow.gd"
+"path": "res://Scenes/Weapons/Bow/Script/Bow.gd"
 }, {
 "base": "Entity",
 "class": "Character",
