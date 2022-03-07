@@ -283,10 +283,13 @@ func update_weapon_rotation(_delta, rot_vel) -> void:
 		weapons_node.rotation_degrees = weapons_node.rotation_degrees + rot_vel*_delta
 	set_facing_left(weapons_node.rotation_degrees < -90 or weapons_node.rotation_degrees > 90)
 
-func stun() -> void:
-	set_stunned(true)
+func stun(duration :float = 0.1) -> void:
+	set_stunned(duration)
 func unstun() -> void:
 	set_stunned(false)
+	can_attack = true
+	can_block = true
+	animated_sprite.set_material(get_material())
 
 
 func init_panels() -> void:
@@ -498,21 +501,14 @@ func has_shield() -> bool:
 func _on_stun_changed(stun_state: bool) -> void:
 	if stun_state:
 		var duration = stun_duration
-		if get_state_name() == "Attack":
-			state_machine.set_state("Idle")
-		elif get_state_name() == "Block":
-			state_machine.set_state("Idle")
-			duration = duration*3
+		state_machine.set_state("Idle")
+		duration = duration*3
 
 		var stun_timer = GAME._create_timer_delay(duration, true, true, self, "_on_stun_timer_timeout")
 		add_child(stun_timer, true)
 		can_attack = false
 		can_block = false
 		animated_sprite.set_material(white_mat)
-	else:
-		can_attack = true
-		can_block = true
-		animated_sprite.set_material(get_material())
 
 ## STATS
 func _on_health_point_changed() -> void:

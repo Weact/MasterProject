@@ -78,7 +78,6 @@ block_power = 4
 position = Vector2( 0, -9 )
 frames = SubResource( 5 )
 animation = "Move"
-frame = 3
 playing = true
 
 [node name="CollisionShape2D" parent="." index="2"]

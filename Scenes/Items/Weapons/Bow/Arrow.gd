@@ -5,6 +5,7 @@ func is_class(value: String): return value == "Arrow" or .is_class(value)
 func get_class() -> String: return "Arrow"
 
 var shooter = null
+var damage : float = 10
 var launched = false
 var launch_speed = 1500
 var arrow_dir : Vector2 = Vector2.ZERO
@@ -66,7 +67,7 @@ func _on_body_entered(body) -> void:
 		return
 	
 	if is_instance_valid(shooter):
-		damageable.take_damage(shooter.get_attack_power())
+		damageable.take_damage(damage * movement_speed / 400)
 	
 	if body.has_method("set_stunned"):
 		body.set_stunned(true)
