@@ -84,6 +84,8 @@ func compute_point_index(cell : Vector2) -> int:
 	return int(abs(cell.x + room_size.x * cell.y))
 	
 func update_pos_point(pos : Vector2, weight : int = 0) -> void:
+	if !is_position_valid(pos):
+		return
 	var point_id = _get_pos_cell_id(pos)
 	var oldWeight = astar.get_point_weight_scale(point_id)
 	astar.set_point_weight_scale(point_id, oldWeight + weight)

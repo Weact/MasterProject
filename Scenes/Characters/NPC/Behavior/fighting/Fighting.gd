@@ -22,6 +22,10 @@ func _on_NPC_move_path_finished() -> void:
 
 func enter_state() -> void:
 	timer.start()
+	
+func exit_state() -> void:
+	.exit_state()
+	timer.stop()
 
 func update(_delta:float) ->void:
 	if owner.get_path_dist_to(owner.target.position) > owner.kiteDist+2:
@@ -53,13 +57,12 @@ func _on_timeout() -> void:
 		return
 	var difficulty = owner.difficulty
 	
-	timer.set_wait_time(0.3 / max(difficulty, 0.5))
 	timer.start()
 	
 	var kiteChance = get_target_distance_factor()*difficulty + get_defensive_factor()*difficulty
 	var distanceChance = get_target_closeness_factor()*difficulty + get_defensive_factor()*difficulty
 	var blockChance = get_target_closeness_factor() + get_defensive_factor()
-	var attackChance = get_target_closeness_factor() * difficulty + get_offensive_factor() *difficulty + int(get_state_name() == "Attack") * 100
+	var attackChance = get_target_closeness_factor() * difficulty + get_offensive_factor() *difficulty + int(get_state_name() == "Attack") * 1000
 	var randomNb = randi() % int(distanceChance+attackChance+blockChance+kiteChance)
 	if randomNb < kiteChance:
 		set_state("Kiting")
@@ -87,7 +90,7 @@ func tryDodge() -> void:
 	if owner == null or owner.target == null:
 		return
 	var chanceToDodge = owner.stamina
-	var chanceToNotDodge = 100
+	var chanceToNotDodge = 200
 	var rdm =  randi()%int(chanceToDodge+chanceToNotDodge)
 
 	if rdm > chanceToNotDodge:

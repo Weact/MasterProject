@@ -1,4 +1,4 @@
-extends State
+extends FightingState
 class_name NpcAttackBehavior
 func is_class(value: String): return value == "NpcAttackBehavior" or .is_class(value)
 func get_class() -> String: return "NpcAttackBehavior"
@@ -21,8 +21,12 @@ func update(_delta : float) ->void:
 		return
 
 	owner.update_move_path(owner.target.position)
+	owner.set_look_direction(state_machine.get_target_direction())
 	if owner.position.distance_to(owner.target.position) < minDist:
 		if owner.skill_tree.get_skill("Attack"):
-			owner.use_skill("Attack")
+			if owner.use_skill("Attack"):
+				nbOfAttack -= 1
+				if nbOfAttack <= 0:
+					state_machine.set_state("Distancing")
 		
 		

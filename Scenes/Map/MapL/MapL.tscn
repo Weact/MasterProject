@@ -4,9 +4,9 @@
 [ext_resource path="res://Scenes/Characters/Player/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Characters/NPC/NPC.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Environnement/Rock.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Scenes/Weapons/Melee/Sword.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Scenes/Weapons/Melee/Shield.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Scenes/Weapons/Bow/Bow.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/Items/Sword.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/Items/Shield.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/Items/Bow.tscn" type="PackedScene" id=7]
 
 [node name="MapL" instance=ExtResource( 1 )]
 

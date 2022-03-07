@@ -1,4 +1,4 @@
-extends State
+extends FightingState
 class_name NPCBlockBehavior
 func is_class(value: String): return value == "NPCBlockBehavior" or .is_class(value)
 func get_class() -> String: return "NPCBlockBehavior"

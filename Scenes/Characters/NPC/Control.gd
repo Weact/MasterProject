@@ -26,3 +26,4 @@ func _on_gui_input(event) -> void:
 	if event is InputEventMouseButton:
 		if event.is_action_pressed("player_attack"):
 			owner.following = true
+			owner.behaviour_tree.set_state("Following")

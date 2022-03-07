@@ -63,3 +63,12 @@ func _create_timer_delay(time: float = 1.0, autostart: bool = true, oneshot: boo
 		new_timer.connect("timeout", connected_object, signal_result_method, [new_timer])
 	
 	return new_timer
+
+func generate_item(item_name) -> Node2D:
+	var item = load("res://Scenes/Items/"+item_name+".tscn")
+	if !is_instance_valid(item):
+		return null
+	var item_instance = item.instance()
+	get_tree().get_root().call_deferred("add_child", item_instance)
+	
+	return item_instance

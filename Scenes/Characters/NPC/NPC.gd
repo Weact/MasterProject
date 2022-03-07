@@ -55,6 +55,18 @@ func _ready() -> void:
 	__ = connect("target_in_chase_area_changed", self, "_on_target_in_chase_area_changed")
 	__ = connect("target_in_attack_area_changed", self, "_on_target_in_attack_area_changed")
 	$RayCast2D.set_collide_with_bodies(true)
+	if randi() % 2 == 0:
+		var sword_instance = GAME.generate_item("Sword")
+		yield(sword_instance, "ready")
+		equip_item(sword_instance)
+		var shield_instance = GAME.generate_item("Shield")
+		yield(shield_instance, "ready")
+		equip_item(shield_instance)
+	else:
+		var bow_instance = GAME.generate_item("Bow")
+		yield(bow_instance, "ready")
+		equip_item(bow_instance)
+		
 #### VIRTUALS ####
 
 
@@ -70,21 +82,17 @@ func update_move_path(dest : Vector2) -> void:
 		path = pathfinder.find_path(global_position, dest)
 		
 func update_move_path_closeTo(dest : Vector2, dist : float):
-	if pathfinder == null:
-		update_move_path(dest)
-	else:
-		update_move_path(dest)
-		var remainPath = max(path.size() - dist, 0)
-		if remainPath > 0:
-			var __ = path.slice(0, remainPath)
-		else:
+	update_move_path(dest)
+	if !pathfinder == null:
+		var remainPath = max(path.size(), 0)
+		if remainPath <= dist:
 			path = [position]
 		
 func get_path_dist_to(to : Vector2) -> float:
 	if to != null:
-		var lenght = pathfinder.find_path(global_position, to).size()
-		if lenght >= 0:
-			return float(lenght)
+		var length = pathfinder.find_path(global_position, to).size()
+		if length >= 0:
+			return float(length)
 	return 99999.9
 		
 func get_dist_to(to : Vector2) -> float:

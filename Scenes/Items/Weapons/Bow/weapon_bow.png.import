@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/weapon_katana.png-91fc033c35f5386ec3d7cd6572b69e58.stex"
+path="res://.import/weapon_bow.png-396ce6904e40f85bbc28d57c2dab1820.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Weapons/Melee/Sprites/weapon_katana.png"
-dest_files=[ "res://.import/weapon_katana.png-91fc033c35f5386ec3d7cd6572b69e58.stex" ]
+source_file="res://Scenes/Items/Weapons/Bow/weapon_bow.png"
+dest_files=[ "res://.import/weapon_bow.png-396ce6904e40f85bbc28d57c2dab1820.stex" ]
 
 [params]
 

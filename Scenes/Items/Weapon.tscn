@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Scenes/Weapons/Weapon.gd" type="Script" id=1]
-[ext_resource path="res://Scenes/Weapons/Melee/Sprites/weapon_knife.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Items/Weapons/Weapon.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Items/Weapons/Melee/Sprites/weapon_knife.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 3, 12.5004 )

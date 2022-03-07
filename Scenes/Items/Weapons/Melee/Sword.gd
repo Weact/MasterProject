@@ -9,7 +9,6 @@ func get_class() -> String: return "Sword"
 #### BUILT-IN ####
 
 
-
 #### VIRTUALS ####
 func press() -> void:
 	weapon_handler_node.use_skill("ChargedAttack")
@@ -21,6 +20,7 @@ func release() -> void:
 		charged_skill.execute()
 	else:
 		var __ = weapon_handler_node.use_skill("Attack")
+		
 		
 func add_weapon_skills():
 	weapon_handler_node.add_skill("Attack")

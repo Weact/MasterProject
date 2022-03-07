@@ -24,6 +24,12 @@ func is_equipped() -> bool:
 func _ready() -> void:
 	var __ = sprite_area.connect("area_entered", self, "_on_area_entered")
 	__ = sprite_area.connect("body_entered", self, "_on_body_entered")
+	
+	if is_instance_valid(get_parent()) and get_parent().is_class("Character"):
+		__ = equip(get_parent())
+		
+	emit_signal("ready")
+
 
 #### VIRTUALS ####
 

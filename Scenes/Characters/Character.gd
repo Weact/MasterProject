@@ -31,10 +31,12 @@ onready var pick_up_area : Area2D = $PickUpArea
 export var weight : int = 5
 signal weight_changed()
 
-export var health_point : int = 0
+export var max_health_point : int = 10
+var health_point : int = 0
 signal health_point_changed()
 
-export var stamina : float = 0.0
+export var max_stamina : float = 10.0
+var stamina : float = 0.0
 var regen_stamina: Variable = Variable.new(1.0)
 var stamina_regen_delay : float = 0.1
 var timer_stamina_regen : Timer = null
@@ -126,7 +128,7 @@ func set_current_tile(tilePos : Vector2) -> void:
 		emit_signal("current_tile_changed", oldTile, current_tile)
 
 ## HEALTH POINT
-func set_health_point(new_health_point: int, cheats: bool = false) -> void:
+func set_health_point(new_health_point: int, _cheats: bool = false) -> void:
 	if health_point != new_health_point:
 		health_point = new_health_point
 
@@ -208,6 +210,8 @@ func is_facing_left() -> bool: return facing_left
 func _ready() -> void:
 	init_panels()
 	setup_skills()
+	health_point = max_health_point
+	stamina = max_stamina
 
 	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
 
@@ -513,11 +517,18 @@ func _on_stun_changed(stun_state: bool) -> void:
 ## STATS
 func _on_health_point_changed() -> void:
 	init_panels()
+	if health_point > max_health_point:
+		health_point = max_health_point
+		
 	if health_point <= 0:
 		die()
 
 func _on_stamina_changed() -> void:
 	init_panels()
+	if stamina < 0:
+		stamina = 0
+	if stamina > max_stamina:
+		stamina = max_stamina
 
 ## COMBAT
 func _on_attack_power_changed() -> void:
