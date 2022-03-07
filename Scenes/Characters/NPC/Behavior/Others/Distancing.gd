@@ -7,6 +7,7 @@ func get_class() -> String: return "NPCDistancingBehavior"
 
 #### BUILT-IN ####
 func enter_state() -> void:
+	.enter_state()
 	if state_machine == null or owner == null:
 		return
 	

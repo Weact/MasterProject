@@ -4,8 +4,9 @@ func is_class(value: String): return value == "NPCFightingBehavior" or .is_class
 func get_class() -> String: return "NPCFightingBehavior"
 
 var offAngle : float = PI
-var min_dist : float = 32.0
-var max_dist : float = 128.0
+var min_dist : float = 40.0
+var max_dist : float = 160.0
+var kite_dist : float = 16.0
 
 onready var timer = $Timer
 #### ACCESSORS ####
@@ -28,26 +29,26 @@ func exit_state() -> void:
 	timer.stop()
 
 func update(_delta:float) ->void:
-	if owner.get_path_dist_to(owner.target.position) > owner.kiteDist+2:
+	if owner.get_path_dist_to(owner.target.position) > owner.fight_distance+2:
 		owner.behaviour_tree.set_state("Chase")
 	
-func get_offensive_factor() -> int :
+func get_offensive_factor() -> float :
 	if owner.target == null:
-		return 0
-	return int(min(100,(owner.target.stamina - owner.stamina) * owner.difficulty))
+		return 0.0
+	return min(1,(owner.target.stamina - owner.stamina)/owner.max_stamina)
+
+func get_defensive_factor() -> float :
+	return 1.0 - get_offensive_factor()
 	
-func get_defensive_factor() -> int :
-	return 100 - get_offensive_factor()
-	
-func get_target_distance_factor() -> int:
+func get_target_distance_factor() -> float:
 	#100 IS VERY CLOSE 0 IS VERY FAR
-	return int(min(100, max(0,get_target_distance()-16)))
+	return min(1, max(0,(get_target_distance()-16.0)/16.0))
 	
-func get_target_closeness_factor() -> int:
-	return 100 - get_target_distance_factor()
+func get_target_closeness_factor() -> float:
+	return 1 - get_target_distance_factor()
 	
 func get_target_distance() -> float :
-	return owner.position.distance_to(owner.target.position)
+	return owner.get_path_dist_to(owner.target.position)
 
 func get_target_direction() -> float:
 	return rad2deg((owner.target.position - owner.position).angle())
@@ -58,21 +59,34 @@ func _on_timeout() -> void:
 	var difficulty = owner.difficulty
 	
 	timer.start()
+	kite_dist = 16.0 + int(owner.weapon_node.is_class("Bow")) * 64
 	
-	var kiteChance = get_target_distance_factor()*difficulty + get_defensive_factor()*difficulty
-	var distanceChance = get_target_closeness_factor()*difficulty + get_defensive_factor()*difficulty
-	var blockChance = get_target_closeness_factor() + get_defensive_factor()
-	var attackChance = get_target_closeness_factor() * difficulty + get_offensive_factor() *difficulty + int(get_state_name() == "Attack") * 1000
-	var randomNb = randi() % int(distanceChance+attackChance+blockChance+kiteChance)
-	if randomNb < kiteChance:
-		set_state("Kiting")
-	elif randomNb < blockChance+kiteChance:
-		set_state("Block")
-	elif randomNb < attackChance+blockChance+kiteChance:
-		set_state("Attack")
-	elif randomNb < attackChance+blockChance+kiteChance+distanceChance:
-		set_state("Distancing")
-		
+	var childs = get_children()
+	var total_chance : float = 0.0
+	
+	for child in childs:
+		if !child.is_class("FightingState"):
+			continue
+		total_chance += child.get_chance_value()
+	
+	var randomNb = randi() % int(total_chance)
+	
+	var chance_done : float = 0.0
+	for child in childs:
+		if !child.is_class("FightingState"):
+			continue
+		chance_done += child.get_chance_value()
+		if chance_done > randomNb:
+			set_state(child)
+			break
+	
+func block() -> void:
+	var shield = owner.shield_node
+	if is_instance_valid(shield):
+		shield.press()
+	else:
+		distance()
+		owner.use_skill("Dodge")
 	
 func move_to_fight_pos() -> void:
 	if owner.target != null:
@@ -90,7 +104,7 @@ func tryDodge() -> void:
 	if owner == null or owner.target == null:
 		return
 	var chanceToDodge = owner.stamina
-	var chanceToNotDodge = 200
+	var chanceToNotDodge = 100
 	var rdm =  randi()%int(chanceToDodge+chanceToNotDodge)
 
 	if rdm > chanceToNotDodge:
@@ -99,13 +113,17 @@ func tryDodge() -> void:
 func kite() -> void:
 	if owner == null or owner.target == null:
 		return
-	offAngle = (PI*0.5) * min(1.0, 30.0/owner.position.distance_to(owner.target.position))
+	offAngle = (PI*0.5) * min(1.0, (kite_dist+16.0)/owner.position.distance_to(owner.target.position))
 	if randi()%2:
 		offAngle = -offAngle
 	move_to_fight_pos()
 			
 func distance() -> void:
 	offAngle = PI
+	move_to_fight_pos()
+	
+func forward() -> void:
+	offAngle = 0
 	move_to_fight_pos()
 
 func _get_fight_pos(dist : float) -> Vector2:

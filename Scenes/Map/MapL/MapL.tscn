@@ -35,6 +35,15 @@ position = Vector2( 456, 472 )
 [node name="NPC7" parent="NPC" index="5" instance=ExtResource( 3 )]
 position = Vector2( 472, 440 )
 
+[node name="NPC8" parent="NPC" index="6" instance=ExtResource( 3 )]
+position = Vector2( 454, 496 )
+
+[node name="NPC9" parent="NPC" index="7" instance=ExtResource( 3 )]
+position = Vector2( 438, 512 )
+
+[node name="NPC10" parent="NPC" index="8" instance=ExtResource( 3 )]
+position = Vector2( 422, 528 )
+
 [node name="Rock" parent="Obstacles/Rocks" index="0" instance=ExtResource( 4 )]
 position = Vector2( 424, 488 )
 

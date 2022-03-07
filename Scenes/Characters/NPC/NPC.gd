@@ -5,18 +5,15 @@ func get_class() -> String: return "NPC"
 
 onready var behaviour_tree = $BehaviorTree
 onready var chaseArea = $chaseArea
-onready var attackArea = $attackArea
 
-var target_in_chase_area : bool = false setget set_target_in_chase_area
-var target_in_attack_area : bool = false setget set_target_in_attack_area
+	
 var path : Array = []
 var following = false
 
 export var difficulty = 1.0 # 1.0 is Very difficult 0.5 is average 0.0 is noobie
 
-var kiteDist = 10.0
-signal target_in_chase_area_changed
-signal target_in_attack_area_changed
+var visible_characters = []
+var fight_distance = 10.0
 signal move_path_finished
 signal target_changed
 
@@ -30,30 +27,17 @@ func set_target(value : Node2D) -> void:
 
 func get_target() -> Node2D:
 	return target
+
+func target_in_chase_area() -> bool: 
+	return target != null
 	
-func _update_target() -> void:
-	if !target_in_attack_area && !target_in_chase_area:
-		set_target(null)
-
-func set_target_in_chase_area(value : bool) -> void:
-	if value != target_in_chase_area:
-		target_in_chase_area = value
-		emit_signal("target_in_chase_area_changed", target_in_chase_area)
-		
-
-func set_target_in_attack_area(value : bool) -> void:
-	if value != target_in_attack_area:
-		target_in_attack_area = value
-		emit_signal("target_in_attack_area_changed", target_in_attack_area)
-		
 #### BUILT-IN ####
 func _ready() -> void:
+	randomize()
 	var __  = chaseArea.connect("body_entered", self, "_on_chaseArea_body_entered")
 	__ = chaseArea.connect("body_exited", self, "_on_chaseArea_body_exited")
-	__ = attackArea.connect("body_entered", self, "_on_attackArea_body_entered")
-	__ = attackArea.connect("body_exited", self, "_on_attackArea_body_exited")
-	__ = connect("target_in_chase_area_changed", self, "_on_target_in_chase_area_changed")
-	__ = connect("target_in_attack_area_changed", self, "_on_target_in_attack_area_changed")
+	__ = connect("target_changed", self, "_on_target_changed")
+	
 	$RayCast2D.set_collide_with_bodies(true)
 	if randi() % 2 == 0:
 		var sword_instance = GAME.generate_item("Sword")
@@ -74,7 +58,16 @@ func _ready() -> void:
 #### LOGIC ####
 func _physics_process(delta: float) -> void:
 	move_along_path(delta)
-	
+	_update_target()
+
+func _update_target() -> void:
+	for character in visible_characters:
+		if !is_instance_valid(target):
+			set_target(character)
+			break
+		if get_path_dist_to(character.position) < get_path_dist_to(target.position):
+			set_target(character)
+
 func update_move_path(dest : Vector2) -> void:
 	if pathfinder == null:
 		path = [dest]
@@ -103,7 +96,7 @@ func get_dist_to(to : Vector2) -> float:
 func _update_behaviour_state() -> void:
 	if !following:
 		if target != null:
-			if target_in_chase_area && behaviour_tree.get_state_name() != "Fighting":
+			if target_in_chase_area() && behaviour_tree.get_state_name() != "Fighting":
 				behaviour_tree.set_state("Chase")
 		else:
 			behaviour_tree.set_state("Wander")
@@ -146,33 +139,16 @@ func move_along_path(delta: float) -> void:
 		emit_signal("move_path_finished")
 
 #### SIGNAL RESPONSES ####
-func _on_chaseArea_body_entered(body : PhysicsBody2D ) -> void:
-	if body is Player:
-		set_target(body)
-		set_target_in_chase_area(true)
+func _on_chaseArea_body_entered(body : PhysicsBody2D) -> void:
+	if body is Character and body != self:
+		visible_characters.append(body)
 		
-func _on_chaseArea_body_exited(body : PhysicsBody2D ) -> void:
-	if body is Player:
-		set_target(null)
-		set_target_in_chase_area(false)
+func _on_chaseArea_body_exited(body : PhysicsBody2D) -> void:
+	if body is Character and body != self:
+		visible_characters.erase(body)
 		
-func _on_attackArea_body_entered(body : PhysicsBody2D ) -> void:
-	if body is Player:
-		set_target(body)
-		set_target_in_attack_area(true)
-		
-func _on_attackArea_body_exited(body : PhysicsBody2D ) -> void:
-	if body is Player:
-		set_target_in_attack_area(false)
-		
-func _on_target_in_chase_area_changed(_value : bool) -> void:
-	_update_target()
+func _on_target_changed(_new_target: PhysicsBody2D) -> void:
 	_update_behaviour_state()
-	
-func _on_target_in_attack_area_changed(_value : bool) -> void:
-	_update_target()
-	if state_machine.get_state_name() != "Attack":
-		_update_behaviour_state()
 
 func _on_StateMachine_state_changed(state) -> void:
 	if state_machine == null:

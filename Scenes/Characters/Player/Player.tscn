@@ -154,7 +154,7 @@ shape = SubResource( 11 )
 [node name="StateMachine" parent="." index="6"]
 visible = true
 
-[node name="StateLabel" type="Label" parent="StateMachine" index="6"]
+[node name="StateLabel" type="Label" parent="StateMachine" index="5"]
 margin_left = -12.0
 margin_top = -76.0
 margin_right = 28.0

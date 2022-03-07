@@ -11,6 +11,6 @@ func update(_delta : float) ->void:
 		if owner.path.size() > 0:
 			owner.set_look_direction(rad2deg((owner.path[0] - owner.position).angle()))
 		
-		if owner.get_path_dist_to(owner.target.position) < owner.kiteDist:
+		if owner.get_path_dist_to(owner.target.position) < owner.fight_distance:
 			owner.behaviour_tree.set_state("Fighting")
 	

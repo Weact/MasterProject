@@ -9,12 +9,13 @@ func get_class() -> String: return "NPCKitingBehavior"
 func call_state() -> void:
 	if state_machine != null:
 		state_machine.kite()
-		state_machine.tryDodge()
 	
 func enter_state() -> void:
+	.enter_state()
 	pass
 		
 func update(_delta : float) -> void:
+	.update(_delta)
 	if owner == null or owner.state_machine == null:
 		return
 	if owner.target == null:
@@ -22,7 +23,7 @@ func update(_delta : float) -> void:
 	owner.set_look_direction(state_machine.get_target_direction())
 	
 func exit_state() -> void:
-	pass
+	.exit_state()
 
 #### VIRTUALS ####
 

@@ -314,6 +314,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Items/Weapons/Melee/Shield.gd"
 }, {
+"base": "FightingState",
+"class": "ShootFightingState",
+"language": "GDScript",
+"path": "res://Scenes/Characters/NPC/ShootFightingState.gd"
+}, {
 "base": "Skill",
 "class": "ShootSkill",
 "language": "GDScript",
@@ -436,6 +441,7 @@ _global_script_class_icons={
 "PreparationSkill": "",
 "RecoverySkill": "",
 "Shield": "",
+"ShootFightingState": "",
 "ShootSkill": "",
 "Skill": "",
 "SkillState": "",
