@@ -29,25 +29,40 @@ func exit_state() -> void:
 	timer.stop()
 
 func update(_delta:float) ->void:
-	if owner.get_path_dist_to(owner.target.position) > owner.fight_distance+2:
+	if is_instance_valid(owner.target) and owner.get_path_dist_to(owner.target.position) > owner.fight_distance+2:
 		owner.behaviour_tree.set_state("Chase")
 	
 func get_offensive_factor() -> float :
-	if owner.target == null:
+	if !is_instance_valid(owner.target):
 		return 0.0
-	return min(1,(owner.target.stamina - owner.stamina)/owner.max_stamina)
+	var stam_value = (owner.stamina / owner.max_stamina)
+	
+	var weapon_value = 0.5
+	var weapon = owner.weapon_node
+	if is_instance_valid(weapon):
+		weapon_value += float(weapon.is_class("Sword"))/2
+	var weapon_tar = owner.target.weapon_node
+	if is_instance_valid(weapon_tar):
+		weapon_value -= float(weapon_tar.is_class("Sword"))/2
+	
+	var val = range_lerp(weapon_value+stam_value, 0, 2, 0, 1)
+	return val
 
 func get_defensive_factor() -> float :
 	return 1.0 - get_offensive_factor()
 	
 func get_target_distance_factor() -> float:
-	#100 IS VERY CLOSE 0 IS VERY FAR
-	return min(1, max(0,(get_target_distance()-16.0)/16.0))
+	#0 IS VERY CLOSE 1 IS VERY FAR
+	var tar_dist = get_target_distance()
+	var val = min(1.0, inverse_lerp(0, owner.fight_distance, tar_dist))
+	return val
 	
 func get_target_closeness_factor() -> float:
-	return 1 - get_target_distance_factor()
+	return 1.0 - get_target_distance_factor()
 	
 func get_target_distance() -> float :
+	if !is_instance_valid(owner.target):
+		return 99999.0
 	return owner.get_path_dist_to(owner.target.position)
 
 func get_target_direction() -> float:
@@ -59,15 +74,19 @@ func _on_timeout() -> void:
 	var difficulty = owner.difficulty
 	
 	timer.start()
-	kite_dist = 16.0 + int(owner.weapon_node.is_class("Bow")) * 64
+	kite_dist = 32.0 + int(owner.weapon_node.is_class("Bow")) * 128
 	
 	var childs = get_children()
 	var total_chance : float = 0.0
+	var power : float = 2.0
+	var chances = []
 	
 	for child in childs:
 		if !child.is_class("FightingState"):
 			continue
-		total_chance += child.get_chance_value()
+		var state_value = pow(child.get_chance_value(), power)
+		total_chance += state_value
+		chances.append(state_value)
 	
 	var randomNb = randi() % int(total_chance)
 	
@@ -75,7 +94,8 @@ func _on_timeout() -> void:
 	for child in childs:
 		if !child.is_class("FightingState"):
 			continue
-		chance_done += child.get_chance_value()
+		var state_value = pow(child.get_chance_value(), power)
+		chance_done += state_value
 		if chance_done > randomNb:
 			set_state(child)
 			break
@@ -89,7 +109,7 @@ func block() -> void:
 		owner.use_skill("Dodge")
 	
 func move_to_fight_pos() -> void:
-	if owner.target != null:
+	if is_instance_valid(owner.target):
 		if owner.pathfinder != null:
 			var dist = 48
 			var pos = _get_fight_pos(dist)
@@ -111,7 +131,7 @@ func tryDodge() -> void:
 		owner.use_skill("Dodge")
 	
 func kite() -> void:
-	if owner == null or owner.target == null:
+	if is_instance_valid(owner) or !is_instance_valid(owner.target):
 		return
 	offAngle = (PI*0.5) * min(1.0, (kite_dist+16.0)/owner.position.distance_to(owner.target.position))
 	if randi()%2:
@@ -127,7 +147,9 @@ func forward() -> void:
 	move_to_fight_pos()
 
 func _get_fight_pos(dist : float) -> Vector2:
-	var angleToTarget : float = (owner.target.position - owner.position).angle()
+	var angleToTarget = 0.0
+	if is_instance_valid(owner.target):
+		angleToTarget = (owner.target.position - owner.position).angle()
 		
 	var angle = angleToTarget + offAngle
 	var dir = Vector2(cos(angle), sin(angle))

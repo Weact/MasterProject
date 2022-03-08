@@ -45,7 +45,7 @@ signal stamina_changed()
 ## MOVEMENTS
 var stunned : bool = false setget set_stunned, is_stunned
 signal stun_changed(stun_state)
-var stun_duration : float = 0.2
+var stun_duration : float = 0.1
 
 export var max_speed : float = 0.0
 signal max_speed_changed(max_speed)
@@ -508,6 +508,7 @@ func _on_stun_changed(stun_state: bool) -> void:
 		add_child(stun_timer, true)
 		can_attack = false
 		can_block = false
+		use_skill(null)
 		animated_sprite.set_material(white_mat)
 
 ## STATS

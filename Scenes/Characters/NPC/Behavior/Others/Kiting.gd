@@ -18,7 +18,7 @@ func update(_delta : float) -> void:
 	.update(_delta)
 	if owner == null or owner.state_machine == null:
 		return
-	if owner.target == null:
+	if !is_instance_valid(owner.target):
 		return
 	owner.set_look_direction(state_machine.get_target_direction())
 	

@@ -21,7 +21,7 @@ func update(_delta : float) ->void:
 	var shield = owner.shield_node
 	if is_instance_valid(shield):
 		shield.press()
-	if owner.target == null:
+	if !is_instance_valid(owner.target):
 		return
 	owner.set_look_direction(state_machine.get_target_direction())
 

@@ -23,4 +23,3 @@ init_default_state = true
 [node name="GuardBreak" parent="." instance=ExtResource( 4 )]
 
 [node name="Shoot" parent="." instance=ExtResource( 7 )]
-recovery_canceler = false

@@ -12,6 +12,7 @@ var following = false
 
 export var difficulty = 1.0 # 1.0 is Very difficult 0.5 is average 0.0 is noobie
 
+var relations = {}
 var visible_characters = []
 var fight_distance = 10.0
 signal move_path_finished
@@ -20,6 +21,9 @@ signal target_changed
 var target  : Node2D = null setget set_target
 
 #### ACCESSORS ####
+func add_relation(char_name, value) -> void:
+	relations[char_name] = relations.get(char_name, 0) + value
+
 func set_target(value : Node2D) -> void:
 	if target != value:
 		target = value
@@ -62,11 +66,12 @@ func _physics_process(delta: float) -> void:
 
 func _update_target() -> void:
 	for character in visible_characters:
-		if !is_instance_valid(target):
-			set_target(character)
-			break
-		if get_path_dist_to(character.position) < get_path_dist_to(target.position):
-			set_target(character)
+		if relations[character] <= - 10:
+			if !is_instance_valid(target):
+				set_target(character)
+				break
+			if get_path_dist_to(character.position) < get_path_dist_to(target.position):
+				set_target(character)
 
 func update_move_path(dest : Vector2) -> void:
 	if pathfinder == null:
@@ -109,11 +114,10 @@ func move_along_path(delta: float) -> void:
 		$RayCast2D.enabled = true
 		$RayCast2D.set_cast_to(path[1] - position)
 		$RayCast2D.force_raycast_update()
-		var collideObject = $RayCast2D.get_collider()
+		var collideObject = $RayCast2D.get_collider() 
 		if collideObject != null:
 			for group in collideObject.get_groups():
-				if group == "Obstacle":
-					noObstacle = false
+				noObstacle = false
 				
 		if noObstacle:
 			path.remove(0)
@@ -142,6 +146,7 @@ func move_along_path(delta: float) -> void:
 func _on_chaseArea_body_entered(body : PhysicsBody2D) -> void:
 	if body is Character and body != self:
 		visible_characters.append(body)
+		add_relation(body, 0)
 		
 func _on_chaseArea_body_exited(body : PhysicsBody2D) -> void:
 	if body is Character and body != self:
