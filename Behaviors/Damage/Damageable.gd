@@ -18,12 +18,12 @@ export var owner_object_path : NodePath
 
 #### LOGIC ####
 
-func take_damage(damage) -> void:
+func take_damage(damage, damager) -> void:
 	var owner_object = get_node(owner_object_path)
 	
 	if is_instance_valid(owner_object):
 		if owner_object.has_method("damaged"):
-			owner_object.damaged(damage)
+			owner_object.damaged(damage, damager)
 
 #### INPUTS ####
 

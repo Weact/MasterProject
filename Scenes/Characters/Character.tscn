@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Scenes/Characters/States/CharacterDeath.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Characters/ControlsNPC.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/StateMachine/StateMachine.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/Characters/States/CharacterIdle.gd" type="Script" id=5]
 [ext_resource path="res://Scenes/Characters/States/CharacterMove.gd" type="Script" id=6]
@@ -15,6 +16,9 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 13.0384
 
+[sub_resource type="CircleShape2D" id=2]
+radius = 159.255
+
 [node name="Character" type="KinematicBody2D"]
 z_index = 1
 script = ExtResource( 9 )
@@ -24,6 +28,8 @@ max_stamina = 100.0
 max_speed = 80.0
 white_mat = ExtResource( 16 )
 default_state = "Idle"
+
+[node name="DebugControl" parent="." instance=ExtResource( 2 )]
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 __meta__ = {
@@ -107,3 +113,9 @@ visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickUpArea"]
 shape = SubResource( 1 )
+
+[node name="visionArea" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="visionArea"]
+shape = SubResource( 2 )

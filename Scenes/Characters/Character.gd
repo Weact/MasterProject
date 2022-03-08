@@ -26,6 +26,14 @@ onready var weapons_animation_player_node : AnimationPlayer = get_node_or_null("
 
 onready var pick_up_area : Area2D = $PickUpArea
 
+var visible_characters = []
+onready var visionArea = $visionArea
+
+var liege : Node2D = null setget set_liege, get_liege
+signal liege_changed
+
+var vassals = []
+
 ## STATS
 
 export var weight : int = 5
@@ -83,6 +91,8 @@ signal attack_hit
 # warning-ignore:unused_signal
 signal shield_hit
 
+signal damaged
+
 ## STATES
 export var default_state : String = ""
 
@@ -99,6 +109,14 @@ func get_current_state() -> String:
 	return state_machine.get_state_name()
 
 #### ACCESSORS ####
+func set_liege(body) -> void:
+	if body != self and body != liege:
+		emit_signal("liege_changed", body)
+		liege = body
+		
+func get_liege() -> Node2D:
+	return liege
+	
 func set_state(new_state : String) -> void:
 	if can_change_state():
 		state_machine.set_state(new_state)
@@ -109,6 +127,10 @@ func can_change_state() -> bool:
 		changeable = true
 	return changeable
 
+func set_target(value : Node2D) -> void:
+	if target != value:
+		target = value
+		emit_signal("target_changed", target)
 ##PATHFINDER WEIGHT
 func set_pathfinder(newPath : Pathfinder) -> void:
 	if pathfinder != newPath:
@@ -212,6 +234,8 @@ func _ready() -> void:
 	setup_skills()
 	health_point = max_health_point
 	stamina = max_stamina
+	var __  = visionArea.connect("body_entered", self, "_on_visionArea_body_entered")
+	__ = visionArea.connect("body_exited", self, "_on_visionArea_body_exited")
 
 	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
 
@@ -328,7 +352,7 @@ func flip_weapon(weapon) -> void:
 	if weapon.rotate_v:
 		weapon.get_node_or_null("Sprite").set_flip_v(facing_left)
 
-func damaged(damage_taken) -> void:
+func damaged(damage_taken, damager = null) -> void:
 	if get_state_name() == "Dodge":
 		return
 
@@ -344,6 +368,7 @@ func damaged(damage_taken) -> void:
 
 	set_stunned(true)
 	remove_health_point(damage_taken)
+	emit_signal("damaged", damage_taken, damager)
 
 func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: bool = false) -> Timer:
 	var new_timer = Timer.new()
@@ -579,3 +604,16 @@ func _on_attack_cd_timeout(timer_timeout : Timer) -> void:
 func _on_stun_timer_timeout(timer_timeout : Timer) -> void:
 	unstun()
 	timer_timeout.queue_free()
+	
+func _on_visionArea_body_entered(body : PhysicsBody2D) -> void:
+	if body.is_class("Character") and body != self:
+		visible_characters.append(body)
+		
+func _on_visionArea_body_exited(body : PhysicsBody2D) -> void:
+	if body.is_class("Character") and body != self:
+		visible_characters.erase(body)
+
+func _on_new_liege(new_liege) -> void:
+	if is_instance_valid(liege) and liege.is_class("Character"):
+		liege.vassals.erase(self)
+	new_liege.vassals.append(self)

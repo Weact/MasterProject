@@ -4,16 +4,13 @@ func is_class(value: String): return value == "NPC" or .is_class(value)
 func get_class() -> String: return "NPC"
 
 onready var behaviour_tree = $BehaviorTree
-onready var chaseArea = $chaseArea
-
 	
 var path : Array = []
-var following = false
 
 export var difficulty = 1.0 # 1.0 is Very difficult 0.5 is average 0.0 is noobie
 
+
 var relations = {}
-var visible_characters = []
 var fight_distance = 10.0
 signal move_path_finished
 signal target_changed
@@ -21,26 +18,41 @@ signal target_changed
 var target  : Node2D = null setget set_target
 
 #### ACCESSORS ####
-func add_relation(char_name, value) -> void:
-	relations[char_name] = relations.get(char_name, 0) + value
 
-func set_target(value : Node2D) -> void:
-	if target != value:
-		target = value
-		emit_signal("target_changed", target)
+func add_relation(char_name, value) -> void:
+	if char_name == self:
+		return
+	relations[char_name] = relations.get(char_name, 0.0) + value
+	_update_target()
+
+func get_relation(char_name) -> float:
+	return relations.get(char_name, 0.0)
+
 
 func get_target() -> Node2D:
 	return target
 
-func target_in_chase_area() -> bool: 
-	return target != null
+func can_see(body) -> bool:
+	if !is_instance_valid(body):
+		return false
+		
+	for visible_char in visible_characters:
+		if body == visible_char:
+			return true
+	
+	return false
+	
+func target_in_chase_area() -> bool:
+	return can_see(target)
 	
 #### BUILT-IN ####
 func _ready() -> void:
 	randomize()
-	var __  = chaseArea.connect("body_entered", self, "_on_chaseArea_body_entered")
-	__ = chaseArea.connect("body_exited", self, "_on_chaseArea_body_exited")
-	__ = connect("target_changed", self, "_on_target_changed")
+	var __ = connect("target_changed", self, "_on_target_changed")
+	__ = connect("damaged", self, "_on_taking_damage")
+	__ = visionArea.connect("body_entered", self, "_on_npc_visionArea_entered")
+	__ = visionArea.connect("body_exited", self, "_on_npc_visionArea_exited")
+	__ = connect("liege_changed", self, "_on_new_liege")
 	
 	$RayCast2D.set_collide_with_bodies(true)
 	if randi() % 2 == 0:
@@ -55,23 +67,33 @@ func _ready() -> void:
 		yield(bow_instance, "ready")
 		equip_item(bow_instance)
 		
+func _physics_process(delta: float) -> void:
+	move_along_path(delta)
 #### VIRTUALS ####
 
 
 
 #### LOGIC ####
-func _physics_process(delta: float) -> void:
-	move_along_path(delta)
-	_update_target()
+func follow(body) -> void:
+	target = body
+	behaviour_tree.set_state("Following")
+	
+func attack(body) -> void:
+	target = body
+	behaviour_tree.set_state("Chase")
 
 func _update_target() -> void:
 	for character in visible_characters:
-		if relations[character] <= - 10:
+		var char_rela = get_relation(character)
+		if char_rela <= -10:
 			if !is_instance_valid(target):
-				set_target(character)
+				attack(character)
 				break
-			if get_path_dist_to(character.position) < get_path_dist_to(target.position):
-				set_target(character)
+			if behaviour_tree.get_state_name() == "Following" or get_path_dist_to(character.position) < get_path_dist_to(target.position):
+				attack(character)
+				break
+		elif char_rela > 10 and (behaviour_tree.get_state_name() != "Fighting" and behaviour_tree.get_state_name() != "Chase"):
+			follow(character)
 
 func update_move_path(dest : Vector2) -> void:
 	if pathfinder == null:
@@ -97,16 +119,6 @@ func get_dist_to(to : Vector2) -> float:
 	if to != null:
 		return position.distance_to(to)
 	return 99999.9
-	
-func _update_behaviour_state() -> void:
-	if !following:
-		if target != null:
-			if target_in_chase_area() && behaviour_tree.get_state_name() != "Fighting":
-				behaviour_tree.set_state("Chase")
-		else:
-			behaviour_tree.set_state("Wander")
-	else:
-		behaviour_tree.set_state("Following")
 		
 func move_along_path(delta: float) -> void:
 	var noObstacle = true
@@ -127,6 +139,7 @@ func move_along_path(delta: float) -> void:
 	if path.empty():
 		set_direction(Vector2.ZERO)
 		set_state("Idle")
+		emit_signal("move_path_finished")
 		return
 	
 	var cellToGo = path[0]
@@ -138,26 +151,24 @@ func move_along_path(delta: float) -> void:
 	
 	if dist <= movement_speed * delta:
 		path.remove(0)
-	
-	if path.empty():
-		emit_signal("move_path_finished")
 
 #### SIGNAL RESPONSES ####
-func _on_chaseArea_body_entered(body : PhysicsBody2D) -> void:
-	if body is Character and body != self:
-		visible_characters.append(body)
-		add_relation(body, 0)
-		
-func _on_chaseArea_body_exited(body : PhysicsBody2D) -> void:
-	if body is Character and body != self:
-		visible_characters.erase(body)
 		
 func _on_target_changed(_new_target: PhysicsBody2D) -> void:
-	_update_behaviour_state()
+	pass
 
 func _on_StateMachine_state_changed(state) -> void:
 	if state_machine == null:
 		return
-	if state.name == "Idle":
-		_update_behaviour_state()
 
+func _on_taking_damage(damage, damager) -> void:
+	add_relation(damager, -damage)
+
+func _on_npc_visionArea_entered(body : PhysicsBody2D) -> void:
+	if body is Character and body != self:
+		add_relation(body, 0)
+		
+func _on_npc_visionArea_exited(body : PhysicsBody2D) -> void:
+	if body is Character and body != self:
+		if body == target:
+			target = null

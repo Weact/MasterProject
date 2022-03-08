@@ -4,8 +4,8 @@ func is_class(value: String): return value == "NPCFightingBehavior" or .is_class
 func get_class() -> String: return "NPCFightingBehavior"
 
 var offAngle : float = PI
-var min_dist : float = 40.0
-var max_dist : float = 160.0
+var min_dist : float = 30.0
+var max_dist : float = 100.0
 var kite_dist : float = 16.0
 
 onready var timer = $Timer
@@ -29,7 +29,10 @@ func exit_state() -> void:
 	timer.stop()
 
 func update(_delta:float) ->void:
-	if is_instance_valid(owner.target) and owner.get_path_dist_to(owner.target.position) > owner.fight_distance+2:
+	if !is_instance_valid(owner.target):
+		owner.behaviour_tree.set_state("Wander")
+		return
+	if owner.get_path_dist_to(owner.target.position) > owner.fight_distance:
 		owner.behaviour_tree.set_state("Chase")
 	
 func get_offensive_factor() -> float :
@@ -74,7 +77,7 @@ func _on_timeout() -> void:
 	var difficulty = owner.difficulty
 	
 	timer.start()
-	kite_dist = 32.0 + int(owner.weapon_node.is_class("Bow")) * 128
+	kite_dist = 32.0 + float(owner.weapon_node.is_class("Bow")) * 80
 	
 	var childs = get_children()
 	var total_chance : float = 0.0
@@ -131,9 +134,9 @@ func tryDodge() -> void:
 		owner.use_skill("Dodge")
 	
 func kite() -> void:
-	if is_instance_valid(owner) or !is_instance_valid(owner.target):
+	if !is_instance_valid(owner) or !is_instance_valid(owner.target):
 		return
-	offAngle = (PI*0.5) * min(1.0, (kite_dist+16.0)/owner.position.distance_to(owner.target.position))
+	offAngle = (PI*0.5)* (kite_dist)/owner.position.distance_to(owner.target.position)
 	if randi()%2:
 		offAngle = -offAngle
 	move_to_fight_pos()

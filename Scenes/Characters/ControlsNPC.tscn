@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scenes/Characters/NPC/Control.gd" type="Script" id=1]
+
+[node name="DebugControl" type="Control"]
+margin_left = -7.0
+margin_top = -16.0
+margin_right = 6.0
+margin_bottom = 7.0
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

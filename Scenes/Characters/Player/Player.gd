@@ -15,6 +15,8 @@ var attackPressed : bool = false
 #### ACCESSORS ####
 
 #### BUILT-IN ####
+func _ready() -> void:
+	var __ = EVENTS.connect("player_target", self, "_on_new_target")
 
 #### VIRTUALS ####
 
@@ -140,3 +142,5 @@ func action(action_name: String) -> void:
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
+func _on_new_target(new_target) -> void:
+	set_target(new_target)

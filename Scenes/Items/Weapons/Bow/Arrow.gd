@@ -67,7 +67,7 @@ func _on_body_entered(body) -> void:
 		return
 	
 	if is_instance_valid(shooter):
-		damageable.take_damage(damage * movement_speed / 400)
+		damageable.take_damage(damage * movement_speed / 400, shooter)
 	
 	if body.has_method("set_stunned"):
 		body.set_stunned(true)

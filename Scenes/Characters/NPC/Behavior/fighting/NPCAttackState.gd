@@ -30,7 +30,7 @@ func update(_delta : float) ->void:
 		return
 
 	owner.set_look_direction(state_machine.get_target_direction())
-	var dist_tar = owner.position.distance_to(owner.target.position)
+	var dist_tar = owner.get_path_dist_to(owner.target.position)
 	var weapon = owner.weapon_node
 	if !is_instance_valid(weapon):
 		return
@@ -47,6 +47,7 @@ func update(_delta : float) ->void:
 				owner.update_move_path(owner.target.position)
 				if dist_tar < 16.0:
 					weapon.press()
+					weapon.release()
 				
 	else:
 		weapon.press()
