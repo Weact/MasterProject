@@ -63,7 +63,7 @@ func remove_weapon_skills() -> void:
 #### SIGNAL RESPONSES ####
 
 func _on_area_entered(area: Area2D) -> void:
-	if !_is_valid(area) or !area.get_owner().is_class("Weapon"):
+	if !is_instance_valid(area) or !is_instance_valid(area.owner) or !area.get_owner().is_class("Weapon"):
 		return
 
 	emit_signal("collided", area.get_owner())

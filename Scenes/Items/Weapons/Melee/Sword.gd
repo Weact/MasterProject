@@ -18,7 +18,7 @@ func release() -> void:
 	
 	if is_instance_valid(charged_skill) and charged_skill.is_ready():
 		charged_skill.execute()
-	else:
+	elif charged_skill.is_preparing():
 		var __ = weapon_handler_node.use_skill("Attack")
 		
 		

@@ -3,8 +3,8 @@ class_name NpcWanderBehavior
 func is_class(value: String): return value == "NpcWanderBehavior" or .is_class(value)
 func get_class() -> String: return "NpcWanderBehavior"
 
-export var min_wander_distance = 30.0
-export var max_wander_distance = 120.0
+export var min_wander_distance = 15.0
+export var max_wander_distance = 60.0
 
 func _ready() -> void:
 	var __ = $Wait.connect("waitTimeFinished", self, "_on_wait_wait_time_finished")
@@ -16,16 +16,23 @@ func _generate_random_dest() -> Vector2:
 	var dir = Vector2(cos(angle), sin(angle))
 	var dist = rand_range(min_wander_distance, max_wander_distance)
 	
-	var dest = owner.global_position + dir * dist
+	var dest = dir * dist
 
 	return dest
 	
 func _find_wander_dest() -> Vector2:
 	var pos = _generate_random_dest()
+	if is_instance_valid(owner.liege):
+		pos = owner.liege.global_position + _generate_random_dest()
+	else:
+		pos = owner.global_position + _generate_random_dest()
 	
 	if owner.pathfinder != null:
 		while(!owner.pathfinder.is_position_valid(pos)):
-			pos = _generate_random_dest()
+			if is_instance_valid(owner.liege):
+				pos = owner.liege.global_position + _generate_random_dest()
+			else:
+				pos = owner.global_position + _generate_random_dest()
 			
 	return pos
 	

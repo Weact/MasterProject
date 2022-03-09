@@ -77,7 +77,7 @@ func _on_timeout() -> void:
 	var difficulty = owner.difficulty
 	
 	timer.start()
-	kite_dist = 32.0 + float(owner.weapon_node.is_class("Bow")) * 80
+	kite_dist = 16.0 + float(owner.weapon_node.is_class("Bow")) * 80
 	
 	var childs = get_children()
 	var total_chance : float = 0.0
@@ -102,14 +102,6 @@ func _on_timeout() -> void:
 		if chance_done > randomNb:
 			set_state(child)
 			break
-	
-func block() -> void:
-	var shield = owner.shield_node
-	if is_instance_valid(shield):
-		shield.press()
-	else:
-		distance()
-		owner.use_skill("Dodge")
 	
 func move_to_fight_pos() -> void:
 	if is_instance_valid(owner.target):
@@ -136,7 +128,7 @@ func tryDodge() -> void:
 func kite() -> void:
 	if !is_instance_valid(owner) or !is_instance_valid(owner.target):
 		return
-	offAngle = (PI*0.5)* (kite_dist)/owner.position.distance_to(owner.target.position)
+	offAngle = min(PI,(PI*0.5)* (kite_dist)/owner.position.distance_to(owner.target.position))
 	if randi()%2:
 		offAngle = -offAngle
 	move_to_fight_pos()

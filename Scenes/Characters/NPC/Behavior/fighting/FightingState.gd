@@ -32,7 +32,7 @@ func exit_state() -> void:
 	__ = global_variable.add_variable("has_skill", 1, 2)
 
 func get_chance_value() -> float:
-	var time_factor = time_variable.get_value()
+	var time_factor = time_variable.get_value()/2
 	var distance_factor = state_machine.get_target_distance_factor() * distance_variable.get_value()
 	var offensive_factor = state_machine.get_offensive_factor() * offensive_variable.get_value()
 	return (max(0,time_factor+distance_factor+offensive_factor)*100+1)*global_variable.get_value()

@@ -9,47 +9,26 @@ var path : Array = []
 
 export var difficulty = 1.0 # 1.0 is Very difficult 0.5 is average 0.0 is noobie
 
-
 var relations = {}
 var fight_distance = 10.0
 signal move_path_finished
-signal target_changed
-
-var target  : Node2D = null setget set_target
 
 #### ACCESSORS ####
 
-func add_relation(char_name, value) -> void:
-	if char_name == self:
+func add_relation(index, value) -> void:
+	if index == self:
 		return
-	relations[char_name] = relations.get(char_name, 0.0) + value
+	relations[index] = relations.get(index, 0.0) + value
 	_update_target()
 
 func get_relation(char_name) -> float:
 	return relations.get(char_name, 0.0)
 
-
-func get_target() -> Node2D:
-	return target
-
-func can_see(body) -> bool:
-	if !is_instance_valid(body):
-		return false
-		
-	for visible_char in visible_characters:
-		if body == visible_char:
-			return true
-	
-	return false
-	
-func target_in_chase_area() -> bool:
-	return can_see(target)
 	
 #### BUILT-IN ####
 func _ready() -> void:
 	randomize()
-	var __ = connect("target_changed", self, "_on_target_changed")
-	__ = connect("damaged", self, "_on_taking_damage")
+	var __ = connect("damaged", self, "_on_taking_damage")
 	__ = visionArea.connect("body_entered", self, "_on_npc_visionArea_entered")
 	__ = visionArea.connect("body_exited", self, "_on_npc_visionArea_exited")
 	__ = connect("liege_changed", self, "_on_new_liege")
@@ -75,12 +54,14 @@ func _physics_process(delta: float) -> void:
 
 #### LOGIC ####
 func follow(body) -> void:
-	target = body
-	behaviour_tree.set_state("Following")
+	if body != self:
+		set_target(body)
+		behaviour_tree.set_state("Following")
 	
 func attack(body) -> void:
-	target = body
-	behaviour_tree.set_state("Chase")
+	if body != self:
+		set_target(body)
+		behaviour_tree.set_state("Chase")
 
 func _update_target() -> void:
 	for character in visible_characters:
@@ -154,15 +135,14 @@ func move_along_path(delta: float) -> void:
 
 #### SIGNAL RESPONSES ####
 		
-func _on_target_changed(_new_target: PhysicsBody2D) -> void:
-	pass
 
 func _on_StateMachine_state_changed(state) -> void:
 	if state_machine == null:
 		return
 
 func _on_taking_damage(damage, damager) -> void:
-	add_relation(damager, -damage)
+	attack(damager)
+	add_relation(damager, -damage/10)
 
 func _on_npc_visionArea_entered(body : PhysicsBody2D) -> void:
 	if body is Character and body != self:

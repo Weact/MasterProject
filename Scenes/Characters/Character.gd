@@ -34,8 +34,17 @@ signal liege_changed
 
 var vassals = []
 
+signal target_changed
+
+var target  : Node2D = null setget set_target
 ## STATS
 
+func get_target() -> Node2D:
+	return target
+
+func target_in_chase_area() -> bool:
+	return can_see(target)
+	
 export var weight : int = 5
 signal weight_changed()
 
@@ -131,6 +140,7 @@ func set_target(value : Node2D) -> void:
 	if target != value:
 		target = value
 		emit_signal("target_changed", target)
+		
 ##PATHFINDER WEIGHT
 func set_pathfinder(newPath : Pathfinder) -> void:
 	if pathfinder != newPath:
@@ -232,9 +242,10 @@ func is_facing_left() -> bool: return facing_left
 func _ready() -> void:
 	init_panels()
 	setup_skills()
+	var __ = connect("target_changed", self, "_on_target_changed")
 	health_point = max_health_point
 	stamina = max_stamina
-	var __  = visionArea.connect("body_entered", self, "_on_visionArea_body_entered")
+	__  = visionArea.connect("body_entered", self, "_on_visionArea_body_entered")
 	__ = visionArea.connect("body_exited", self, "_on_visionArea_body_exited")
 
 	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
@@ -297,6 +308,16 @@ func _physics_process(_delta: float) -> void:
 #### VIRTUALS ####
 
 #### LOGIC ####
+func can_see(body) -> bool:
+	if !is_instance_valid(body):
+		return false
+		
+	for visible_char in visible_characters:
+		if body == visible_char:
+			return true
+	
+	return false
+	
 
 func update_weapon_rotation(_delta, rot_vel) -> void:
 	var difference = fmod(look_direction - weapons_node.rotation_degrees, 360)
@@ -517,6 +538,10 @@ func has_weapon() -> bool:
 
 func has_shield() -> bool:
 	return shield_point.get_child_count() <= 0
+	
+func select(value : bool =true) -> void:
+	$SelectionCircle.emitting = value
+
 
 #### INPUTS ####
 
@@ -617,3 +642,18 @@ func _on_new_liege(new_liege) -> void:
 	if is_instance_valid(liege) and liege.is_class("Character"):
 		liege.vassals.erase(self)
 	new_liege.vassals.append(self)
+
+func order_vassals(order, param):
+	for vassal in vassals:
+		if !is_instance_valid(vassal):
+			vassals.erase(vassal)
+			continue
+		if vassal.has_method(order):
+			vassal.call(order, param)
+
+func _on_target_changed(_new_target: PhysicsBody2D) -> void:
+	for vassal in vassals:
+		if _new_target == self:
+			order_vassals("follow", self)
+		else:
+			order_vassals("attack", _new_target)

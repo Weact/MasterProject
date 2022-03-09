@@ -10,7 +10,11 @@ func enter_state() -> void:
 	.enter_state()
 	if owner.state_machine == null:
 		return
-	state_machine.block()
+	var shield = owner.shield_node
+	if is_instance_valid(shield):
+		shield.press()
+	else:
+		state_machine.set_state("Distancing")
 	if !is_instance_valid(owner.target):
 		return
 	

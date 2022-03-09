@@ -15,7 +15,7 @@ func enter_state() -> void:
 		return
 	
 	var wait_time = rand_range(min_wait_time, max_wait_time)
-	#$Timer.start(wait_time)
+	$Timer.start(wait_time)
 	
 func _on_Timer_timeout() -> void:
 	emit_signal("waitTimeFinished")

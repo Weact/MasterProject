@@ -74,7 +74,7 @@ block_power = 4
 position = Vector2( 0, -9 )
 frames = SubResource( 5 )
 animation = "Move"
-frame = 1
+frame = 3
 playing = true
 
 [node name="BehaviorTree" type="Node2D" parent="." index="3"]
@@ -117,8 +117,8 @@ offensive_variable_factor = -1.0
 
 [node name="Attack" type="Node" parent="BehaviorTree/Fighting" index="2"]
 script = ExtResource( 3 )
-time_variable_factor = 0.5
-distance_variable_factor = -1.0
+distance_variable_factor = -0.5
+offensive_variable_factor = 1.5
 
 [node name="AttackTimer" type="Timer" parent="BehaviorTree/Fighting/Attack" index="0"]
 wait_time = 0.1
