@@ -9,6 +9,7 @@ var damage : float = 10
 var launched = false
 var launch_speed = 1500
 var arrow_dir : Vector2 = Vector2.ZERO
+onready var trail = $Particles2D
 #### ACCESSORS ####
 
 #### BUILT-IN ####
@@ -18,6 +19,7 @@ func _init(body = null) -> void:
 func _ready() -> void:
 	var __ = $Area2D.connect("body_entered", self, "_on_body_entered")
 	__ = $Timer.connect("timeout", self, "_on_timeout")
+	trail.emitting = false
 	
 func _physics_process(_delta: float) -> void:
 	var vel = get_computed_velocity()
@@ -34,6 +36,7 @@ func _physics_process(_delta: float) -> void:
 	
 func stop():
 	movement_speed = 0
+	trail.emitting = false
 	launched = false
 	$Area2D/CollisionShape2D.call_deferred("set_disabled", true)
 	$AnimationPlayer.play("Stop")
@@ -43,6 +46,7 @@ func prep(duration = 1.0) -> void:
 	$AnimationPlayer.play("Charge", -1, 1.0/duration)
 	
 func launch(new_dir, new_speed) -> void:
+	trail.emitting = true
 	$Area2D/CollisionShape2D.call_deferred("set_disabled", false)
 	set_direction(new_dir)
 	launch_speed = new_speed
@@ -60,16 +64,15 @@ func _on_timeout() -> void:
 func _on_body_entered(body) -> void:
 	if !is_instance_valid(body) or body == shooter:
 		return
-	
 	var damageable = body.get_node_or_null("DamageableBehavior")
 	if !is_instance_valid(damageable):
-		stop()
 		return
 	
 	if is_instance_valid(shooter):
 		damageable.take_damage(damage * movement_speed / 400, shooter)
 	
+	stop()
 	if body.has_method("set_stunned"):
 		body.set_stunned(true)
 	
-	queue_free()
+	$Sprite.visible = false

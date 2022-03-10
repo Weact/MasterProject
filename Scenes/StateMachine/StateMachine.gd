@@ -53,7 +53,7 @@ func _ready()->void:
 		set_to_default_state()
 
 func _physics_process(delta: float) -> void:
-	if (!is_instance_valid(state_machine) or state_machine.is_class("StateMachine") and state_machine.current_state == self) and current_state != null:
+	if current_state != null:
 		current_state.update(delta)
 
 #### LOGIC ####

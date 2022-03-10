@@ -17,22 +17,6 @@
 [ext_resource path="res://Scenes/Characters/NPC/Behavior/Others/Kiting.gd" type="Script" id=18]
 [ext_resource path="res://Scenes/Characters/NPC/Behavior/Others/Distancing.gd" type="Script" id=19]
 
-[sub_resource type="AtlasTexture" id=1]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 0, 16, 28 )
-
-[sub_resource type="AtlasTexture" id=2]
-atlas = ExtResource( 5 )
-region = Rect2( 16, 0, 16, 28 )
-
-[sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 5 )
-region = Rect2( 32, 0, 16, 28 )
-
-[sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 5 )
-region = Rect2( 48, 0, 16, 28 )
-
 [sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 13 )
 region = Rect2( 0, 0, 16, 28 )
@@ -49,17 +33,33 @@ region = Rect2( 32, 0, 16, 28 )
 atlas = ExtResource( 13 )
 region = Rect2( 48, 0, 16, 28 )
 
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 16, 28 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 5 )
+region = Rect2( 16, 0, 16, 28 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 5 )
+region = Rect2( 32, 0, 16, 28 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 5 )
+region = Rect2( 48, 0, 16, 28 )
+
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
-"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
-"loop": true,
-"name": "Idle",
-"speed": 8.06
-}, {
 "frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
 "loop": true,
 "name": "Move",
 "speed": 10.51
+}, {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 8.06
 } ]
 
 [sub_resource type="CircleShape2D" id=13]
@@ -70,11 +70,10 @@ script = ExtResource( 2 )
 attack_power = 5
 block_power = 4
 
-[node name="AnimatedSprite" parent="." index="1"]
+[node name="AnimatedSprite" parent="." index="2"]
 position = Vector2( 0, -9 )
 frames = SubResource( 5 )
 animation = "Move"
-frame = 3
 playing = true
 
 [node name="BehaviorTree" type="Node2D" parent="." index="3"]
@@ -146,10 +145,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CollisionShape2D" parent="." index="4"]
+[node name="CollisionShape2D" parent="." index="5"]
 shape = SubResource( 13 )
 
-[node name="StateMachine" parent="." index="6"]
+[node name="StateMachine" parent="." index="7"]
 visible = true
 
 [node name="StateLabel" type="Label" parent="StateMachine" index="5"]

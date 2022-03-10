@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scenes/Map/Base/MapBase.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Characters/Player/Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Scenes/Characters/NPC/NPC.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Environnement/Rock.tscn" type="PackedScene" id=4]
 
 [node name="MapV" instance=ExtResource( 1 )]
@@ -12,36 +11,6 @@ tile_data = PoolIntArray( 0, 4, 0, 1, 4, 0, 2, 4, 0, 3, 4, 0, 4, 4, 0, 5, 4, 0, 
 
 [node name="Player2" parent="Player" index="0" instance=ExtResource( 2 )]
 position = Vector2( 1160, 864 )
-
-[node name="NPC154" parent="NPC" index="0" instance=ExtResource( 3 )]
-position = Vector2( 1184, 792 )
-attack_power = 10
-block_power = 5
-
-[node name="NPC155" parent="NPC" index="1" instance=ExtResource( 3 )]
-position = Vector2( 1192, 800 )
-attack_power = 10
-block_power = 5
-
-[node name="NPC157" parent="NPC" index="2" instance=ExtResource( 3 )]
-position = Vector2( 1208, 816 )
-attack_power = 10
-block_power = 5
-
-[node name="NPC158" parent="NPC" index="3" instance=ExtResource( 3 )]
-position = Vector2( 1208, 832 )
-attack_power = 10
-block_power = 5
-
-[node name="NPC156" parent="NPC" index="4" instance=ExtResource( 3 )]
-position = Vector2( 1160, 800 )
-attack_power = 10
-block_power = 5
-
-[node name="NPC159" parent="NPC" index="5" instance=ExtResource( 3 )]
-position = Vector2( 1192, 816 )
-attack_power = 10
-block_power = 5
 
 [node name="Rock" parent="Obstacles/Rocks" index="0" instance=ExtResource( 4 )]
 position = Vector2( 1072, 712 )
@@ -406,1535 +375,1532 @@ position = Vector2( 1104, 792 )
 [node name="Rock127" parent="Obstacles/Rocks" index="120" instance=ExtResource( 4 )]
 position = Vector2( 1136, 808 )
 
-[node name="Rock128" parent="Obstacles/Rocks" index="121" instance=ExtResource( 4 )]
-position = Vector2( 1200, 792 )
-
-[node name="Rock129" parent="Obstacles/Rocks" index="122" instance=ExtResource( 4 )]
+[node name="Rock129" parent="Obstacles/Rocks" index="121" instance=ExtResource( 4 )]
 position = Vector2( 1232, 760 )
 
-[node name="Rock130" parent="Obstacles/Rocks" index="123" instance=ExtResource( 4 )]
+[node name="Rock130" parent="Obstacles/Rocks" index="122" instance=ExtResource( 4 )]
 position = Vector2( 1136, 744 )
 
-[node name="Rock131" parent="Obstacles/Rocks" index="124" instance=ExtResource( 4 )]
+[node name="Rock131" parent="Obstacles/Rocks" index="123" instance=ExtResource( 4 )]
 position = Vector2( 1120, 840 )
 
-[node name="Rock132" parent="Obstacles/Rocks" index="125" instance=ExtResource( 4 )]
+[node name="Rock132" parent="Obstacles/Rocks" index="124" instance=ExtResource( 4 )]
 position = Vector2( 1136, 872 )
 
-[node name="Rock133" parent="Obstacles/Rocks" index="126" instance=ExtResource( 4 )]
+[node name="Rock133" parent="Obstacles/Rocks" index="125" instance=ExtResource( 4 )]
 position = Vector2( 1216, 856 )
 
-[node name="Rock134" parent="Obstacles/Rocks" index="127" instance=ExtResource( 4 )]
+[node name="Rock134" parent="Obstacles/Rocks" index="126" instance=ExtResource( 4 )]
 position = Vector2( 1176, 856 )
 
-[node name="Rock135" parent="Obstacles/Rocks" index="128" instance=ExtResource( 4 )]
+[node name="Rock135" parent="Obstacles/Rocks" index="127" instance=ExtResource( 4 )]
 position = Vector2( 1232, 808 )
 
-[node name="Rock29" parent="Obstacles/Rocks" index="129" instance=ExtResource( 4 )]
+[node name="Rock29" parent="Obstacles/Rocks" index="128" instance=ExtResource( 4 )]
 position = Vector2( 1232, 696 )
 
-[node name="Rock30" parent="Obstacles/Rocks" index="130" instance=ExtResource( 4 )]
+[node name="Rock30" parent="Obstacles/Rocks" index="129" instance=ExtResource( 4 )]
 position = Vector2( 1216, 712 )
 
-[node name="Rock31" parent="Obstacles/Rocks" index="131" instance=ExtResource( 4 )]
+[node name="Rock31" parent="Obstacles/Rocks" index="130" instance=ExtResource( 4 )]
 position = Vector2( 1232, 712 )
 
-[node name="Rock32" parent="Obstacles/Rocks" index="132" instance=ExtResource( 4 )]
+[node name="Rock32" parent="Obstacles/Rocks" index="131" instance=ExtResource( 4 )]
 position = Vector2( 1248, 712 )
 
-[node name="Rock33" parent="Obstacles/Rocks" index="133" instance=ExtResource( 4 )]
+[node name="Rock33" parent="Obstacles/Rocks" index="132" instance=ExtResource( 4 )]
 position = Vector2( 1264, 712 )
 
-[node name="Rock34" parent="Obstacles/Rocks" index="134" instance=ExtResource( 4 )]
+[node name="Rock34" parent="Obstacles/Rocks" index="133" instance=ExtResource( 4 )]
 position = Vector2( 1280, 712 )
 
-[node name="Rock136" parent="Obstacles/Rocks" index="135" instance=ExtResource( 4 )]
+[node name="Rock136" parent="Obstacles/Rocks" index="134" instance=ExtResource( 4 )]
 position = Vector2( 8, 8 )
 
-[node name="Rock137" parent="Obstacles/Rocks" index="136" instance=ExtResource( 4 )]
+[node name="Rock137" parent="Obstacles/Rocks" index="135" instance=ExtResource( 4 )]
 position = Vector2( 8, 8 )
 
-[node name="Rock138" parent="Obstacles/Rocks" index="137" instance=ExtResource( 4 )]
+[node name="Rock138" parent="Obstacles/Rocks" index="136" instance=ExtResource( 4 )]
 position = Vector2( 24, 8 )
 
-[node name="Rock139" parent="Obstacles/Rocks" index="138" instance=ExtResource( 4 )]
+[node name="Rock139" parent="Obstacles/Rocks" index="137" instance=ExtResource( 4 )]
 position = Vector2( 56, 8 )
 
-[node name="Rock140" parent="Obstacles/Rocks" index="139" instance=ExtResource( 4 )]
+[node name="Rock140" parent="Obstacles/Rocks" index="138" instance=ExtResource( 4 )]
 position = Vector2( 40, 8 )
 
-[node name="Rock141" parent="Obstacles/Rocks" index="140" instance=ExtResource( 4 )]
+[node name="Rock141" parent="Obstacles/Rocks" index="139" instance=ExtResource( 4 )]
 position = Vector2( 72, 8 )
 
-[node name="Rock142" parent="Obstacles/Rocks" index="141" instance=ExtResource( 4 )]
+[node name="Rock142" parent="Obstacles/Rocks" index="140" instance=ExtResource( 4 )]
 position = Vector2( 88, 8 )
 
-[node name="Rock143" parent="Obstacles/Rocks" index="142" instance=ExtResource( 4 )]
+[node name="Rock143" parent="Obstacles/Rocks" index="141" instance=ExtResource( 4 )]
 position = Vector2( 104, 8 )
 
-[node name="Rock144" parent="Obstacles/Rocks" index="143" instance=ExtResource( 4 )]
+[node name="Rock144" parent="Obstacles/Rocks" index="142" instance=ExtResource( 4 )]
 position = Vector2( 120, 8 )
 
-[node name="Rock145" parent="Obstacles/Rocks" index="144" instance=ExtResource( 4 )]
+[node name="Rock145" parent="Obstacles/Rocks" index="143" instance=ExtResource( 4 )]
 position = Vector2( 136, 8 )
 
-[node name="Rock146" parent="Obstacles/Rocks" index="145" instance=ExtResource( 4 )]
+[node name="Rock146" parent="Obstacles/Rocks" index="144" instance=ExtResource( 4 )]
 position = Vector2( 152, 8 )
 
-[node name="Rock147" parent="Obstacles/Rocks" index="146" instance=ExtResource( 4 )]
+[node name="Rock147" parent="Obstacles/Rocks" index="145" instance=ExtResource( 4 )]
 position = Vector2( 168, 8 )
 
-[node name="Rock148" parent="Obstacles/Rocks" index="147" instance=ExtResource( 4 )]
+[node name="Rock148" parent="Obstacles/Rocks" index="146" instance=ExtResource( 4 )]
 position = Vector2( 184, 8 )
 
-[node name="Rock149" parent="Obstacles/Rocks" index="148" instance=ExtResource( 4 )]
+[node name="Rock149" parent="Obstacles/Rocks" index="147" instance=ExtResource( 4 )]
 position = Vector2( 200, 8 )
 
-[node name="Rock150" parent="Obstacles/Rocks" index="149" instance=ExtResource( 4 )]
+[node name="Rock150" parent="Obstacles/Rocks" index="148" instance=ExtResource( 4 )]
 position = Vector2( 200, 8 )
 
-[node name="Rock151" parent="Obstacles/Rocks" index="150" instance=ExtResource( 4 )]
+[node name="Rock151" parent="Obstacles/Rocks" index="149" instance=ExtResource( 4 )]
 position = Vector2( 216, 8 )
 
-[node name="Rock152" parent="Obstacles/Rocks" index="151" instance=ExtResource( 4 )]
+[node name="Rock152" parent="Obstacles/Rocks" index="150" instance=ExtResource( 4 )]
 position = Vector2( 248, 8 )
 
-[node name="Rock153" parent="Obstacles/Rocks" index="152" instance=ExtResource( 4 )]
+[node name="Rock153" parent="Obstacles/Rocks" index="151" instance=ExtResource( 4 )]
 position = Vector2( 232, 8 )
 
-[node name="Rock154" parent="Obstacles/Rocks" index="153" instance=ExtResource( 4 )]
+[node name="Rock154" parent="Obstacles/Rocks" index="152" instance=ExtResource( 4 )]
 position = Vector2( 264, 8 )
 
-[node name="Rock155" parent="Obstacles/Rocks" index="154" instance=ExtResource( 4 )]
+[node name="Rock155" parent="Obstacles/Rocks" index="153" instance=ExtResource( 4 )]
 position = Vector2( 280, 8 )
 
-[node name="Rock156" parent="Obstacles/Rocks" index="155" instance=ExtResource( 4 )]
+[node name="Rock156" parent="Obstacles/Rocks" index="154" instance=ExtResource( 4 )]
 position = Vector2( 296, 8 )
 
-[node name="Rock157" parent="Obstacles/Rocks" index="156" instance=ExtResource( 4 )]
+[node name="Rock157" parent="Obstacles/Rocks" index="155" instance=ExtResource( 4 )]
 position = Vector2( 312, 8 )
 
-[node name="Rock158" parent="Obstacles/Rocks" index="157" instance=ExtResource( 4 )]
+[node name="Rock158" parent="Obstacles/Rocks" index="156" instance=ExtResource( 4 )]
 position = Vector2( 328, 8 )
 
-[node name="Rock159" parent="Obstacles/Rocks" index="158" instance=ExtResource( 4 )]
+[node name="Rock159" parent="Obstacles/Rocks" index="157" instance=ExtResource( 4 )]
 position = Vector2( 344, 8 )
 
-[node name="Rock160" parent="Obstacles/Rocks" index="159" instance=ExtResource( 4 )]
+[node name="Rock160" parent="Obstacles/Rocks" index="158" instance=ExtResource( 4 )]
 position = Vector2( 360, 8 )
 
-[node name="Rock161" parent="Obstacles/Rocks" index="160" instance=ExtResource( 4 )]
+[node name="Rock161" parent="Obstacles/Rocks" index="159" instance=ExtResource( 4 )]
 position = Vector2( 376, 8 )
 
-[node name="Rock162" parent="Obstacles/Rocks" index="161" instance=ExtResource( 4 )]
+[node name="Rock162" parent="Obstacles/Rocks" index="160" instance=ExtResource( 4 )]
 position = Vector2( 408, 8 )
 
-[node name="Rock163" parent="Obstacles/Rocks" index="162" instance=ExtResource( 4 )]
+[node name="Rock163" parent="Obstacles/Rocks" index="161" instance=ExtResource( 4 )]
 position = Vector2( 392, 8 )
 
-[node name="Rock164" parent="Obstacles/Rocks" index="163" instance=ExtResource( 4 )]
+[node name="Rock164" parent="Obstacles/Rocks" index="162" instance=ExtResource( 4 )]
 position = Vector2( 424, 8 )
 
-[node name="Rock165" parent="Obstacles/Rocks" index="164" instance=ExtResource( 4 )]
+[node name="Rock165" parent="Obstacles/Rocks" index="163" instance=ExtResource( 4 )]
 position = Vector2( 440, 8 )
 
-[node name="Rock166" parent="Obstacles/Rocks" index="165" instance=ExtResource( 4 )]
+[node name="Rock166" parent="Obstacles/Rocks" index="164" instance=ExtResource( 4 )]
 position = Vector2( 456, 8 )
 
-[node name="Rock167" parent="Obstacles/Rocks" index="166" instance=ExtResource( 4 )]
+[node name="Rock167" parent="Obstacles/Rocks" index="165" instance=ExtResource( 4 )]
 position = Vector2( 472, 8 )
 
-[node name="Rock168" parent="Obstacles/Rocks" index="167" instance=ExtResource( 4 )]
+[node name="Rock168" parent="Obstacles/Rocks" index="166" instance=ExtResource( 4 )]
 position = Vector2( 488, 8 )
 
-[node name="Rock169" parent="Obstacles/Rocks" index="168" instance=ExtResource( 4 )]
+[node name="Rock169" parent="Obstacles/Rocks" index="167" instance=ExtResource( 4 )]
 position = Vector2( 504, 8 )
 
-[node name="Rock170" parent="Obstacles/Rocks" index="169" instance=ExtResource( 4 )]
+[node name="Rock170" parent="Obstacles/Rocks" index="168" instance=ExtResource( 4 )]
 position = Vector2( 520, 8 )
 
-[node name="Rock171" parent="Obstacles/Rocks" index="170" instance=ExtResource( 4 )]
+[node name="Rock171" parent="Obstacles/Rocks" index="169" instance=ExtResource( 4 )]
 position = Vector2( 536, 8 )
 
-[node name="Rock172" parent="Obstacles/Rocks" index="171" instance=ExtResource( 4 )]
+[node name="Rock172" parent="Obstacles/Rocks" index="170" instance=ExtResource( 4 )]
 position = Vector2( 552, 8 )
 
-[node name="Rock173" parent="Obstacles/Rocks" index="172" instance=ExtResource( 4 )]
+[node name="Rock173" parent="Obstacles/Rocks" index="171" instance=ExtResource( 4 )]
 position = Vector2( 552, 8 )
 
-[node name="Rock174" parent="Obstacles/Rocks" index="173" instance=ExtResource( 4 )]
+[node name="Rock174" parent="Obstacles/Rocks" index="172" instance=ExtResource( 4 )]
 position = Vector2( 568, 8 )
 
-[node name="Rock175" parent="Obstacles/Rocks" index="174" instance=ExtResource( 4 )]
+[node name="Rock175" parent="Obstacles/Rocks" index="173" instance=ExtResource( 4 )]
 position = Vector2( 600, 8 )
 
-[node name="Rock176" parent="Obstacles/Rocks" index="175" instance=ExtResource( 4 )]
+[node name="Rock176" parent="Obstacles/Rocks" index="174" instance=ExtResource( 4 )]
 position = Vector2( 584, 8 )
 
-[node name="Rock177" parent="Obstacles/Rocks" index="176" instance=ExtResource( 4 )]
+[node name="Rock177" parent="Obstacles/Rocks" index="175" instance=ExtResource( 4 )]
 position = Vector2( 616, 8 )
 
-[node name="Rock178" parent="Obstacles/Rocks" index="177" instance=ExtResource( 4 )]
+[node name="Rock178" parent="Obstacles/Rocks" index="176" instance=ExtResource( 4 )]
 position = Vector2( 632, 8 )
 
-[node name="Rock179" parent="Obstacles/Rocks" index="178" instance=ExtResource( 4 )]
+[node name="Rock179" parent="Obstacles/Rocks" index="177" instance=ExtResource( 4 )]
 position = Vector2( 648, 8 )
 
-[node name="Rock180" parent="Obstacles/Rocks" index="179" instance=ExtResource( 4 )]
+[node name="Rock180" parent="Obstacles/Rocks" index="178" instance=ExtResource( 4 )]
 position = Vector2( 664, 8 )
 
-[node name="Rock181" parent="Obstacles/Rocks" index="180" instance=ExtResource( 4 )]
+[node name="Rock181" parent="Obstacles/Rocks" index="179" instance=ExtResource( 4 )]
 position = Vector2( 680, 8 )
 
-[node name="Rock182" parent="Obstacles/Rocks" index="181" instance=ExtResource( 4 )]
+[node name="Rock182" parent="Obstacles/Rocks" index="180" instance=ExtResource( 4 )]
 position = Vector2( 696, 8 )
 
-[node name="Rock183" parent="Obstacles/Rocks" index="182" instance=ExtResource( 4 )]
+[node name="Rock183" parent="Obstacles/Rocks" index="181" instance=ExtResource( 4 )]
 position = Vector2( 712, 8 )
 
-[node name="Rock184" parent="Obstacles/Rocks" index="183" instance=ExtResource( 4 )]
+[node name="Rock184" parent="Obstacles/Rocks" index="182" instance=ExtResource( 4 )]
 position = Vector2( 728, 8 )
 
-[node name="Rock185" parent="Obstacles/Rocks" index="184" instance=ExtResource( 4 )]
+[node name="Rock185" parent="Obstacles/Rocks" index="183" instance=ExtResource( 4 )]
 position = Vector2( 760, 8 )
 
-[node name="Rock186" parent="Obstacles/Rocks" index="185" instance=ExtResource( 4 )]
+[node name="Rock186" parent="Obstacles/Rocks" index="184" instance=ExtResource( 4 )]
 position = Vector2( 744, 8 )
 
-[node name="Rock187" parent="Obstacles/Rocks" index="186" instance=ExtResource( 4 )]
+[node name="Rock187" parent="Obstacles/Rocks" index="185" instance=ExtResource( 4 )]
 position = Vector2( 776, 8 )
 
-[node name="Rock188" parent="Obstacles/Rocks" index="187" instance=ExtResource( 4 )]
+[node name="Rock188" parent="Obstacles/Rocks" index="186" instance=ExtResource( 4 )]
 position = Vector2( 792, 8 )
 
-[node name="Rock189" parent="Obstacles/Rocks" index="188" instance=ExtResource( 4 )]
+[node name="Rock189" parent="Obstacles/Rocks" index="187" instance=ExtResource( 4 )]
 position = Vector2( 808, 8 )
 
-[node name="Rock190" parent="Obstacles/Rocks" index="189" instance=ExtResource( 4 )]
+[node name="Rock190" parent="Obstacles/Rocks" index="188" instance=ExtResource( 4 )]
 position = Vector2( 824, 8 )
 
-[node name="Rock191" parent="Obstacles/Rocks" index="190" instance=ExtResource( 4 )]
+[node name="Rock191" parent="Obstacles/Rocks" index="189" instance=ExtResource( 4 )]
 position = Vector2( 840, 8 )
 
-[node name="Rock192" parent="Obstacles/Rocks" index="191" instance=ExtResource( 4 )]
+[node name="Rock192" parent="Obstacles/Rocks" index="190" instance=ExtResource( 4 )]
 position = Vector2( 856, 8 )
 
-[node name="Rock193" parent="Obstacles/Rocks" index="192" instance=ExtResource( 4 )]
+[node name="Rock193" parent="Obstacles/Rocks" index="191" instance=ExtResource( 4 )]
 position = Vector2( 872, 8 )
 
-[node name="Rock194" parent="Obstacles/Rocks" index="193" instance=ExtResource( 4 )]
+[node name="Rock194" parent="Obstacles/Rocks" index="192" instance=ExtResource( 4 )]
 position = Vector2( 888, 8 )
 
-[node name="Rock195" parent="Obstacles/Rocks" index="194" instance=ExtResource( 4 )]
+[node name="Rock195" parent="Obstacles/Rocks" index="193" instance=ExtResource( 4 )]
 position = Vector2( 904, 8 )
 
-[node name="Rock196" parent="Obstacles/Rocks" index="195" instance=ExtResource( 4 )]
+[node name="Rock196" parent="Obstacles/Rocks" index="194" instance=ExtResource( 4 )]
 position = Vector2( 904, 8 )
 
-[node name="Rock197" parent="Obstacles/Rocks" index="196" instance=ExtResource( 4 )]
+[node name="Rock197" parent="Obstacles/Rocks" index="195" instance=ExtResource( 4 )]
 position = Vector2( 920, 8 )
 
-[node name="Rock198" parent="Obstacles/Rocks" index="197" instance=ExtResource( 4 )]
+[node name="Rock198" parent="Obstacles/Rocks" index="196" instance=ExtResource( 4 )]
 position = Vector2( 952, 8 )
 
-[node name="Rock199" parent="Obstacles/Rocks" index="198" instance=ExtResource( 4 )]
+[node name="Rock199" parent="Obstacles/Rocks" index="197" instance=ExtResource( 4 )]
 position = Vector2( 936, 8 )
 
-[node name="Rock200" parent="Obstacles/Rocks" index="199" instance=ExtResource( 4 )]
+[node name="Rock200" parent="Obstacles/Rocks" index="198" instance=ExtResource( 4 )]
 position = Vector2( 968, 8 )
 
-[node name="Rock201" parent="Obstacles/Rocks" index="200" instance=ExtResource( 4 )]
+[node name="Rock201" parent="Obstacles/Rocks" index="199" instance=ExtResource( 4 )]
 position = Vector2( 984, 8 )
 
-[node name="Rock202" parent="Obstacles/Rocks" index="201" instance=ExtResource( 4 )]
+[node name="Rock202" parent="Obstacles/Rocks" index="200" instance=ExtResource( 4 )]
 position = Vector2( 1000, 8 )
 
-[node name="Rock203" parent="Obstacles/Rocks" index="202" instance=ExtResource( 4 )]
+[node name="Rock203" parent="Obstacles/Rocks" index="201" instance=ExtResource( 4 )]
 position = Vector2( 1016, 8 )
 
-[node name="Rock204" parent="Obstacles/Rocks" index="203" instance=ExtResource( 4 )]
+[node name="Rock204" parent="Obstacles/Rocks" index="202" instance=ExtResource( 4 )]
 position = Vector2( 1032, 8 )
 
-[node name="Rock205" parent="Obstacles/Rocks" index="204" instance=ExtResource( 4 )]
+[node name="Rock205" parent="Obstacles/Rocks" index="203" instance=ExtResource( 4 )]
 position = Vector2( 1048, 8 )
 
-[node name="Rock206" parent="Obstacles/Rocks" index="205" instance=ExtResource( 4 )]
+[node name="Rock206" parent="Obstacles/Rocks" index="204" instance=ExtResource( 4 )]
 position = Vector2( 1064, 8 )
 
-[node name="Rock207" parent="Obstacles/Rocks" index="206" instance=ExtResource( 4 )]
+[node name="Rock207" parent="Obstacles/Rocks" index="205" instance=ExtResource( 4 )]
 position = Vector2( 1080, 8 )
 
-[node name="Rock208" parent="Obstacles/Rocks" index="207" instance=ExtResource( 4 )]
+[node name="Rock208" parent="Obstacles/Rocks" index="206" instance=ExtResource( 4 )]
 position = Vector2( 1112, 8 )
 
-[node name="Rock209" parent="Obstacles/Rocks" index="208" instance=ExtResource( 4 )]
+[node name="Rock209" parent="Obstacles/Rocks" index="207" instance=ExtResource( 4 )]
 position = Vector2( 1096, 8 )
 
-[node name="Rock210" parent="Obstacles/Rocks" index="209" instance=ExtResource( 4 )]
+[node name="Rock210" parent="Obstacles/Rocks" index="208" instance=ExtResource( 4 )]
 position = Vector2( 1128, 8 )
 
-[node name="Rock211" parent="Obstacles/Rocks" index="210" instance=ExtResource( 4 )]
+[node name="Rock211" parent="Obstacles/Rocks" index="209" instance=ExtResource( 4 )]
 position = Vector2( 1144, 8 )
 
-[node name="Rock212" parent="Obstacles/Rocks" index="211" instance=ExtResource( 4 )]
+[node name="Rock212" parent="Obstacles/Rocks" index="210" instance=ExtResource( 4 )]
 position = Vector2( 1160, 8 )
 
-[node name="Rock213" parent="Obstacles/Rocks" index="212" instance=ExtResource( 4 )]
+[node name="Rock213" parent="Obstacles/Rocks" index="211" instance=ExtResource( 4 )]
 position = Vector2( 1176, 8 )
 
-[node name="Rock214" parent="Obstacles/Rocks" index="213" instance=ExtResource( 4 )]
+[node name="Rock214" parent="Obstacles/Rocks" index="212" instance=ExtResource( 4 )]
 position = Vector2( 1192, 8 )
 
-[node name="Rock215" parent="Obstacles/Rocks" index="214" instance=ExtResource( 4 )]
+[node name="Rock215" parent="Obstacles/Rocks" index="213" instance=ExtResource( 4 )]
 position = Vector2( 1208, 8 )
 
-[node name="Rock216" parent="Obstacles/Rocks" index="215" instance=ExtResource( 4 )]
+[node name="Rock216" parent="Obstacles/Rocks" index="214" instance=ExtResource( 4 )]
 position = Vector2( 1224, 8 )
 
-[node name="Rock217" parent="Obstacles/Rocks" index="216" instance=ExtResource( 4 )]
+[node name="Rock217" parent="Obstacles/Rocks" index="215" instance=ExtResource( 4 )]
 position = Vector2( 1240, 8 )
 
-[node name="Rock218" parent="Obstacles/Rocks" index="217" instance=ExtResource( 4 )]
+[node name="Rock218" parent="Obstacles/Rocks" index="216" instance=ExtResource( 4 )]
 position = Vector2( 1256, 8 )
 
-[node name="Rock219" parent="Obstacles/Rocks" index="218" instance=ExtResource( 4 )]
+[node name="Rock219" parent="Obstacles/Rocks" index="217" instance=ExtResource( 4 )]
 position = Vector2( 1256, 8 )
 
-[node name="Rock220" parent="Obstacles/Rocks" index="219" instance=ExtResource( 4 )]
+[node name="Rock220" parent="Obstacles/Rocks" index="218" instance=ExtResource( 4 )]
 position = Vector2( 1272, 8 )
 
-[node name="Rock221" parent="Obstacles/Rocks" index="220" instance=ExtResource( 4 )]
+[node name="Rock221" parent="Obstacles/Rocks" index="219" instance=ExtResource( 4 )]
 position = Vector2( 1304, 8 )
 
-[node name="Rock222" parent="Obstacles/Rocks" index="221" instance=ExtResource( 4 )]
+[node name="Rock222" parent="Obstacles/Rocks" index="220" instance=ExtResource( 4 )]
 position = Vector2( 1288, 8 )
 
-[node name="Rock223" parent="Obstacles/Rocks" index="222" instance=ExtResource( 4 )]
+[node name="Rock223" parent="Obstacles/Rocks" index="221" instance=ExtResource( 4 )]
 position = Vector2( 1320, 8 )
 
-[node name="Rock224" parent="Obstacles/Rocks" index="223" instance=ExtResource( 4 )]
+[node name="Rock224" parent="Obstacles/Rocks" index="222" instance=ExtResource( 4 )]
 position = Vector2( 1336, 8 )
 
-[node name="Rock225" parent="Obstacles/Rocks" index="224" instance=ExtResource( 4 )]
+[node name="Rock225" parent="Obstacles/Rocks" index="223" instance=ExtResource( 4 )]
 position = Vector2( 1352, 8 )
 
-[node name="Rock226" parent="Obstacles/Rocks" index="225" instance=ExtResource( 4 )]
+[node name="Rock226" parent="Obstacles/Rocks" index="224" instance=ExtResource( 4 )]
 position = Vector2( 1368, 8 )
 
-[node name="Rock227" parent="Obstacles/Rocks" index="226" instance=ExtResource( 4 )]
+[node name="Rock227" parent="Obstacles/Rocks" index="225" instance=ExtResource( 4 )]
 position = Vector2( 1384, 8 )
 
-[node name="Rock228" parent="Obstacles/Rocks" index="227" instance=ExtResource( 4 )]
+[node name="Rock228" parent="Obstacles/Rocks" index="226" instance=ExtResource( 4 )]
 position = Vector2( 1400, 8 )
 
-[node name="Rock229" parent="Obstacles/Rocks" index="228" instance=ExtResource( 4 )]
+[node name="Rock229" parent="Obstacles/Rocks" index="227" instance=ExtResource( 4 )]
 position = Vector2( 1416, 8 )
 
-[node name="Rock230" parent="Obstacles/Rocks" index="229" instance=ExtResource( 4 )]
+[node name="Rock230" parent="Obstacles/Rocks" index="228" instance=ExtResource( 4 )]
 position = Vector2( 1432, 8 )
 
-[node name="Rock231" parent="Obstacles/Rocks" index="230" instance=ExtResource( 4 )]
+[node name="Rock231" parent="Obstacles/Rocks" index="229" instance=ExtResource( 4 )]
 position = Vector2( 1448, 8 )
 
-[node name="Rock232" parent="Obstacles/Rocks" index="231" instance=ExtResource( 4 )]
+[node name="Rock232" parent="Obstacles/Rocks" index="230" instance=ExtResource( 4 )]
 position = Vector2( 1464, 8 )
 
-[node name="Rock233" parent="Obstacles/Rocks" index="232" instance=ExtResource( 4 )]
+[node name="Rock233" parent="Obstacles/Rocks" index="231" instance=ExtResource( 4 )]
 position = Vector2( 1480, 8 )
 
-[node name="Rock234" parent="Obstacles/Rocks" index="233" instance=ExtResource( 4 )]
+[node name="Rock234" parent="Obstacles/Rocks" index="232" instance=ExtResource( 4 )]
 position = Vector2( 1496, 8 )
 
-[node name="Rock235" parent="Obstacles/Rocks" index="234" instance=ExtResource( 4 )]
+[node name="Rock235" parent="Obstacles/Rocks" index="233" instance=ExtResource( 4 )]
 position = Vector2( 1512, 8 )
 
-[node name="Rock236" parent="Obstacles/Rocks" index="235" instance=ExtResource( 4 )]
+[node name="Rock236" parent="Obstacles/Rocks" index="234" instance=ExtResource( 4 )]
 position = Vector2( 1528, 8 )
 
-[node name="Rock237" parent="Obstacles/Rocks" index="236" instance=ExtResource( 4 )]
+[node name="Rock237" parent="Obstacles/Rocks" index="235" instance=ExtResource( 4 )]
 position = Vector2( 1528, 8 )
 
-[node name="Rock238" parent="Obstacles/Rocks" index="237" instance=ExtResource( 4 )]
+[node name="Rock238" parent="Obstacles/Rocks" index="236" instance=ExtResource( 4 )]
 position = Vector2( 1544, 8 )
 
-[node name="Rock239" parent="Obstacles/Rocks" index="238" instance=ExtResource( 4 )]
+[node name="Rock239" parent="Obstacles/Rocks" index="237" instance=ExtResource( 4 )]
 position = Vector2( 1576, 8 )
 
-[node name="Rock240" parent="Obstacles/Rocks" index="239" instance=ExtResource( 4 )]
+[node name="Rock240" parent="Obstacles/Rocks" index="238" instance=ExtResource( 4 )]
 position = Vector2( 1560, 8 )
 
-[node name="Rock241" parent="Obstacles/Rocks" index="240" instance=ExtResource( 4 )]
+[node name="Rock241" parent="Obstacles/Rocks" index="239" instance=ExtResource( 4 )]
 position = Vector2( 1592, 8 )
 
-[node name="Rock242" parent="Obstacles/Rocks" index="241" instance=ExtResource( 4 )]
+[node name="Rock242" parent="Obstacles/Rocks" index="240" instance=ExtResource( 4 )]
 position = Vector2( 1608, 8 )
 
-[node name="Rock243" parent="Obstacles/Rocks" index="242" instance=ExtResource( 4 )]
+[node name="Rock243" parent="Obstacles/Rocks" index="241" instance=ExtResource( 4 )]
 position = Vector2( 1624, 8 )
 
-[node name="Rock244" parent="Obstacles/Rocks" index="243" instance=ExtResource( 4 )]
+[node name="Rock244" parent="Obstacles/Rocks" index="242" instance=ExtResource( 4 )]
 position = Vector2( 1640, 8 )
 
-[node name="Rock245" parent="Obstacles/Rocks" index="244" instance=ExtResource( 4 )]
+[node name="Rock245" parent="Obstacles/Rocks" index="243" instance=ExtResource( 4 )]
 position = Vector2( 1656, 8 )
 
-[node name="Rock246" parent="Obstacles/Rocks" index="245" instance=ExtResource( 4 )]
+[node name="Rock246" parent="Obstacles/Rocks" index="244" instance=ExtResource( 4 )]
 position = Vector2( 1672, 8 )
 
-[node name="Rock247" parent="Obstacles/Rocks" index="246" instance=ExtResource( 4 )]
+[node name="Rock247" parent="Obstacles/Rocks" index="245" instance=ExtResource( 4 )]
 position = Vector2( 1688, 8 )
 
-[node name="Rock248" parent="Obstacles/Rocks" index="247" instance=ExtResource( 4 )]
+[node name="Rock248" parent="Obstacles/Rocks" index="246" instance=ExtResource( 4 )]
 position = Vector2( 1704, 8 )
 
-[node name="Rock249" parent="Obstacles/Rocks" index="248" instance=ExtResource( 4 )]
+[node name="Rock249" parent="Obstacles/Rocks" index="247" instance=ExtResource( 4 )]
 position = Vector2( 1736, 8 )
 
-[node name="Rock250" parent="Obstacles/Rocks" index="249" instance=ExtResource( 4 )]
+[node name="Rock250" parent="Obstacles/Rocks" index="248" instance=ExtResource( 4 )]
 position = Vector2( 1720, 8 )
 
-[node name="Rock251" parent="Obstacles/Rocks" index="250" instance=ExtResource( 4 )]
+[node name="Rock251" parent="Obstacles/Rocks" index="249" instance=ExtResource( 4 )]
 position = Vector2( 1752, 8 )
 
-[node name="Rock252" parent="Obstacles/Rocks" index="251" instance=ExtResource( 4 )]
+[node name="Rock252" parent="Obstacles/Rocks" index="250" instance=ExtResource( 4 )]
 position = Vector2( 1768, 8 )
 
-[node name="Rock253" parent="Obstacles/Rocks" index="252" instance=ExtResource( 4 )]
+[node name="Rock253" parent="Obstacles/Rocks" index="251" instance=ExtResource( 4 )]
 position = Vector2( 1784, 8 )
 
-[node name="Rock254" parent="Obstacles/Rocks" index="253" instance=ExtResource( 4 )]
+[node name="Rock254" parent="Obstacles/Rocks" index="252" instance=ExtResource( 4 )]
 position = Vector2( 1800, 8 )
 
-[node name="Rock255" parent="Obstacles/Rocks" index="254" instance=ExtResource( 4 )]
+[node name="Rock255" parent="Obstacles/Rocks" index="253" instance=ExtResource( 4 )]
 position = Vector2( 1816, 8 )
 
-[node name="Rock256" parent="Obstacles/Rocks" index="255" instance=ExtResource( 4 )]
+[node name="Rock256" parent="Obstacles/Rocks" index="254" instance=ExtResource( 4 )]
 position = Vector2( 1832, 8 )
 
-[node name="Rock257" parent="Obstacles/Rocks" index="256" instance=ExtResource( 4 )]
+[node name="Rock257" parent="Obstacles/Rocks" index="255" instance=ExtResource( 4 )]
 position = Vector2( 1848, 8 )
 
-[node name="Rock258" parent="Obstacles/Rocks" index="257" instance=ExtResource( 4 )]
+[node name="Rock258" parent="Obstacles/Rocks" index="256" instance=ExtResource( 4 )]
 position = Vector2( 1864, 8 )
 
-[node name="Rock259" parent="Obstacles/Rocks" index="258" instance=ExtResource( 4 )]
+[node name="Rock259" parent="Obstacles/Rocks" index="257" instance=ExtResource( 4 )]
 position = Vector2( 1880, 8 )
 
-[node name="Rock260" parent="Obstacles/Rocks" index="259" instance=ExtResource( 4 )]
+[node name="Rock260" parent="Obstacles/Rocks" index="258" instance=ExtResource( 4 )]
 position = Vector2( 1880, 8 )
 
-[node name="Rock261" parent="Obstacles/Rocks" index="260" instance=ExtResource( 4 )]
+[node name="Rock261" parent="Obstacles/Rocks" index="259" instance=ExtResource( 4 )]
 position = Vector2( 1896, 8 )
 
-[node name="Rock262" parent="Obstacles/Rocks" index="261" instance=ExtResource( 4 )]
+[node name="Rock262" parent="Obstacles/Rocks" index="260" instance=ExtResource( 4 )]
 position = Vector2( 1928, 8 )
 
-[node name="Rock263" parent="Obstacles/Rocks" index="262" instance=ExtResource( 4 )]
+[node name="Rock263" parent="Obstacles/Rocks" index="261" instance=ExtResource( 4 )]
 position = Vector2( 1912, 8 )
 
-[node name="Rock264" parent="Obstacles/Rocks" index="263" instance=ExtResource( 4 )]
+[node name="Rock264" parent="Obstacles/Rocks" index="262" instance=ExtResource( 4 )]
 position = Vector2( 1944, 8 )
 
-[node name="Rock265" parent="Obstacles/Rocks" index="264" instance=ExtResource( 4 )]
+[node name="Rock265" parent="Obstacles/Rocks" index="263" instance=ExtResource( 4 )]
 position = Vector2( 1960, 8 )
 
-[node name="Rock266" parent="Obstacles/Rocks" index="265" instance=ExtResource( 4 )]
+[node name="Rock266" parent="Obstacles/Rocks" index="264" instance=ExtResource( 4 )]
 position = Vector2( 1976, 8 )
 
-[node name="Rock267" parent="Obstacles/Rocks" index="266" instance=ExtResource( 4 )]
+[node name="Rock267" parent="Obstacles/Rocks" index="265" instance=ExtResource( 4 )]
 position = Vector2( 1992, 8 )
 
-[node name="Rock268" parent="Obstacles/Rocks" index="267" instance=ExtResource( 4 )]
+[node name="Rock268" parent="Obstacles/Rocks" index="266" instance=ExtResource( 4 )]
 position = Vector2( 2008, 8 )
 
-[node name="Rock269" parent="Obstacles/Rocks" index="268" instance=ExtResource( 4 )]
+[node name="Rock269" parent="Obstacles/Rocks" index="267" instance=ExtResource( 4 )]
 position = Vector2( 2024, 8 )
 
-[node name="Rock270" parent="Obstacles/Rocks" index="269" instance=ExtResource( 4 )]
+[node name="Rock270" parent="Obstacles/Rocks" index="268" instance=ExtResource( 4 )]
 position = Vector2( 2040, 8 )
 
-[node name="Rock271" parent="Obstacles/Rocks" index="270" instance=ExtResource( 4 )]
+[node name="Rock271" parent="Obstacles/Rocks" index="269" instance=ExtResource( 4 )]
 position = Vector2( 2056, 8 )
 
-[node name="Rock272" parent="Obstacles/Rocks" index="271" instance=ExtResource( 4 )]
+[node name="Rock272" parent="Obstacles/Rocks" index="270" instance=ExtResource( 4 )]
 position = Vector2( 2088, 8 )
 
-[node name="Rock273" parent="Obstacles/Rocks" index="272" instance=ExtResource( 4 )]
+[node name="Rock273" parent="Obstacles/Rocks" index="271" instance=ExtResource( 4 )]
 position = Vector2( 2072, 8 )
 
-[node name="Rock274" parent="Obstacles/Rocks" index="273" instance=ExtResource( 4 )]
+[node name="Rock274" parent="Obstacles/Rocks" index="272" instance=ExtResource( 4 )]
 position = Vector2( 2104, 8 )
 
-[node name="Rock275" parent="Obstacles/Rocks" index="274" instance=ExtResource( 4 )]
+[node name="Rock275" parent="Obstacles/Rocks" index="273" instance=ExtResource( 4 )]
 position = Vector2( 2120, 8 )
 
-[node name="Rock276" parent="Obstacles/Rocks" index="275" instance=ExtResource( 4 )]
+[node name="Rock276" parent="Obstacles/Rocks" index="274" instance=ExtResource( 4 )]
 position = Vector2( 2136, 8 )
 
-[node name="Rock277" parent="Obstacles/Rocks" index="276" instance=ExtResource( 4 )]
+[node name="Rock277" parent="Obstacles/Rocks" index="275" instance=ExtResource( 4 )]
 position = Vector2( 2152, 8 )
 
-[node name="Rock278" parent="Obstacles/Rocks" index="277" instance=ExtResource( 4 )]
+[node name="Rock278" parent="Obstacles/Rocks" index="276" instance=ExtResource( 4 )]
 position = Vector2( 2168, 8 )
 
-[node name="Rock279" parent="Obstacles/Rocks" index="278" instance=ExtResource( 4 )]
+[node name="Rock279" parent="Obstacles/Rocks" index="277" instance=ExtResource( 4 )]
 position = Vector2( 2184, 8 )
 
-[node name="Rock280" parent="Obstacles/Rocks" index="279" instance=ExtResource( 4 )]
+[node name="Rock280" parent="Obstacles/Rocks" index="278" instance=ExtResource( 4 )]
 position = Vector2( 2200, 8 )
 
-[node name="Rock281" parent="Obstacles/Rocks" index="280" instance=ExtResource( 4 )]
+[node name="Rock281" parent="Obstacles/Rocks" index="279" instance=ExtResource( 4 )]
 position = Vector2( 2216, 8 )
 
-[node name="Rock282" parent="Obstacles/Rocks" index="281" instance=ExtResource( 4 )]
+[node name="Rock282" parent="Obstacles/Rocks" index="280" instance=ExtResource( 4 )]
 position = Vector2( 2232, 8 )
 
-[node name="Rock283" parent="Obstacles/Rocks" index="282" instance=ExtResource( 4 )]
+[node name="Rock283" parent="Obstacles/Rocks" index="281" instance=ExtResource( 4 )]
 position = Vector2( 2232, 8 )
 
-[node name="Rock284" parent="Obstacles/Rocks" index="283" instance=ExtResource( 4 )]
+[node name="Rock284" parent="Obstacles/Rocks" index="282" instance=ExtResource( 4 )]
 position = Vector2( 2248, 8 )
 
-[node name="Rock285" parent="Obstacles/Rocks" index="284" instance=ExtResource( 4 )]
+[node name="Rock285" parent="Obstacles/Rocks" index="283" instance=ExtResource( 4 )]
 position = Vector2( 2280, 8 )
 
-[node name="Rock286" parent="Obstacles/Rocks" index="285" instance=ExtResource( 4 )]
+[node name="Rock286" parent="Obstacles/Rocks" index="284" instance=ExtResource( 4 )]
 position = Vector2( 2264, 8 )
 
-[node name="Rock287" parent="Obstacles/Rocks" index="286" instance=ExtResource( 4 )]
+[node name="Rock287" parent="Obstacles/Rocks" index="285" instance=ExtResource( 4 )]
 position = Vector2( 2296, 8 )
 
-[node name="Rock288" parent="Obstacles/Rocks" index="287" instance=ExtResource( 4 )]
+[node name="Rock288" parent="Obstacles/Rocks" index="286" instance=ExtResource( 4 )]
 position = Vector2( 2312, 8 )
 
-[node name="Rock289" parent="Obstacles/Rocks" index="288" instance=ExtResource( 4 )]
+[node name="Rock289" parent="Obstacles/Rocks" index="287" instance=ExtResource( 4 )]
 position = Vector2( 2328, 8 )
 
-[node name="Rock290" parent="Obstacles/Rocks" index="289" instance=ExtResource( 4 )]
+[node name="Rock290" parent="Obstacles/Rocks" index="288" instance=ExtResource( 4 )]
 position = Vector2( 2344, 8 )
 
-[node name="Rock386" parent="Obstacles/Rocks" index="290" instance=ExtResource( 4 )]
+[node name="Rock386" parent="Obstacles/Rocks" index="289" instance=ExtResource( 4 )]
 position = Vector2( 56, 1528 )
 
-[node name="Rock387" parent="Obstacles/Rocks" index="291" instance=ExtResource( 4 )]
+[node name="Rock387" parent="Obstacles/Rocks" index="290" instance=ExtResource( 4 )]
 position = Vector2( 72, 1528 )
 
-[node name="Rock388" parent="Obstacles/Rocks" index="292" instance=ExtResource( 4 )]
+[node name="Rock388" parent="Obstacles/Rocks" index="291" instance=ExtResource( 4 )]
 position = Vector2( 88, 1528 )
 
-[node name="Rock389" parent="Obstacles/Rocks" index="293" instance=ExtResource( 4 )]
+[node name="Rock389" parent="Obstacles/Rocks" index="292" instance=ExtResource( 4 )]
 position = Vector2( 104, 1528 )
 
-[node name="Rock390" parent="Obstacles/Rocks" index="294" instance=ExtResource( 4 )]
+[node name="Rock390" parent="Obstacles/Rocks" index="293" instance=ExtResource( 4 )]
 position = Vector2( 120, 1528 )
 
-[node name="Rock391" parent="Obstacles/Rocks" index="295" instance=ExtResource( 4 )]
+[node name="Rock391" parent="Obstacles/Rocks" index="294" instance=ExtResource( 4 )]
 position = Vector2( 136, 1528 )
 
-[node name="Rock392" parent="Obstacles/Rocks" index="296" instance=ExtResource( 4 )]
+[node name="Rock392" parent="Obstacles/Rocks" index="295" instance=ExtResource( 4 )]
 position = Vector2( 152, 1528 )
 
-[node name="Rock393" parent="Obstacles/Rocks" index="297" instance=ExtResource( 4 )]
+[node name="Rock393" parent="Obstacles/Rocks" index="296" instance=ExtResource( 4 )]
 position = Vector2( 168, 1528 )
 
-[node name="Rock394" parent="Obstacles/Rocks" index="298" instance=ExtResource( 4 )]
+[node name="Rock394" parent="Obstacles/Rocks" index="297" instance=ExtResource( 4 )]
 position = Vector2( 184, 1528 )
 
-[node name="Rock395" parent="Obstacles/Rocks" index="299" instance=ExtResource( 4 )]
+[node name="Rock395" parent="Obstacles/Rocks" index="298" instance=ExtResource( 4 )]
 position = Vector2( 184, 1528 )
 
-[node name="Rock396" parent="Obstacles/Rocks" index="300" instance=ExtResource( 4 )]
+[node name="Rock396" parent="Obstacles/Rocks" index="299" instance=ExtResource( 4 )]
 position = Vector2( 200, 1528 )
 
-[node name="Rock397" parent="Obstacles/Rocks" index="301" instance=ExtResource( 4 )]
+[node name="Rock397" parent="Obstacles/Rocks" index="300" instance=ExtResource( 4 )]
 position = Vector2( 232, 1528 )
 
-[node name="Rock398" parent="Obstacles/Rocks" index="302" instance=ExtResource( 4 )]
+[node name="Rock398" parent="Obstacles/Rocks" index="301" instance=ExtResource( 4 )]
 position = Vector2( 216, 1528 )
 
-[node name="Rock399" parent="Obstacles/Rocks" index="303" instance=ExtResource( 4 )]
+[node name="Rock399" parent="Obstacles/Rocks" index="302" instance=ExtResource( 4 )]
 position = Vector2( 248, 1528 )
 
-[node name="Rock400" parent="Obstacles/Rocks" index="304" instance=ExtResource( 4 )]
+[node name="Rock400" parent="Obstacles/Rocks" index="303" instance=ExtResource( 4 )]
 position = Vector2( 264, 1528 )
 
-[node name="Rock401" parent="Obstacles/Rocks" index="305" instance=ExtResource( 4 )]
+[node name="Rock401" parent="Obstacles/Rocks" index="304" instance=ExtResource( 4 )]
 position = Vector2( 280, 1528 )
 
-[node name="Rock402" parent="Obstacles/Rocks" index="306" instance=ExtResource( 4 )]
+[node name="Rock402" parent="Obstacles/Rocks" index="305" instance=ExtResource( 4 )]
 position = Vector2( 296, 1528 )
 
-[node name="Rock403" parent="Obstacles/Rocks" index="307" instance=ExtResource( 4 )]
+[node name="Rock403" parent="Obstacles/Rocks" index="306" instance=ExtResource( 4 )]
 position = Vector2( 312, 1528 )
 
-[node name="Rock404" parent="Obstacles/Rocks" index="308" instance=ExtResource( 4 )]
+[node name="Rock404" parent="Obstacles/Rocks" index="307" instance=ExtResource( 4 )]
 position = Vector2( 328, 1528 )
 
-[node name="Rock405" parent="Obstacles/Rocks" index="309" instance=ExtResource( 4 )]
+[node name="Rock405" parent="Obstacles/Rocks" index="308" instance=ExtResource( 4 )]
 position = Vector2( 344, 1528 )
 
-[node name="Rock406" parent="Obstacles/Rocks" index="310" instance=ExtResource( 4 )]
+[node name="Rock406" parent="Obstacles/Rocks" index="309" instance=ExtResource( 4 )]
 position = Vector2( 360, 1528 )
 
-[node name="Rock407" parent="Obstacles/Rocks" index="311" instance=ExtResource( 4 )]
+[node name="Rock407" parent="Obstacles/Rocks" index="310" instance=ExtResource( 4 )]
 position = Vector2( 392, 1528 )
 
-[node name="Rock408" parent="Obstacles/Rocks" index="312" instance=ExtResource( 4 )]
+[node name="Rock408" parent="Obstacles/Rocks" index="311" instance=ExtResource( 4 )]
 position = Vector2( 376, 1528 )
 
-[node name="Rock409" parent="Obstacles/Rocks" index="313" instance=ExtResource( 4 )]
+[node name="Rock409" parent="Obstacles/Rocks" index="312" instance=ExtResource( 4 )]
 position = Vector2( 408, 1528 )
 
-[node name="Rock410" parent="Obstacles/Rocks" index="314" instance=ExtResource( 4 )]
+[node name="Rock410" parent="Obstacles/Rocks" index="313" instance=ExtResource( 4 )]
 position = Vector2( 424, 1528 )
 
-[node name="Rock411" parent="Obstacles/Rocks" index="315" instance=ExtResource( 4 )]
+[node name="Rock411" parent="Obstacles/Rocks" index="314" instance=ExtResource( 4 )]
 position = Vector2( 440, 1528 )
 
-[node name="Rock412" parent="Obstacles/Rocks" index="316" instance=ExtResource( 4 )]
+[node name="Rock412" parent="Obstacles/Rocks" index="315" instance=ExtResource( 4 )]
 position = Vector2( 456, 1528 )
 
-[node name="Rock413" parent="Obstacles/Rocks" index="317" instance=ExtResource( 4 )]
+[node name="Rock413" parent="Obstacles/Rocks" index="316" instance=ExtResource( 4 )]
 position = Vector2( 472, 1528 )
 
-[node name="Rock414" parent="Obstacles/Rocks" index="318" instance=ExtResource( 4 )]
+[node name="Rock414" parent="Obstacles/Rocks" index="317" instance=ExtResource( 4 )]
 position = Vector2( 488, 1528 )
 
-[node name="Rock415" parent="Obstacles/Rocks" index="319" instance=ExtResource( 4 )]
+[node name="Rock415" parent="Obstacles/Rocks" index="318" instance=ExtResource( 4 )]
 position = Vector2( 504, 1528 )
 
-[node name="Rock416" parent="Obstacles/Rocks" index="320" instance=ExtResource( 4 )]
+[node name="Rock416" parent="Obstacles/Rocks" index="319" instance=ExtResource( 4 )]
 position = Vector2( 520, 1528 )
 
-[node name="Rock417" parent="Obstacles/Rocks" index="321" instance=ExtResource( 4 )]
+[node name="Rock417" parent="Obstacles/Rocks" index="320" instance=ExtResource( 4 )]
 position = Vector2( 536, 1528 )
 
-[node name="Rock418" parent="Obstacles/Rocks" index="322" instance=ExtResource( 4 )]
+[node name="Rock418" parent="Obstacles/Rocks" index="321" instance=ExtResource( 4 )]
 position = Vector2( 536, 1528 )
 
-[node name="Rock419" parent="Obstacles/Rocks" index="323" instance=ExtResource( 4 )]
+[node name="Rock419" parent="Obstacles/Rocks" index="322" instance=ExtResource( 4 )]
 position = Vector2( 552, 1528 )
 
-[node name="Rock420" parent="Obstacles/Rocks" index="324" instance=ExtResource( 4 )]
+[node name="Rock420" parent="Obstacles/Rocks" index="323" instance=ExtResource( 4 )]
 position = Vector2( 584, 1528 )
 
-[node name="Rock421" parent="Obstacles/Rocks" index="325" instance=ExtResource( 4 )]
+[node name="Rock421" parent="Obstacles/Rocks" index="324" instance=ExtResource( 4 )]
 position = Vector2( 568, 1528 )
 
-[node name="Rock422" parent="Obstacles/Rocks" index="326" instance=ExtResource( 4 )]
+[node name="Rock422" parent="Obstacles/Rocks" index="325" instance=ExtResource( 4 )]
 position = Vector2( 600, 1528 )
 
-[node name="Rock423" parent="Obstacles/Rocks" index="327" instance=ExtResource( 4 )]
+[node name="Rock423" parent="Obstacles/Rocks" index="326" instance=ExtResource( 4 )]
 position = Vector2( 616, 1528 )
 
-[node name="Rock424" parent="Obstacles/Rocks" index="328" instance=ExtResource( 4 )]
+[node name="Rock424" parent="Obstacles/Rocks" index="327" instance=ExtResource( 4 )]
 position = Vector2( 632, 1528 )
 
-[node name="Rock425" parent="Obstacles/Rocks" index="329" instance=ExtResource( 4 )]
+[node name="Rock425" parent="Obstacles/Rocks" index="328" instance=ExtResource( 4 )]
 position = Vector2( 648, 1528 )
 
-[node name="Rock426" parent="Obstacles/Rocks" index="330" instance=ExtResource( 4 )]
+[node name="Rock426" parent="Obstacles/Rocks" index="329" instance=ExtResource( 4 )]
 position = Vector2( 664, 1528 )
 
-[node name="Rock427" parent="Obstacles/Rocks" index="331" instance=ExtResource( 4 )]
+[node name="Rock427" parent="Obstacles/Rocks" index="330" instance=ExtResource( 4 )]
 position = Vector2( 680, 1528 )
 
-[node name="Rock428" parent="Obstacles/Rocks" index="332" instance=ExtResource( 4 )]
+[node name="Rock428" parent="Obstacles/Rocks" index="331" instance=ExtResource( 4 )]
 position = Vector2( 696, 1528 )
 
-[node name="Rock429" parent="Obstacles/Rocks" index="333" instance=ExtResource( 4 )]
+[node name="Rock429" parent="Obstacles/Rocks" index="332" instance=ExtResource( 4 )]
 position = Vector2( 712, 1528 )
 
-[node name="Rock430" parent="Obstacles/Rocks" index="334" instance=ExtResource( 4 )]
+[node name="Rock430" parent="Obstacles/Rocks" index="333" instance=ExtResource( 4 )]
 position = Vector2( 744, 1528 )
 
-[node name="Rock431" parent="Obstacles/Rocks" index="335" instance=ExtResource( 4 )]
+[node name="Rock431" parent="Obstacles/Rocks" index="334" instance=ExtResource( 4 )]
 position = Vector2( 728, 1528 )
 
-[node name="Rock432" parent="Obstacles/Rocks" index="336" instance=ExtResource( 4 )]
+[node name="Rock432" parent="Obstacles/Rocks" index="335" instance=ExtResource( 4 )]
 position = Vector2( 760, 1528 )
 
-[node name="Rock433" parent="Obstacles/Rocks" index="337" instance=ExtResource( 4 )]
+[node name="Rock433" parent="Obstacles/Rocks" index="336" instance=ExtResource( 4 )]
 position = Vector2( 776, 1528 )
 
-[node name="Rock434" parent="Obstacles/Rocks" index="338" instance=ExtResource( 4 )]
+[node name="Rock434" parent="Obstacles/Rocks" index="337" instance=ExtResource( 4 )]
 position = Vector2( 792, 1528 )
 
-[node name="Rock435" parent="Obstacles/Rocks" index="339" instance=ExtResource( 4 )]
+[node name="Rock435" parent="Obstacles/Rocks" index="338" instance=ExtResource( 4 )]
 position = Vector2( 808, 1528 )
 
-[node name="Rock436" parent="Obstacles/Rocks" index="340" instance=ExtResource( 4 )]
+[node name="Rock436" parent="Obstacles/Rocks" index="339" instance=ExtResource( 4 )]
 position = Vector2( 824, 1528 )
 
-[node name="Rock437" parent="Obstacles/Rocks" index="341" instance=ExtResource( 4 )]
+[node name="Rock437" parent="Obstacles/Rocks" index="340" instance=ExtResource( 4 )]
 position = Vector2( 840, 1528 )
 
-[node name="Rock438" parent="Obstacles/Rocks" index="342" instance=ExtResource( 4 )]
+[node name="Rock438" parent="Obstacles/Rocks" index="341" instance=ExtResource( 4 )]
 position = Vector2( 856, 1528 )
 
-[node name="Rock439" parent="Obstacles/Rocks" index="343" instance=ExtResource( 4 )]
+[node name="Rock439" parent="Obstacles/Rocks" index="342" instance=ExtResource( 4 )]
 position = Vector2( 872, 1528 )
 
-[node name="Rock440" parent="Obstacles/Rocks" index="344" instance=ExtResource( 4 )]
+[node name="Rock440" parent="Obstacles/Rocks" index="343" instance=ExtResource( 4 )]
 position = Vector2( 888, 1528 )
 
-[node name="Rock441" parent="Obstacles/Rocks" index="345" instance=ExtResource( 4 )]
+[node name="Rock441" parent="Obstacles/Rocks" index="344" instance=ExtResource( 4 )]
 position = Vector2( 888, 1528 )
 
-[node name="Rock442" parent="Obstacles/Rocks" index="346" instance=ExtResource( 4 )]
+[node name="Rock442" parent="Obstacles/Rocks" index="345" instance=ExtResource( 4 )]
 position = Vector2( 904, 1528 )
 
-[node name="Rock443" parent="Obstacles/Rocks" index="347" instance=ExtResource( 4 )]
+[node name="Rock443" parent="Obstacles/Rocks" index="346" instance=ExtResource( 4 )]
 position = Vector2( 936, 1528 )
 
-[node name="Rock444" parent="Obstacles/Rocks" index="348" instance=ExtResource( 4 )]
+[node name="Rock444" parent="Obstacles/Rocks" index="347" instance=ExtResource( 4 )]
 position = Vector2( 920, 1528 )
 
-[node name="Rock445" parent="Obstacles/Rocks" index="349" instance=ExtResource( 4 )]
+[node name="Rock445" parent="Obstacles/Rocks" index="348" instance=ExtResource( 4 )]
 position = Vector2( 952, 1528 )
 
-[node name="Rock446" parent="Obstacles/Rocks" index="350" instance=ExtResource( 4 )]
+[node name="Rock446" parent="Obstacles/Rocks" index="349" instance=ExtResource( 4 )]
 position = Vector2( 968, 1528 )
 
-[node name="Rock447" parent="Obstacles/Rocks" index="351" instance=ExtResource( 4 )]
+[node name="Rock447" parent="Obstacles/Rocks" index="350" instance=ExtResource( 4 )]
 position = Vector2( 984, 1528 )
 
-[node name="Rock448" parent="Obstacles/Rocks" index="352" instance=ExtResource( 4 )]
+[node name="Rock448" parent="Obstacles/Rocks" index="351" instance=ExtResource( 4 )]
 position = Vector2( 1000, 1528 )
 
-[node name="Rock449" parent="Obstacles/Rocks" index="353" instance=ExtResource( 4 )]
+[node name="Rock449" parent="Obstacles/Rocks" index="352" instance=ExtResource( 4 )]
 position = Vector2( 1016, 1528 )
 
-[node name="Rock450" parent="Obstacles/Rocks" index="354" instance=ExtResource( 4 )]
+[node name="Rock450" parent="Obstacles/Rocks" index="353" instance=ExtResource( 4 )]
 position = Vector2( 1032, 1528 )
 
-[node name="Rock451" parent="Obstacles/Rocks" index="355" instance=ExtResource( 4 )]
+[node name="Rock451" parent="Obstacles/Rocks" index="354" instance=ExtResource( 4 )]
 position = Vector2( 1048, 1528 )
 
-[node name="Rock452" parent="Obstacles/Rocks" index="356" instance=ExtResource( 4 )]
+[node name="Rock452" parent="Obstacles/Rocks" index="355" instance=ExtResource( 4 )]
 position = Vector2( 1064, 1528 )
 
-[node name="Rock453" parent="Obstacles/Rocks" index="357" instance=ExtResource( 4 )]
+[node name="Rock453" parent="Obstacles/Rocks" index="356" instance=ExtResource( 4 )]
 position = Vector2( 1096, 1528 )
 
-[node name="Rock454" parent="Obstacles/Rocks" index="358" instance=ExtResource( 4 )]
+[node name="Rock454" parent="Obstacles/Rocks" index="357" instance=ExtResource( 4 )]
 position = Vector2( 1080, 1528 )
 
-[node name="Rock455" parent="Obstacles/Rocks" index="359" instance=ExtResource( 4 )]
+[node name="Rock455" parent="Obstacles/Rocks" index="358" instance=ExtResource( 4 )]
 position = Vector2( 1112, 1528 )
 
-[node name="Rock456" parent="Obstacles/Rocks" index="360" instance=ExtResource( 4 )]
+[node name="Rock456" parent="Obstacles/Rocks" index="359" instance=ExtResource( 4 )]
 position = Vector2( 1128, 1528 )
 
-[node name="Rock457" parent="Obstacles/Rocks" index="361" instance=ExtResource( 4 )]
+[node name="Rock457" parent="Obstacles/Rocks" index="360" instance=ExtResource( 4 )]
 position = Vector2( 1144, 1528 )
 
-[node name="Rock458" parent="Obstacles/Rocks" index="362" instance=ExtResource( 4 )]
+[node name="Rock458" parent="Obstacles/Rocks" index="361" instance=ExtResource( 4 )]
 position = Vector2( 1160, 1528 )
 
-[node name="Rock459" parent="Obstacles/Rocks" index="363" instance=ExtResource( 4 )]
+[node name="Rock459" parent="Obstacles/Rocks" index="362" instance=ExtResource( 4 )]
 position = Vector2( 1176, 1528 )
 
-[node name="Rock460" parent="Obstacles/Rocks" index="364" instance=ExtResource( 4 )]
+[node name="Rock460" parent="Obstacles/Rocks" index="363" instance=ExtResource( 4 )]
 position = Vector2( 1192, 1528 )
 
-[node name="Rock461" parent="Obstacles/Rocks" index="365" instance=ExtResource( 4 )]
+[node name="Rock461" parent="Obstacles/Rocks" index="364" instance=ExtResource( 4 )]
 position = Vector2( 1208, 1528 )
 
-[node name="Rock462" parent="Obstacles/Rocks" index="366" instance=ExtResource( 4 )]
+[node name="Rock462" parent="Obstacles/Rocks" index="365" instance=ExtResource( 4 )]
 position = Vector2( 1224, 1528 )
 
-[node name="Rock463" parent="Obstacles/Rocks" index="367" instance=ExtResource( 4 )]
+[node name="Rock463" parent="Obstacles/Rocks" index="366" instance=ExtResource( 4 )]
 position = Vector2( 1240, 1528 )
 
-[node name="Rock464" parent="Obstacles/Rocks" index="368" instance=ExtResource( 4 )]
+[node name="Rock464" parent="Obstacles/Rocks" index="367" instance=ExtResource( 4 )]
 position = Vector2( 1240, 1528 )
 
-[node name="Rock465" parent="Obstacles/Rocks" index="369" instance=ExtResource( 4 )]
+[node name="Rock465" parent="Obstacles/Rocks" index="368" instance=ExtResource( 4 )]
 position = Vector2( 1256, 1528 )
 
-[node name="Rock466" parent="Obstacles/Rocks" index="370" instance=ExtResource( 4 )]
+[node name="Rock466" parent="Obstacles/Rocks" index="369" instance=ExtResource( 4 )]
 position = Vector2( 1288, 1528 )
 
-[node name="Rock467" parent="Obstacles/Rocks" index="371" instance=ExtResource( 4 )]
+[node name="Rock467" parent="Obstacles/Rocks" index="370" instance=ExtResource( 4 )]
 position = Vector2( 1272, 1528 )
 
-[node name="Rock468" parent="Obstacles/Rocks" index="372" instance=ExtResource( 4 )]
+[node name="Rock468" parent="Obstacles/Rocks" index="371" instance=ExtResource( 4 )]
 position = Vector2( 1304, 1528 )
 
-[node name="Rock469" parent="Obstacles/Rocks" index="373" instance=ExtResource( 4 )]
+[node name="Rock469" parent="Obstacles/Rocks" index="372" instance=ExtResource( 4 )]
 position = Vector2( 1320, 1528 )
 
-[node name="Rock470" parent="Obstacles/Rocks" index="374" instance=ExtResource( 4 )]
+[node name="Rock470" parent="Obstacles/Rocks" index="373" instance=ExtResource( 4 )]
 position = Vector2( 1336, 1528 )
 
-[node name="Rock471" parent="Obstacles/Rocks" index="375" instance=ExtResource( 4 )]
+[node name="Rock471" parent="Obstacles/Rocks" index="374" instance=ExtResource( 4 )]
 position = Vector2( 1352, 1528 )
 
-[node name="Rock472" parent="Obstacles/Rocks" index="376" instance=ExtResource( 4 )]
+[node name="Rock472" parent="Obstacles/Rocks" index="375" instance=ExtResource( 4 )]
 position = Vector2( 1368, 1528 )
 
-[node name="Rock473" parent="Obstacles/Rocks" index="377" instance=ExtResource( 4 )]
+[node name="Rock473" parent="Obstacles/Rocks" index="376" instance=ExtResource( 4 )]
 position = Vector2( 1384, 1528 )
 
-[node name="Rock474" parent="Obstacles/Rocks" index="378" instance=ExtResource( 4 )]
+[node name="Rock474" parent="Obstacles/Rocks" index="377" instance=ExtResource( 4 )]
 position = Vector2( 1400, 1528 )
 
-[node name="Rock475" parent="Obstacles/Rocks" index="379" instance=ExtResource( 4 )]
+[node name="Rock475" parent="Obstacles/Rocks" index="378" instance=ExtResource( 4 )]
 position = Vector2( 1416, 1528 )
 
-[node name="Rock476" parent="Obstacles/Rocks" index="380" instance=ExtResource( 4 )]
+[node name="Rock476" parent="Obstacles/Rocks" index="379" instance=ExtResource( 4 )]
 position = Vector2( 1432, 1528 )
 
-[node name="Rock477" parent="Obstacles/Rocks" index="381" instance=ExtResource( 4 )]
+[node name="Rock477" parent="Obstacles/Rocks" index="380" instance=ExtResource( 4 )]
 position = Vector2( 1448, 1528 )
 
-[node name="Rock478" parent="Obstacles/Rocks" index="382" instance=ExtResource( 4 )]
+[node name="Rock478" parent="Obstacles/Rocks" index="381" instance=ExtResource( 4 )]
 position = Vector2( 1464, 1528 )
 
-[node name="Rock479" parent="Obstacles/Rocks" index="383" instance=ExtResource( 4 )]
+[node name="Rock479" parent="Obstacles/Rocks" index="382" instance=ExtResource( 4 )]
 position = Vector2( 1480, 1528 )
 
-[node name="Rock480" parent="Obstacles/Rocks" index="384" instance=ExtResource( 4 )]
+[node name="Rock480" parent="Obstacles/Rocks" index="383" instance=ExtResource( 4 )]
 position = Vector2( 1496, 1528 )
 
-[node name="Rock481" parent="Obstacles/Rocks" index="385" instance=ExtResource( 4 )]
+[node name="Rock481" parent="Obstacles/Rocks" index="384" instance=ExtResource( 4 )]
 position = Vector2( 1512, 1528 )
 
-[node name="Rock482" parent="Obstacles/Rocks" index="386" instance=ExtResource( 4 )]
+[node name="Rock482" parent="Obstacles/Rocks" index="385" instance=ExtResource( 4 )]
 position = Vector2( 1512, 1528 )
 
-[node name="Rock483" parent="Obstacles/Rocks" index="387" instance=ExtResource( 4 )]
+[node name="Rock483" parent="Obstacles/Rocks" index="386" instance=ExtResource( 4 )]
 position = Vector2( 1528, 1528 )
 
-[node name="Rock484" parent="Obstacles/Rocks" index="388" instance=ExtResource( 4 )]
+[node name="Rock484" parent="Obstacles/Rocks" index="387" instance=ExtResource( 4 )]
 position = Vector2( 1560, 1528 )
 
-[node name="Rock485" parent="Obstacles/Rocks" index="389" instance=ExtResource( 4 )]
+[node name="Rock485" parent="Obstacles/Rocks" index="388" instance=ExtResource( 4 )]
 position = Vector2( 1544, 1528 )
 
-[node name="Rock486" parent="Obstacles/Rocks" index="390" instance=ExtResource( 4 )]
+[node name="Rock486" parent="Obstacles/Rocks" index="389" instance=ExtResource( 4 )]
 position = Vector2( 1576, 1528 )
 
-[node name="Rock487" parent="Obstacles/Rocks" index="391" instance=ExtResource( 4 )]
+[node name="Rock487" parent="Obstacles/Rocks" index="390" instance=ExtResource( 4 )]
 position = Vector2( 1592, 1528 )
 
-[node name="Rock488" parent="Obstacles/Rocks" index="392" instance=ExtResource( 4 )]
+[node name="Rock488" parent="Obstacles/Rocks" index="391" instance=ExtResource( 4 )]
 position = Vector2( 1608, 1528 )
 
-[node name="Rock489" parent="Obstacles/Rocks" index="393" instance=ExtResource( 4 )]
+[node name="Rock489" parent="Obstacles/Rocks" index="392" instance=ExtResource( 4 )]
 position = Vector2( 1624, 1528 )
 
-[node name="Rock490" parent="Obstacles/Rocks" index="394" instance=ExtResource( 4 )]
+[node name="Rock490" parent="Obstacles/Rocks" index="393" instance=ExtResource( 4 )]
 position = Vector2( 1640, 1528 )
 
-[node name="Rock491" parent="Obstacles/Rocks" index="395" instance=ExtResource( 4 )]
+[node name="Rock491" parent="Obstacles/Rocks" index="394" instance=ExtResource( 4 )]
 position = Vector2( 1656, 1528 )
 
-[node name="Rock492" parent="Obstacles/Rocks" index="396" instance=ExtResource( 4 )]
+[node name="Rock492" parent="Obstacles/Rocks" index="395" instance=ExtResource( 4 )]
 position = Vector2( 1672, 1528 )
 
-[node name="Rock493" parent="Obstacles/Rocks" index="397" instance=ExtResource( 4 )]
+[node name="Rock493" parent="Obstacles/Rocks" index="396" instance=ExtResource( 4 )]
 position = Vector2( 1688, 1528 )
 
-[node name="Rock494" parent="Obstacles/Rocks" index="398" instance=ExtResource( 4 )]
+[node name="Rock494" parent="Obstacles/Rocks" index="397" instance=ExtResource( 4 )]
 position = Vector2( 1720, 1528 )
 
-[node name="Rock495" parent="Obstacles/Rocks" index="399" instance=ExtResource( 4 )]
+[node name="Rock495" parent="Obstacles/Rocks" index="398" instance=ExtResource( 4 )]
 position = Vector2( 1704, 1528 )
 
-[node name="Rock496" parent="Obstacles/Rocks" index="400" instance=ExtResource( 4 )]
+[node name="Rock496" parent="Obstacles/Rocks" index="399" instance=ExtResource( 4 )]
 position = Vector2( 1736, 1528 )
 
-[node name="Rock497" parent="Obstacles/Rocks" index="401" instance=ExtResource( 4 )]
+[node name="Rock497" parent="Obstacles/Rocks" index="400" instance=ExtResource( 4 )]
 position = Vector2( 1752, 1528 )
 
-[node name="Rock498" parent="Obstacles/Rocks" index="402" instance=ExtResource( 4 )]
+[node name="Rock498" parent="Obstacles/Rocks" index="401" instance=ExtResource( 4 )]
 position = Vector2( 1768, 1528 )
 
-[node name="Rock499" parent="Obstacles/Rocks" index="403" instance=ExtResource( 4 )]
+[node name="Rock499" parent="Obstacles/Rocks" index="402" instance=ExtResource( 4 )]
 position = Vector2( 1784, 1528 )
 
-[node name="Rock500" parent="Obstacles/Rocks" index="404" instance=ExtResource( 4 )]
+[node name="Rock500" parent="Obstacles/Rocks" index="403" instance=ExtResource( 4 )]
 position = Vector2( 1800, 1528 )
 
-[node name="Rock501" parent="Obstacles/Rocks" index="405" instance=ExtResource( 4 )]
+[node name="Rock501" parent="Obstacles/Rocks" index="404" instance=ExtResource( 4 )]
 position = Vector2( 1816, 1528 )
 
-[node name="Rock502" parent="Obstacles/Rocks" index="406" instance=ExtResource( 4 )]
+[node name="Rock502" parent="Obstacles/Rocks" index="405" instance=ExtResource( 4 )]
 position = Vector2( 1832, 1528 )
 
-[node name="Rock503" parent="Obstacles/Rocks" index="407" instance=ExtResource( 4 )]
+[node name="Rock503" parent="Obstacles/Rocks" index="406" instance=ExtResource( 4 )]
 position = Vector2( 1848, 1528 )
 
-[node name="Rock504" parent="Obstacles/Rocks" index="408" instance=ExtResource( 4 )]
+[node name="Rock504" parent="Obstacles/Rocks" index="407" instance=ExtResource( 4 )]
 position = Vector2( 1864, 1528 )
 
-[node name="Rock505" parent="Obstacles/Rocks" index="409" instance=ExtResource( 4 )]
+[node name="Rock505" parent="Obstacles/Rocks" index="408" instance=ExtResource( 4 )]
 position = Vector2( 1864, 1528 )
 
-[node name="Rock506" parent="Obstacles/Rocks" index="410" instance=ExtResource( 4 )]
+[node name="Rock506" parent="Obstacles/Rocks" index="409" instance=ExtResource( 4 )]
 position = Vector2( 1880, 1528 )
 
-[node name="Rock507" parent="Obstacles/Rocks" index="411" instance=ExtResource( 4 )]
+[node name="Rock507" parent="Obstacles/Rocks" index="410" instance=ExtResource( 4 )]
 position = Vector2( 1912, 1528 )
 
-[node name="Rock508" parent="Obstacles/Rocks" index="412" instance=ExtResource( 4 )]
+[node name="Rock508" parent="Obstacles/Rocks" index="411" instance=ExtResource( 4 )]
 position = Vector2( 1896, 1528 )
 
-[node name="Rock509" parent="Obstacles/Rocks" index="413" instance=ExtResource( 4 )]
+[node name="Rock509" parent="Obstacles/Rocks" index="412" instance=ExtResource( 4 )]
 position = Vector2( 1928, 1528 )
 
-[node name="Rock510" parent="Obstacles/Rocks" index="414" instance=ExtResource( 4 )]
+[node name="Rock510" parent="Obstacles/Rocks" index="413" instance=ExtResource( 4 )]
 position = Vector2( 1944, 1528 )
 
-[node name="Rock511" parent="Obstacles/Rocks" index="415" instance=ExtResource( 4 )]
+[node name="Rock511" parent="Obstacles/Rocks" index="414" instance=ExtResource( 4 )]
 position = Vector2( 1960, 1528 )
 
-[node name="Rock512" parent="Obstacles/Rocks" index="416" instance=ExtResource( 4 )]
+[node name="Rock512" parent="Obstacles/Rocks" index="415" instance=ExtResource( 4 )]
 position = Vector2( 1976, 1528 )
 
-[node name="Rock513" parent="Obstacles/Rocks" index="417" instance=ExtResource( 4 )]
+[node name="Rock513" parent="Obstacles/Rocks" index="416" instance=ExtResource( 4 )]
 position = Vector2( 1992, 1528 )
 
-[node name="Rock514" parent="Obstacles/Rocks" index="418" instance=ExtResource( 4 )]
+[node name="Rock514" parent="Obstacles/Rocks" index="417" instance=ExtResource( 4 )]
 position = Vector2( 2008, 1528 )
 
-[node name="Rock515" parent="Obstacles/Rocks" index="419" instance=ExtResource( 4 )]
+[node name="Rock515" parent="Obstacles/Rocks" index="418" instance=ExtResource( 4 )]
 position = Vector2( 2024, 1528 )
 
-[node name="Rock516" parent="Obstacles/Rocks" index="420" instance=ExtResource( 4 )]
+[node name="Rock516" parent="Obstacles/Rocks" index="419" instance=ExtResource( 4 )]
 position = Vector2( 2040, 1528 )
 
-[node name="Rock517" parent="Obstacles/Rocks" index="421" instance=ExtResource( 4 )]
+[node name="Rock517" parent="Obstacles/Rocks" index="420" instance=ExtResource( 4 )]
 position = Vector2( 2072, 1528 )
 
-[node name="Rock518" parent="Obstacles/Rocks" index="422" instance=ExtResource( 4 )]
+[node name="Rock518" parent="Obstacles/Rocks" index="421" instance=ExtResource( 4 )]
 position = Vector2( 2056, 1528 )
 
-[node name="Rock519" parent="Obstacles/Rocks" index="423" instance=ExtResource( 4 )]
+[node name="Rock519" parent="Obstacles/Rocks" index="422" instance=ExtResource( 4 )]
 position = Vector2( 2088, 1528 )
 
-[node name="Rock520" parent="Obstacles/Rocks" index="424" instance=ExtResource( 4 )]
+[node name="Rock520" parent="Obstacles/Rocks" index="423" instance=ExtResource( 4 )]
 position = Vector2( 2104, 1528 )
 
-[node name="Rock521" parent="Obstacles/Rocks" index="425" instance=ExtResource( 4 )]
+[node name="Rock521" parent="Obstacles/Rocks" index="424" instance=ExtResource( 4 )]
 position = Vector2( 2120, 1528 )
 
-[node name="Rock522" parent="Obstacles/Rocks" index="426" instance=ExtResource( 4 )]
+[node name="Rock522" parent="Obstacles/Rocks" index="425" instance=ExtResource( 4 )]
 position = Vector2( 2136, 1528 )
 
-[node name="Rock523" parent="Obstacles/Rocks" index="427" instance=ExtResource( 4 )]
+[node name="Rock523" parent="Obstacles/Rocks" index="426" instance=ExtResource( 4 )]
 position = Vector2( 2152, 1528 )
 
-[node name="Rock524" parent="Obstacles/Rocks" index="428" instance=ExtResource( 4 )]
+[node name="Rock524" parent="Obstacles/Rocks" index="427" instance=ExtResource( 4 )]
 position = Vector2( 2168, 1528 )
 
-[node name="Rock525" parent="Obstacles/Rocks" index="429" instance=ExtResource( 4 )]
+[node name="Rock525" parent="Obstacles/Rocks" index="428" instance=ExtResource( 4 )]
 position = Vector2( 2184, 1528 )
 
-[node name="Rock526" parent="Obstacles/Rocks" index="430" instance=ExtResource( 4 )]
+[node name="Rock526" parent="Obstacles/Rocks" index="429" instance=ExtResource( 4 )]
 position = Vector2( 2200, 1528 )
 
-[node name="Rock527" parent="Obstacles/Rocks" index="431" instance=ExtResource( 4 )]
+[node name="Rock527" parent="Obstacles/Rocks" index="430" instance=ExtResource( 4 )]
 position = Vector2( 2216, 1528 )
 
-[node name="Rock528" parent="Obstacles/Rocks" index="432" instance=ExtResource( 4 )]
+[node name="Rock528" parent="Obstacles/Rocks" index="431" instance=ExtResource( 4 )]
 position = Vector2( 2216, 1528 )
 
-[node name="Rock529" parent="Obstacles/Rocks" index="433" instance=ExtResource( 4 )]
+[node name="Rock529" parent="Obstacles/Rocks" index="432" instance=ExtResource( 4 )]
 position = Vector2( 2232, 1528 )
 
-[node name="Rock530" parent="Obstacles/Rocks" index="434" instance=ExtResource( 4 )]
+[node name="Rock530" parent="Obstacles/Rocks" index="433" instance=ExtResource( 4 )]
 position = Vector2( 2264, 1528 )
 
-[node name="Rock531" parent="Obstacles/Rocks" index="435" instance=ExtResource( 4 )]
+[node name="Rock531" parent="Obstacles/Rocks" index="434" instance=ExtResource( 4 )]
 position = Vector2( 2248, 1528 )
 
-[node name="Rock532" parent="Obstacles/Rocks" index="436" instance=ExtResource( 4 )]
+[node name="Rock532" parent="Obstacles/Rocks" index="435" instance=ExtResource( 4 )]
 position = Vector2( 2280, 1528 )
 
-[node name="Rock533" parent="Obstacles/Rocks" index="437" instance=ExtResource( 4 )]
+[node name="Rock533" parent="Obstacles/Rocks" index="436" instance=ExtResource( 4 )]
 position = Vector2( 2296, 1528 )
 
-[node name="Rock534" parent="Obstacles/Rocks" index="438" instance=ExtResource( 4 )]
+[node name="Rock534" parent="Obstacles/Rocks" index="437" instance=ExtResource( 4 )]
 position = Vector2( 2312, 1528 )
 
-[node name="Rock535" parent="Obstacles/Rocks" index="439" instance=ExtResource( 4 )]
+[node name="Rock535" parent="Obstacles/Rocks" index="438" instance=ExtResource( 4 )]
 position = Vector2( 2328, 1528 )
 
-[node name="Rock291" parent="Obstacles/Rocks" index="440" instance=ExtResource( 4 )]
+[node name="Rock291" parent="Obstacles/Rocks" index="439" instance=ExtResource( 4 )]
 position = Vector2( 2344, 24 )
 
-[node name="Rock292" parent="Obstacles/Rocks" index="441" instance=ExtResource( 4 )]
+[node name="Rock292" parent="Obstacles/Rocks" index="440" instance=ExtResource( 4 )]
 position = Vector2( 2344, 40 )
 
-[node name="Rock293" parent="Obstacles/Rocks" index="442" instance=ExtResource( 4 )]
+[node name="Rock293" parent="Obstacles/Rocks" index="441" instance=ExtResource( 4 )]
 position = Vector2( 2344, 56 )
 
-[node name="Rock294" parent="Obstacles/Rocks" index="443" instance=ExtResource( 4 )]
+[node name="Rock294" parent="Obstacles/Rocks" index="442" instance=ExtResource( 4 )]
 position = Vector2( 2344, 72 )
 
-[node name="Rock295" parent="Obstacles/Rocks" index="444" instance=ExtResource( 4 )]
+[node name="Rock295" parent="Obstacles/Rocks" index="443" instance=ExtResource( 4 )]
 position = Vector2( 2344, 88 )
 
-[node name="Rock296" parent="Obstacles/Rocks" index="445" instance=ExtResource( 4 )]
+[node name="Rock296" parent="Obstacles/Rocks" index="444" instance=ExtResource( 4 )]
 position = Vector2( 2344, 104 )
 
-[node name="Rock297" parent="Obstacles/Rocks" index="446" instance=ExtResource( 4 )]
+[node name="Rock297" parent="Obstacles/Rocks" index="445" instance=ExtResource( 4 )]
 position = Vector2( 2344, 120 )
 
-[node name="Rock298" parent="Obstacles/Rocks" index="447" instance=ExtResource( 4 )]
+[node name="Rock298" parent="Obstacles/Rocks" index="446" instance=ExtResource( 4 )]
 position = Vector2( 2344, 136 )
 
-[node name="Rock299" parent="Obstacles/Rocks" index="448" instance=ExtResource( 4 )]
+[node name="Rock299" parent="Obstacles/Rocks" index="447" instance=ExtResource( 4 )]
 position = Vector2( 2344, 152 )
 
-[node name="Rock300" parent="Obstacles/Rocks" index="449" instance=ExtResource( 4 )]
+[node name="Rock300" parent="Obstacles/Rocks" index="448" instance=ExtResource( 4 )]
 position = Vector2( 2344, 168 )
 
-[node name="Rock301" parent="Obstacles/Rocks" index="450" instance=ExtResource( 4 )]
+[node name="Rock301" parent="Obstacles/Rocks" index="449" instance=ExtResource( 4 )]
 position = Vector2( 2344, 184 )
 
-[node name="Rock302" parent="Obstacles/Rocks" index="451" instance=ExtResource( 4 )]
+[node name="Rock302" parent="Obstacles/Rocks" index="450" instance=ExtResource( 4 )]
 position = Vector2( 2344, 200 )
 
-[node name="Rock303" parent="Obstacles/Rocks" index="452" instance=ExtResource( 4 )]
+[node name="Rock303" parent="Obstacles/Rocks" index="451" instance=ExtResource( 4 )]
 position = Vector2( 2344, 216 )
 
-[node name="Rock304" parent="Obstacles/Rocks" index="453" instance=ExtResource( 4 )]
+[node name="Rock304" parent="Obstacles/Rocks" index="452" instance=ExtResource( 4 )]
 position = Vector2( 2344, 232 )
 
-[node name="Rock305" parent="Obstacles/Rocks" index="454" instance=ExtResource( 4 )]
+[node name="Rock305" parent="Obstacles/Rocks" index="453" instance=ExtResource( 4 )]
 position = Vector2( 2344, 248 )
 
-[node name="Rock306" parent="Obstacles/Rocks" index="455" instance=ExtResource( 4 )]
+[node name="Rock306" parent="Obstacles/Rocks" index="454" instance=ExtResource( 4 )]
 position = Vector2( 2344, 264 )
 
-[node name="Rock307" parent="Obstacles/Rocks" index="456" instance=ExtResource( 4 )]
+[node name="Rock307" parent="Obstacles/Rocks" index="455" instance=ExtResource( 4 )]
 position = Vector2( 2344, 280 )
 
-[node name="Rock308" parent="Obstacles/Rocks" index="457" instance=ExtResource( 4 )]
+[node name="Rock308" parent="Obstacles/Rocks" index="456" instance=ExtResource( 4 )]
 position = Vector2( 2344, 296 )
 
-[node name="Rock309" parent="Obstacles/Rocks" index="458" instance=ExtResource( 4 )]
+[node name="Rock309" parent="Obstacles/Rocks" index="457" instance=ExtResource( 4 )]
 position = Vector2( 2344, 312 )
 
-[node name="Rock310" parent="Obstacles/Rocks" index="459" instance=ExtResource( 4 )]
+[node name="Rock310" parent="Obstacles/Rocks" index="458" instance=ExtResource( 4 )]
 position = Vector2( 2344, 328 )
 
-[node name="Rock311" parent="Obstacles/Rocks" index="460" instance=ExtResource( 4 )]
+[node name="Rock311" parent="Obstacles/Rocks" index="459" instance=ExtResource( 4 )]
 position = Vector2( 2344, 344 )
 
-[node name="Rock312" parent="Obstacles/Rocks" index="461" instance=ExtResource( 4 )]
+[node name="Rock312" parent="Obstacles/Rocks" index="460" instance=ExtResource( 4 )]
 position = Vector2( 2344, 360 )
 
-[node name="Rock313" parent="Obstacles/Rocks" index="462" instance=ExtResource( 4 )]
+[node name="Rock313" parent="Obstacles/Rocks" index="461" instance=ExtResource( 4 )]
 position = Vector2( 2344, 376 )
 
-[node name="Rock314" parent="Obstacles/Rocks" index="463" instance=ExtResource( 4 )]
+[node name="Rock314" parent="Obstacles/Rocks" index="462" instance=ExtResource( 4 )]
 position = Vector2( 2344, 392 )
 
-[node name="Rock315" parent="Obstacles/Rocks" index="464" instance=ExtResource( 4 )]
+[node name="Rock315" parent="Obstacles/Rocks" index="463" instance=ExtResource( 4 )]
 position = Vector2( 2344, 408 )
 
-[node name="Rock316" parent="Obstacles/Rocks" index="465" instance=ExtResource( 4 )]
+[node name="Rock316" parent="Obstacles/Rocks" index="464" instance=ExtResource( 4 )]
 position = Vector2( 2344, 424 )
 
-[node name="Rock317" parent="Obstacles/Rocks" index="466" instance=ExtResource( 4 )]
+[node name="Rock317" parent="Obstacles/Rocks" index="465" instance=ExtResource( 4 )]
 position = Vector2( 2344, 440 )
 
-[node name="Rock318" parent="Obstacles/Rocks" index="467" instance=ExtResource( 4 )]
+[node name="Rock318" parent="Obstacles/Rocks" index="466" instance=ExtResource( 4 )]
 position = Vector2( 2344, 456 )
 
-[node name="Rock319" parent="Obstacles/Rocks" index="468" instance=ExtResource( 4 )]
+[node name="Rock319" parent="Obstacles/Rocks" index="467" instance=ExtResource( 4 )]
 position = Vector2( 2344, 472 )
 
-[node name="Rock320" parent="Obstacles/Rocks" index="469" instance=ExtResource( 4 )]
+[node name="Rock320" parent="Obstacles/Rocks" index="468" instance=ExtResource( 4 )]
 position = Vector2( 2344, 488 )
 
-[node name="Rock321" parent="Obstacles/Rocks" index="470" instance=ExtResource( 4 )]
+[node name="Rock321" parent="Obstacles/Rocks" index="469" instance=ExtResource( 4 )]
 position = Vector2( 2344, 504 )
 
-[node name="Rock322" parent="Obstacles/Rocks" index="471" instance=ExtResource( 4 )]
+[node name="Rock322" parent="Obstacles/Rocks" index="470" instance=ExtResource( 4 )]
 position = Vector2( 2344, 520 )
 
-[node name="Rock323" parent="Obstacles/Rocks" index="472" instance=ExtResource( 4 )]
+[node name="Rock323" parent="Obstacles/Rocks" index="471" instance=ExtResource( 4 )]
 position = Vector2( 2344, 536 )
 
-[node name="Rock324" parent="Obstacles/Rocks" index="473" instance=ExtResource( 4 )]
+[node name="Rock324" parent="Obstacles/Rocks" index="472" instance=ExtResource( 4 )]
 position = Vector2( 2344, 552 )
 
-[node name="Rock325" parent="Obstacles/Rocks" index="474" instance=ExtResource( 4 )]
+[node name="Rock325" parent="Obstacles/Rocks" index="473" instance=ExtResource( 4 )]
 position = Vector2( 2344, 568 )
 
-[node name="Rock326" parent="Obstacles/Rocks" index="475" instance=ExtResource( 4 )]
+[node name="Rock326" parent="Obstacles/Rocks" index="474" instance=ExtResource( 4 )]
 position = Vector2( 2344, 584 )
 
-[node name="Rock327" parent="Obstacles/Rocks" index="476" instance=ExtResource( 4 )]
+[node name="Rock327" parent="Obstacles/Rocks" index="475" instance=ExtResource( 4 )]
 position = Vector2( 2344, 600 )
 
-[node name="Rock328" parent="Obstacles/Rocks" index="477" instance=ExtResource( 4 )]
+[node name="Rock328" parent="Obstacles/Rocks" index="476" instance=ExtResource( 4 )]
 position = Vector2( 2344, 616 )
 
-[node name="Rock329" parent="Obstacles/Rocks" index="478" instance=ExtResource( 4 )]
+[node name="Rock329" parent="Obstacles/Rocks" index="477" instance=ExtResource( 4 )]
 position = Vector2( 2344, 632 )
 
-[node name="Rock330" parent="Obstacles/Rocks" index="479" instance=ExtResource( 4 )]
+[node name="Rock330" parent="Obstacles/Rocks" index="478" instance=ExtResource( 4 )]
 position = Vector2( 2344, 648 )
 
-[node name="Rock331" parent="Obstacles/Rocks" index="480" instance=ExtResource( 4 )]
+[node name="Rock331" parent="Obstacles/Rocks" index="479" instance=ExtResource( 4 )]
 position = Vector2( 2344, 664 )
 
-[node name="Rock332" parent="Obstacles/Rocks" index="481" instance=ExtResource( 4 )]
+[node name="Rock332" parent="Obstacles/Rocks" index="480" instance=ExtResource( 4 )]
 position = Vector2( 2344, 680 )
 
-[node name="Rock333" parent="Obstacles/Rocks" index="482" instance=ExtResource( 4 )]
+[node name="Rock333" parent="Obstacles/Rocks" index="481" instance=ExtResource( 4 )]
 position = Vector2( 2344, 696 )
 
-[node name="Rock334" parent="Obstacles/Rocks" index="483" instance=ExtResource( 4 )]
+[node name="Rock334" parent="Obstacles/Rocks" index="482" instance=ExtResource( 4 )]
 position = Vector2( 2344, 712 )
 
-[node name="Rock335" parent="Obstacles/Rocks" index="484" instance=ExtResource( 4 )]
+[node name="Rock335" parent="Obstacles/Rocks" index="483" instance=ExtResource( 4 )]
 position = Vector2( 2344, 728 )
 
-[node name="Rock336" parent="Obstacles/Rocks" index="485" instance=ExtResource( 4 )]
+[node name="Rock336" parent="Obstacles/Rocks" index="484" instance=ExtResource( 4 )]
 position = Vector2( 2344, 744 )
 
-[node name="Rock337" parent="Obstacles/Rocks" index="486" instance=ExtResource( 4 )]
+[node name="Rock337" parent="Obstacles/Rocks" index="485" instance=ExtResource( 4 )]
 position = Vector2( 2344, 760 )
 
-[node name="Rock338" parent="Obstacles/Rocks" index="487" instance=ExtResource( 4 )]
+[node name="Rock338" parent="Obstacles/Rocks" index="486" instance=ExtResource( 4 )]
 position = Vector2( 2344, 776 )
 
-[node name="Rock339" parent="Obstacles/Rocks" index="488" instance=ExtResource( 4 )]
+[node name="Rock339" parent="Obstacles/Rocks" index="487" instance=ExtResource( 4 )]
 position = Vector2( 2344, 792 )
 
-[node name="Rock340" parent="Obstacles/Rocks" index="489" instance=ExtResource( 4 )]
+[node name="Rock340" parent="Obstacles/Rocks" index="488" instance=ExtResource( 4 )]
 position = Vector2( 2344, 808 )
 
-[node name="Rock341" parent="Obstacles/Rocks" index="490" instance=ExtResource( 4 )]
+[node name="Rock341" parent="Obstacles/Rocks" index="489" instance=ExtResource( 4 )]
 position = Vector2( 2344, 824 )
 
-[node name="Rock342" parent="Obstacles/Rocks" index="491" instance=ExtResource( 4 )]
+[node name="Rock342" parent="Obstacles/Rocks" index="490" instance=ExtResource( 4 )]
 position = Vector2( 2344, 840 )
 
-[node name="Rock343" parent="Obstacles/Rocks" index="492" instance=ExtResource( 4 )]
+[node name="Rock343" parent="Obstacles/Rocks" index="491" instance=ExtResource( 4 )]
 position = Vector2( 2344, 856 )
 
-[node name="Rock344" parent="Obstacles/Rocks" index="493" instance=ExtResource( 4 )]
+[node name="Rock344" parent="Obstacles/Rocks" index="492" instance=ExtResource( 4 )]
 position = Vector2( 2344, 872 )
 
-[node name="Rock345" parent="Obstacles/Rocks" index="494" instance=ExtResource( 4 )]
+[node name="Rock345" parent="Obstacles/Rocks" index="493" instance=ExtResource( 4 )]
 position = Vector2( 2344, 888 )
 
-[node name="Rock346" parent="Obstacles/Rocks" index="495" instance=ExtResource( 4 )]
+[node name="Rock346" parent="Obstacles/Rocks" index="494" instance=ExtResource( 4 )]
 position = Vector2( 2344, 904 )
 
-[node name="Rock347" parent="Obstacles/Rocks" index="496" instance=ExtResource( 4 )]
+[node name="Rock347" parent="Obstacles/Rocks" index="495" instance=ExtResource( 4 )]
 position = Vector2( 2344, 920 )
 
-[node name="Rock348" parent="Obstacles/Rocks" index="497" instance=ExtResource( 4 )]
+[node name="Rock348" parent="Obstacles/Rocks" index="496" instance=ExtResource( 4 )]
 position = Vector2( 2344, 936 )
 
-[node name="Rock349" parent="Obstacles/Rocks" index="498" instance=ExtResource( 4 )]
+[node name="Rock349" parent="Obstacles/Rocks" index="497" instance=ExtResource( 4 )]
 position = Vector2( 2344, 952 )
 
-[node name="Rock350" parent="Obstacles/Rocks" index="499" instance=ExtResource( 4 )]
+[node name="Rock350" parent="Obstacles/Rocks" index="498" instance=ExtResource( 4 )]
 position = Vector2( 2344, 968 )
 
-[node name="Rock351" parent="Obstacles/Rocks" index="500" instance=ExtResource( 4 )]
+[node name="Rock351" parent="Obstacles/Rocks" index="499" instance=ExtResource( 4 )]
 position = Vector2( 2344, 984 )
 
-[node name="Rock352" parent="Obstacles/Rocks" index="501" instance=ExtResource( 4 )]
+[node name="Rock352" parent="Obstacles/Rocks" index="500" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1000 )
 
-[node name="Rock353" parent="Obstacles/Rocks" index="502" instance=ExtResource( 4 )]
+[node name="Rock353" parent="Obstacles/Rocks" index="501" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1016 )
 
-[node name="Rock354" parent="Obstacles/Rocks" index="503" instance=ExtResource( 4 )]
+[node name="Rock354" parent="Obstacles/Rocks" index="502" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1032 )
 
-[node name="Rock355" parent="Obstacles/Rocks" index="504" instance=ExtResource( 4 )]
+[node name="Rock355" parent="Obstacles/Rocks" index="503" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1048 )
 
-[node name="Rock356" parent="Obstacles/Rocks" index="505" instance=ExtResource( 4 )]
+[node name="Rock356" parent="Obstacles/Rocks" index="504" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1064 )
 
-[node name="Rock357" parent="Obstacles/Rocks" index="506" instance=ExtResource( 4 )]
+[node name="Rock357" parent="Obstacles/Rocks" index="505" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1080 )
 
-[node name="Rock358" parent="Obstacles/Rocks" index="507" instance=ExtResource( 4 )]
+[node name="Rock358" parent="Obstacles/Rocks" index="506" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1096 )
 
-[node name="Rock359" parent="Obstacles/Rocks" index="508" instance=ExtResource( 4 )]
+[node name="Rock359" parent="Obstacles/Rocks" index="507" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1112 )
 
-[node name="Rock360" parent="Obstacles/Rocks" index="509" instance=ExtResource( 4 )]
+[node name="Rock360" parent="Obstacles/Rocks" index="508" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1128 )
 
-[node name="Rock361" parent="Obstacles/Rocks" index="510" instance=ExtResource( 4 )]
+[node name="Rock361" parent="Obstacles/Rocks" index="509" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1144 )
 
-[node name="Rock362" parent="Obstacles/Rocks" index="511" instance=ExtResource( 4 )]
+[node name="Rock362" parent="Obstacles/Rocks" index="510" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1160 )
 
-[node name="Rock363" parent="Obstacles/Rocks" index="512" instance=ExtResource( 4 )]
+[node name="Rock363" parent="Obstacles/Rocks" index="511" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1176 )
 
-[node name="Rock364" parent="Obstacles/Rocks" index="513" instance=ExtResource( 4 )]
+[node name="Rock364" parent="Obstacles/Rocks" index="512" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1192 )
 
-[node name="Rock365" parent="Obstacles/Rocks" index="514" instance=ExtResource( 4 )]
+[node name="Rock365" parent="Obstacles/Rocks" index="513" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1208 )
 
-[node name="Rock366" parent="Obstacles/Rocks" index="515" instance=ExtResource( 4 )]
+[node name="Rock366" parent="Obstacles/Rocks" index="514" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1224 )
 
-[node name="Rock367" parent="Obstacles/Rocks" index="516" instance=ExtResource( 4 )]
+[node name="Rock367" parent="Obstacles/Rocks" index="515" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1240 )
 
-[node name="Rock368" parent="Obstacles/Rocks" index="517" instance=ExtResource( 4 )]
+[node name="Rock368" parent="Obstacles/Rocks" index="516" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1256 )
 
-[node name="Rock369" parent="Obstacles/Rocks" index="518" instance=ExtResource( 4 )]
+[node name="Rock369" parent="Obstacles/Rocks" index="517" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1272 )
 
-[node name="Rock370" parent="Obstacles/Rocks" index="519" instance=ExtResource( 4 )]
+[node name="Rock370" parent="Obstacles/Rocks" index="518" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1288 )
 
-[node name="Rock371" parent="Obstacles/Rocks" index="520" instance=ExtResource( 4 )]
+[node name="Rock371" parent="Obstacles/Rocks" index="519" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1304 )
 
-[node name="Rock372" parent="Obstacles/Rocks" index="521" instance=ExtResource( 4 )]
+[node name="Rock372" parent="Obstacles/Rocks" index="520" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1320 )
 
-[node name="Rock373" parent="Obstacles/Rocks" index="522" instance=ExtResource( 4 )]
+[node name="Rock373" parent="Obstacles/Rocks" index="521" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1336 )
 
-[node name="Rock374" parent="Obstacles/Rocks" index="523" instance=ExtResource( 4 )]
+[node name="Rock374" parent="Obstacles/Rocks" index="522" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1352 )
 
-[node name="Rock375" parent="Obstacles/Rocks" index="524" instance=ExtResource( 4 )]
+[node name="Rock375" parent="Obstacles/Rocks" index="523" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1368 )
 
-[node name="Rock376" parent="Obstacles/Rocks" index="525" instance=ExtResource( 4 )]
+[node name="Rock376" parent="Obstacles/Rocks" index="524" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1384 )
 
-[node name="Rock377" parent="Obstacles/Rocks" index="526" instance=ExtResource( 4 )]
+[node name="Rock377" parent="Obstacles/Rocks" index="525" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1400 )
 
-[node name="Rock378" parent="Obstacles/Rocks" index="527" instance=ExtResource( 4 )]
+[node name="Rock378" parent="Obstacles/Rocks" index="526" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1416 )
 
-[node name="Rock379" parent="Obstacles/Rocks" index="528" instance=ExtResource( 4 )]
+[node name="Rock379" parent="Obstacles/Rocks" index="527" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1432 )
 
-[node name="Rock380" parent="Obstacles/Rocks" index="529" instance=ExtResource( 4 )]
+[node name="Rock380" parent="Obstacles/Rocks" index="528" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1448 )
 
-[node name="Rock381" parent="Obstacles/Rocks" index="530" instance=ExtResource( 4 )]
+[node name="Rock381" parent="Obstacles/Rocks" index="529" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1464 )
 
-[node name="Rock382" parent="Obstacles/Rocks" index="531" instance=ExtResource( 4 )]
+[node name="Rock382" parent="Obstacles/Rocks" index="530" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1480 )
 
-[node name="Rock383" parent="Obstacles/Rocks" index="532" instance=ExtResource( 4 )]
+[node name="Rock383" parent="Obstacles/Rocks" index="531" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1496 )
 
-[node name="Rock384" parent="Obstacles/Rocks" index="533" instance=ExtResource( 4 )]
+[node name="Rock384" parent="Obstacles/Rocks" index="532" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1512 )
 
-[node name="Rock385" parent="Obstacles/Rocks" index="534" instance=ExtResource( 4 )]
+[node name="Rock385" parent="Obstacles/Rocks" index="533" instance=ExtResource( 4 )]
 position = Vector2( 2344, 1528 )
 
-[node name="Rock536" parent="Obstacles/Rocks" index="535" instance=ExtResource( 4 )]
+[node name="Rock536" parent="Obstacles/Rocks" index="534" instance=ExtResource( 4 )]
 position = Vector2( 8, 24 )
 
-[node name="Rock537" parent="Obstacles/Rocks" index="536" instance=ExtResource( 4 )]
+[node name="Rock537" parent="Obstacles/Rocks" index="535" instance=ExtResource( 4 )]
 position = Vector2( 8, 40 )
 
-[node name="Rock538" parent="Obstacles/Rocks" index="537" instance=ExtResource( 4 )]
+[node name="Rock538" parent="Obstacles/Rocks" index="536" instance=ExtResource( 4 )]
 position = Vector2( 8, 56 )
 
-[node name="Rock539" parent="Obstacles/Rocks" index="538" instance=ExtResource( 4 )]
+[node name="Rock539" parent="Obstacles/Rocks" index="537" instance=ExtResource( 4 )]
 position = Vector2( 8, 72 )
 
-[node name="Rock540" parent="Obstacles/Rocks" index="539" instance=ExtResource( 4 )]
+[node name="Rock540" parent="Obstacles/Rocks" index="538" instance=ExtResource( 4 )]
 position = Vector2( 8, 88 )
 
-[node name="Rock541" parent="Obstacles/Rocks" index="540" instance=ExtResource( 4 )]
+[node name="Rock541" parent="Obstacles/Rocks" index="539" instance=ExtResource( 4 )]
 position = Vector2( 8, 104 )
 
-[node name="Rock542" parent="Obstacles/Rocks" index="541" instance=ExtResource( 4 )]
+[node name="Rock542" parent="Obstacles/Rocks" index="540" instance=ExtResource( 4 )]
 position = Vector2( 8, 120 )
 
-[node name="Rock543" parent="Obstacles/Rocks" index="542" instance=ExtResource( 4 )]
+[node name="Rock543" parent="Obstacles/Rocks" index="541" instance=ExtResource( 4 )]
 position = Vector2( 8, 136 )
 
-[node name="Rock544" parent="Obstacles/Rocks" index="543" instance=ExtResource( 4 )]
+[node name="Rock544" parent="Obstacles/Rocks" index="542" instance=ExtResource( 4 )]
 position = Vector2( 8, 152 )
 
-[node name="Rock545" parent="Obstacles/Rocks" index="544" instance=ExtResource( 4 )]
+[node name="Rock545" parent="Obstacles/Rocks" index="543" instance=ExtResource( 4 )]
 position = Vector2( 8, 168 )
 
-[node name="Rock546" parent="Obstacles/Rocks" index="545" instance=ExtResource( 4 )]
+[node name="Rock546" parent="Obstacles/Rocks" index="544" instance=ExtResource( 4 )]
 position = Vector2( 8, 184 )
 
-[node name="Rock547" parent="Obstacles/Rocks" index="546" instance=ExtResource( 4 )]
+[node name="Rock547" parent="Obstacles/Rocks" index="545" instance=ExtResource( 4 )]
 position = Vector2( 8, 200 )
 
-[node name="Rock548" parent="Obstacles/Rocks" index="547" instance=ExtResource( 4 )]
+[node name="Rock548" parent="Obstacles/Rocks" index="546" instance=ExtResource( 4 )]
 position = Vector2( 8, 216 )
 
-[node name="Rock549" parent="Obstacles/Rocks" index="548" instance=ExtResource( 4 )]
+[node name="Rock549" parent="Obstacles/Rocks" index="547" instance=ExtResource( 4 )]
 position = Vector2( 8, 232 )
 
-[node name="Rock550" parent="Obstacles/Rocks" index="549" instance=ExtResource( 4 )]
+[node name="Rock550" parent="Obstacles/Rocks" index="548" instance=ExtResource( 4 )]
 position = Vector2( 8, 248 )
 
-[node name="Rock551" parent="Obstacles/Rocks" index="550" instance=ExtResource( 4 )]
+[node name="Rock551" parent="Obstacles/Rocks" index="549" instance=ExtResource( 4 )]
 position = Vector2( 8, 264 )
 
-[node name="Rock552" parent="Obstacles/Rocks" index="551" instance=ExtResource( 4 )]
+[node name="Rock552" parent="Obstacles/Rocks" index="550" instance=ExtResource( 4 )]
 position = Vector2( 8, 280 )
 
-[node name="Rock553" parent="Obstacles/Rocks" index="552" instance=ExtResource( 4 )]
+[node name="Rock553" parent="Obstacles/Rocks" index="551" instance=ExtResource( 4 )]
 position = Vector2( 8, 296 )
 
-[node name="Rock554" parent="Obstacles/Rocks" index="553" instance=ExtResource( 4 )]
+[node name="Rock554" parent="Obstacles/Rocks" index="552" instance=ExtResource( 4 )]
 position = Vector2( 8, 312 )
 
-[node name="Rock555" parent="Obstacles/Rocks" index="554" instance=ExtResource( 4 )]
+[node name="Rock555" parent="Obstacles/Rocks" index="553" instance=ExtResource( 4 )]
 position = Vector2( 8, 328 )
 
-[node name="Rock556" parent="Obstacles/Rocks" index="555" instance=ExtResource( 4 )]
+[node name="Rock556" parent="Obstacles/Rocks" index="554" instance=ExtResource( 4 )]
 position = Vector2( 8, 344 )
 
-[node name="Rock557" parent="Obstacles/Rocks" index="556" instance=ExtResource( 4 )]
+[node name="Rock557" parent="Obstacles/Rocks" index="555" instance=ExtResource( 4 )]
 position = Vector2( 8, 360 )
 
-[node name="Rock558" parent="Obstacles/Rocks" index="557" instance=ExtResource( 4 )]
+[node name="Rock558" parent="Obstacles/Rocks" index="556" instance=ExtResource( 4 )]
 position = Vector2( 8, 376 )
 
-[node name="Rock559" parent="Obstacles/Rocks" index="558" instance=ExtResource( 4 )]
+[node name="Rock559" parent="Obstacles/Rocks" index="557" instance=ExtResource( 4 )]
 position = Vector2( 8, 392 )
 
-[node name="Rock560" parent="Obstacles/Rocks" index="559" instance=ExtResource( 4 )]
+[node name="Rock560" parent="Obstacles/Rocks" index="558" instance=ExtResource( 4 )]
 position = Vector2( 8, 408 )
 
-[node name="Rock561" parent="Obstacles/Rocks" index="560" instance=ExtResource( 4 )]
+[node name="Rock561" parent="Obstacles/Rocks" index="559" instance=ExtResource( 4 )]
 position = Vector2( 8, 424 )
 
-[node name="Rock562" parent="Obstacles/Rocks" index="561" instance=ExtResource( 4 )]
+[node name="Rock562" parent="Obstacles/Rocks" index="560" instance=ExtResource( 4 )]
 position = Vector2( 8, 440 )
 
-[node name="Rock563" parent="Obstacles/Rocks" index="562" instance=ExtResource( 4 )]
+[node name="Rock563" parent="Obstacles/Rocks" index="561" instance=ExtResource( 4 )]
 position = Vector2( 8, 456 )
 
-[node name="Rock564" parent="Obstacles/Rocks" index="563" instance=ExtResource( 4 )]
+[node name="Rock564" parent="Obstacles/Rocks" index="562" instance=ExtResource( 4 )]
 position = Vector2( 8, 472 )
 
-[node name="Rock565" parent="Obstacles/Rocks" index="564" instance=ExtResource( 4 )]
+[node name="Rock565" parent="Obstacles/Rocks" index="563" instance=ExtResource( 4 )]
 position = Vector2( 8, 488 )
 
-[node name="Rock566" parent="Obstacles/Rocks" index="565" instance=ExtResource( 4 )]
+[node name="Rock566" parent="Obstacles/Rocks" index="564" instance=ExtResource( 4 )]
 position = Vector2( 8, 504 )
 
-[node name="Rock567" parent="Obstacles/Rocks" index="566" instance=ExtResource( 4 )]
+[node name="Rock567" parent="Obstacles/Rocks" index="565" instance=ExtResource( 4 )]
 position = Vector2( 8, 520 )
 
-[node name="Rock568" parent="Obstacles/Rocks" index="567" instance=ExtResource( 4 )]
+[node name="Rock568" parent="Obstacles/Rocks" index="566" instance=ExtResource( 4 )]
 position = Vector2( 8, 536 )
 
-[node name="Rock569" parent="Obstacles/Rocks" index="568" instance=ExtResource( 4 )]
+[node name="Rock569" parent="Obstacles/Rocks" index="567" instance=ExtResource( 4 )]
 position = Vector2( 8, 552 )
 
-[node name="Rock570" parent="Obstacles/Rocks" index="569" instance=ExtResource( 4 )]
+[node name="Rock570" parent="Obstacles/Rocks" index="568" instance=ExtResource( 4 )]
 position = Vector2( 8, 568 )
 
-[node name="Rock571" parent="Obstacles/Rocks" index="570" instance=ExtResource( 4 )]
+[node name="Rock571" parent="Obstacles/Rocks" index="569" instance=ExtResource( 4 )]
 position = Vector2( 8, 584 )
 
-[node name="Rock572" parent="Obstacles/Rocks" index="571" instance=ExtResource( 4 )]
+[node name="Rock572" parent="Obstacles/Rocks" index="570" instance=ExtResource( 4 )]
 position = Vector2( 8, 600 )
 
-[node name="Rock573" parent="Obstacles/Rocks" index="572" instance=ExtResource( 4 )]
+[node name="Rock573" parent="Obstacles/Rocks" index="571" instance=ExtResource( 4 )]
 position = Vector2( 8, 616 )
 
-[node name="Rock574" parent="Obstacles/Rocks" index="573" instance=ExtResource( 4 )]
+[node name="Rock574" parent="Obstacles/Rocks" index="572" instance=ExtResource( 4 )]
 position = Vector2( 8, 632 )
 
-[node name="Rock575" parent="Obstacles/Rocks" index="574" instance=ExtResource( 4 )]
+[node name="Rock575" parent="Obstacles/Rocks" index="573" instance=ExtResource( 4 )]
 position = Vector2( 8, 648 )
 
-[node name="Rock576" parent="Obstacles/Rocks" index="575" instance=ExtResource( 4 )]
+[node name="Rock576" parent="Obstacles/Rocks" index="574" instance=ExtResource( 4 )]
 position = Vector2( 8, 664 )
 
-[node name="Rock577" parent="Obstacles/Rocks" index="576" instance=ExtResource( 4 )]
+[node name="Rock577" parent="Obstacles/Rocks" index="575" instance=ExtResource( 4 )]
 position = Vector2( 8, 680 )
 
-[node name="Rock578" parent="Obstacles/Rocks" index="577" instance=ExtResource( 4 )]
+[node name="Rock578" parent="Obstacles/Rocks" index="576" instance=ExtResource( 4 )]
 position = Vector2( 8, 696 )
 
-[node name="Rock579" parent="Obstacles/Rocks" index="578" instance=ExtResource( 4 )]
+[node name="Rock579" parent="Obstacles/Rocks" index="577" instance=ExtResource( 4 )]
 position = Vector2( 8, 712 )
 
-[node name="Rock580" parent="Obstacles/Rocks" index="579" instance=ExtResource( 4 )]
+[node name="Rock580" parent="Obstacles/Rocks" index="578" instance=ExtResource( 4 )]
 position = Vector2( 8, 728 )
 
-[node name="Rock581" parent="Obstacles/Rocks" index="580" instance=ExtResource( 4 )]
+[node name="Rock581" parent="Obstacles/Rocks" index="579" instance=ExtResource( 4 )]
 position = Vector2( 8, 744 )
 
-[node name="Rock582" parent="Obstacles/Rocks" index="581" instance=ExtResource( 4 )]
+[node name="Rock582" parent="Obstacles/Rocks" index="580" instance=ExtResource( 4 )]
 position = Vector2( 8, 760 )
 
-[node name="Rock583" parent="Obstacles/Rocks" index="582" instance=ExtResource( 4 )]
+[node name="Rock583" parent="Obstacles/Rocks" index="581" instance=ExtResource( 4 )]
 position = Vector2( 8, 776 )
 
-[node name="Rock584" parent="Obstacles/Rocks" index="583" instance=ExtResource( 4 )]
+[node name="Rock584" parent="Obstacles/Rocks" index="582" instance=ExtResource( 4 )]
 position = Vector2( 8, 792 )
 
-[node name="Rock585" parent="Obstacles/Rocks" index="584" instance=ExtResource( 4 )]
+[node name="Rock585" parent="Obstacles/Rocks" index="583" instance=ExtResource( 4 )]
 position = Vector2( 8, 808 )
 
-[node name="Rock586" parent="Obstacles/Rocks" index="585" instance=ExtResource( 4 )]
+[node name="Rock586" parent="Obstacles/Rocks" index="584" instance=ExtResource( 4 )]
 position = Vector2( 8, 824 )
 
-[node name="Rock587" parent="Obstacles/Rocks" index="586" instance=ExtResource( 4 )]
+[node name="Rock587" parent="Obstacles/Rocks" index="585" instance=ExtResource( 4 )]
 position = Vector2( 8, 840 )
 
-[node name="Rock588" parent="Obstacles/Rocks" index="587" instance=ExtResource( 4 )]
+[node name="Rock588" parent="Obstacles/Rocks" index="586" instance=ExtResource( 4 )]
 position = Vector2( 8, 856 )
 
-[node name="Rock589" parent="Obstacles/Rocks" index="588" instance=ExtResource( 4 )]
+[node name="Rock589" parent="Obstacles/Rocks" index="587" instance=ExtResource( 4 )]
 position = Vector2( 8, 872 )
 
-[node name="Rock590" parent="Obstacles/Rocks" index="589" instance=ExtResource( 4 )]
+[node name="Rock590" parent="Obstacles/Rocks" index="588" instance=ExtResource( 4 )]
 position = Vector2( 8, 888 )
 
-[node name="Rock591" parent="Obstacles/Rocks" index="590" instance=ExtResource( 4 )]
+[node name="Rock591" parent="Obstacles/Rocks" index="589" instance=ExtResource( 4 )]
 position = Vector2( 8, 904 )
 
-[node name="Rock592" parent="Obstacles/Rocks" index="591" instance=ExtResource( 4 )]
+[node name="Rock592" parent="Obstacles/Rocks" index="590" instance=ExtResource( 4 )]
 position = Vector2( 8, 920 )
 
-[node name="Rock593" parent="Obstacles/Rocks" index="592" instance=ExtResource( 4 )]
+[node name="Rock593" parent="Obstacles/Rocks" index="591" instance=ExtResource( 4 )]
 position = Vector2( 8, 936 )
 
-[node name="Rock594" parent="Obstacles/Rocks" index="593" instance=ExtResource( 4 )]
+[node name="Rock594" parent="Obstacles/Rocks" index="592" instance=ExtResource( 4 )]
 position = Vector2( 8, 952 )
 
-[node name="Rock595" parent="Obstacles/Rocks" index="594" instance=ExtResource( 4 )]
+[node name="Rock595" parent="Obstacles/Rocks" index="593" instance=ExtResource( 4 )]
 position = Vector2( 8, 968 )
 
-[node name="Rock596" parent="Obstacles/Rocks" index="595" instance=ExtResource( 4 )]
+[node name="Rock596" parent="Obstacles/Rocks" index="594" instance=ExtResource( 4 )]
 position = Vector2( 8, 984 )
 
-[node name="Rock597" parent="Obstacles/Rocks" index="596" instance=ExtResource( 4 )]
+[node name="Rock597" parent="Obstacles/Rocks" index="595" instance=ExtResource( 4 )]
 position = Vector2( 8, 1000 )
 
-[node name="Rock598" parent="Obstacles/Rocks" index="597" instance=ExtResource( 4 )]
+[node name="Rock598" parent="Obstacles/Rocks" index="596" instance=ExtResource( 4 )]
 position = Vector2( 8, 1016 )
 
-[node name="Rock599" parent="Obstacles/Rocks" index="598" instance=ExtResource( 4 )]
+[node name="Rock599" parent="Obstacles/Rocks" index="597" instance=ExtResource( 4 )]
 position = Vector2( 8, 1032 )
 
-[node name="Rock600" parent="Obstacles/Rocks" index="599" instance=ExtResource( 4 )]
+[node name="Rock600" parent="Obstacles/Rocks" index="598" instance=ExtResource( 4 )]
 position = Vector2( 8, 1048 )
 
-[node name="Rock601" parent="Obstacles/Rocks" index="600" instance=ExtResource( 4 )]
+[node name="Rock601" parent="Obstacles/Rocks" index="599" instance=ExtResource( 4 )]
 position = Vector2( 8, 1064 )
 
-[node name="Rock602" parent="Obstacles/Rocks" index="601" instance=ExtResource( 4 )]
+[node name="Rock602" parent="Obstacles/Rocks" index="600" instance=ExtResource( 4 )]
 position = Vector2( 8, 1080 )
 
-[node name="Rock603" parent="Obstacles/Rocks" index="602" instance=ExtResource( 4 )]
+[node name="Rock603" parent="Obstacles/Rocks" index="601" instance=ExtResource( 4 )]
 position = Vector2( 8, 1096 )
 
-[node name="Rock604" parent="Obstacles/Rocks" index="603" instance=ExtResource( 4 )]
+[node name="Rock604" parent="Obstacles/Rocks" index="602" instance=ExtResource( 4 )]
 position = Vector2( 8, 1112 )
 
-[node name="Rock605" parent="Obstacles/Rocks" index="604" instance=ExtResource( 4 )]
+[node name="Rock605" parent="Obstacles/Rocks" index="603" instance=ExtResource( 4 )]
 position = Vector2( 8, 1128 )
 
-[node name="Rock606" parent="Obstacles/Rocks" index="605" instance=ExtResource( 4 )]
+[node name="Rock606" parent="Obstacles/Rocks" index="604" instance=ExtResource( 4 )]
 position = Vector2( 8, 1144 )
 
-[node name="Rock607" parent="Obstacles/Rocks" index="606" instance=ExtResource( 4 )]
+[node name="Rock607" parent="Obstacles/Rocks" index="605" instance=ExtResource( 4 )]
 position = Vector2( 8, 1160 )
 
-[node name="Rock608" parent="Obstacles/Rocks" index="607" instance=ExtResource( 4 )]
+[node name="Rock608" parent="Obstacles/Rocks" index="606" instance=ExtResource( 4 )]
 position = Vector2( 8, 1176 )
 
-[node name="Rock609" parent="Obstacles/Rocks" index="608" instance=ExtResource( 4 )]
+[node name="Rock609" parent="Obstacles/Rocks" index="607" instance=ExtResource( 4 )]
 position = Vector2( 8, 1192 )
 
-[node name="Rock610" parent="Obstacles/Rocks" index="609" instance=ExtResource( 4 )]
+[node name="Rock610" parent="Obstacles/Rocks" index="608" instance=ExtResource( 4 )]
 position = Vector2( 8, 1208 )
 
-[node name="Rock611" parent="Obstacles/Rocks" index="610" instance=ExtResource( 4 )]
+[node name="Rock611" parent="Obstacles/Rocks" index="609" instance=ExtResource( 4 )]
 position = Vector2( 8, 1224 )
 
-[node name="Rock612" parent="Obstacles/Rocks" index="611" instance=ExtResource( 4 )]
+[node name="Rock612" parent="Obstacles/Rocks" index="610" instance=ExtResource( 4 )]
 position = Vector2( 8, 1240 )
 
-[node name="Rock613" parent="Obstacles/Rocks" index="612" instance=ExtResource( 4 )]
+[node name="Rock613" parent="Obstacles/Rocks" index="611" instance=ExtResource( 4 )]
 position = Vector2( 8, 1256 )
 
-[node name="Rock614" parent="Obstacles/Rocks" index="613" instance=ExtResource( 4 )]
+[node name="Rock614" parent="Obstacles/Rocks" index="612" instance=ExtResource( 4 )]
 position = Vector2( 8, 1272 )
 
-[node name="Rock615" parent="Obstacles/Rocks" index="614" instance=ExtResource( 4 )]
+[node name="Rock615" parent="Obstacles/Rocks" index="613" instance=ExtResource( 4 )]
 position = Vector2( 8, 1288 )
 
-[node name="Rock616" parent="Obstacles/Rocks" index="615" instance=ExtResource( 4 )]
+[node name="Rock616" parent="Obstacles/Rocks" index="614" instance=ExtResource( 4 )]
 position = Vector2( 8, 1304 )
 
-[node name="Rock617" parent="Obstacles/Rocks" index="616" instance=ExtResource( 4 )]
+[node name="Rock617" parent="Obstacles/Rocks" index="615" instance=ExtResource( 4 )]
 position = Vector2( 8, 1320 )
 
-[node name="Rock618" parent="Obstacles/Rocks" index="617" instance=ExtResource( 4 )]
+[node name="Rock618" parent="Obstacles/Rocks" index="616" instance=ExtResource( 4 )]
 position = Vector2( 8, 1336 )
 
-[node name="Rock619" parent="Obstacles/Rocks" index="618" instance=ExtResource( 4 )]
+[node name="Rock619" parent="Obstacles/Rocks" index="617" instance=ExtResource( 4 )]
 position = Vector2( 8, 1352 )
 
-[node name="Rock620" parent="Obstacles/Rocks" index="619" instance=ExtResource( 4 )]
+[node name="Rock620" parent="Obstacles/Rocks" index="618" instance=ExtResource( 4 )]
 position = Vector2( 8, 1368 )
 
-[node name="Rock621" parent="Obstacles/Rocks" index="620" instance=ExtResource( 4 )]
+[node name="Rock621" parent="Obstacles/Rocks" index="619" instance=ExtResource( 4 )]
 position = Vector2( 8, 1384 )
 
-[node name="Rock622" parent="Obstacles/Rocks" index="621" instance=ExtResource( 4 )]
+[node name="Rock622" parent="Obstacles/Rocks" index="620" instance=ExtResource( 4 )]
 position = Vector2( 8, 1400 )
 
-[node name="Rock623" parent="Obstacles/Rocks" index="622" instance=ExtResource( 4 )]
+[node name="Rock623" parent="Obstacles/Rocks" index="621" instance=ExtResource( 4 )]
 position = Vector2( 8, 1416 )
 
-[node name="Rock624" parent="Obstacles/Rocks" index="623" instance=ExtResource( 4 )]
+[node name="Rock624" parent="Obstacles/Rocks" index="622" instance=ExtResource( 4 )]
 position = Vector2( 8, 1432 )
 
-[node name="Rock625" parent="Obstacles/Rocks" index="624" instance=ExtResource( 4 )]
+[node name="Rock625" parent="Obstacles/Rocks" index="623" instance=ExtResource( 4 )]
 position = Vector2( 8, 1448 )
 
-[node name="Rock626" parent="Obstacles/Rocks" index="625" instance=ExtResource( 4 )]
+[node name="Rock626" parent="Obstacles/Rocks" index="624" instance=ExtResource( 4 )]
 position = Vector2( 8, 1464 )
 
-[node name="Rock627" parent="Obstacles/Rocks" index="626" instance=ExtResource( 4 )]
+[node name="Rock627" parent="Obstacles/Rocks" index="625" instance=ExtResource( 4 )]
 position = Vector2( 8, 1480 )
 
-[node name="Rock628" parent="Obstacles/Rocks" index="627" instance=ExtResource( 4 )]
+[node name="Rock628" parent="Obstacles/Rocks" index="626" instance=ExtResource( 4 )]
 position = Vector2( 8, 1496 )
 
-[node name="Rock629" parent="Obstacles/Rocks" index="628" instance=ExtResource( 4 )]
+[node name="Rock629" parent="Obstacles/Rocks" index="627" instance=ExtResource( 4 )]
 position = Vector2( 8, 1512 )
 
-[node name="Rock630" parent="Obstacles/Rocks" index="629" instance=ExtResource( 4 )]
+[node name="Rock630" parent="Obstacles/Rocks" index="628" instance=ExtResource( 4 )]
 position = Vector2( 8, 1528 )
 
-[node name="Rock631" parent="Obstacles/Rocks" index="630" instance=ExtResource( 4 )]
+[node name="Rock631" parent="Obstacles/Rocks" index="629" instance=ExtResource( 4 )]
 position = Vector2( 24, 1528 )
 
-[node name="Rock632" parent="Obstacles/Rocks" index="631" instance=ExtResource( 4 )]
+[node name="Rock632" parent="Obstacles/Rocks" index="630" instance=ExtResource( 4 )]
 position = Vector2( 40, 1528 )

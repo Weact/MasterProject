@@ -30,6 +30,9 @@ max_speed = 80.0
 white_mat = ExtResource( 16 )
 default_state = "Idle"
 
+[node name="DamageableBehavior" parent="." instance=ExtResource( 10 )]
+owner_object_path = NodePath("..")
+
 [node name="DebugControl" parent="." instance=ExtResource( 2 )]
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
@@ -105,9 +108,6 @@ __meta__ = {
 margin_top = 13.0
 margin_right = 40.0
 margin_bottom = 27.0
-
-[node name="DamageableBehavior" parent="." instance=ExtResource( 10 )]
-owner_object_path = NodePath("..")
 
 [node name="PickUpArea" type="Area2D" parent="."]
 visible = false

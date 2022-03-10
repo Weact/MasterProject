@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Scenes/Items/Weapons/Bow/Arrow.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Items/Weapons/Bow/weapon_arrow.png" type="Texture" id=2]
@@ -38,6 +38,31 @@ tracks/0/keys = {
 radius = 2.0
 height = 2.0
 
+[sub_resource type="Gradient" id=5]
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=6]
+gradient = SubResource( 5 )
+
+[sub_resource type="Curve" id=7]
+max_value = 200.0
+_data = [ Vector2( 0.0363636, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.272727, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.568182, 200 ), -3.63635, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=8]
+curve = SubResource( 7 )
+
+[sub_resource type="ParticlesMaterial" id=9]
+flag_disable_z = true
+direction = Vector3( 0, 1, 0 )
+gravity = Vector3( 0, 45, 0 )
+initial_velocity = 25.0
+initial_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping_curve = SubResource( 8 )
+scale = 1.5
+color_ramp = SubResource( 6 )
+
 [node name="Arrow" type="KinematicBody2D"]
 position = Vector2( 7, 0 )
 script = ExtResource( 1 )
@@ -67,3 +92,10 @@ disabled = true
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0
 one_shot = true
+
+[node name="Particles2D" type="Particles2D" parent="."]
+emitting = false
+amount = 128
+lifetime = 0.65
+local_coords = false
+process_material = SubResource( 9 )

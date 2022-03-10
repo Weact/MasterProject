@@ -3,7 +3,7 @@ class_name NpcAttackBehavior
 func is_class(value: String): return value == "NpcAttackBehavior" or .is_class(value)
 func get_class() -> String: return "NpcAttackBehavior"
 
-var minDist = 0
+var randDist = 0
 onready var timer = get_node("AttackTimer")
 
 func _ready() -> void:
@@ -13,28 +13,26 @@ func enter_state() -> void:
 	.enter_state()
 	if owner.state_machine == null or !is_instance_valid(owner.target):
 		return
-	#minDist = rand_range(state_machine.kite_dist, state_machine.kite_dist)
 	
 	var weapon = owner.weapon_node
 	owner.set_look_direction(state_machine.get_target_direction())
 	owner.update_move_path(owner.target.position)
 	if is_instance_valid(weapon) and weapon.is_class("Sword"):
 		state_machine.tryDodge()
-	timer.start(0.2+randf()/2)
-	var dist_tar = owner.get_path_dist_to(owner.target.position)
+	var timer_dur = 0.2+randf()/2
+	timer.start(timer_dur)
 	if !is_instance_valid(weapon):
 		return
+		
+	randDist = 0
 	if weapon.is_class("Sword"):
 		if is_instance_valid(owner.target):
 			owner.update_move_path(owner.target.position)
 			if is_instance_valid(owner.target.weapon_node):
-				var randDist = 0
 				if owner.target.weapon_node.is_class("Sword"):
 					state_machine.kite()
 					randDist += randi() % 3
-				if dist_tar <= state_machine.kite_dist/16.0+randDist:
-					weapon.press()
-					
+				
 				
 	else:
 		weapon.press()
@@ -45,6 +43,15 @@ func update(_delta : float) ->void:
 	if owner.state_machine == null or !is_instance_valid(owner.target):
 		return
 
+	var weapon = owner.weapon_node
+	var dist_tar = owner.get_path_dist_to(owner.target.position)
+	if is_instance_valid(owner.target.weapon_node):
+		if owner.target.weapon_node.is_class("Bow"):
+			owner.update_move_path(owner.target.position)
+	if dist_tar <= randDist:
+		weapon.press()
+	if dist_tar <= 0:
+		weapon.release()
 	owner.set_look_direction(state_machine.get_target_direction())
 	
 func exit_state() -> void:
