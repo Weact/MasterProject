@@ -1,18 +1,16 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scenes/Inventory/Inventory.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Inventory/Assets/Exit/ExitInventoryIconPressed.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/Inventory/Assets/Background/BackgroundFrame.png" type="Texture" id=3]
 [ext_resource path="res://Scenes/Inventory/Assets/Exit/ExitInventoryIcon.png" type="Texture" id=4]
 [ext_resource path="res://Scenes/Inventory/Assets/Title/TitleFrame.png" type="Texture" id=5]
+[ext_resource path="res://Scenes/Inventory/ItemSlot/ItemSlot.tscn" type="PackedScene" id=6]
 
 [node name="Inventory" type="Control"]
-anchor_right = 1.0
+anchor_right = 0.379
 anchor_bottom = 1.0
-margin_left = 431.0
-margin_top = 28.0
-margin_right = -175.0
-margin_bottom = -49.0
+margin_right = 0.160004
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -27,6 +25,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="DropItemSlot" parent="Background" instance=ExtResource( 6 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 366.0
+margin_right = 590.0
+margin_bottom = 0.0
+
 [node name="MC" type="MarginContainer" parent="Background"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -40,23 +45,29 @@ __meta__ = {
 }
 
 [node name="VBC" type="VBoxContainer" parent="Background/MC"]
-margin_right = 290.0
-margin_bottom = 399.0
+margin_right = 300.0
+margin_bottom = 476.0
 custom_constants/separation = 25
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="HBC" type="HBoxContainer" parent="Background/MC/VBC"]
-margin_right = 290.0
+margin_right = 300.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 0, 32 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Begin" type="Control" parent="Background/MC/VBC/HBC"]
-margin_right = 77.0
+margin_right = 82.0
 margin_bottom = 32.0
 size_flags_horizontal = 3
 
 [node name="Title" type="TextureRect" parent="Background/MC/VBC/HBC"]
-margin_left = 81.0
-margin_right = 209.0
+margin_left = 86.0
+margin_right = 214.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 128, 0 )
 texture = ExtResource( 5 )
@@ -73,8 +84,8 @@ __meta__ = {
 }
 
 [node name="Exit" type="Control" parent="Background/MC/VBC/HBC"]
-margin_left = 213.0
-margin_right = 290.0
+margin_left = 218.0
+margin_right = 300.0
 margin_bottom = 32.0
 size_flags_horizontal = 3
 
@@ -92,15 +103,21 @@ __meta__ = {
 
 [node name="SC" type="ScrollContainer" parent="Background/MC/VBC"]
 margin_top = 57.0
-margin_right = 290.0
-margin_bottom = 399.0
+margin_right = 300.0
+margin_bottom = 476.0
 size_flags_vertical = 3
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="SlotsContainer" type="GridContainer" parent="Background/MC/VBC/SC"]
-margin_right = 290.0
-margin_bottom = 342.0
+margin_right = 300.0
+margin_bottom = 419.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/vseparation = 8
 custom_constants/hseparation = 8
 columns = 5
+__meta__ = {
+"_edit_lock_": true
+}
