@@ -22,6 +22,8 @@ func release() -> void:
 	elif charged_skill.is_preparing():
 		var __ = weapon_handler_node.use_skill("Attack")
 		
+func cancel() -> void:
+	var __ = weapon_handler_node.use_skill(null)
 		
 func add_weapon_skills():
 	weapon_handler_node.add_skill("Attack")

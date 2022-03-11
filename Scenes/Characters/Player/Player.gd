@@ -188,6 +188,8 @@ func action(action_name: String) -> void:
 				
 			attackPressed = false
 		"Block_Pressed":
+			if is_instance_valid(weapon_node):
+				weapon_node.cancel()
 			if is_instance_valid(shield_node):
 				shield_node.press()
 			blockPressed = true

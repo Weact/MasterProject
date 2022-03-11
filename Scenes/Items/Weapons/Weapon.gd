@@ -82,3 +82,6 @@ func release() -> void:
 
 func trigger() -> void:
 	pass
+	
+func cancel() -> void:
+	pass

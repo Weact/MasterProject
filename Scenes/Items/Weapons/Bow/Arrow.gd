@@ -66,6 +66,7 @@ func _on_body_entered(body) -> void:
 		return
 	var damageable = body.get_node_or_null("DamageableBehavior")
 	if !is_instance_valid(damageable):
+		stop()
 		return
 	
 	if is_instance_valid(shooter):

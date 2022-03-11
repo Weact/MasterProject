@@ -13,6 +13,8 @@ var relations = {}
 var fight_distance = 10.0
 signal move_path_finished
 
+onready var ray_cast = $RayCast2D
+
 #### ACCESSORS ####
 
 func add_relation(index, value) -> void:
@@ -33,7 +35,7 @@ func _ready() -> void:
 	__ = visionArea.connect("body_exited", self, "_on_npc_visionArea_exited")
 	__ = connect("liege_changed", self, "_on_new_liege")
 	
-	$RayCast2D.set_collide_with_bodies(true)
+	ray_cast.set_collide_with_bodies(true)
 	if randi() % 2 == 0:
 		var sword_instance = GAME.generate_item("Sword")
 		yield(sword_instance, "ready")
@@ -101,13 +103,19 @@ func get_dist_to(to : Vector2) -> float:
 		return position.distance_to(to)
 	return 99999.9
 		
+func ray_cast_to(pos) -> Array:
+	ray_cast.enabled = true
+	ray_cast.set_cast_to(pos)
+	ray_cast.force_raycast_update()
+	
+	var collider = ray_cast.get_collider() 
+	ray_cast.enabled = false
+	return collider
+
 func move_along_path(delta: float) -> void:
 	var noObstacle = true
 	while path.size() > 1 and noObstacle:
-		$RayCast2D.enabled = true
-		$RayCast2D.set_cast_to(path[1] - position)
-		$RayCast2D.force_raycast_update()
-		var collideObject = $RayCast2D.get_collider() 
+		var collideObject = ray_cast_to(path[1]-position)
 		if collideObject != null:
 			for group in collideObject.get_groups():
 				noObstacle = false
@@ -115,7 +123,6 @@ func move_along_path(delta: float) -> void:
 		if noObstacle:
 			path.remove(0)
 		
-	$RayCast2D.enabled = false
 		
 	if path.empty():
 		set_direction(Vector2.ZERO)
@@ -134,7 +141,6 @@ func move_along_path(delta: float) -> void:
 		path.remove(0)
 
 #### SIGNAL RESPONSES ####
-		
 
 func _on_StateMachine_state_changed(state) -> void:
 	if state_machine == null:

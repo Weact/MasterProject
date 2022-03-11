@@ -138,19 +138,20 @@ editor_draw_drag_margin = true
 [node name="Inputs" type="Node" parent="." index="1"]
 script = ExtResource( 6 )
 
-[node name="AnimatedSprite" parent="." index="3"]
+[node name="AnimatedSprite" parent="." index="4"]
 position = Vector2( 0, -4 )
 frames = SubResource( 10 )
 animation = "Idle"
+frame = 1
 playing = true
 
 [node name="AnimationPlayer" parent="WeaponsPoint" index="0"]
 anims/unblock = SubResource( 17 )
 
-[node name="CollisionShape2D" parent="." index="5"]
+[node name="CollisionShape2D" parent="." index="6"]
 shape = SubResource( 11 )
 
-[node name="StateMachine" parent="." index="7"]
+[node name="StateMachine" parent="." index="8"]
 visible = true
 
 [node name="StateLabel" type="Label" parent="StateMachine" index="5"]
