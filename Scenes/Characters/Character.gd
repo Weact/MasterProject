@@ -378,28 +378,50 @@ func pick_up() -> void:
 			closest_body = body
 
 	if is_instance_valid(closest_body):
-		equip_item(closest_body)
+		take_item(closest_body)
+#		equip_item(closest_body)
 
-func equip_item(item) -> void:
+func take_item(item) -> void:
 	if not item.is_class("Weapon"):
 		return
+	
+	if item.is_class("Sword"):
+		CharacterInventory.add_item(10001)
+	elif item.is_class("Shield"):
+		CharacterInventory.add_item(10002)
+	elif item.is_class("Bow"):
+		CharacterInventory.add_item(10003)
 
-	item.equip(self)
+func equip_item(item : ItemResource, slot : int = -1) -> void:
+	if item == null:
+		return
+		
+	var item_object : Weapon = null
+	var item_instance = item.get_item_scene().instance()
+	
+	item_instance.set_name(item.get_name())
+	get_tree().get_root().call_deferred("add_child", item_instance, true)
+	item_object = item_instance
+	
+	yield(item_object, "tree_entered")
+	yield(item_object, "ready")
+	
+	item_object.equip(self)
 
 	var __ = skill_tree.use_skill(null)
 
-	if item.is_class("Sword") :
-		set_weapon_node(item)
-		CharacterInventory.add_item(10001)
+	if item_object.is_class("Sword") :
+		set_weapon_node(item_object)
 
-	elif item.is_class("Shield"):
-		CharacterInventory.add_item(10002)
-		set_shield_node(item)
+	elif item_object.is_class("Shield"):
+		set_shield_node(item_object)
 
-	elif item.is_class("Bow"):
-		CharacterInventory.add_item(10003)
-		set_weapon_node(item)
+	elif item_object.is_class("Bow"):
+		set_weapon_node(item_object)
 		__ = drop_shield()
+	
+	if slot != -1:
+		CharacterInventory.remove_item(slot)
 
 func set_weapon_node(item) -> void:
 	var __ = drop_weapon()

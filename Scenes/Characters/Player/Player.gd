@@ -16,6 +16,9 @@ var attackPressed : bool = false
 
 #### BUILT-IN ####
 
+func _ready() -> void:
+	var __ = EVENTS.connect("inventory_item_equip", self, "_on_inventory_item_equip")
+
 #### VIRTUALS ####
 
 #### LOGIC ####
@@ -136,7 +139,9 @@ func action(action_name: String) -> void:
 
 	set_direction(Vector2(dirRight - dirLeft, dirDown - dirUp))
 
- 
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
+func _on_inventory_item_equip(item, slot) -> void:
+	CharacterInventory.add_equipped_item(item)
+	equip_item(item, slot)

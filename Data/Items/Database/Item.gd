@@ -18,7 +18,7 @@ export(ITEM_SLOT) var slot = ITEM_SLOT.NONE
 
 export(Texture) var texture
 
-export(PackedScene) var scene_path
+export(PackedScene) var ItemScene
 
 # ACCESSORS
 
@@ -42,6 +42,9 @@ func get_slot() -> int: #ITEM_SLOT
 
 func get_texture() -> Texture:
 	return texture
+
+func get_item_scene() -> PackedScene:
+	return ItemScene
 
 # LOGIC
 func display() -> void:

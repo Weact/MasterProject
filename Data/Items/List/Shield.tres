@@ -13,4 +13,4 @@ type = 3
 rarity = 0
 slot = 7
 texture = ExtResource( 2 )
-scene_path = ExtResource( 3 )
+ItemScene = ExtResource( 3 )

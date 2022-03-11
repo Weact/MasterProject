@@ -7,6 +7,7 @@ export(int) var fill_ratio = 1
 enum INVENTORY_SORTING_MODE{NONE = 0, NAME, RARITY, TYPE}
 
 var items = ItemsDatabase.get_items()
+var equipped_items : Array = []
 
 signal inventory_shuffled
 signal inventory_sorted
@@ -16,6 +17,7 @@ signal inventory_sorted
 func get_character_inv_data_as_array() -> Array:
 	return character_inv_data
 
+## RETURN THE CHARACTER INV DATA AS STRING FORMAT
 func get_inventory_data_as_text() -> String:
 	var items_in_inventory : String = ""
 	
@@ -25,9 +27,48 @@ func get_inventory_data_as_text() -> String:
 	
 	return items_in_inventory
 
+####### INVENTORY ITEMS
+
+## SET THE ITEM BY ID AT SPECIFIED SLOT
+func set_item(slot: int, id: int) -> void:
+	if is_slot_valid(slot):
+		character_inv_data[slot] = ItemsDatabase.get_item(id)
+## RETURNS ITEM AT SPECIFIED SLOT
+func get_item(slot: int) -> ItemResource:
+	if is_slot_valid(slot):
+		return character_inv_data[slot]
+	return null
+## ADD AN ITEM TO INVENTORY BY ID
+func add_item(id: int) -> void:
+	for item in items:
+		if str(id) == item:
+			for inv_slot in character_inv_data.size():
+				if character_inv_data[inv_slot] == null:
+					character_inv_data[inv_slot] = ItemsDatabase.get_item(id)
+					return
+## REMOVE ITEM FROM INVENTORY FROM SLOT
+func remove_item(slot: int) -> void:
+	if is_slot_valid(slot):
+		if character_inv_data[slot] != null:
+			character_inv_data[slot] = null
+## REPLACE ITEM A BY ITEM B
+func replace_item(origin_slot: int, target_slot: int) -> void:
+	if is_slot_valid(origin_slot) and is_slot_valid(target_slot):
+		var tmp_slot = character_inv_data[target_slot]
+		
+		character_inv_data[target_slot] = character_inv_data[origin_slot]
+		character_inv_data[origin_slot] = tmp_slot
+## CHECK IF AN INVENTORY SLOT IS VALID
+func is_slot_valid(slot: int) -> bool:
+	if slot >= 0:
+		return true
+	
+	push_error("Invalid Slot for Inventory")
+	return false
+## DOES THE INVENTORY HAS AN ITEM OR NONE ?
 func is_inventory_empty() -> bool:
 	return count_valid_items() == 0
-
+## COUNT ITEMS IN INVENTORY
 func count_valid_items() -> int:
 	var valid_item_count : int = 0
 	for item in character_inv_data:
@@ -36,16 +77,27 @@ func count_valid_items() -> int:
 	
 	return valid_item_count
 
-func set_item(slot: int, id: int) -> void:
-	if is_slot_valid(slot):
-		character_inv_data[slot] = ItemsDatabase.get_item(id)
+####### EQUIPPED ITEMS
 
-func is_slot_valid(slot: int) -> bool:
-	if slot >= 0:
-		return true
-	
-	push_error("Invalid Slot for Inventory")
-	return false
+## ADD EQUIPPED ITEM BY ITEMRESOURCE
+func add_equipped_item(item: ItemResource) -> void:
+	if equipped_items.size() >= 2:
+		return
+	equipped_items.append(item)
+## REMOVE EQUIPPED ITEM BY RESOURCE
+func remove_equipped_item(item: ItemResource) -> void:
+	if equipped_items.has(item):
+		equipped_items.remove(equipped_items.find(item))
+## CLEAR EQUIPPED ITEM ARRAY
+func clear_equipped_item() -> void:
+	equipped_items.clear()
+## CHECK IF AN ITEM IS EQUIPPED
+func has_equipped_items() -> bool:
+	return equipped_items.size() > 0
+## RETURNS EQUIPPED ITEMS
+func get_equipped_items() -> Array:
+	return equipped_items
+
 
 # BUILTIN
 
@@ -59,30 +111,10 @@ func _ready() -> void:
 
 # LOGIC
 
-
 func init_inventory() -> void:
 	for i in character_inv_size:
 		character_inv_data.append(null)
 
-func add_item(id: int) -> void:
-	for item in items:
-		if str(id) == item:
-			for inv_slot in character_inv_data.size():
-				if character_inv_data[inv_slot] == null:
-					character_inv_data[inv_slot] = ItemsDatabase.get_item(id)
-					return
-
-func remove_item(slot: int) -> void:
-	if is_slot_valid(slot):
-		if character_inv_data[slot] != null:
-			character_inv_data[slot] = null
-
-func replace_item(origin_slot: int, target_slot: int) -> void:
-	if is_slot_valid(origin_slot) and is_slot_valid(target_slot):
-		var tmp_slot = character_inv_data[target_slot]
-		
-		character_inv_data[target_slot] = character_inv_data[origin_slot]
-		character_inv_data[origin_slot] = tmp_slot
 
 func shuffle_inventory() -> void:
 	if is_inventory_empty():
