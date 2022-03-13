@@ -26,15 +26,34 @@ onready var weapons_animation_player_node : AnimationPlayer = get_node_or_null("
 
 onready var pick_up_area : Area2D = $PickUpArea
 
+var visible_characters = []
+onready var visionArea = $visionArea
+
+var liege : Node2D = null setget set_liege, get_liege
+signal liege_changed
+
+var vassals = []
+
+signal target_changed
+
+var target  : Node2D = null setget set_target
 ## STATS
 
+func get_target() -> Node2D:
+	return target
+
+func target_in_chase_area() -> bool:
+	return can_see(target)
+	
 export var weight : int = 5
 signal weight_changed()
 
-export var health_point : int = 0
+export var max_health_point : int = 10
+var health_point : int = 0
 signal health_point_changed()
 
-export var stamina : float = 0.0
+export var max_stamina : float = 10.0
+var stamina : float = 0.0
 var regen_stamina: Variable = Variable.new(1.0)
 var stamina_regen_delay : float = 0.1
 var timer_stamina_regen : Timer = null
@@ -43,7 +62,7 @@ signal stamina_changed()
 ## MOVEMENTS
 var stunned : bool = false setget set_stunned, is_stunned
 signal stun_changed(stun_state)
-var stun_duration : float = 0.2
+var stun_duration : float = 0.1
 
 export var max_speed : float = 0.0
 signal max_speed_changed(max_speed)
@@ -81,6 +100,8 @@ signal attack_hit
 # warning-ignore:unused_signal
 signal shield_hit
 
+signal damaged
+
 ## STATES
 export var default_state : String = ""
 
@@ -97,6 +118,14 @@ func get_current_state() -> String:
 	return state_machine.get_state_name()
 
 #### ACCESSORS ####
+func set_liege(body) -> void:
+	if body != self and body != liege:
+		emit_signal("liege_changed", body)
+		liege = body
+		
+func get_liege() -> Node2D:
+	return liege
+	
 func set_state(new_state : String) -> void:
 	if can_change_state():
 		state_machine.set_state(new_state)
@@ -107,6 +136,11 @@ func can_change_state() -> bool:
 		changeable = true
 	return changeable
 
+func set_target(value : Node2D) -> void:
+	if target != value:
+		target = value
+		emit_signal("target_changed", target)
+		
 ##PATHFINDER WEIGHT
 func set_pathfinder(newPath : Pathfinder) -> void:
 	if pathfinder != newPath:
@@ -126,7 +160,7 @@ func set_current_tile(tilePos : Vector2) -> void:
 		emit_signal("current_tile_changed", oldTile, current_tile)
 
 ## HEALTH POINT
-func set_health_point(new_health_point: int, cheats: bool = false) -> void:
+func set_health_point(new_health_point: int, _cheats: bool = false) -> void:
 	if health_point != new_health_point:
 		health_point = new_health_point
 
@@ -208,6 +242,11 @@ func is_facing_left() -> bool: return facing_left
 func _ready() -> void:
 	init_panels()
 	setup_skills()
+	var __ = connect("target_changed", self, "_on_target_changed")
+	health_point = max_health_point
+	stamina = max_stamina
+	__  = visionArea.connect("body_entered", self, "_on_visionArea_body_entered")
+	__ = visionArea.connect("body_exited", self, "_on_visionArea_body_exited")
 
 	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
 
@@ -269,6 +308,16 @@ func _physics_process(_delta: float) -> void:
 #### VIRTUALS ####
 
 #### LOGIC ####
+func can_see(body) -> bool:
+	if !is_instance_valid(body):
+		return false
+		
+	for visible_char in visible_characters:
+		if body == visible_char:
+			return true
+	
+	return false
+	
 
 func update_weapon_rotation(_delta, rot_vel) -> void:
 	var difference = fmod(look_direction - weapons_node.rotation_degrees, 360)
@@ -279,10 +328,13 @@ func update_weapon_rotation(_delta, rot_vel) -> void:
 		weapons_node.rotation_degrees = weapons_node.rotation_degrees + rot_vel*_delta
 	set_facing_left(weapons_node.rotation_degrees < -90 or weapons_node.rotation_degrees > 90)
 
-func stun() -> void:
-	set_stunned(true)
+func stun(duration :float = 0.1) -> void:
+	set_stunned(duration)
 func unstun() -> void:
 	set_stunned(false)
+	can_attack = true
+	can_block = true
+	animated_sprite.set_material(get_material())
 
 
 func init_panels() -> void:
@@ -321,7 +373,7 @@ func flip_weapon(weapon) -> void:
 	if weapon.rotate_v:
 		weapon.get_node_or_null("Sprite").set_flip_v(facing_left)
 
-func damaged(damage_taken) -> void:
+func damaged(damage_taken, damager = null) -> void:
 	if get_state_name() == "Dodge":
 		return
 
@@ -337,6 +389,7 @@ func damaged(damage_taken) -> void:
 
 	set_stunned(true)
 	remove_health_point(damage_taken)
+	emit_signal("damaged", damage_taken, damager)
 
 func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: bool = false) -> Timer:
 	var new_timer = Timer.new()
@@ -485,6 +538,10 @@ func has_weapon() -> bool:
 
 func has_shield() -> bool:
 	return shield_point.get_child_count() <= 0
+	
+func select(value : bool =true) -> void:
+	$SelectionCircle.emitting = value
+
 
 #### INPUTS ####
 
@@ -494,30 +551,31 @@ func has_shield() -> bool:
 func _on_stun_changed(stun_state: bool) -> void:
 	if stun_state:
 		var duration = stun_duration
-		if get_state_name() == "Attack":
-			state_machine.set_state("Idle")
-		elif get_state_name() == "Block":
-			state_machine.set_state("Idle")
-			duration = duration*3
+		state_machine.set_state("Idle")
+		duration = duration*3
 
 		var stun_timer = GAME._create_timer_delay(duration, true, true, self, "_on_stun_timer_timeout")
 		add_child(stun_timer, true)
 		can_attack = false
 		can_block = false
+		use_skill(null)
 		animated_sprite.set_material(white_mat)
-	else:
-		can_attack = true
-		can_block = true
-		animated_sprite.set_material(get_material())
 
 ## STATS
 func _on_health_point_changed() -> void:
 	init_panels()
+	if health_point > max_health_point:
+		health_point = max_health_point
+		
 	if health_point <= 0:
 		die()
 
 func _on_stamina_changed() -> void:
 	init_panels()
+	if stamina < 0:
+		stamina = 0
+	if stamina > max_stamina:
+		stamina = max_stamina
 
 ## COMBAT
 func _on_attack_power_changed() -> void:
@@ -571,3 +629,31 @@ func _on_attack_cd_timeout(timer_timeout : Timer) -> void:
 func _on_stun_timer_timeout(timer_timeout : Timer) -> void:
 	unstun()
 	timer_timeout.queue_free()
+	
+func _on_visionArea_body_entered(body : PhysicsBody2D) -> void:
+	if body.is_class("Character") and body != self:
+		visible_characters.append(body)
+		
+func _on_visionArea_body_exited(body : PhysicsBody2D) -> void:
+	if body.is_class("Character") and body != self:
+		visible_characters.erase(body)
+
+func _on_new_liege(new_liege) -> void:
+	if is_instance_valid(liege) and liege.is_class("Character"):
+		liege.vassals.erase(self)
+	new_liege.vassals.append(self)
+
+func order_vassals(order, param):
+	for vassal in vassals:
+		if !is_instance_valid(vassal):
+			vassals.erase(vassal)
+			continue
+		if vassal.has_method(order):
+			vassal.call(order, param)
+
+func _on_target_changed(_new_target: PhysicsBody2D) -> void:
+	for vassal in vassals:
+		if _new_target == self:
+			order_vassals("follow", self)
+		else:
+			order_vassals("attack", _new_target)

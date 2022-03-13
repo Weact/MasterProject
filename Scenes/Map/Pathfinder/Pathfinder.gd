@@ -21,6 +21,11 @@ func find_path(from: Vector2, to: Vector2) -> PoolVector2Array:
 	
 	var from_cell_id = compute_point_index(from_cell)
 	var to_cell_id = compute_point_index(to_cell)
+	
+	var exist = astar.has_point(to_cell_id)
+	if !exist:
+		var nullarray: PoolVector2Array = []
+		return nullarray 
 	while astar.is_point_disabled(to_cell_id) == true:
 		var newCell = astar.get_closest_point(to_cell, false)
 		to_cell_id = newCell
@@ -35,7 +40,7 @@ func find_path(from: Vector2, to: Vector2) -> PoolVector2Array:
 			
 		var point = point_path[i]
 		
-		var pos = tilemap.map_to_world(point) if i != point_path.size() - 1 else to
+		var pos = tilemap.map_to_world(point) 
 		path.append(pos + tilemap.cell_size/2)
 	if path.size() < 0:
 		print("no path")
@@ -84,6 +89,8 @@ func compute_point_index(cell : Vector2) -> int:
 	return int(abs(cell.x + room_size.x * cell.y))
 	
 func update_pos_point(pos : Vector2, weight : int = 0) -> void:
+	if !is_position_valid(pos):
+		return
 	var point_id = _get_pos_cell_id(pos)
 	var oldWeight = astar.get_point_weight_scale(point_id)
 	astar.set_point_weight_scale(point_id, oldWeight + weight)

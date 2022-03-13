@@ -4,65 +4,80 @@ func is_class(value: String): return value == "NPC" or .is_class(value)
 func get_class() -> String: return "NPC"
 
 onready var behaviour_tree = $BehaviorTree
-onready var chaseArea = $chaseArea
-onready var attackArea = $attackArea
-
-var target_in_chase_area : bool = false setget set_target_in_chase_area
-var target_in_attack_area : bool = false setget set_target_in_attack_area
+	
 var path : Array = []
-var following = false
 
 export var difficulty = 1.0 # 1.0 is Very difficult 0.5 is average 0.0 is noobie
 
-var kiteDist = 10.0
-signal target_in_chase_area_changed
-signal target_in_attack_area_changed
+var relations = {}
+var fight_distance = 10.0
 signal move_path_finished
-signal target_changed
 
-var target  : Node2D = null setget set_target
+onready var ray_cast = $RayCast2D
 
 #### ACCESSORS ####
-func set_target(value : Node2D) -> void:
-	if target != value:
-		target = value
-		emit_signal("target_changed", target)
 
-func get_target() -> Node2D:
-	return target
+func add_relation(index, value) -> void:
+	if index == self:
+		return
+	relations[index] = relations.get(index, 0.0) + value
+	_update_target()
+
+func get_relation(char_name) -> float:
+	return relations.get(char_name, 0.0)
+
 	
-func _update_target() -> void:
-	if !target_in_attack_area && !target_in_chase_area:
-		set_target(null)
-
-func set_target_in_chase_area(value : bool) -> void:
-	if value != target_in_chase_area:
-		target_in_chase_area = value
-		emit_signal("target_in_chase_area_changed", target_in_chase_area)
-		
-
-func set_target_in_attack_area(value : bool) -> void:
-	if value != target_in_attack_area:
-		target_in_attack_area = value
-		emit_signal("target_in_attack_area_changed", target_in_attack_area)
-		
 #### BUILT-IN ####
 func _ready() -> void:
-	var __  = chaseArea.connect("body_entered", self, "_on_chaseArea_body_entered")
-	__ = chaseArea.connect("body_exited", self, "_on_chaseArea_body_exited")
-	__ = attackArea.connect("body_entered", self, "_on_attackArea_body_entered")
-	__ = attackArea.connect("body_exited", self, "_on_attackArea_body_exited")
-	__ = connect("target_in_chase_area_changed", self, "_on_target_in_chase_area_changed")
-	__ = connect("target_in_attack_area_changed", self, "_on_target_in_attack_area_changed")
-	$RayCast2D.set_collide_with_bodies(true)
+	randomize()
+	var __ = connect("damaged", self, "_on_taking_damage")
+	__ = visionArea.connect("body_entered", self, "_on_npc_visionArea_entered")
+	__ = visionArea.connect("body_exited", self, "_on_npc_visionArea_exited")
+	__ = connect("liege_changed", self, "_on_new_liege")
+	
+	ray_cast.set_collide_with_bodies(true)
+	if randi() % 2 == 0:
+		var sword_instance = GAME.generate_item("Sword")
+		yield(sword_instance, "ready")
+		equip_item(sword_instance)
+		var shield_instance = GAME.generate_item("Shield")
+		yield(shield_instance, "ready")
+		equip_item(shield_instance)
+	else:
+		var bow_instance = GAME.generate_item("Bow")
+		yield(bow_instance, "ready")
+		equip_item(bow_instance)
+		
+func _physics_process(delta: float) -> void:
+	move_along_path(delta)
 #### VIRTUALS ####
 
 
 
 #### LOGIC ####
-func _physics_process(delta: float) -> void:
-	move_along_path(delta)
+func follow(body) -> void:
+	if body != self:
+		set_target(body)
+		behaviour_tree.set_state("Following")
 	
+func attack(body) -> void:
+	if body != self:
+		set_target(body)
+		behaviour_tree.set_state("Chase")
+
+func _update_target() -> void:
+	for character in visible_characters:
+		var char_rela = get_relation(character)
+		if char_rela <= -10:
+			if !is_instance_valid(target):
+				attack(character)
+				break
+			if behaviour_tree.get_state_name() == "Following" or get_path_dist_to(character.position) < get_path_dist_to(target.position):
+				attack(character)
+				break
+		elif char_rela > 10 and (behaviour_tree.get_state_name() != "Fighting" and behaviour_tree.get_state_name() != "Chase"):
+			follow(character)
+
 func update_move_path(dest : Vector2) -> void:
 	if pathfinder == null:
 		path = [dest]
@@ -70,58 +85,49 @@ func update_move_path(dest : Vector2) -> void:
 		path = pathfinder.find_path(global_position, dest)
 		
 func update_move_path_closeTo(dest : Vector2, dist : float):
-	if pathfinder == null:
-		update_move_path(dest)
-	else:
-		update_move_path(dest)
-		var remainPath = max(path.size() - dist, 0)
-		if remainPath > 0:
-			var __ = path.slice(0, remainPath)
-		else:
+	update_move_path(dest)
+	if !pathfinder == null:
+		var remainPath = max(path.size(), 0)
+		if remainPath <= dist:
 			path = [position]
 		
 func get_path_dist_to(to : Vector2) -> float:
 	if to != null:
-		var lenght = pathfinder.find_path(global_position, to).size()
-		if lenght >= 0:
-			return float(lenght)
+		var length = pathfinder.find_path(global_position, to).size()
+		if length >= 0:
+			return float(length)
 	return 99999.9
 		
 func get_dist_to(to : Vector2) -> float:
 	if to != null:
 		return position.distance_to(to)
 	return 99999.9
-	
-func _update_behaviour_state() -> void:
-	if !following:
-		if target != null:
-			if target_in_chase_area && behaviour_tree.get_state_name() != "Fighting":
-				behaviour_tree.set_state("Chase")
-		else:
-			behaviour_tree.set_state("Wander")
-	else:
-		behaviour_tree.set_state("Following")
 		
+func ray_cast_to(pos) -> Array:
+	ray_cast.enabled = true
+	ray_cast.set_cast_to(pos)
+	ray_cast.force_raycast_update()
+	
+	var collider = ray_cast.get_collider() 
+	ray_cast.enabled = false
+	return collider
+
 func move_along_path(delta: float) -> void:
 	var noObstacle = true
 	while path.size() > 1 and noObstacle:
-		$RayCast2D.enabled = true
-		$RayCast2D.set_cast_to(path[1] - position)
-		$RayCast2D.force_raycast_update()
-		var collideObject = $RayCast2D.get_collider()
+		var collideObject = ray_cast_to(path[1]-position)
 		if collideObject != null:
 			for group in collideObject.get_groups():
-				if group == "Obstacle":
-					noObstacle = false
+				noObstacle = false
 				
 		if noObstacle:
 			path.remove(0)
 		
-	$RayCast2D.enabled = false
 		
 	if path.empty():
 		set_direction(Vector2.ZERO)
 		set_state("Idle")
+		emit_signal("move_path_finished")
 		return
 	
 	var cellToGo = path[0]
@@ -133,42 +139,22 @@ func move_along_path(delta: float) -> void:
 	
 	if dist <= movement_speed * delta:
 		path.remove(0)
-	
-	if path.empty():
-		emit_signal("move_path_finished")
 
 #### SIGNAL RESPONSES ####
-func _on_chaseArea_body_entered(body : PhysicsBody2D ) -> void:
-	if body is Player:
-		set_target(body)
-		set_target_in_chase_area(true)
-		
-func _on_chaseArea_body_exited(body : PhysicsBody2D ) -> void:
-	if body is Player:
-		set_target(null)
-		set_target_in_chase_area(false)
-		
-func _on_attackArea_body_entered(body : PhysicsBody2D ) -> void:
-	if body is Player:
-		set_target(body)
-		set_target_in_attack_area(true)
-		
-func _on_attackArea_body_exited(body : PhysicsBody2D ) -> void:
-	if body is Player:
-		set_target_in_attack_area(false)
-		
-func _on_target_in_chase_area_changed(_value : bool) -> void:
-	_update_target()
-	_update_behaviour_state()
-	
-func _on_target_in_attack_area_changed(_value : bool) -> void:
-	_update_target()
-	if state_machine.get_state_name() != "Attack":
-		_update_behaviour_state()
 
 func _on_StateMachine_state_changed(state) -> void:
 	if state_machine == null:
 		return
-	if state.name == "Idle":
-		_update_behaviour_state()
 
+func _on_taking_damage(damage, damager) -> void:
+	attack(damager)
+	add_relation(damager, -damage/10)
+
+func _on_npc_visionArea_entered(body : PhysicsBody2D) -> void:
+	if body is Character and body != self:
+		add_relation(body, 0)
+		
+func _on_npc_visionArea_exited(body : PhysicsBody2D) -> void:
+	if body is Character and body != self:
+		if body == target:
+			target = null

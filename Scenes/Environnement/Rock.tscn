@@ -15,7 +15,7 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=5]
-radius = 8.0
+radius = 7.07107
 
 [node name="Rock" type="StaticBody2D" groups=["Obstacle"]]
 
