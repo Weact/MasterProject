@@ -13,7 +13,9 @@ var blockPressed : bool = false
 var attackPressed : bool = false
 
 var npc_ressource = preload("res://Scenes/Characters/NPC/NPC.tscn")
+var ninepatchrect_ressource = preload("res://Scenes/Characters/Player/visible_selection_rect.tscn")
 var select_rect = null
+var visible_select_rect = null
 onready var select_point = $select_point_area
 var target_click = null
 var shape = null
@@ -98,30 +100,10 @@ func _input(event: InputEvent) -> void:
 		print(npc_instance)
 		
 	elif event.is_action_pressed("debug_vassalize"):
-		if is_instance_valid(select_rect):
-			select_rect.queue_free()
-			
-		empty_selection()
-		select_rect = Area2D.new()
-		var collision = CollisionShape2D.new()
-		shape = RectangleShape2D.new()
-		shape.set_extents(Vector2(0,0))
-		collision.set_shape(shape)
-		start_rect_pos = get_global_mouse_position()
-		select_rect.position = get_global_mouse_position()
-		select_rect.call("add_child", collision)
-		
-		get_tree().get_root().call("add_child", select_rect)
-		
-		select_rect.connect("body_entered", self, "_on_select_body_entered")
-		select_rect.connect("body_exited", self, "_on_select_body_exited")
+		start_selection()
 		
 	elif event.is_action_released("debug_vassalize"):
-		var npcs = glow_npcs.duplicate()
-		select_rect.queue_free()
-		yield(select_rect, "tree_exited")
-		for npc in npcs:
-			add_selection(npc)
+		stop_selection()
 			
 	if is_instance_valid(target_click): 
 		if event.is_action_pressed("player_attack"):
@@ -139,8 +121,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		set_look_direction(rad2deg((mousePos-pos).angle()))
 		
 		if is_instance_valid(select_rect):
-			shape.set_extents((mousePos-start_rect_pos)/2)
+			var extent = (mousePos-start_rect_pos)/2
+			shape.set_extents(extent)
 			select_rect.position = start_rect_pos + shape.get_extents()
+			var new_size = Vector2((extent*2).x, (extent*2).y)
+			visible_select_rect.set_position(start_rect_pos  + Vector2(min(new_size.x, 0), min(new_size.y,0)))
+			visible_select_rect.rect_size = Vector2(abs(new_size.x), abs(new_size.y))
 	
 func action(action_name: String) -> void:
 	match(action_name):
@@ -222,6 +208,35 @@ func _on_select_body_exited(body) -> void:
 	glow_npcs.erase(body)
 	body.select(false)
 
+func stop_selection() -> void:
+	var npcs = glow_npcs.duplicate()
+	select_rect.queue_free()
+	visible_select_rect.queue_free()
+	yield(select_rect, "tree_exited")
+	for npc in npcs:
+		add_selection(npc)
+		
+func start_selection() -> void:
+	if is_instance_valid(select_rect):
+		select_rect.queue_free()
+		
+	empty_selection()
+	select_rect = Area2D.new()
+	visible_select_rect = ninepatchrect_ressource.instance()
+	var collision = CollisionShape2D.new()
+	shape = RectangleShape2D.new()
+	shape.set_extents(Vector2(0,0))
+	collision.set_shape(shape)
+	start_rect_pos = get_global_mouse_position() 
+	select_rect.position = get_global_mouse_position()
+	select_rect.call("add_child", collision)
+	
+	get_tree().get_root().call("add_child", select_rect)
+	get_tree().get_root().call("add_child", visible_select_rect)
+	
+	select_rect.connect("body_entered", self, "_on_select_body_entered")
+	select_rect.connect("body_exited", self, "_on_select_body_exited")
+	
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
