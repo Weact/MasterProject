@@ -6,7 +6,7 @@ func get_class() -> String: return ""
 
 #### BUILT-IN ####
 func _ready() -> void:
-	$Timer.connect("timeout", self, "_on_timeout")
+	var __ = $Timer.connect("timeout", self, "_on_timeout")
 	
 func _on_timeout() -> void:
 	queue_free()

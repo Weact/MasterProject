@@ -449,7 +449,7 @@ func equip_item(item : ItemResource, slot : int = -1) -> void:
 	if item == null:
 		return
 
-	var item_object : Weapon = null
+	var item_object = null
 	var item_instance = item.get_item_scene().instance()
 
 	item_instance.set_name(item.get_name())
@@ -459,9 +459,9 @@ func equip_item(item : ItemResource, slot : int = -1) -> void:
 	yield(item_object, "tree_entered")
 	yield(item_object, "ready")
 
-	item_object.equip(self)
+	var __ = item_object.equip(self)
 
-	var __ = skill_tree.use_skill(null)
+	__ = skill_tree.use_skill(null)
 
 	if item_object.is_class("Sword") :
 		set_weapon_node(item_object)
@@ -583,7 +583,7 @@ func _on_stun_changed(stun_state: bool) -> void:
 		add_child(stun_timer, true)
 		can_attack = false
 		can_block = false
-		use_skill(null)
+		var __ = use_skill(null)
 		animated_sprite.set_material(white_mat)
 
 ## STATS

@@ -25,9 +25,7 @@ var selected_npcs = []
 func _ready() -> void:
 	var __ = EVENTS.connect("player_target", self, "_on_new_target")
 	__ = EVENTS.connect("player_vassal", self, "_on_new_vassal")
-
-func _ready() -> void:
-	var __ = EVENTS.connect("inventory_item_equip", self, "_on_inventory_item_equip")
+	__ = EVENTS.connect("inventory_item_equip", self, "_on_inventory_item_equip")
 
 #### VIRTUALS ####
 
