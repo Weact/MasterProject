@@ -14,6 +14,8 @@ var attackPressed : bool = false
 
 var npc_ressource = preload("res://Scenes/Characters/NPC/NPC.tscn")
 var select_rect = null
+onready var select_point = $select_point_area
+var target_click = null
 var shape = null
 var start_rect_pos = Vector2(0, 0)
 var glow_npcs = []
@@ -25,7 +27,10 @@ var selected_npcs = []
 func _ready() -> void:
 	var __ = EVENTS.connect("player_target", self, "_on_new_target")
 	__ = EVENTS.connect("player_vassal", self, "_on_new_vassal")
-
+	__ = select_point.connect("body_entered", self, "_on_select_point_entered")
+	__ = select_point.connect("body_exited", self, "_on_select_point_exited")
+	
+		
 #### VIRTUALS ####
 
 #### LOGIC ####
@@ -117,44 +122,26 @@ func _input(event: InputEvent) -> void:
 		yield(select_rect, "tree_exited")
 		for npc in npcs:
 			add_selection(npc)
-		
+			
+	if is_instance_valid(target_click): 
+		if event.is_action_pressed("player_attack"):
+			EVENTS.emit_signal("player_vassal", target_click)
+		if event.is_action_pressed("player_block"):
+			EVENTS.emit_signal("player_target", target_click)
 	action(action_name)
 		
-func add_selection(npc):
-	selected_npcs.append(npc)
-	npc.select()
-	
-func empty_selection():
-	for npc in selected_npcs:
-		npc.select(false)
-	while !selected_npcs.empty():
-		selected_npcs.pop_back()
-
-func _on_select_body_entered(body) -> void:
-	if !body.is_class("NPC"):
-		return
-	
-	glow_npcs.append(body)
-	body.select()
-	
-func _on_select_body_exited(body) -> void:
-	if !body.is_class("NPC"):
-		return
-	
-	glow_npcs.erase(body)
-	body.select(false)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		var pos = $WeaponsPoint.global_position
 		var mousePos = get_global_mouse_position()
+		select_point.position = mousePos - position
 		set_look_direction(rad2deg((mousePos-pos).angle()))
 		
 		if is_instance_valid(select_rect):
-			shape.set_extents((get_global_mouse_position()-start_rect_pos)/2)
+			shape.set_extents((mousePos-start_rect_pos)/2)
 			select_rect.position = start_rect_pos + shape.get_extents()
-
-
+	
 func action(action_name: String) -> void:
 	match(action_name):
 		"MoveLeft_Pressed":
@@ -210,17 +197,53 @@ func action(action_name: String) -> void:
 
 	set_direction(Vector2(dirRight - dirLeft, dirDown - dirUp))
 
- 
+func add_selection(npc):
+	selected_npcs.append(npc)
+	npc.select()
+	
+func empty_selection():
+	for npc in selected_npcs:
+		if is_instance_valid(npc):
+			npc.select(false)
+	while !selected_npcs.empty():
+		selected_npcs.pop_back()
+
+func _on_select_body_entered(body) -> void:
+	if !body.is_class("NPC"):
+		return
+	
+	glow_npcs.append(body)
+	body.select()
+	
+func _on_select_body_exited(body) -> void:
+	if !body.is_class("NPC"):
+		return
+	
+	glow_npcs.erase(body)
+	body.select(false)
+
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
 func _on_new_target(new_target) -> void:
 	for npc in selected_npcs:
-		if npc.liege == new_target:
-			npc.follow(new_target)
-		else:
-			npc.attack(new_target)
-	
+		if is_instance_valid(npc):
+			if npc.liege == new_target:
+				npc.follow(new_target)
+			else:
+				npc.attack(new_target)
+		
 func _on_new_vassal(new_vassal) -> void:
 	for npc in selected_npcs:
-		npc.set_liege(new_vassal)
+		if is_instance_valid(npc):
+			npc.set_liege(new_vassal)
+
+func _on_select_point_entered(body) -> void:
+	if body is Character:
+		target_click = body
+		Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
+
+func _on_select_point_exited(body) -> void:
+	if body == target_click:
+		target_click = null
+		Input.set_default_cursor_shape(Input.CURSOR_ARROW)

@@ -39,6 +39,7 @@ func take_damage(damage, damager) -> void:
 			blood_instance.amount = damage * 10 +30
 			blood_mat.initial_velocity = damage * 5+80
 			blood_instance.emitting = true
+			blood_instance.show_behind_parent = true
 			owner_object.call("add_child", blood_instance)
 
 #### INPUTS ####

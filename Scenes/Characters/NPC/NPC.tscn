@@ -70,7 +70,7 @@ script = ExtResource( 2 )
 attack_power = 5
 block_power = 4
 
-[node name="AnimatedSprite" parent="." index="2"]
+[node name="AnimatedSprite" parent="." index="1"]
 position = Vector2( 0, -9 )
 frames = SubResource( 5 )
 animation = "Move"
@@ -146,10 +146,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CollisionShape2D" parent="." index="5"]
+[node name="CollisionShape2D" parent="." index="4"]
 shape = SubResource( 13 )
 
-[node name="StateMachine" parent="." index="7"]
+[node name="StateMachine" parent="." index="6"]
 visible = true
 
 [node name="StateLabel" type="Label" parent="StateMachine" index="5"]

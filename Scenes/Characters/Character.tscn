@@ -1,7 +1,6 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Scenes/Characters/States/CharacterDeath.gd" type="Script" id=1]
-[ext_resource path="res://Scenes/Characters/ControlsNPC.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/particles/circle_selection.tres" type="Material" id=3]
 [ext_resource path="res://Scenes/StateMachine/StateMachine.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/Characters/States/CharacterIdle.gd" type="Script" id=5]
@@ -32,8 +31,6 @@ default_state = "Idle"
 
 [node name="DamageableBehavior" parent="." instance=ExtResource( 10 )]
 owner_object_path = NodePath("..")
-
-[node name="DebugControl" parent="." instance=ExtResource( 2 )]
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 __meta__ = {
