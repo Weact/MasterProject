@@ -1,0 +1,44 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+<<<<<<< HEAD:Scenes/Items/Sprite/weapon_bow.png.import
+path="res://.import/weapon_bow.png-4f8a86b182d239853f55e992ea8c8d93.stex"
+=======
+path="res://.import/weapon_bow.png-396ce6904e40f85bbc28d57c2dab1820.stex"
+>>>>>>> develop:Scenes/Items/Weapons/Bow/weapon_bow.png.import
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+<<<<<<< HEAD:Scenes/Items/Sprite/weapon_bow.png.import
+source_file="res://Scenes/Weapons/Bow/Sprite/weapon_bow.png"
+dest_files=[ "res://.import/weapon_bow.png-4f8a86b182d239853f55e992ea8c8d93.stex" ]
+=======
+source_file="res://Scenes/Items/Weapons/Bow/weapon_bow.png"
+dest_files=[ "res://.import/weapon_bow.png-396ce6904e40f85bbc28d57c2dab1820.stex" ]
+>>>>>>> develop:Scenes/Items/Weapons/Bow/weapon_bow.png.import
+
+[params]
+
+compress/mode=0
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/bptc_ldr=0
+compress/normal_map=0
+flags/repeat=0
+flags/filter=false
+flags/mipmaps=false
+flags/anisotropic=false
+flags/srgb=2
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+process/invert_color=false
+process/normal_map_invert_y=false
+stream=false
+size_limit=0
+detect_3d=false
+svg/scale=1.0

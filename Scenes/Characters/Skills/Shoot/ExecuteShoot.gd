@@ -18,7 +18,7 @@ func enter_state() -> void:
 	var max_ct = state_machine.max_charge_time
 	var arrow_speed = lerp(0, 1, min(ct+0.1, max_ct)/max_ct) * 600
 	car.weapons_node.call("remove_child", new_arrow)
-	owner.call("add_child", new_arrow)
+	owner.call_deferred("add_child", new_arrow)
 	new_arrow.launch(arrow_dir, arrow_speed)
 	state_machine.new_arrow = null
 

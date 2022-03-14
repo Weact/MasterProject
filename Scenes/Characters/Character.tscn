@@ -1,6 +1,8 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scenes/Characters/States/CharacterDeath.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Characters/ControlsNPC.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/particles/circle_selection.tres" type="Material" id=3]
 [ext_resource path="res://Scenes/StateMachine/StateMachine.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/Characters/States/CharacterIdle.gd" type="Script" id=5]
 [ext_resource path="res://Scenes/Characters/States/CharacterMove.gd" type="Script" id=6]
@@ -10,19 +12,28 @@
 [ext_resource path="res://Behaviors/Damage/DamageableBehavior.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Scenes/Characters/WeaponsPoint.gd" type="Script" id=12]
 [ext_resource path="res://Scenes/Characters/Materials/HitEffect/HitEffect.tres" type="Material" id=16]
-[ext_resource path="res://Scenes/Characters/CharacterSkilling.gd" type="Script" id=27]
 [ext_resource path="res://Scenes/Characters/Skills/skill_tree.gd" type="Script" id=28]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 13.0384
 
+[sub_resource type="CircleShape2D" id=2]
+radius = 159.255
+
 [node name="Character" type="KinematicBody2D"]
 z_index = 1
 script = ExtResource( 9 )
 movement_speed = 80.0
+max_health_point = 100
+max_stamina = 100.0
 max_speed = 80.0
 white_mat = ExtResource( 16 )
 default_state = "Idle"
+
+[node name="DamageableBehavior" parent="." instance=ExtResource( 10 )]
+owner_object_path = NodePath("..")
+
+[node name="DebugControl" parent="." instance=ExtResource( 2 )]
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 __meta__ = {
@@ -57,9 +68,6 @@ script = ExtResource( 5 )
 
 [node name="Move" type="Node" parent="StateMachine"]
 script = ExtResource( 6 )
-
-[node name="Skilling" type="Node" parent="StateMachine"]
-script = ExtResource( 27 )
 
 [node name="Hit" type="Node" parent="StateMachine"]
 script = ExtResource( 7 )
@@ -103,11 +111,21 @@ margin_top = 13.0
 margin_right = 40.0
 margin_bottom = 27.0
 
-[node name="DamageableBehavior" parent="." instance=ExtResource( 10 )]
-owner_object_path = NodePath("..")
-
 [node name="PickUpArea" type="Area2D" parent="."]
 visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PickUpArea"]
 shape = SubResource( 1 )
+
+[node name="visionArea" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="visionArea"]
+shape = SubResource( 2 )
+
+[node name="SelectionCircle" type="Particles2D" parent="."]
+position = Vector2( 0, -3 )
+emitting = false
+amount = 300
+lifetime = 0.15
+process_material = ExtResource( 3 )

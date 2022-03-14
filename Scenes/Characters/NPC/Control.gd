@@ -25,4 +25,6 @@ func _ready() -> void:
 func _on_gui_input(event) -> void:
 	if event is InputEventMouseButton:
 		if event.is_action_pressed("player_attack"):
-			owner.following = true
+			EVENTS.emit_signal("player_vassal", owner)
+		if event.is_action_pressed("player_block"):
+			EVENTS.emit_signal("player_target", owner)

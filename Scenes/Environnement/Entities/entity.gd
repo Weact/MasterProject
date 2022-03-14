@@ -30,7 +30,7 @@ func set_velocity(new_velocity: Vector2):
 		emit_signal("velocity_changed", velocity)
 
 func get_velocity() -> Vector2:
-	return velocity
+	return get_computed_velocity()
 	
 func get_computed_velocity() -> Vector2:
 	return _compute_raw_velocity() * velocity_factor.get_value()
