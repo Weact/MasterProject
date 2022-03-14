@@ -227,7 +227,7 @@ func start_selection() -> void:
 	shape = RectangleShape2D.new()
 	shape.set_extents(Vector2(0,0))
 	collision.set_shape(shape)
-	start_rect_pos = get_global_mouse_position() 
+	start_rect_pos = get_global_mouse_position()
 	select_rect.position = get_global_mouse_position()
 	select_rect.call("add_child", collision)
 	

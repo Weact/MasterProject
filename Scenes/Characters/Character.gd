@@ -30,11 +30,12 @@ var visible_characters = []
 onready var visionArea = $visionArea
 
 var liege : Node2D = null setget set_liege, get_liege
-signal liege_changed
 
 var vassals = []
 
 signal target_changed
+
+var max_vassal_limit : int = 10
 
 var target  : Node2D = null setget set_target
 ## STATS
@@ -119,8 +120,9 @@ func get_current_state() -> String:
 
 #### ACCESSORS ####
 func set_liege(body) -> void:
-	if body != self and body != liege:
-		emit_signal("liege_changed", body)
+	if body != self and body != liege and is_instance_valid(body) and body.is_class("Character") and body.add_vassal(self):
+		if is_instance_valid(liege):
+			liege.remove_vassal(self)
 		liege = body
 		
 func get_liege() -> Node2D:
@@ -541,7 +543,28 @@ func has_shield() -> bool:
 	
 func select(value : bool =true) -> void:
 	$SelectionCircle.emitting = value
+	
+func is_vassal_of(body) -> bool:
+	if is_instance_valid(liege) and (body == liege or liege.is_vassal_of(body)):
+		return true
+		
+	return false
 
+func is_ally(body) -> bool:
+	if !is_instance_valid(body) or !body.is_class("Character"):
+		return false
+	
+	if body.is_vassal_of(self) or body.is_liege_of(self):
+		return true
+	
+	return false
+	
+
+func is_liege_of(body) -> bool:
+	if body.liege == self or body.liege.is_liege_of(self):
+		return true
+		
+	return false
 
 #### INPUTS ####
 
@@ -638,10 +661,14 @@ func _on_visionArea_body_exited(body : PhysicsBody2D) -> void:
 	if body.is_class("Character") and body != self:
 		visible_characters.erase(body)
 
-func _on_new_liege(new_liege) -> void:
-	if is_instance_valid(liege) and liege.is_class("Character"):
-		liege.vassals.erase(self)
-	new_liege.vassals.append(self)
+func add_vassal(vassal) -> bool:
+	if vassals.size() < max_vassal_limit:
+		vassals.append(vassal)
+		return true
+	return false
+	
+func remove_vassal(vassal) -> void:
+	vassals.erase(self)
 
 func order_vassals(order, param):
 	for vassal in vassals:

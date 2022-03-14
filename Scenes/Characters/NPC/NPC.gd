@@ -33,7 +33,6 @@ func _ready() -> void:
 	var __ = connect("damaged", self, "_on_taking_damage")
 	__ = visionArea.connect("body_entered", self, "_on_npc_visionArea_entered")
 	__ = visionArea.connect("body_exited", self, "_on_npc_visionArea_exited")
-	__ = connect("liege_changed", self, "_on_new_liege")
 	
 	ray_cast.set_collide_with_bodies(true)
 	if randi() % 2 == 0:
@@ -147,7 +146,8 @@ func _on_StateMachine_state_changed(state) -> void:
 		return
 
 func _on_taking_damage(damage, damager) -> void:
-	attack(damager)
+	if !damager.is_ally(self):
+		attack(damager)
 	add_relation(damager, -damage/10)
 
 func _on_npc_visionArea_entered(body : PhysicsBody2D) -> void:
