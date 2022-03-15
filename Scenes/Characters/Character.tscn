@@ -23,7 +23,6 @@ radius = 159.255
 z_index = 1
 script = ExtResource( 9 )
 movement_speed = 80.0
-max_health_point = 100
 max_stamina = 100.0
 max_speed = 80.0
 white_mat = ExtResource( 16 )
@@ -77,6 +76,7 @@ script = ExtResource( 8 )
 position = Vector2( -12, -56 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Infos"]
+visible = false
 margin_right = 40.0
 margin_bottom = 40.0
 mouse_filter = 2
@@ -92,6 +92,7 @@ margin_bottom = 14.0
 position = Vector2( -12, -56 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Ressources"]
+visible = false
 margin_right = 40.0
 margin_bottom = 40.0
 mouse_filter = 2

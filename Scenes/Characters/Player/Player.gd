@@ -27,12 +27,9 @@ var selected_npcs = []
 
 #### BUILT-IN ####
 func _ready() -> void:
-	var __ = EVENTS.connect("player_target", self, "_on_new_target")
-	__ = EVENTS.connect("player_vassal", self, "_on_new_vassal")
-	__ = select_point.connect("body_entered", self, "_on_select_point_entered")
+	var __ = select_point.connect("body_entered", self, "_on_select_point_entered")
 	__ = select_point.connect("body_exited", self, "_on_select_point_exited")
 	
-		
 #### VIRTUALS ####
 
 #### LOGIC ####
@@ -95,7 +92,7 @@ func _input(event: InputEvent) -> void:
 		var npc_instance = npc_ressource.instance()
 		get_tree().get_root().call("add_child", npc_instance)
 		npc_instance.position = get_global_mouse_position()
-		GAME.emit_signal("new_npc", npc_instance)
+		EVENTS.emit_signal("new_npc", npc_instance)
 		print("NEW AI")
 		print(npc_instance)
 		
@@ -107,9 +104,9 @@ func _input(event: InputEvent) -> void:
 			
 	if is_instance_valid(target_click): 
 		if event.is_action_pressed("player_attack"):
-			EVENTS.emit_signal("player_vassal", target_click)
+			_on_new_vassal(target_click)
 		if event.is_action_pressed("player_block"):
-			EVENTS.emit_signal("player_target", target_click)
+			_on_new_target(target_click)
 	action(action_name)
 		
 
@@ -242,7 +239,7 @@ func start_selection() -> void:
 #### SIGNAL RESPONSES ####
 func _on_new_target(new_target) -> void:
 	for npc in selected_npcs:
-		if is_instance_valid(npc):
+		if is_instance_valid(npc) and npc.is_vassal_of(self):
 			if npc.liege == new_target:
 				npc.follow(new_target)
 			else:

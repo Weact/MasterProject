@@ -3,7 +3,6 @@ extends Node2D
 var map_valentin_player = null
 var map_lucas_player = null
 
-signal new_npc
 
 func _input(event: InputEvent) -> void:
 	if not event is InputEventKey and not event is InputEventMouseButton:

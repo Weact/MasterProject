@@ -141,7 +141,7 @@ func move_along_path(delta: float) -> void:
 
 #### SIGNAL RESPONSES ####
 
-func _on_StateMachine_state_changed(state) -> void:
+func _on_StateMachine_state_changed(_state) -> void:
 	if state_machine == null:
 		return
 

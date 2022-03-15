@@ -19,30 +19,39 @@ block_power = 10
 
 [node name="NPC2" parent="NPC" index="0" instance=ExtResource( 3 )]
 position = Vector2( 1190, 992 )
+max_health_point = 100
 
 [node name="NPC3" parent="NPC" index="1" instance=ExtResource( 3 )]
 position = Vector2( 1174, 1008 )
+max_health_point = 100
 
 [node name="NPC4" parent="NPC" index="2" instance=ExtResource( 3 )]
 position = Vector2( 1158, 1024 )
+max_health_point = 100
 
 [node name="NPC5" parent="NPC" index="3" instance=ExtResource( 3 )]
 position = Vector2( 1142, 1024 )
+max_health_point = 100
 
 [node name="NPC6" parent="NPC" index="4" instance=ExtResource( 3 )]
 position = Vector2( 1206, 976 )
+max_health_point = 100
 
 [node name="NPC7" parent="NPC" index="5" instance=ExtResource( 3 )]
 position = Vector2( 1222, 944 )
+max_health_point = 100
 
 [node name="NPC8" parent="NPC" index="6" instance=ExtResource( 3 )]
 position = Vector2( 1204, 1000 )
+max_health_point = 100
 
 [node name="NPC9" parent="NPC" index="7" instance=ExtResource( 3 )]
-position = Vector2( 1188, 1016 )
+position = Vector2( 1192, 1016 )
+max_health_point = 100
 
 [node name="NPC10" parent="NPC" index="8" instance=ExtResource( 3 )]
 position = Vector2( 1180, 1034 )
+max_health_point = 100
 
 [node name="Rock" parent="Obstacles/Rocks" index="0" instance=ExtResource( 4 )]
 position = Vector2( 1174, 992 )
