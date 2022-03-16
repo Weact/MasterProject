@@ -21,7 +21,7 @@ func get_item_id(name: String) -> int:
 	for index in ITEMS.size():
 		for item in ITEMS:
 			if name == ITEMS[item].get_name():
-				var item_id = item
+				var item_id := int(item)
 				return item_id
 	
 	return 10000

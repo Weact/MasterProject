@@ -503,10 +503,6 @@ func equip_item(item : ItemResource, slot : int = -1) -> void:
 	
 	__ = skill_tree.use_skill(null)
 
-
-	if slot != -1:
-		CharacterInventory.remove_item(slot)
-
 func set_weapon_node(item) -> void:
 	var __ = drop_weapon()
 	__ = item.connect("collided", self, "_on_weapon_hit")
@@ -565,8 +561,11 @@ func free_first_child(node) -> Node:
 
 		node.remove_child(weapon)
 		weapon.unequip()
-		weapon.set_position(get_global_position())
-		owner.call_deferred("add_child", weapon)
+		
+		var weapon_item_id : int = ItemsDatabase.get_item_id(weapon.get_class())
+		CharacterInventory.add_item(weapon_item_id)
+#		weapon.set_position(get_global_position())
+#		owner.call_deferred("add_child", weapon)
 		return weapon
 
 	return null

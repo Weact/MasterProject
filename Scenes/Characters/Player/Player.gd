@@ -265,5 +265,4 @@ func _on_select_point_exited(body) -> void:
 		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 		
 func _on_inventory_item_equip(item, slot) -> void:
-		CharacterInventory.add_equipped_item(item)
 		equip_item(item, slot)

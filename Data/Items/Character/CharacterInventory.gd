@@ -9,7 +9,6 @@ export(int) var fill_ratio = 1
 enum INVENTORY_SORTING_MODE{NONE = 0, NAME, RARITY, TYPE}
 
 var items = ItemsDatabase.get_items()
-var equipped_items : Array = []
 
 signal inventory_shuffled
 signal inventory_sorted
@@ -41,11 +40,18 @@ func get_inventory_data_as_text() -> String:
 ####### INVENTORY ITEMS
 
 ## SET THE ITEM BY ID AT SPECIFIED SLOT
-func set_item(slot: int, id: int) -> void:
+func set_item_by_id(slot: int, id: int) -> void:
 	if is_slot_valid(slot):
-		character_inv_data[slot] = ItemsDatabase.get_item(id)
+		# must convert id(int) to String because ITEMS keys are string
+		if not str(id) in ItemsDatabase.ITEMS.keys():
+			character_inv_data[slot] = null
+		else:
+			character_inv_data[slot] = ItemsDatabase.get_item(id)
+		EVENTS.emit_signal("inventory_changed")
 ## RETURNS ITEM AT SPECIFIED SLOT
 func get_item(slot: int) -> ItemResource:
+	if slot >= character_inv_size:
+		return null
 	if is_slot_valid(slot):
 		return character_inv_data[slot]
 	return null
@@ -55,14 +61,15 @@ func add_item(id: int) -> void:
 		if str(id) == item:
 			for inv_slot in character_inv_data.size():
 				if character_inv_data[inv_slot] == null:
-					character_inv_data[inv_slot] = ItemsDatabase.get_item(id)
-					EVENTS.emit_signal("inventory_added_item", character_inv_data[inv_slot])
+					set_item_by_id(inv_slot, id)
+#					character_inv_data[inv_slot] = ItemsDatabase.get_item(id)
 					return
 ## REMOVE ITEM FROM INVENTORY FROM SLOT
 func remove_item(slot: int) -> void:
 	if is_slot_valid(slot):
 		if character_inv_data[slot] != null:
-			character_inv_data[slot] = null
+#			character_inv_data[slot] = null
+			set_item_by_id(slot, 10000)
 ## REPLACE ITEM A BY ITEM B
 func replace_item(origin_slot: int, target_slot: int) -> void:
 	if is_slot_valid(origin_slot) and is_slot_valid(target_slot):
@@ -70,6 +77,7 @@ func replace_item(origin_slot: int, target_slot: int) -> void:
 		
 		character_inv_data[target_slot] = character_inv_data[origin_slot]
 		character_inv_data[origin_slot] = tmp_slot
+		EVENTS.emit_signal("inventory_changed")
 ## CHECK IF AN INVENTORY SLOT IS VALID
 func is_slot_valid(slot: int) -> bool:
 	if slot >= 0:
@@ -89,30 +97,7 @@ func count_valid_items() -> int:
 	
 	return valid_item_count
 
-####### EQUIPPED ITEMS
-
-## ADD EQUIPPED ITEM BY ITEMRESOURCE
-func add_equipped_item(item: ItemResource) -> void:
-	if equipped_items.size() >= 2:
-		return
-	equipped_items.append(item)
-## REMOVE EQUIPPED ITEM BY RESOURCE
-func remove_equipped_item(item: ItemResource) -> void:
-	if equipped_items.has(item):
-		equipped_items.remove(equipped_items.find(item))
-## CLEAR EQUIPPED ITEM ARRAY
-func clear_equipped_item() -> void:
-	equipped_items.clear()
-## CHECK IF AN ITEM IS EQUIPPED
-func has_equipped_items() -> bool:
-	return equipped_items.size() > 0
-## RETURNS EQUIPPED ITEMS
-func get_equipped_items() -> Array:
-	return equipped_items
-
-
 # BUILTIN
-
 func _ready() -> void:
 	init_inventory()
 	add_item(10001)
@@ -122,11 +107,9 @@ func _ready() -> void:
 #	generate_random_items() # DEBUG FEATURE
 
 # LOGIC
-
 func init_inventory() -> void:
 	for i in character_inv_size:
 		character_inv_data.append(null)
-
 
 func shuffle_inventory() -> void:
 	if is_inventory_empty():

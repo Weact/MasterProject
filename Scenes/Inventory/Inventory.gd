@@ -21,6 +21,7 @@ func is_inventory_open() -> bool:
 
 func _ready() -> void:
 	var __ = GAME.connect("inventory_state_changed", self, "_on_inventory_state_changed")
+	__ = EVENTS.connect("inventory_changed", self, "_on_inventory_changed")
 	__ = CharacterInventory.connect("inventory_shuffled", self, "_on_inventory_shuffled")
 	__ = CharacterInventory.connect("inventory_sorted", self, "_on_inventory_sorted")
 	__ = connect("clear_finished", self, "_on_clear_finished")
@@ -52,13 +53,12 @@ func clear_inventory() -> void:
 # !! THIS METHOD SHOULD NEVER BE CALLED ANYWHERE EXCEPT IN SAFE REGENERATE INVENTORY !!
 func _generate_inventory() -> void:
 	create_slots(temp_character_inv_data)
+	emit_signal("generate_finished")
 	
 func safe_regenerate_inventory() -> void:
 	clear_inventory()
-	
 	if !slots_container_node.get_children().empty():
 		yield(self, "clear_finished")
-		
 	_generate_inventory()
 
 func create_slots(inventory) -> void:
@@ -108,10 +108,14 @@ func _on_inventory_sorted() -> void:
 
 # Do not put code in there except if you want to do something when inventory has been cleared
 func _on_clear_finished() -> void:
-	pass
+	if slots_container_node.get_child_count() > CharacterInventory.character_inv_size:
+		safe_regenerate_inventory()
 
 func _on_exit_tbutton_pressed() -> void:
 	close_inventory()
+
+func _on_inventory_changed() -> void:
+	synchronize_inventory()
 
 func _on_inventory_state_changed() -> void:
 	if inventory_opened:
