@@ -4,5 +4,4 @@ extends Node
 
 signal obstacle_destroyed(obstacle)
 
-signal player_target(target)
-signal player_vassal(vassal)
+signal new_npc(npc)

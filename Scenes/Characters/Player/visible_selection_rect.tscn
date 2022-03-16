@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="Gradient" id=19]
+offsets = PoolRealArray( 1 )
+colors = PoolColorArray( 0, 0.121569, 0.533333, 0.305882 )
+
+[sub_resource type="GradientTexture" id=20]
+gradient = SubResource( 19 )
+width = 1
+
+[node name="NinePatchRect" type="NinePatchRect"]
+margin_left = 5.0
+margin_right = 5.0
+margin_bottom = 8.0
+texture = SubResource( 20 )
+region_rect = Rect2( -130.016, -42.9989, 2669.66, 56.0854 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

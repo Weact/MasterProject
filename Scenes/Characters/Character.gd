@@ -30,11 +30,12 @@ var visible_characters = []
 onready var visionArea = $visionArea
 
 var liege : Node2D = null setget set_liege, get_liege
-signal liege_changed
 
 var vassals = []
 
 signal target_changed
+
+var max_vassal_limit : int = 10
 
 var target  : Node2D = null setget set_target
 ## STATS
@@ -48,14 +49,16 @@ func target_in_chase_area() -> bool:
 export var weight : int = 5
 signal weight_changed()
 
-export var max_health_point : int = 10
-var health_point : int = 0
+export var max_health_point : float = 10.0
+var health_point : float = 0
+var regen_health: Variable = Variable.new(0.1)
+var timer_health_regen : Timer = null
 signal health_point_changed()
 
 export var max_stamina : float = 10.0
 var stamina : float = 0.0
-var regen_stamina: Variable = Variable.new(1.0)
-var stamina_regen_delay : float = 0.1
+var regen_stamina: Variable = Variable.new(1.5)
+var regen_delay : float = 0.1
 var timer_stamina_regen : Timer = null
 signal stamina_changed()
 
@@ -119,8 +122,9 @@ func get_current_state() -> String:
 
 #### ACCESSORS ####
 func set_liege(body) -> void:
-	if body != self and body != liege:
-		emit_signal("liege_changed", body)
+	if body != self and body != liege and is_instance_valid(body) and body.is_class("Character") and body.add_vassal(self):
+		if is_instance_valid(liege):
+			liege.remove_vassal(self)
 		liege = body
 		
 func get_liege() -> Node2D:
@@ -160,19 +164,22 @@ func set_current_tile(tilePos : Vector2) -> void:
 		emit_signal("current_tile_changed", oldTile, current_tile)
 
 ## HEALTH POINT
-func set_health_point(new_health_point: int, _cheats: bool = false) -> void:
+func set_health_point(new_health_point: float, _cheats: bool = false) -> void:
 	if health_point != new_health_point:
 		health_point = new_health_point
+		
+		if health_point < 0: health_point = 0
+		if health_point > max_health_point and not _cheats: health_point = max_health_point
 
 		emit_signal("health_point_changed")
 
-func get_health_point() -> int:
+func get_health_point() -> float:
 	return health_point
 
-func add_health_point(value: int) -> void:
+func add_health_point(value: float) -> void:
 	set_health_point(health_point + value)
 
-func remove_health_point(value: int) -> void:
+func remove_health_point(value: float) -> void:
 	set_health_point(health_point - value)
 
 ## STUN
@@ -190,7 +197,7 @@ func set_stamina(new_stamina: float, cheats: bool = false) -> void:
 		stamina = new_stamina
 
 		if stamina < 0: stamina = 0
-		if stamina > 100 and not cheats: stamina = 100
+		if stamina > max_stamina and not cheats: stamina = max_stamina
 		emit_signal("stamina_changed")
 
 
@@ -248,7 +255,8 @@ func _ready() -> void:
 	__  = visionArea.connect("body_entered", self, "_on_visionArea_body_entered")
 	__ = visionArea.connect("body_exited", self, "_on_visionArea_body_exited")
 
-	timer_stamina_regen = stamina_regen_timer(stamina_regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
+	timer_stamina_regen = stamina_regen_timer(regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
+	timer_health_regen = health_regen_timer(regen_delay) # will create a timer and repeat regen_stamina method every 0.5 seconds
 
 func setup_skills() -> void:
 	add_skill("Dodge")
@@ -330,6 +338,7 @@ func update_weapon_rotation(_delta, rot_vel) -> void:
 
 func stun(duration :float = 0.1) -> void:
 	set_stunned(duration)
+	
 func unstun() -> void:
 	set_stunned(false)
 	can_attack = true
@@ -404,8 +413,24 @@ func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: boo
 
 	return new_timer
 
+func health_regen_timer(time:float, autostart: bool = true, oneshot: bool = false):	
+	var new_timer = Timer.new()
+	new_timer.set_wait_time(time)
+	new_timer.set_autostart(autostart)
+	new_timer.set_one_shot(oneshot)
+	new_timer.connect("timeout", self, "_regen_health")
+	add_child(new_timer)
+
+	if not autostart:
+		push_warning("Careful: timer has been added from stamina_regen_timer but did not start automatically")
+
+	return new_timer
+	
 func _regen_stamina() -> void:
 	add_stamina(regen_stamina.get_value())
+	
+func _regen_health() -> void:
+	add_health_point(regen_health.get_value())
 
 func die() -> void:
 	set_weight(0)
@@ -541,7 +566,28 @@ func has_shield() -> bool:
 	
 func select(value : bool =true) -> void:
 	$SelectionCircle.emitting = value
+	
+func is_vassal_of(body) -> bool:
+	if is_instance_valid(liege) and (body == liege or liege.is_vassal_of(body)):
+		return true
+		
+	return false
 
+func is_ally(body) -> bool:
+	if !is_instance_valid(body) or !body.is_class("Character"):
+		return false
+	
+	if body.is_vassal_of(self) or body.is_liege_of(self):
+		return true
+	
+	return false
+	
+
+func is_liege_of(body) -> bool:
+	if is_instance_valid(body.liege) and (body.liege == self or body.liege.is_liege_of(self)):
+		return true
+		
+	return false
 
 #### INPUTS ####
 
@@ -558,7 +604,7 @@ func _on_stun_changed(stun_state: bool) -> void:
 		add_child(stun_timer, true)
 		can_attack = false
 		can_block = false
-		use_skill(null)
+		var __ = use_skill(null)
 		animated_sprite.set_material(white_mat)
 
 ## STATS
@@ -638,10 +684,14 @@ func _on_visionArea_body_exited(body : PhysicsBody2D) -> void:
 	if body.is_class("Character") and body != self:
 		visible_characters.erase(body)
 
-func _on_new_liege(new_liege) -> void:
-	if is_instance_valid(liege) and liege.is_class("Character"):
-		liege.vassals.erase(self)
-	new_liege.vassals.append(self)
+func add_vassal(vassal) -> bool:
+	if vassals.size() < max_vassal_limit:
+		vassals.append(vassal)
+		return true
+	return false
+	
+func remove_vassal(vassal) -> void:
+	vassals.erase(vassal)
 
 func order_vassals(order, param):
 	for vassal in vassals:

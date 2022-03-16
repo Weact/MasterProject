@@ -165,7 +165,6 @@ tracks/3/keys = {
 [node name="Shoot" instance=ExtResource( 1 )]
 script = ExtResource( 3 )
 init_default_state = false
-recovery_canceler = false
 
 [node name="Preparation" parent="." index="0"]
 script = ExtResource( 5 )
@@ -185,6 +184,9 @@ script = ExtResource( 2 )
 anims/Execute = SubResource( 1 )
 anims/Preparation = SubResource( 2 )
 anims/Recovery = SubResource( 3 )
+
+[node name="Weapon_Left_mock" parent="AnimationPlayer" index="0"]
+position = Vector2( 5, 0 )
 
 [node name="Weapon_Right_mock" parent="AnimationPlayer" index="1"]
 position = Vector2( 5, 0 )

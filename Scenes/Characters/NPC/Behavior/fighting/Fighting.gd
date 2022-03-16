@@ -74,7 +74,7 @@ func get_target_direction() -> float:
 func _on_timeout() -> void:
 	if owner.target == null:
 		return
-	var difficulty = owner.difficulty
+	var _difficulty = owner.difficulty
 	
 	timer.start()
 	kite_dist = 16.0 + float(owner.weapon_node.is_class("Bow")) * 80
