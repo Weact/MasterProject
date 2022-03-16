@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource( 1 )
-name = "Basic Shield"
+name = "Shield"
 stackable = false
 max_stack_size = 1
 type = 3

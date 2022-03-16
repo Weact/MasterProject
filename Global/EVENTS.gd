@@ -9,3 +9,4 @@ signal player_target(target)
 signal player_vassal(vassal)
 
 signal inventory_item_equip(item, slot)
+signal inventory_added_item(item)

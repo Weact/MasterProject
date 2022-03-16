@@ -457,6 +457,7 @@ func pick_up() -> void:
 
 	if is_instance_valid(closest_body):
 		take_item(closest_body)
+		closest_body.call_deferred("queue_free")
 #		equip_item(closest_body)
 
 func take_item(item) -> void:
@@ -469,6 +470,8 @@ func take_item(item) -> void:
 		CharacterInventory.add_item(10002)
 	elif item.is_class("Bow"):
 		CharacterInventory.add_item(10003)
+	else:
+		return
 
 func equip_item(item : ItemResource, slot : int = -1) -> void:
 	if item == null:
@@ -483,11 +486,9 @@ func equip_item(item : ItemResource, slot : int = -1) -> void:
 
 	yield(item_object, "tree_entered")
 	yield(item_object, "ready")
-
-	var __ = item_object.equip(self)
-
-	__ = skill_tree.use_skill(null)
-
+	
+	var __
+	
 	if item_object.is_class("Sword") :
 		set_weapon_node(item_object)
 
@@ -497,6 +498,11 @@ func equip_item(item : ItemResource, slot : int = -1) -> void:
 	elif item_object.is_class("Bow"):
 		set_weapon_node(item_object)
 		__ = drop_shield()
+		
+	__ = item_object.equip(self)
+	
+	__ = skill_tree.use_skill(null)
+
 
 	if slot != -1:
 		CharacterInventory.remove_item(slot)

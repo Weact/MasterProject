@@ -14,8 +14,18 @@ signal inventory_sorted
 
 # ACCESORS
 
-func get_character_inv_data_as_array() -> Array:
-	return character_inv_data
+# Return the array as a "getter" if false
+# return the array for setter purpose (e.g. array1 = this_array) as duplicated array if true
+func get_character_inv_data_as_array(return_array_duplicated: bool = false) -> Array:
+	# WE USE .DUPLICATE(TRUE) TO COPY THE ARRAY DEEPLY
+	# MEANS CHANGING ANY ARRAY WILL NOT MODIFY THE OTHER ONE
+	# IF WE JUST RETURN CHARACTER INV DATA TO SET ANOTHER ARRAY
+	# SETTING CHARACTER INV DATA WILL CHANGES ALSO OTHER ARRAY VALUES
+	# (... cf godot documenatation Array:duplicate ...)
+	if return_array_duplicated:
+		return character_inv_data.duplicate(true)
+	else:
+		return character_inv_data
 
 ## RETURN THE CHARACTER INV DATA AS STRING FORMAT
 func get_inventory_data_as_text() -> String:
@@ -45,6 +55,7 @@ func add_item(id: int) -> void:
 			for inv_slot in character_inv_data.size():
 				if character_inv_data[inv_slot] == null:
 					character_inv_data[inv_slot] = ItemsDatabase.get_item(id)
+					EVENTS.emit_signal("inventory_added_item", character_inv_data[inv_slot])
 					return
 ## REMOVE ITEM FROM INVENTORY FROM SLOT
 func remove_item(slot: int) -> void:
