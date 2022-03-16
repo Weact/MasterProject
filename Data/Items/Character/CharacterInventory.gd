@@ -1,5 +1,7 @@
 extends Node
 
+var _player : PhysicsBody2D = null
+
 var character_inv_data : Array = []
 export(int) var character_inv_size = 50
 export(int) var fill_ratio = 1
@@ -13,7 +15,6 @@ signal inventory_shuffled
 signal inventory_sorted
 
 # ACCESORS
-
 # Return the array as a "getter" if false
 # return the array for setter purpose (e.g. array1 = this_array) as duplicated array if true
 func get_character_inv_data_as_array(return_array_duplicated: bool = false) -> Array:

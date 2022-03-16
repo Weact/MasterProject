@@ -84,26 +84,9 @@ func close_inventory() -> void:
 	set_visible(inventory_opened)
 
 func synchronize_inventory() -> void:
-	
-	# DON'T PASS ANY ARGUMENT SINCE DEFAULT IS FALSE, WILL RETURNS THE ARRAY AS A GETTER
-	# Need to check if temp character inv data is the same as current character inventory data
-	# Or if textures from slot are well displayed (are_all_slots_textures_synchronized)
-	if temp_character_inv_data != CharacterInventory.get_character_inv_data_as_array()\
-	or not are_all_slots_texture_synchronized():
-		# MUST PASS TRUE IN ARG, OTHERWISE IT WILL RETURN THE ARRAY BY REFERENCE
-		temp_character_inv_data = CharacterInventory.get_character_inv_data_as_array(true)
-		safe_regenerate_inventory()
-
-func are_all_slots_texture_synchronized() -> bool:
-	var slots_array : Array = []
-	if slots_container_node.get_child_count() > 0:
-		for slot_child in slots_container_node.get_children():
-			slots_array.append(slot_child)
-	for slot in slots_array:
-#		var slot_texture : Texture = slot.texture
-		print(slot)
-	
-	return false
+	# MUST PASS TRUE IN ARG, OTHERWISE IT WILL RETURN THE ARRAY BY REFERENCE
+	temp_character_inv_data = CharacterInventory.get_character_inv_data_as_array(true)
+	safe_regenerate_inventory()
 
 # | Called when user press F3 to shuffle its inventory
 #

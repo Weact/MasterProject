@@ -1,10 +1,15 @@
 extends Node2D
 
+var PLAYER_NODE : PhysicsBody2D = null
+
 var map_valentin_player = null
 var map_lucas_player = null
 
 signal new_npc
 signal inventory_state_changed
+
+func _ready() -> void:
+	PLAYER_NODE = get_tree().get_root().get_node("MapL/Player/Player")
 
 func _input(event: InputEvent) -> void:
 	if not event is InputEventKey and not event is InputEventMouseButton:

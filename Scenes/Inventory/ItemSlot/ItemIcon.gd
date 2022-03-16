@@ -103,6 +103,12 @@ func drop_data(_position: Vector2, data) -> void:
 		var targetted_item : ItemResource = CharacterInventory.get_item(targetted_item_slot)
 		var tagetted_item_name : String = targetted_item.get_name()
 		var _generated_item = GAME.generate_item(tagetted_item_name)
+		
+		if is_instance_valid(GAME.PLAYER_NODE):
+			_generated_item.set_position(GAME.PLAYER_NODE.get_position())
+		else:
+			_generated_item.set_position(Vector2(0,0))
+			
 		CharacterInventory.remove_item(targetted_item_slot)
 		data["origin_node"].texture = data["target_texture"]
 		texture = null
