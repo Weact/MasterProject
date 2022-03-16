@@ -26,9 +26,11 @@ func cancel() -> void:
 
 func add_weapon_skills() -> void:
 	weapon_handler_node.add_skill("Shoot")
+	weapon_handler_node.velocity_factor.add_variable("bow_slow", 0.8, 2)
 
 func remove_weapon_skills() -> void:
 	weapon_handler_node.remove_skill("Shoot")
+	weapon_handler_node.velocity_factor.remove_variable("bow_slow")
 
 #### LOGIC ####
 

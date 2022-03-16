@@ -7,7 +7,11 @@
 [ext_resource path="res://Scenes/Characters/Player/Sprites/Knight_Hit.png" type="Texture" id=5]
 [ext_resource path="res://Scenes/Characters/Player/Inputs/Inputs.gd" type="Script" id=6]
 [ext_resource path="res://Scenes/StateMachine/StateLabel.gd" type="Script" id=7]
-[ext_resource path="res://Scenes/Inventory/Inventory.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/Characters/Player/visible_selection_rect.tscn" type="PackedScene" id=8]
+[ext_resource path="res://UI/ui.tscn" type="PackedScene" id=9]
+[ext_resource path="res://UI/LifeBar.tscn" type="PackedScene" id=10]
+[ext_resource path="res://UI/StaminaBar.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scenes/Inventory/Inventory.tscn" type="PackedScene" id=12]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 3 )
@@ -119,17 +123,21 @@ tracks/3/keys = {
 [sub_resource type="CircleShape2D" id=11]
 radius = 4.0
 
+[sub_resource type="CircleShape2D" id=18]
+radius = 0.01
+
 [node name="Player" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 movement_speed = 150.0
 health_point = 100
 stamina = 100.0
+max_health_point = 100.0
 attack_power = 10
 block_power = 15
 
 [node name="PlayerCamera" type="Camera2D" parent="." index="0"]
 current = true
-zoom = Vector2( 0.4, 0.4 )
+zoom = Vector2( 0.5, 0.5 )
 smoothing_enabled = true
 smoothing_speed = 2.0
 drag_margin_left = 1.0
@@ -142,22 +150,23 @@ editor_draw_drag_margin = true
 [node name="Inputs" type="Node" parent="." index="1"]
 script = ExtResource( 6 )
 
-[node name="AnimatedSprite" parent="." index="4"]
+[node name="AnimatedSprite" parent="." index="3"]
 position = Vector2( 0, -4 )
 frames = SubResource( 10 )
 animation = "Idle"
+frame = 2
 playing = true
 
-[node name="Inventory" parent="HUD" index="0" instance=ExtResource( 8 )]
+[node name="Inventory" parent="HUD" index="0" instance=ExtResource( 12 )]
 visible = false
 
 [node name="AnimationPlayer" parent="WeaponsPoint" index="0"]
 anims/unblock = SubResource( 17 )
 
-[node name="CollisionShape2D" parent="." index="7"]
+[node name="CollisionShape2D" parent="." index="5"]
 shape = SubResource( 11 )
 
-[node name="StateMachine" parent="." index="9"]
+[node name="StateMachine" parent="." index="7"]
 visible = true
 
 [node name="StateLabel" type="Label" parent="StateMachine" index="5"]
@@ -169,3 +178,19 @@ script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="select_point_area" type="Area2D" parent="." index="13"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="select_point_area" index="0"]
+shape = SubResource( 18 )
+
+[node name="NinePatchRect" parent="." index="14" instance=ExtResource( 8 )]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." index="15"]
+
+[node name="UI" parent="CanvasLayer" index="0" instance=ExtResource( 9 )]
+mouse_filter = 2
+
+[node name="StaminaBar" parent="CanvasLayer" index="1" instance=ExtResource( 11 )]
+
+[node name="LifeBar" parent="CanvasLayer" index="2" instance=ExtResource( 10 )]

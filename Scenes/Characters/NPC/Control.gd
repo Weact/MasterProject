@@ -5,8 +5,6 @@ func get_class() -> String: return ""
 #### ACCESSORS ####
 
 #### BUILT-IN ####
-func _ready() -> void:
-	var __ = connect("gui_input", self, "_on_gui_input")
 
 
 #### VIRTUALS ####
@@ -22,9 +20,5 @@ func _ready() -> void:
 
 
 #### SIGNAL RESPONSES ####
-func _on_gui_input(event) -> void:
-	if event is InputEventMouseButton:
-		if event.is_action_pressed("player_attack"):
-			EVENTS.emit_signal("player_vassal", owner)
-		if event.is_action_pressed("player_block"):
-			EVENTS.emit_signal("player_target", owner)
+func _gui_input(event) -> void:
+	pass

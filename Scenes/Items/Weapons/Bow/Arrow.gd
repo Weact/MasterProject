@@ -46,8 +46,10 @@ func prep(duration = 1.0) -> void:
 	$AnimationPlayer.play("Charge", -1, 1.0/duration)
 	
 func launch(new_dir, new_speed) -> void:
-	trail.emitting = true
+	if !is_instance_valid(trail):
+		return
 	$Area2D/CollisionShape2D.call_deferred("set_disabled", false)
+	trail.emitting = true
 	set_direction(new_dir)
 	launch_speed = new_speed
 	arrow_dir = new_dir
@@ -59,7 +61,7 @@ func launch(new_dir, new_speed) -> void:
 #### INPUTS ####
 #### SIGNAL RESPONSES ####
 func _on_timeout() -> void:
-	queue_free()
+	call_deferred("queue_free")
 	
 func _on_body_entered(body) -> void:
 	if !is_instance_valid(body) or body == shooter:

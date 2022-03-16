@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://Scenes/Characters/Character.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Characters/NPC/NPC.gd" type="Script" id=2]
@@ -10,8 +10,11 @@
 [ext_resource path="res://Scenes/Characters/NPC/Behavior/Others/waitState.gd" type="Script" id=8]
 [ext_resource path="res://Scenes/Characters/NPC/Behavior/Others/gotoState.gd" type="Script" id=9]
 [ext_resource path="res://Scenes/Characters/NPC/Behavior/Others/chaseState.gd" type="Script" id=10]
+[ext_resource path="res://UI/LifeBar.gd" type="Script" id=11]
+[ext_resource path="res://ressources/new_theme.tres" type="Theme" id=12]
 [ext_resource path="res://Scenes/Characters/NPC/Sprites/Elf_RunSheet.png" type="Texture" id=13]
 [ext_resource path="res://Scenes/Characters/NPC/Behavior/Others/NPCFollowState.gd" type="Script" id=14]
+[ext_resource path="res://UI/font.tres" type="DynamicFont" id=15]
 [ext_resource path="res://Scenes/Characters/NPC/Behavior/fighting/Block_Behavior.gd" type="Script" id=16]
 [ext_resource path="res://Scenes/Characters/NPC/Behavior/fighting/Fighting.gd" type="Script" id=17]
 [ext_resource path="res://Scenes/Characters/NPC/Behavior/Others/Kiting.gd" type="Script" id=18]
@@ -65,12 +68,200 @@ animations = [ {
 [sub_resource type="CircleShape2D" id=13]
 radius = 5.0
 
+[sub_resource type="StyleBoxFlat" id=14]
+bg_color = Color( 0.619608, 0, 0, 0.627451 )
+
+[sub_resource type="StyleBoxFlat" id=15]
+bg_color = Color( 0, 0, 0, 0.447059 )
+
+[sub_resource type="OpenSimplexNoise" id=16]
+
+[sub_resource type="NoiseTexture" id=17]
+noise = SubResource( 16 )
+
+[sub_resource type="NoiseTexture" id=18]
+
+[sub_resource type="StyleBoxTexture" id=19]
+texture = SubResource( 18 )
+normal_map = SubResource( 17 )
+region_rect = Rect2( 0, 0, 512, 512 )
+
+[sub_resource type="StyleBoxFlat" id=20]
+bg_color = Color( 0, 0, 0, 0.133333 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0, 0, 0, 1 )
+border_blend = true
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.545098, 0.368627, 0.113725, 1 )
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.380392, 0.266667, 0.054902, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_color = Color( 0, 0, 0, 1 )
+border_blend = true
+expand_margin_top = 2.0
+
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.196078, 0.141176, 0.0196078, 1 )
+border_color = Color( 0.027451, 0.0156863, 0.00392157, 1 )
+border_blend = true
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[sub_resource type="StyleBoxFlat" id=21]
+bg_color = Color( 0.117647, 0.0784314, 0.027451, 1 )
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color( 0, 0, 0, 1 )
+border_blend = true
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+anti_aliasing_size = 1.0
+
+[sub_resource type="StyleBoxFlat" id=22]
+bg_color = Color( 0.2, 0.129412, 0.0235294, 1 )
+
+[sub_resource type="StyleBoxFlat" id=23]
+bg_color = Color( 0.188235, 0.137255, 0.0352941, 1 )
+
+[sub_resource type="StyleBoxFlat" id=24]
+bg_color = Color( 0.0745098, 0.054902, 0.0156863, 1 )
+
+[sub_resource type="StyleBoxFlat" id=25]
+bg_color = Color( 0.286275, 0.160784, 0.0313726, 1 )
+border_width_left = 8
+border_width_top = 4
+border_width_right = 8
+border_width_bottom = 2
+border_color = Color( 0.301961, 0.14902, 0.00392157, 1 )
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id=26]
+bg_color = Color( 0.203922, 0.121569, 0.121569, 1 )
+
+[sub_resource type="Theme" id=27]
+default_font = ExtResource( 15 )
+Button/colors/font_color = Color( 0.956863, 0.92549, 0.972549, 1 )
+Button/colors/font_color_disabled = Color( 0.996078, 0.941176, 0.941176, 0.2 )
+Button/colors/font_color_focus = Color( 0.941176, 0.941176, 0.941176, 1 )
+Button/colors/font_color_hover = Color( 0.94, 0.94, 0.94, 1 )
+Button/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+Button/constants/hseparation = 2
+Button/fonts/font = null
+Button/styles/disabled = SubResource( 19 )
+Button/styles/focus = SubResource( 20 )
+Button/styles/hover = SubResource( 6 )
+Button/styles/normal = SubResource( 7 )
+Button/styles/pressed = SubResource( 8 )
+Label/colors/font_color = Color( 1, 1, 1, 1 )
+Label/colors/font_color_shadow = Color( 0, 0, 0, 0 )
+Label/colors/font_outline_modulate = Color( 1, 1, 1, 1 )
+Label/constants/line_spacing = 3
+Label/constants/shadow_as_outline = 0
+Label/constants/shadow_offset_x = 1
+Label/constants/shadow_offset_y = 1
+Label/fonts/font = null
+Panel/styles/panel = SubResource( 21 )
+TabContainer/colors/font_color_bg = Color( 0.69, 0.69, 0.69, 1 )
+TabContainer/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
+TabContainer/colors/font_color_fg = Color( 0.94, 0.94, 0.94, 1 )
+TabContainer/constants/hseparation = 4
+TabContainer/constants/label_valign_bg = 2
+TabContainer/constants/label_valign_fg = 0
+TabContainer/constants/side_margin = 8
+TabContainer/constants/top_margin = 24
+TabContainer/fonts/font = null
+TabContainer/icons/decrement = null
+TabContainer/icons/decrement_highlight = null
+TabContainer/icons/increment = null
+TabContainer/icons/increment_highlight = null
+TabContainer/icons/menu = null
+TabContainer/icons/menu_highlight = null
+TabContainer/styles/panel = SubResource( 22 )
+TabContainer/styles/tab_bg = SubResource( 23 )
+TabContainer/styles/tab_disabled = SubResource( 24 )
+TabContainer/styles/tab_fg = SubResource( 25 )
+Tabs/colors/font_color_bg = Color( 0.69, 0.69, 0.69, 1 )
+Tabs/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
+Tabs/colors/font_color_fg = Color( 0.94, 0.94, 0.94, 1 )
+Tabs/constants/hseparation = 4
+Tabs/constants/label_valign_bg = 2
+Tabs/constants/label_valign_fg = 0
+Tabs/constants/top_margin = 24
+Tabs/fonts/font = null
+Tabs/icons/close = null
+Tabs/icons/decrement = null
+Tabs/icons/decrement_highlight = null
+Tabs/icons/increment = null
+Tabs/icons/increment_highlight = null
+Tabs/styles/button = null
+Tabs/styles/button_pressed = null
+Tabs/styles/tab_bg = SubResource( 26 )
+Tabs/styles/tab_disabled = null
+Tabs/styles/tab_fg = null
+
+[sub_resource type="StyleBoxFlat" id=28]
+bg_color = Color( 0, 0.619608, 0.0862745, 0.627451 )
+
+[sub_resource type="StyleBoxFlat" id=29]
+bg_color = Color( 0, 0, 0, 0.447059 )
+
+[sub_resource type="GDScript" id=30]
+script/source = "extends ProgressBar
+func is_class(value: String): return value == \"\" or .is_class(value)
+func get_class() -> String: return \"\"
+
+#### ACCESSORS ####
+
+#### BUILT-IN ####
+func _ready() -> void:
+	var __ = owner.connect(\"stamina_changed\", self, \"_on_player_stamina_changed\")
+
+
+
+#### VIRTUALS ####
+
+
+
+#### LOGIC ####
+
+
+
+#### INPUTS ####
+
+
+
+#### SIGNAL RESPONSES ####
+func _on_player_stamina_changed() -> void:
+	value = (100*owner.stamina)/owner.max_stamina
+	if owner.max_stamina <= owner.stamina and !owner.is_class(\"Player\"):
+		visible = false
+	else:
+		visible = true
+"
+
 [node name="NPC" groups=["NPC"] instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 attack_power = 5
 block_power = 4
 
-[node name="AnimatedSprite" parent="." index="2"]
+[node name="AnimatedSprite" parent="." index="1"]
 position = Vector2( 0, -9 )
 frames = SubResource( 5 )
 animation = "Move"
@@ -134,6 +325,7 @@ wait_time = 0.3
 one_shot = true
 
 [node name="Label" type="Label" parent="BehaviorTree" index="4"]
+visible = false
 margin_left = -20.0
 margin_top = -39.0
 margin_right = 23.0
@@ -145,13 +337,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CollisionShape2D" parent="." index="6"]
+[node name="CollisionShape2D" parent="." index="4"]
 shape = SubResource( 13 )
 
-[node name="StateMachine" parent="." index="8"]
+[node name="StateMachine" parent="." index="6"]
 visible = true
 
 [node name="StateLabel" type="Label" parent="StateMachine" index="5"]
+visible = false
 margin_left = -19.0
 margin_top = -23.0
 margin_right = 23.0
@@ -165,5 +358,37 @@ __meta__ = {
 [node name="RayCast2D" type="RayCast2D" parent="." index="9"]
 enabled = true
 cast_to = Vector2( 50, 0 )
+
+[node name="LifeBar" type="ProgressBar" parent="." index="13"]
+margin_left = -13.0
+margin_top = -27.0
+margin_right = 87.0
+margin_bottom = -13.0
+rect_scale = Vector2( 0.25, 0.2 )
+theme = ExtResource( 12 )
+custom_styles/fg = SubResource( 14 )
+custom_styles/bg = SubResource( 15 )
+value = 100.0
+percent_visible = false
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StaminaBar" type="ProgressBar" parent="." index="14"]
+margin_left = -13.0
+margin_top = -24.0
+margin_right = 87.0
+margin_bottom = -10.0
+rect_scale = Vector2( 0.25, 0.2 )
+theme = SubResource( 27 )
+custom_styles/fg = SubResource( 28 )
+custom_styles/bg = SubResource( 29 )
+value = 100.0
+percent_visible = false
+script = SubResource( 30 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [connection signal="state_changed" from="StateMachine" to="." method="_on_StateMachine_state_changed"]
