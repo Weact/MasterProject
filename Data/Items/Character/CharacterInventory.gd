@@ -100,10 +100,6 @@ func count_valid_items() -> int:
 # BUILTIN
 func _ready() -> void:
 	init_inventory()
-	add_item(10001)
-	add_item(10002)
-	add_item(10003)
-	add_item(10003)
 #	generate_random_items() # DEBUG FEATURE
 
 # LOGIC
