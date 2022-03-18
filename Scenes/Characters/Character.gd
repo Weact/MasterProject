@@ -473,20 +473,30 @@ func take_item(item) -> void:
 	else:
 		return
 
-func equip_item(item : ItemResource, slot : int = -1) -> void:
+func equip_item(item, slot : int = -1) -> void:
 	if item == null:
 		return
-
-	var item_object = null
-	var item_instance = item.get_item_scene().instance()
-
-	item_instance.set_name(item.get_name())
-	get_tree().get_root().call_deferred("add_child", item_instance, true)
-	item_object = item_instance
-
-	yield(item_object, "tree_entered")
-	yield(item_object, "ready")
 	
+	var item_object
+	var item_instance
+	
+	if item is ItemResource:
+		item_object = null
+		item_instance = item.get_item_scene().instance()
+	elif item is Weapon:
+		item_instance = item
+		item_object = item_instance
+
+#	var item_object = null
+#	var item_instance = item.get_item_scene().instance()
+	
+	if item is ItemResource:
+		item_instance.set_name(item.get_name())
+		get_tree().get_root().call_deferred("add_child", item_instance, true)
+		item_object = item_instance
+		yield(item_object, "tree_entered")
+		yield(item_object, "ready")
+		
 	var __
 	
 	if item_object.is_class("Sword") :
