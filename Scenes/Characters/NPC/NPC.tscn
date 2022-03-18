@@ -258,13 +258,15 @@ func _on_player_stamina_changed() -> void:
 
 [node name="NPC" groups=["NPC"] instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-attack_power = 5
-block_power = 4
+max_health_point = 50.0
+attack_power = 10
+block_power = 10
 
 [node name="AnimatedSprite" parent="." index="1"]
 position = Vector2( 0, -9 )
 frames = SubResource( 5 )
 animation = "Move"
+frame = 3
 playing = true
 
 [node name="BehaviorTree" type="Node2D" parent="." index="3"]

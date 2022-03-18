@@ -1,33 +1,89 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://ressources/new_theme.tres" type="Theme" id=1]
+[ext_resource path="res://Scenes/Characters/NPC/Sprites/Elf_Hit.png" type="Texture" id=2]
+[ext_resource path="res://UI/BasePanel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://UI/Reign.gd" type="Script" id=4]
+[ext_resource path="res://UI/Tree.gd" type="Script" id=5]
+[ext_resource path="res://UI/ui.gd" type="Script" id=6]
+[ext_resource path="res://UI/CloseButton.tscn" type="PackedScene" id=7]
+[ext_resource path="res://UI/OpenTabs.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/Characters/Player/Sprites/Knight_Hit.png" type="Texture" id=9]
 
 [node name="UI" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 1 )
+script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TabContainer" type="TabContainer" parent="."]
-visible = false
-margin_right = 500.0
-margin_bottom = 400.0
+[node name="OpenTabs" parent="." instance=ExtResource( 8 )]
+margin_top = 0.0
+margin_right = 48.0
+margin_bottom = 48.0
+
+[node name="BasePanel" parent="." instance=ExtResource( 3 )]
+margin_bottom = -28.0
+
+[node name="TabContainer" type="TabContainer" parent="BasePanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Vassal" type="Tabs" parent="TabContainer"]
+[node name="Reign" type="Tabs" parent="BasePanel/TabContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 23.0
+script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Tabs2" type="Tabs" parent="TabContainer"]
+[node name="Tree" type="Tree" parent="BasePanel/TabContainer/Reign"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 24.0
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TemplateIcon" type="TextureRect" parent="BasePanel/TabContainer/Reign/Tree"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -48.0
+margin_top = -15.0
+margin_right = -194.0
+margin_bottom = -310.0
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TemplateIconPlayer" type="TextureRect" parent="BasePanel/TabContainer/Reign/Tree"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -48.0
+margin_top = -15.0
+margin_right = -194.0
+margin_bottom = -310.0
+texture = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Diplomacy" type="Tabs" parent="BasePanel/TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 23.0
+
+[node name="CloseButton" parent="BasePanel" instance=ExtResource( 7 )]
+anchor_bottom = 1.0
+margin_left = -24.0
+margin_bottom = -581.0

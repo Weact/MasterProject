@@ -105,6 +105,14 @@ signal shield_hit
 
 signal damaged
 
+signal new_vassal
+
+signal old_vassal
+
+signal new_liege
+
+signal old_liege
+
 ## STATES
 export var default_state : String = ""
 
@@ -122,10 +130,13 @@ func get_current_state() -> String:
 
 #### ACCESSORS ####
 func set_liege(body) -> void:
-	if body != self and body != liege and is_instance_valid(body) and body.is_class("Character") and body.add_vassal(self):
+	if body != self and body != liege and is_instance_valid(body) and body.is_class("Character") and body.can_add_vassal(self):
 		if is_instance_valid(liege):
 			liege.remove_vassal(self)
+			emit_signal("old_liege", liege)
+		body.add_vassal(self)
 		liege = body
+		emit_signal("new_liege", body)
 		
 func get_liege() -> Node2D:
 	return liege
@@ -684,14 +695,22 @@ func _on_visionArea_body_exited(body : PhysicsBody2D) -> void:
 	if body.is_class("Character") and body != self:
 		visible_characters.erase(body)
 
-func add_vassal(vassal) -> bool:
+func can_add_vassal(_vassal) -> bool:
 	if vassals.size() < max_vassal_limit:
-		vassals.append(vassal)
 		return true
 	return false
+
+func add_vassal(vassal) -> void:
+	if can_add_vassal(vassal):
+		vassals.append(vassal)
+		if liege == vassal:
+			set_liege(vassal.liege)
+		
+		emit_signal("new_vassal", vassal, self)
 	
 func remove_vassal(vassal) -> void:
 	vassals.erase(vassal)
+	emit_signal("old_vassal", vassal)
 
 func order_vassals(order, param):
 	for vassal in vassals:
