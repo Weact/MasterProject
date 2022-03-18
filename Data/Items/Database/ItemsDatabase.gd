@@ -9,7 +9,7 @@ const ITEMS : Dictionary = {
 }
 
 # ACCESSORS
-func get_item(id: int) -> Resource:
+func get_item(id: int) -> ItemResource:
 	for item in ITEMS:
 		if str(id) == item:
 			return ITEMS[item]
@@ -28,6 +28,12 @@ func get_item_id(name: String) -> int:
 
 func get_items() -> Dictionary:
 	return ITEMS
+
+func is_item_id_valid(id: int) -> bool:
+	if str(id) in ITEMS.keys():
+		print(str(id) + " ID FOUND !")
+		return true
+	return false
 
 func _ready() -> void:
 	pass

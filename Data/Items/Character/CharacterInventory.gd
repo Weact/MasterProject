@@ -3,7 +3,7 @@ extends Node
 var _player : PhysicsBody2D = null
 
 var character_inv_data : Array = []
-export(int) var character_inv_size = 50
+export(int) var character_inv_size = 1
 export(int) var fill_ratio = 1
 
 enum INVENTORY_SORTING_MODE{NONE = 0, NAME, RARITY, TYPE}
@@ -57,18 +57,28 @@ func get_item(slot: int) -> ItemResource:
 	return null
 ## ADD AN ITEM TO INVENTORY BY ID
 func add_item(id: int) -> void:
-	for item in items:
-		if str(id) == item:
-			for inv_slot in character_inv_data.size():
+	if ItemsDatabase.is_item_id_valid(id):
+		# a slot is free, add item to the null slot
+		if not is_inventory_full():
+			for inv_slot in character_inv_size:
 				if character_inv_data[inv_slot] == null:
 					set_item_by_id(inv_slot, id)
-#					character_inv_data[inv_slot] = ItemsDatabase.get_item(id)
 					return
+		# all slots are taken, generate item on ground
+		else:
+			GAME.generate_item(ItemsDatabase.get_item(id).get_name())
+			return
+## ADD ITEMS BY ARRAY TO INVENTORY, USING IDs
+func add_items(ids_array : PoolIntArray) -> void:
+	for id in ids_array:
+		if ItemsDatabase.is_item_id_valid(id):
+			add_item(id)
+		else:
+			push_error(str(id) + " is an invalid id, could not add item to inventory")
 ## REMOVE ITEM FROM INVENTORY FROM SLOT
 func remove_item(slot: int) -> void:
 	if is_slot_valid(slot):
 		if character_inv_data[slot] != null:
-#			character_inv_data[slot] = null
 			set_item_by_id(slot, 10000)
 ## REPLACE ITEM A BY ITEM B
 func replace_item(origin_slot: int, target_slot: int) -> void:
@@ -88,6 +98,9 @@ func is_slot_valid(slot: int) -> bool:
 ## DOES THE INVENTORY HAS AN ITEM OR NONE ?
 func is_inventory_empty() -> bool:
 	return count_valid_items() == 0
+func is_inventory_full() -> bool:
+	var returned:bool = count_valid_items() == character_inv_size
+	return returned
 ## COUNT ITEMS IN INVENTORY
 func count_valid_items() -> int:
 	var valid_item_count : int = 0
@@ -100,6 +113,7 @@ func count_valid_items() -> int:
 # BUILTIN
 func _ready() -> void:
 	init_inventory()
+	add_items([10001, 10002, 10003, 10001, 10002, 10003, 10001, 10002, 10003, 10001, 10002, 10003, 10003])
 #	generate_random_items() # DEBUG FEATURE
 
 # LOGIC

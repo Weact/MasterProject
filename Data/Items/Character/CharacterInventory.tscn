@@ -4,5 +4,4 @@
 
 [node name="CharacterInventory" type="Node"]
 script = ExtResource( 1 )
-character_inv_size = 5
-fill_ratio = 2
+character_inv_size = 12

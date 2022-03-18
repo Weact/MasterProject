@@ -53,7 +53,6 @@ func clear_inventory() -> void:
 # !! THIS METHOD SHOULD NEVER BE CALLED ANYWHERE EXCEPT IN SAFE REGENERATE INVENTORY !!
 func _generate_inventory() -> void:
 	create_slots(temp_character_inv_data)
-	emit_signal("generate_finished")
 	
 func safe_regenerate_inventory() -> void:
 	clear_inventory()
@@ -100,11 +99,11 @@ func synchronize_inventory() -> void:
 # 	pannel that triggers this event
 func _on_inventory_shuffled() -> void:
 	print("Inventory shuffled")
-	safe_regenerate_inventory()
+	synchronize_inventory()
 
 func _on_inventory_sorted() -> void:
 	print("Inventory sorted")
-	safe_regenerate_inventory()
+	synchronize_inventory()
 
 # Do not put code in there except if you want to do something when inventory has been cleared
 func _on_clear_finished() -> void:
