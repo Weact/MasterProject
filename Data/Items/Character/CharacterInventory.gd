@@ -66,7 +66,9 @@ func add_item(id: int) -> void:
 					return
 		# all slots are taken, generate item on ground
 		else:
-			GAME.generate_item(ItemsDatabase.get_item(id).get_name())
+			var _generated_item = GAME.generate_item(ItemsDatabase.get_item(id).get_name())
+			if is_instance_valid(GAME.PLAYER_NODE):
+				_generated_item.set_position(GAME.PLAYER_NODE.get_position())
 			return
 ## ADD ITEMS BY ARRAY TO INVENTORY, USING IDs
 func add_items(ids_array : PoolIntArray) -> void:
