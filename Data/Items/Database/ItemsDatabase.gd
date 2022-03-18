@@ -31,7 +31,6 @@ func get_items() -> Dictionary:
 
 func is_item_id_valid(id: int) -> bool:
 	if str(id) in ITEMS.keys():
-		print(str(id) + " ID FOUND !")
 		return true
 	return false
 

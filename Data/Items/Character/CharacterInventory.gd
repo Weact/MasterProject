@@ -115,8 +115,7 @@ func count_valid_items() -> int:
 # BUILTIN
 func _ready() -> void:
 	init_inventory()
-	add_items([10001, 10002, 10003, 10001, 10002, 10003, 10001, 10002, 10003, 10001, 10002, 10003, 10003])
-#	generate_random_items() # DEBUG FEATURE
+#	generate_random_items() # DEBUG FEATURE TO ADD ITEMS IN INVENTORY AT RUNTIME
 
 # LOGIC
 func init_inventory() -> void:

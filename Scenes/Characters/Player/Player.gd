@@ -97,8 +97,6 @@ func _input(event: InputEvent) -> void:
 		get_tree().get_root().call("add_child", npc_instance)
 		npc_instance.position = get_global_mouse_position()
 		EVENTS.emit_signal("new_npc", npc_instance)
-		print("NEW AI")
-		print(npc_instance)
 
 	elif event.is_action_pressed("debug_vassalize"):
 		start_selection()
