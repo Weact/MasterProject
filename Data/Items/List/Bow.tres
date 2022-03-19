@@ -1,0 +1,16 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://Data/Items/Database/Item.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Items/Sprite/weapon_bow.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Items/Bow.tscn" type="PackedScene" id=3]
+
+[resource]
+script = ExtResource( 1 )
+name = "Bow"
+stackable = false
+max_stack_size = 1
+type = 2
+rarity = 0
+slot = 6
+texture = ExtResource( 2 )
+ItemScene = ExtResource( 3 )

@@ -5,15 +5,34 @@ func get_class() -> String: return "Inventory"
 
 onready var inv_slot : PackedScene = preload("res://Scenes/Inventory/ItemSlot/ItemSlot.tscn")
 onready var slots_container_node : GridContainer = get_node_or_null("Background/MC/VBC/SC/SlotsContainer")
+onready var exit_button_node : TextureButton = get_node_or_null("Background/MC/VBC/HBC/Exit/ExitTButton")
 
+var inventory_opened : bool = false
 signal clear_finished
 
+var temp_character_inv_data = []
+
+## ACCESSORS
+
+func is_inventory_open() -> bool:
+	return inventory_opened
+
+## BUILTIN
+
 func _ready() -> void:
-	var __ = CharacterInventory.connect("inventory_shuffled", self, "_on_inventory_shuffled")
+	var __ = GAME.connect("inventory_state_changed", self, "_on_inventory_state_changed")
+	__ = EVENTS.connect("inventory_changed", self, "_on_inventory_changed")
+	__ = CharacterInventory.connect("inventory_shuffled", self, "_on_inventory_shuffled")
 	__ = CharacterInventory.connect("inventory_sorted", self, "_on_inventory_sorted")
 	__ = connect("clear_finished", self, "_on_clear_finished")
+	__ = exit_button_node.connect("button_down", self, "_on_exit_tbutton_pressed")
+	
+	synchronize_inventory()
+	
+	if visible:
+		set_visible(false)
 
-	generate_inventory()
+## LOGIC
 
 func clear_inventory() -> void:
 	var last_child = null
@@ -31,10 +50,16 @@ func clear_inventory() -> void:
 # - Create_slot which will be called each time a slot need to be created by create_slot
 #	range(0, CharacterInventory.character_inv_size)
 # - Create_slot return a slot(new_slot) which will be used to add_child in create_slots' loop
-func generate_inventory() -> void:
-	var character_inventory_data : Array = CharacterInventory.get_character_inv_data_as_array()
-	create_slots(character_inventory_data)
+# !! THIS METHOD SHOULD NEVER BE CALLED ANYWHERE EXCEPT IN SAFE REGENERATE INVENTORY !!
+func _generate_inventory() -> void:
+	create_slots(temp_character_inv_data)
 	
+func safe_regenerate_inventory() -> void:
+	clear_inventory()
+	if !slots_container_node.get_children().empty():
+		yield(self, "clear_finished")
+	_generate_inventory()
+
 func create_slots(inventory) -> void:
 	for slot in range(0, CharacterInventory.character_inv_size):
 		var next_slot = create_slot(inventory, slot)
@@ -49,13 +74,18 @@ func create_slot(inventory, slot):
 	
 	return new_slot
 
-func safe_regenerate_inventory() -> void:
-	clear_inventory()
-	
-	if !slots_container_node.get_children().empty():
-		yield(self, "clear_finished")
-		
-	generate_inventory()
+func open_inventory() -> void:
+	inventory_opened = true
+	set_visible(inventory_opened)
+
+func close_inventory() -> void:
+	inventory_opened = false
+	set_visible(inventory_opened)
+
+func synchronize_inventory() -> void:
+	# MUST PASS TRUE IN ARG, OTHERWISE IT WILL RETURN THE ARRAY BY REFERENCE
+	temp_character_inv_data = CharacterInventory.get_character_inv_data_as_array(true)
+	safe_regenerate_inventory()
 
 # | Called when user press F3 to shuffle its inventory
 #
@@ -68,11 +98,25 @@ func safe_regenerate_inventory() -> void:
 # | Instead of pressing F3 to shuffle, we can imagine a button in the inventory
 # 	pannel that triggers this event
 func _on_inventory_shuffled() -> void:
-	safe_regenerate_inventory()
+	synchronize_inventory()
 
 func _on_inventory_sorted() -> void:
-	safe_regenerate_inventory()
+	synchronize_inventory()
 
 # Do not put code in there except if you want to do something when inventory has been cleared
 func _on_clear_finished() -> void:
-	pass
+	if slots_container_node.get_child_count() > CharacterInventory.character_inv_size:
+		safe_regenerate_inventory()
+
+func _on_exit_tbutton_pressed() -> void:
+	close_inventory()
+
+func _on_inventory_changed() -> void:
+	synchronize_inventory()
+
+func _on_inventory_state_changed() -> void:
+	if inventory_opened:
+		close_inventory()
+	else:
+		synchronize_inventory()
+		open_inventory()

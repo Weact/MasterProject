@@ -27,9 +27,13 @@ var selected_npcs = []
 
 #### BUILT-IN ####
 func _ready() -> void:
-	var __ = select_point.connect("body_entered", self, "_on_select_point_entered")
+	var __ = EVENTS.connect("player_target", self, "_on_new_target")
+	__ = EVENTS.connect("player_vassal", self, "_on_new_vassal")
+	__ = EVENTS.connect("inventory_item_equip", self, "_on_inventory_item_equip")
+
+	__ = select_point.connect("body_entered", self, "_on_select_point_entered")
 	__ = select_point.connect("body_exited", self, "_on_select_point_exited")
-	
+
 #### VIRTUALS ####
 
 #### LOGIC ####
@@ -81,7 +85,7 @@ func _input(event: InputEvent) -> void:
 
 	elif event.is_action_released(inputs_node.get_input("Dodge")):
 		action_name = "Dodge_Released"
-		
+
 	elif event.is_action_pressed(inputs_node.get_input("Interact")):
 		action_name = "Interact_Pressed"
 
@@ -93,22 +97,20 @@ func _input(event: InputEvent) -> void:
 		get_tree().get_root().call("add_child", npc_instance)
 		npc_instance.position = get_global_mouse_position()
 		EVENTS.emit_signal("new_npc", npc_instance)
-		print("NEW AI")
-		print(npc_instance)
-		
+
 	elif event.is_action_pressed("debug_vassalize"):
 		start_selection()
-		
+
 	elif event.is_action_released("debug_vassalize"):
 		stop_selection()
-			
-	if is_instance_valid(target_click): 
+
+	if is_instance_valid(target_click):
 		if event.is_action_pressed("player_attack"):
 			_on_new_vassal(target_click)
 		if event.is_action_pressed("player_block"):
 			_on_new_target(target_click)
 	action(action_name)
-		
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -116,7 +118,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		var mousePos = get_global_mouse_position()
 		select_point.position = mousePos - position
 		set_look_direction(rad2deg((mousePos-pos).angle()))
-		
+
 		if is_instance_valid(select_rect):
 			var extent = (mousePos-start_rect_pos)/2
 			shape.set_extents(extent)
@@ -124,7 +126,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			var new_size = Vector2((extent*2).x, (extent*2).y)
 			visible_select_rect.set_position(start_rect_pos  + Vector2(min(new_size.x, 0), min(new_size.y,0)))
 			visible_select_rect.rect_size = Vector2(abs(new_size.x), abs(new_size.y))
-	
+
 func action(action_name: String) -> void:
 	match(action_name):
 		"MoveLeft_Pressed":
@@ -151,11 +153,11 @@ func action(action_name: String) -> void:
 				if is_instance_valid(weapon_node):
 					weapon_node.press()
 			attackPressed = true
-			
+
 		"Attack_Released":
 			if is_instance_valid(weapon_node):
 				weapon_node.release()
-				
+
 			attackPressed = false
 		"Block_Pressed":
 			if is_instance_valid(weapon_node):
@@ -183,7 +185,7 @@ func action(action_name: String) -> void:
 func add_selection(npc):
 	selected_npcs.append(npc)
 	npc.select()
-	
+
 func empty_selection():
 	for npc in selected_npcs:
 		if is_instance_valid(npc):
@@ -194,14 +196,14 @@ func empty_selection():
 func _on_select_body_entered(body) -> void:
 	if !body.is_class("NPC"):
 		return
-	
+
 	glow_npcs.append(body)
 	body.select()
-	
+
 func _on_select_body_exited(body) -> void:
 	if !body.is_class("NPC"):
 		return
-	
+
 	glow_npcs.erase(body)
 	body.select(false)
 
@@ -212,11 +214,11 @@ func stop_selection() -> void:
 	yield(select_rect, "tree_exited")
 	for npc in npcs:
 		add_selection(npc)
-		
+
 func start_selection() -> void:
 	if is_instance_valid(select_rect):
 		select_rect.queue_free()
-		
+
 	empty_selection()
 	select_rect = Area2D.new()
 	visible_select_rect = ninepatchrect_ressource.instance()
@@ -227,13 +229,13 @@ func start_selection() -> void:
 	start_rect_pos = get_global_mouse_position()
 	select_rect.position = get_global_mouse_position()
 	select_rect.call("add_child", collision)
-	
+
 	get_tree().get_root().call("add_child", select_rect)
 	get_tree().get_root().call("add_child", visible_select_rect)
-	
+
 	select_rect.connect("body_entered", self, "_on_select_body_entered")
 	select_rect.connect("body_exited", self, "_on_select_body_exited")
-	
+
 #### INPUTS ####
 
 #### SIGNAL RESPONSES ####
@@ -244,7 +246,7 @@ func _on_new_target(new_target) -> void:
 				npc.follow(new_target)
 			else:
 				npc.attack(new_target)
-		
+
 func _on_new_vassal(new_vassal) -> void:
 	for npc in selected_npcs:
 		if is_instance_valid(npc):
@@ -259,3 +261,6 @@ func _on_select_point_exited(body) -> void:
 	if body == target_click:
 		target_click = null
 		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+		
+func _on_inventory_item_equip(item, slot) -> void:
+		equip_item(item, slot)

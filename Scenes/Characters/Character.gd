@@ -45,7 +45,7 @@ func get_target() -> Node2D:
 
 func target_in_chase_area() -> bool:
 	return can_see(target)
-	
+
 export var weight : int = 5
 signal weight_changed()
 
@@ -126,10 +126,10 @@ func set_liege(body) -> void:
 		if is_instance_valid(liege):
 			liege.remove_vassal(self)
 		liege = body
-		
+
 func get_liege() -> Node2D:
 	return liege
-	
+
 func set_state(new_state : String) -> void:
 	if can_change_state():
 		state_machine.set_state(new_state)
@@ -144,7 +144,7 @@ func set_target(value : Node2D) -> void:
 	if target != value:
 		target = value
 		emit_signal("target_changed", target)
-		
+
 ##PATHFINDER WEIGHT
 func set_pathfinder(newPath : Pathfinder) -> void:
 	if pathfinder != newPath:
@@ -319,13 +319,13 @@ func _physics_process(_delta: float) -> void:
 func can_see(body) -> bool:
 	if !is_instance_valid(body):
 		return false
-		
+
 	for visible_char in visible_characters:
 		if body == visible_char:
 			return true
-	
+
 	return false
-	
+
 
 func update_weapon_rotation(_delta, rot_vel) -> void:
 	var difference = fmod(look_direction - weapons_node.rotation_degrees, 360)
@@ -456,25 +456,62 @@ func pick_up() -> void:
 			closest_body = body
 
 	if is_instance_valid(closest_body):
-		equip_item(closest_body)
+		take_item(closest_body)
+		closest_body.call_deferred("queue_free")
+#		equip_item(closest_body)
 
-func equip_item(item) -> void:
+func take_item(item) -> void:
 	if not item.is_class("Weapon"):
 		return
 
-	item.equip(self)
-
-	var __ = skill_tree.use_skill(null)
-
-	if item.is_class("Sword") :
-		set_weapon_node(item)
-
+	if item.is_class("Sword"):
+		CharacterInventory.add_item(10001)
 	elif item.is_class("Shield"):
-		set_shield_node(item)
-
+		CharacterInventory.add_item(10002)
 	elif item.is_class("Bow"):
-		set_weapon_node(item)
+		CharacterInventory.add_item(10003)
+	else:
+		return
+
+func equip_item(item, slot : int = -1) -> void:
+	if item == null:
+		return
+	
+	var item_object
+	var item_instance
+	
+	if item is ItemResource:
+		item_object = null
+		item_instance = item.get_item_scene().instance()
+	elif item is Weapon:
+		item_instance = item
+		item_object = item_instance
+
+#	var item_object = null
+#	var item_instance = item.get_item_scene().instance()
+	
+	if item is ItemResource:
+		item_instance.set_name(item.get_name())
+		get_tree().get_root().call_deferred("add_child", item_instance, true)
+		item_object = item_instance
+		yield(item_object, "tree_entered")
+		yield(item_object, "ready")
+		
+	var __
+	
+	if item_object.is_class("Sword") :
+		set_weapon_node(item_object)
+
+	elif item_object.is_class("Shield"):
+		set_shield_node(item_object)
+
+	elif item_object.is_class("Bow"):
+		set_weapon_node(item_object)
 		__ = drop_shield()
+		
+	__ = item_object.equip(self)
+	
+	__ = skill_tree.use_skill(null)
 
 func set_weapon_node(item) -> void:
 	var __ = drop_weapon()
@@ -534,8 +571,11 @@ func free_first_child(node) -> Node:
 
 		node.remove_child(weapon)
 		weapon.unequip()
-		weapon.set_position(get_global_position())
-		owner.call_deferred("add_child", weapon)
+		
+		var weapon_item_id : int = ItemsDatabase.get_item_id(weapon.get_class())
+		CharacterInventory.add_item(weapon_item_id)
+#		weapon.set_position(get_global_position())
+#		owner.call_deferred("add_child", weapon)
 		return weapon
 
 	return null
@@ -563,7 +603,7 @@ func has_weapon() -> bool:
 
 func has_shield() -> bool:
 	return shield_point.get_child_count() <= 0
-	
+
 func select(value : bool =true) -> void:
 	$SelectionCircle.emitting = value
 	
@@ -612,7 +652,7 @@ func _on_health_point_changed() -> void:
 	init_panels()
 	if health_point > max_health_point:
 		health_point = max_health_point
-		
+
 	if health_point <= 0:
 		die()
 
@@ -675,11 +715,11 @@ func _on_attack_cd_timeout(timer_timeout : Timer) -> void:
 func _on_stun_timer_timeout(timer_timeout : Timer) -> void:
 	unstun()
 	timer_timeout.queue_free()
-	
+
 func _on_visionArea_body_entered(body : PhysicsBody2D) -> void:
 	if body.is_class("Character") and body != self:
 		visible_characters.append(body)
-		
+
 func _on_visionArea_body_exited(body : PhysicsBody2D) -> void:
 	if body.is_class("Character") and body != self:
 		visible_characters.erase(body)
