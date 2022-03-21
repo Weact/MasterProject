@@ -72,11 +72,15 @@ func get_target_direction() -> float:
 	return rad2deg((owner.target.position - owner.position).angle())
 		
 func _on_timeout() -> void:
+	if not is_instance_valid(owner.weapon_node):
+		return
+		
 	if owner.target == null:
 		return
 	var _difficulty = owner.difficulty
 	
 	timer.start()
+	
 	kite_dist = 16.0 + float(owner.weapon_node.is_class("Bow")) * 80
 	
 	var childs = get_children()

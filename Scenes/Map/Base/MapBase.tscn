@@ -78,3 +78,5 @@ script = ExtResource( 1 )
 [node name="Obstacles" type="Node" parent="."]
 
 [node name="Rocks" type="YSort" parent="Obstacles"]
+
+[node name="Interactables" type="Node" parent="."]
