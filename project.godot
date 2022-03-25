@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Entity",
 "class": "Arrow",
 "language": "GDScript",
-"path": "res://Scenes/Items/Weapons/Bow/Arrow.gd"
+"path": "res://Scenes/Items/Script/Arrow.gd"
 }, {
 "base": "ExecuteSkill",
 "class": "AttackExecute",
@@ -57,7 +57,7 @@ _global_script_classes=[ {
 "base": "Weapon",
 "class": "Bow",
 "language": "GDScript",
-"path": "res://Scenes/Items/Weapons/Bow/Bow.gd"
+"path": "res://Scenes/Items/Script/Bow.gd"
 }, {
 "base": "Entity",
 "class": "Character",
@@ -359,6 +359,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Items/Weapons/Melee/Sword.gd"
 }, {
+"base": "Control",
+"class": "UpradeSkillTree",
+"language": "GDScript",
+"path": "res://Scenes/UpgradeSkillTree/UpgradeSkillTree.gd"
+}, {
 "base": "Node",
 "class": "Variable",
 "language": "GDScript",
@@ -450,6 +455,7 @@ _global_script_class_icons={
 "StateLabel": "",
 "StateMachine": "",
 "Sword": "",
+"UpradeSkillTree": "",
 "Variable": "",
 "Weapon": "",
 "gotoState": "",
