@@ -7,6 +7,7 @@ export var skill_name : String = ""
 export var weapon_exp_upgrade_cost : float = 1.0
 
 func _ready() -> void:
+	skill_name = "Skill: |Unknown|" if skill_name == "" else skill_name
 	if is_instance_valid($Icon):
 		$Icon.set_texture(skill_texture)
 		

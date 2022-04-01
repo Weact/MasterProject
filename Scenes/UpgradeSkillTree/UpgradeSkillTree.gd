@@ -10,7 +10,7 @@ export var opening_speed : float = 0.4
 
 onready var skill_upgrades_container : Control = get_node_or_null("NinePatchRect/SkillsContainer/SkillsTab")
 
-var skill_upgrades : PoolStringArray = []
+var skill_upgrades : Array = []
 
 ## ACCESSORS
 
@@ -30,16 +30,19 @@ func _ready() -> void:
 ## LOGIC
 
 func init_skill_upgrades() -> void:
-	for tab_weapon_skills in skill_upgrades_container:
-		if tab_weapon_skills.get_child_count() > 0:
-			for weapon_skill in tab_weapon_skills:
-				skill_upgrades.append(weapon_skill)
+	for tab_weapon_skills in skill_upgrades_container.get_children():
+		for vboxcontainers in tab_weapon_skills.get_children():
+			for skillrows in vboxcontainers.get_children():
+				for skill in skillrows.get_children():
+					if skill is TextureButton:
+						skill_upgrades.append(skill)
 
 func init_skills_signals() -> void:
 	var __
 	for skill in skill_upgrades:
+		# double check of texturebutton
 		if skill is TextureButton:
-			__ = skill.connect("pressed", self, "_on_skill_pressed", skill.get_skill_name())
+			__ = skill.connect("pressed", self, "_on_skill_pressed", [skill.get_skill_name()])
 
 ##### UI
 func init_rect() -> void:
