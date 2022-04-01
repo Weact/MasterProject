@@ -22,6 +22,8 @@ onready var shield_point : Node2D = weapons_node.get_node_or_null("ShieldPoint")
 onready var weapon_node : Node2D = null
 onready var shield_node : Node2D = null
 
+export var weapon_exp : float = 0.0
+
 onready var weapons_animation_player_node : AnimationPlayer = get_node_or_null("WeaponsPoint/AnimationPlayer")
 
 onready var pick_up_area : Area2D = $PickUpArea
@@ -302,6 +304,9 @@ func _connect_signals() -> void:
 	__ = connect("current_tile_changed", self, "_on_current_tile_changed")
 	__ = connect("pathfinder_changed", self, "_on_pathfinder_changed")
 	__ = connect("weight_changed", self, "_on_weight_changed")
+	
+	## SKILL TREE
+	__ = EVENTS.connect("skill_learn", self, "_on_try_to_learn_skill")
 
 
 
@@ -473,7 +478,8 @@ func take_item(item) -> void:
 	else:
 		return
 
-func equip_item(item, slot : int = -1) -> void:
+#slot arg may be irrelevant ?
+func equip_item(item, _slot : int = -1) -> void:
 	if item == null:
 		return
 	
@@ -674,12 +680,9 @@ func _on_block_power_changed() -> void:
 func _on_max_speed_changed(_max_speed: float) -> void:
 	pass
 
-
-
 func _on_direction_changed(dir: Vector2) -> void:
 	if dir != Vector2.ZERO and dir != Vector2.UP and dir != Vector2.DOWN :
 		pass
-
 
 func _on_animation_finished() -> void:
 	pass
@@ -747,3 +750,16 @@ func _on_target_changed(_new_target: PhysicsBody2D) -> void:
 			order_vassals("follow", self)
 		else:
 			order_vassals("attack", _new_target)
+
+## SKILL TREE
+
+##### st for skill tree, st_skill_node get the skill's informations in the skilltree
+func _on_try_to_learn_skill(st_skill_node : TextureButton, skill_name: String) -> void:
+	if not is_instance_valid(st_skill_node):
+		push_error("No skill to learn, invalid st skill node")
+		return
+	
+	if weapon_exp >= st_skill_node.get_learn_exp_cost():
+		add_skill(skill_name)
+		weapon_exp -= st_skill_node.get_learn_exp_cost()
+		if weapon_exp < 0: weapon_exp = 0
