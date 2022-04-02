@@ -4,7 +4,7 @@ class_name Character
 func is_class(value: String): return value == "Character" or .is_class(value)
 func get_class() -> String: return "Character"
 
-onready var skill_tree = get_node("Skills")
+onready var available_skills_node = get_node("Skills")
 onready var state_machine = get_node("StateMachine")
 onready var animated_sprite : AnimatedSprite = get_node("AnimatedSprite")
 onready var collision_shape : CollisionShape2D = get_node("CollisionShape2D")
@@ -117,10 +117,13 @@ func is_recovering() -> bool: return $StateMachine.get_state_name() == "ChargedA
 func get_current_state() -> String:
 	if !is_instance_valid(state_machine):
 		return ""
-	if skill_tree.is_skilling():
-		return skill_tree.get_state_name()
+	if available_skills_node.is_skilling():
+		return available_skills_node.get_state_name()
 
 	return state_machine.get_state_name()
+
+func get_available_skills() -> Node:
+	return available_skills_node
 
 #### ACCESSORS ####
 func set_liege(body) -> void:
@@ -268,21 +271,30 @@ func add_skill(skill_name : String) -> void:
 
 	if !is_instance_valid(new_skill):
 		return
-
-	skill_tree.add_child(new_skill)
+	
+	if is_skill_learned(skill_name):
+		return
+	
+	available_skills_node.add_child(new_skill)
 	if new_skill.has_method("new_owner"):
 		new_skill.new_owner(self)
 
 func get_skill(skill_name : String) -> Node:
-	return skill_tree.get_skill(skill_name)
+	return available_skills_node.get_skill(skill_name)
+
+func is_skill_learned(skill_name : String) -> bool:
+	for skill in available_skills_node.get_children():
+		if skill_name == skill.get_name():
+			return true
+	return false
 
 func remove_skill(skill_name : String) -> void:
-	var skill = skill_tree.get_skill(skill_name)
+	var skill = available_skills_node.get_skill(skill_name)
 
 	if !is_instance_valid(skill):
 		return
 
-	skill_tree.remove_child(skill)
+	available_skills_node.remove_child(skill)
 
 
 func _connect_signals() -> void:
@@ -304,9 +316,6 @@ func _connect_signals() -> void:
 	__ = connect("current_tile_changed", self, "_on_current_tile_changed")
 	__ = connect("pathfinder_changed", self, "_on_pathfinder_changed")
 	__ = connect("weight_changed", self, "_on_weight_changed")
-	
-	## SKILL TREE
-	__ = EVENTS.connect("skill_learn", self, "_on_try_to_learn_skill")
 
 
 
@@ -442,7 +451,7 @@ func die() -> void:
 	state_machine.set_state("Death")
 
 func use_skill(skill_name) -> bool:
-	return ( can_change_state() and skill_tree.use_skill(skill_name) )
+	return ( can_change_state() and available_skills_node.use_skill(skill_name) )
 
 func pick_up() -> void:
 	var areas = pick_up_area.get_overlapping_areas()
@@ -492,9 +501,6 @@ func equip_item(item, _slot : int = -1) -> void:
 	elif item is Weapon:
 		item_instance = item
 		item_object = item_instance
-
-#	var item_object = null
-#	var item_instance = item.get_item_scene().instance()
 	
 	if item is ItemResource:
 		item_instance.set_name(item.get_name())
@@ -517,7 +523,7 @@ func equip_item(item, _slot : int = -1) -> void:
 		
 	__ = item_object.equip(self)
 	
-	__ = skill_tree.use_skill(null)
+	__ = available_skills_node.use_skill(null)
 
 func set_weapon_node(item) -> void:
 	var __ = drop_weapon()
@@ -750,16 +756,3 @@ func _on_target_changed(_new_target: PhysicsBody2D) -> void:
 			order_vassals("follow", self)
 		else:
 			order_vassals("attack", _new_target)
-
-## SKILL TREE
-
-##### st for skill tree, st_skill_node get the skill's informations in the skilltree
-func _on_try_to_learn_skill(st_skill_node : TextureButton, skill_name: String) -> void:
-	if not is_instance_valid(st_skill_node):
-		push_error("No skill to learn, invalid st skill node")
-		return
-	
-	if weapon_exp >= st_skill_node.get_learn_exp_cost():
-		add_skill(skill_name)
-		weapon_exp -= st_skill_node.get_learn_exp_cost()
-		if weapon_exp < 0: weapon_exp = 0

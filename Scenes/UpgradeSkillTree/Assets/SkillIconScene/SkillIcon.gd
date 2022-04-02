@@ -6,17 +6,26 @@ export var learned : bool = false
 export var skill_name : String = ""
 export var weapon_exp_upgrade_cost : float = 1.0
 
+const learned_modulate : Color = Color(1.0, 1.0, 1.0, 1.0)
+const unlearned_modulate : Color = Color(0.3, 0.3, 0.3, 1.0)
+const unlearned_bg_modulate : Color = Color(1.0, 0.0, 0.0, 1.0)
+
+func set_learned(learn : bool) -> void:
+	if learn:
+		$Icon.set_self_modulate(learned_modulate)
+		set_self_modulate(learned_modulate)
+	else:
+		$Icon.set_self_modulate(unlearned_modulate)
+		set_self_modulate(unlearned_bg_modulate)
+
+func is_learned() -> bool:
+	return learned
+
 func _ready() -> void:
-	skill_name = "Skill: |Unknown|" if skill_name == "" else skill_name
 	if is_instance_valid($Icon):
 		$Icon.set_texture(skill_texture)
+		set_learned(learned)
 		
-		if not learned:
-			$Icon.set_self_modulate(Color(0.3, 0.3, 0.3, 1.0))
-			set_self_modulate(Color(1.0, 0.0, 0.0, 1.0))
-		else:
-			$Icon.set_self_modulate(Color(1.0, 1.0, 1.0, 1.0))
-			set_self_modulate(Color(1.0, 1.0, 1.0, 1.0))
 	else:
 		push_error("Skill Icon does not have Icon child")
 		return

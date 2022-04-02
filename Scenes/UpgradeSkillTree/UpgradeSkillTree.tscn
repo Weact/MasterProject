@@ -252,12 +252,12 @@ alignment = 1
 margin_left = 81.0
 margin_right = 129.0
 skill_texture = ExtResource( 10 )
-skill_name = "ChargedAttack"
 
 [node name="SkillIcon2" parent="NinePatchRect/SkillsContainer/SkillsTab/Shield/VBoxContainer/SkillRow1" instance=ExtResource( 1 )]
 margin_left = 177.0
 margin_right = 225.0
 skill_texture = ExtResource( 9 )
+skill_name = "GuardBreak"
 
 [node name="SkillRow2" type="HBoxContainer" parent="NinePatchRect/SkillsContainer/SkillsTab/Shield/VBoxContainer"]
 margin_top = 94.0
@@ -351,7 +351,6 @@ alignment = 1
 margin_left = 81.0
 margin_right = 129.0
 skill_texture = ExtResource( 10 )
-skill_name = "ChargedAttack"
 
 [node name="SkillIcon2" parent="NinePatchRect/SkillsContainer/SkillsTab/Bow/VBoxContainer/SkillRow1" instance=ExtResource( 1 )]
 margin_left = 177.0
