@@ -21,11 +21,9 @@ func trigger() -> void:
 
 func add_weapon_skills():
 	weapon_handler_node.add_skill("Block")
-	weapon_handler_node.add_skill("GuardBreak")
 	
 func remove_weapon_skills():
 	weapon_handler_node.remove_skill("Block")
-	weapon_handler_node.remove_skill("GuardBreak")
 
 
 #### LOGIC ####

@@ -40,6 +40,7 @@ signal target_changed
 var max_vassal_limit : int = 10
 
 var target  : Node2D = null setget set_target
+
 ## STATS
 
 func get_target() -> Node2D:
@@ -51,13 +52,13 @@ func target_in_chase_area() -> bool:
 export var weight : int = 5
 signal weight_changed()
 
-export var max_health_point : float = 10.0
+export var max_health_point : float = 100.0
 var health_point : float = 0
 var regen_health: Variable = Variable.new(0.1)
 var timer_health_regen : Timer = null
 signal health_point_changed()
 
-export var max_stamina : float = 10.0
+export var max_stamina : float = 100.0
 var stamina : float = 0.0
 var regen_stamina: Variable = Variable.new(1.5)
 var regen_delay : float = 0.1
@@ -69,7 +70,7 @@ var stunned : bool = false setget set_stunned, is_stunned
 signal stun_changed(stun_state)
 var stun_duration : float = 0.1
 
-export var max_speed : float = 0.0
+export var max_speed : float = 80.0
 signal max_speed_changed(max_speed)
 
 var is_dodging : bool = false
@@ -82,7 +83,7 @@ export var white_mat : Material = null
 export var facing_left : bool = false setget set_facing_left, is_facing_left
 
 ## COMBAT
-export var attack_power : int = 0 setget set_attack_power, get_attack_power
+export var attack_power : int = 15.0 setget set_attack_power, get_attack_power
 onready var initial_attack_power : int = attack_power
 signal attack_power_changed
 
@@ -94,7 +95,7 @@ var charged_ready : bool = false
 # Block power stat define how much damage the character can block :
 # Damage = base_damage - block_power
 # [hp: 100; block_power: 20; will_take: 35 damage => hp: 100 - (35-20) 15 => hp: 85]
-export var block_power : int = 0 setget set_block_power, get_block_power
+export var block_power : int = 10.0 setget set_block_power, get_block_power
 signal block_power_changed
 
 onready var current_tile : Vector2 = position setget set_current_tile
@@ -282,7 +283,9 @@ func add_skill(skill_name : String) -> void:
 func get_skill(skill_name : String) -> Node:
 	return available_skills_node.get_skill(skill_name)
 
-func is_skill_learned(skill_name : String) -> bool:
+func is_skill_learned(skill_name) -> bool:
+	if skill_name == null: return true
+	
 	for skill in available_skills_node.get_children():
 		if skill_name == skill.get_name():
 			return true
@@ -451,7 +454,7 @@ func die() -> void:
 	state_machine.set_state("Death")
 
 func use_skill(skill_name) -> bool:
-	return ( can_change_state() and available_skills_node.use_skill(skill_name) )
+	return ( is_skill_learned(skill_name) and can_change_state() and available_skills_node.use_skill(skill_name) )
 
 func pick_up() -> void:
 	var areas = pick_up_area.get_overlapping_areas()

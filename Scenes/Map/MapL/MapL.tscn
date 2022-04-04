@@ -16,21 +16,27 @@ block_power = 10
 
 [node name="NPC" parent="NPC" index="0" instance=ExtResource( 3 )]
 position = Vector2( 893, 1132 )
+movement_speed = 80.0
 
 [node name="NPC2" parent="NPC" index="1" instance=ExtResource( 3 )]
 position = Vector2( 1046, 1160 )
+movement_speed = 80.0
 
 [node name="NPC3" parent="NPC" index="2" instance=ExtResource( 3 )]
 position = Vector2( 943, 1208 )
+movement_speed = 80.0
 
 [node name="NPC4" parent="NPC" index="3" instance=ExtResource( 3 )]
 position = Vector2( 804, 1200 )
+movement_speed = 80.0
 
 [node name="NPC5" parent="NPC" index="4" instance=ExtResource( 3 )]
 position = Vector2( 755, 1097 )
+movement_speed = 80.0
 
 [node name="NPC6" parent="NPC" index="5" instance=ExtResource( 3 )]
 position = Vector2( 861, 1057 )
+movement_speed = 80.0
 
 [node name="Rock" parent="Obstacles/Rocks" index="0" instance=ExtResource( 4 )]
 position = Vector2( 1174, 992 )
