@@ -72,6 +72,15 @@ func switch_skills_menu_state() -> void:
 		close_skills()
 	else:
 		open_skills()
+
+func is_unique_skill_learned(skill_node : TextureButton) -> bool:
+	if is_instance_valid(skill_node.get_parent()):
+		for skill in skill_node.get_parent().get_children():
+			if skill.is_learned():
+				return true # a skill has already been learned in the row
+		return false # no skills have been learned in the row
+	return true # skill node has no parent, return true to prevent learning skill
+
 ##### UI
 
 # called by _on_skill_pressed signal (self)
@@ -91,6 +100,8 @@ func _on_skill_pressed(st_skill_node : TextureButton) -> void:
 		push_error("Skill node is not valid at _on_skill_pressed")
 		return
 	if st_skill_node.get_skill_name() == "" or st_skill_node.is_learned():
+		return
+	if is_unique_skill_learned(st_skill_node):
 		return
 	
 	learn_skill(st_skill_node)

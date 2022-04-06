@@ -17,6 +17,8 @@ func set_learned(learn : bool) -> void:
 	else:
 		$Icon.set_self_modulate(unlearned_modulate)
 		set_self_modulate(unlearned_bg_modulate)
+	
+	learned = learn
 
 func is_learned() -> bool:
 	return learned
