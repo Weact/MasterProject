@@ -2,24 +2,25 @@
 
 [ext_resource path="res://Scenes/Inventory/Inventory.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Inventory/Assets/Exit/ExitInventoryIconPressed.png" type="Texture" id=2]
-[ext_resource path="res://Scenes/Inventory/Assets/Background/BackgroundFrame.png" type="Texture" id=3]
 [ext_resource path="res://Scenes/Inventory/Assets/Exit/ExitInventoryIcon.png" type="Texture" id=4]
 [ext_resource path="res://Scenes/Inventory/Assets/Title/TitleFrame.png" type="Texture" id=5]
 [ext_resource path="res://Scenes/Inventory/ItemSlot/ItemSlot.tscn" type="PackedScene" id=6]
+
+[sub_resource type="StreamTexture" id=1]
+flags = 4
+load_path = "res://.import/BackgroundFrame.png-3bf6f1b8b754b19e1ffda510df5d53e5.stex"
 
 [node name="Inventory" type="Control"]
 anchor_right = 0.379
 anchor_bottom = 1.0
 margin_right = 0.160004
+rect_min_size = Vector2( 364, 540 )
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Background" type="NinePatchRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = ExtResource( 3 )
+texture = SubResource( 1 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false

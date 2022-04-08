@@ -1,0 +1,14 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/UpgradeSkillTree/Assets/SkillIcons/Icon1.png" type="Texture" id=1]
+[ext_resource path="res://Global/SKILLS/Resources/R_SkillScript.gd" type="Script" id=2]
+
+[resource]
+script = ExtResource( 2 )
+id = 1
+icon = ExtResource( 1 )
+name = "ChargedAttack"
+description = "Powerful Attack"
+cost = 1.0
+is_learned = false
+category = 0

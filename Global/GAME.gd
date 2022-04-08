@@ -1,5 +1,8 @@
 extends Node2D
 
+# CHANGE THIS TO DISPLAY SHOW DEBUGS MESSAGE IN CONSOLE
+const PRINT_DEBUG : bool = true
+
 var PLAYER_NODE : PhysicsBody2D = null
 
 var map_valentin_player = null
@@ -57,6 +60,8 @@ func _input(event: InputEvent) -> void:
 		
 		if is_instance_valid(PLAYER_NODE):
 			_generated_item.set_position(PLAYER_NODE.get_position())
+	elif event.is_action_pressed("open_skills"):
+		EVENTS.emit_signal("skills_menu_triggered")
 
 func cheat_health_stamina(player_v, player_l) -> void:
 	if is_instance_valid(player_v):
@@ -91,7 +96,8 @@ func _create_timer_delay(time: float = 1.0, autostart: bool = true, oneshot: boo
 
 	return new_timer
 
-func generate_item(item_name, position : Vector2 = Vector2.ZERO) -> Node2D:
+#position arg may be irrelevant ?
+func generate_item(item_name, _position : Vector2 = Vector2.ZERO) -> Node2D:
 	var item = load("res://Scenes/Items/"+str(item_name)+".tscn")
 	if !is_instance_valid(item):
 		return null

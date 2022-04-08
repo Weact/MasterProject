@@ -1,0 +1,14 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/UpgradeSkillTree/Assets/SkillIcons/Icon2.png" type="Texture" id=1]
+[ext_resource path="res://Global/SKILLS/Resources/R_SkillScript.gd" type="Script" id=2]
+
+[resource]
+script = ExtResource( 2 )
+id = 2
+icon = ExtResource( 1 )
+name = "GuardBreak"
+description = "Break the guard of the opponent. Stun"
+cost = 1.0
+is_learned = false
+category = 1

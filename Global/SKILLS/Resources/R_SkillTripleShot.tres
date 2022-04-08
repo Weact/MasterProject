@@ -1,0 +1,14 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://Global/SKILLS/Resources/R_SkillScript.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/UpgradeSkillTree/Assets/SkillIcons/Icon20.png" type="Texture" id=2]
+
+[resource]
+script = ExtResource( 1 )
+id = 3
+icon = ExtResource( 2 )
+name = "TripleShot"
+description = "Shot three arrows instead of one."
+cost = 1.0
+is_learned = false
+category = 2

@@ -4,7 +4,7 @@ class_name Character
 func is_class(value: String): return value == "Character" or .is_class(value)
 func get_class() -> String: return "Character"
 
-onready var skill_tree = get_node("Skills")
+onready var available_skills_node = get_node("Skills")
 onready var state_machine = get_node("StateMachine")
 onready var animated_sprite : AnimatedSprite = get_node("AnimatedSprite")
 onready var collision_shape : CollisionShape2D = get_node("CollisionShape2D")
@@ -22,6 +22,8 @@ onready var shield_point : Node2D = weapons_node.get_node_or_null("ShieldPoint")
 onready var weapon_node : Node2D = null
 onready var shield_node : Node2D = null
 
+export var weapon_exp : float = 0.0
+
 onready var weapons_animation_player_node : AnimationPlayer = get_node_or_null("WeaponsPoint/AnimationPlayer")
 
 onready var pick_up_area : Area2D = $PickUpArea
@@ -38,6 +40,7 @@ signal target_changed
 var max_vassal_limit : int = 10
 
 var target  : Node2D = null setget set_target
+
 ## STATS
 
 func get_target() -> Node2D:
@@ -49,13 +52,13 @@ func target_in_chase_area() -> bool:
 export var weight : int = 5
 signal weight_changed()
 
-export var max_health_point : float = 10.0
+export var max_health_point : float = 100.0
 var health_point : float = 0
 var regen_health: Variable = Variable.new(0.1)
 var timer_health_regen : Timer = null
 signal health_point_changed()
 
-export var max_stamina : float = 10.0
+export var max_stamina : float = 100.0
 var stamina : float = 0.0
 var regen_stamina: Variable = Variable.new(1.5)
 var regen_delay : float = 0.1
@@ -67,7 +70,7 @@ var stunned : bool = false setget set_stunned, is_stunned
 signal stun_changed(stun_state)
 var stun_duration : float = 0.1
 
-export var max_speed : float = 0.0
+export var max_speed : float = 80.0
 signal max_speed_changed(max_speed)
 
 var is_dodging : bool = false
@@ -80,7 +83,7 @@ export var white_mat : Material = null
 export var facing_left : bool = false setget set_facing_left, is_facing_left
 
 ## COMBAT
-export var attack_power : int = 0 setget set_attack_power, get_attack_power
+export var attack_power : int = 15.0 setget set_attack_power, get_attack_power
 onready var initial_attack_power : int = attack_power
 signal attack_power_changed
 
@@ -92,7 +95,7 @@ var charged_ready : bool = false
 # Block power stat define how much damage the character can block :
 # Damage = base_damage - block_power
 # [hp: 100; block_power: 20; will_take: 35 damage => hp: 100 - (35-20) 15 => hp: 85]
-export var block_power : int = 0 setget set_block_power, get_block_power
+export var block_power : int = 10.0 setget set_block_power, get_block_power
 signal block_power_changed
 
 onready var current_tile : Vector2 = position setget set_current_tile
@@ -115,10 +118,13 @@ func is_recovering() -> bool: return $StateMachine.get_state_name() == "ChargedA
 func get_current_state() -> String:
 	if !is_instance_valid(state_machine):
 		return ""
-	if skill_tree.is_skilling():
-		return skill_tree.get_state_name()
+	if available_skills_node.is_skilling():
+		return available_skills_node.get_state_name()
 
 	return state_machine.get_state_name()
+
+func get_available_skills() -> Node:
+	return available_skills_node
 
 #### ACCESSORS ####
 func set_liege(body) -> void:
@@ -266,21 +272,32 @@ func add_skill(skill_name : String) -> void:
 
 	if !is_instance_valid(new_skill):
 		return
-
-	skill_tree.add_child(new_skill)
+	
+	if is_skill_learned(skill_name):
+		return
+	
+	available_skills_node.add_child(new_skill)
 	if new_skill.has_method("new_owner"):
 		new_skill.new_owner(self)
 
 func get_skill(skill_name : String) -> Node:
-	return skill_tree.get_skill(skill_name)
+	return available_skills_node.get_skill(skill_name)
+
+func is_skill_learned(skill_name) -> bool:
+	if skill_name == null: return true
+	
+	for skill in available_skills_node.get_children():
+		if skill_name == skill.get_name():
+			return true
+	return false
 
 func remove_skill(skill_name : String) -> void:
-	var skill = skill_tree.get_skill(skill_name)
+	var skill = available_skills_node.get_skill(skill_name)
 
 	if !is_instance_valid(skill):
 		return
 
-	skill_tree.remove_child(skill)
+	available_skills_node.remove_child(skill)
 
 
 func _connect_signals() -> void:
@@ -437,7 +454,7 @@ func die() -> void:
 	state_machine.set_state("Death")
 
 func use_skill(skill_name) -> bool:
-	return ( can_change_state() and skill_tree.use_skill(skill_name) )
+	return ( is_skill_learned(skill_name) and can_change_state() and available_skills_node.use_skill(skill_name) )
 
 func pick_up() -> void:
 	var areas = pick_up_area.get_overlapping_areas()
@@ -473,7 +490,8 @@ func take_item(item) -> void:
 	else:
 		return
 
-func equip_item(item, slot : int = -1) -> void:
+#slot arg may be irrelevant ?
+func equip_item(item, _slot : int = -1) -> void:
 	if item == null:
 		return
 	
@@ -486,9 +504,6 @@ func equip_item(item, slot : int = -1) -> void:
 	elif item is Weapon:
 		item_instance = item
 		item_object = item_instance
-
-#	var item_object = null
-#	var item_instance = item.get_item_scene().instance()
 	
 	if item is ItemResource:
 		item_instance.set_name(item.get_name())
@@ -511,7 +526,7 @@ func equip_item(item, slot : int = -1) -> void:
 		
 	__ = item_object.equip(self)
 	
-	__ = skill_tree.use_skill(null)
+	__ = available_skills_node.use_skill(null)
 
 func set_weapon_node(item) -> void:
 	var __ = drop_weapon()
@@ -674,12 +689,9 @@ func _on_block_power_changed() -> void:
 func _on_max_speed_changed(_max_speed: float) -> void:
 	pass
 
-
-
 func _on_direction_changed(dir: Vector2) -> void:
 	if dir != Vector2.ZERO and dir != Vector2.UP and dir != Vector2.DOWN :
 		pass
-
 
 func _on_animation_finished() -> void:
 	pass

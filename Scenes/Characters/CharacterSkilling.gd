@@ -8,7 +8,7 @@ func get_class() -> String: return "CharacterSkillingState"
 
 #### BUILT-IN ####
 func exit_state():
-	owner.skill_tree.set_state(null)
+	owner.get_available_skills().set_state(null)
 
 
 #### VIRTUALS ####

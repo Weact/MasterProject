@@ -33,6 +33,9 @@ func _ready() -> void:
 
 	__ = select_point.connect("body_entered", self, "_on_select_point_entered")
 	__ = select_point.connect("body_exited", self, "_on_select_point_exited")
+	
+	## SKILL TREE
+	__ = EVENTS.connect("skill_learn", self, "_on_try_to_learn_skill")
 
 #### VIRTUALS ####
 
@@ -264,3 +267,25 @@ func _on_select_point_exited(body) -> void:
 		
 func _on_inventory_item_equip(item, slot) -> void:
 		equip_item(item, slot)
+
+func _on_try_to_learn_skill(st_skill_node : TextureButton) -> void:
+	if is_skill_learned(st_skill_node.get_skill_name()):
+		return
+		
+	if not is_instance_valid(st_skill_node):
+		push_error("No skill to learn, invalid st skill node")
+		return
+	
+	if not SKILL_LIST.does_skill_exist(st_skill_node.get_skill_name() ):
+		push_error("Skill NODE does not exist in skill database SKILL_LIST")
+		return
+	
+	# returns the exp cost of the skill to learn
+	if weapon_exp >= st_skill_node.get_learn_exp_cost():
+		
+		weapon_exp -= st_skill_node.get_learn_exp_cost()
+		if weapon_exp < 0: weapon_exp = 0
+		
+		# returns the name of the skill to learn
+		add_skill( st_skill_node.get_skill_name() )
+		EVENTS.emit_signal("skill_learned", st_skill_node)
