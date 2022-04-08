@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/UpgradeSkillTree/Assets/SkillIcons/Icon2.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Resource
+
+export(int) var id = 0
+export(String) var name = \"\"
+export(Texture) var icon = null
+"
+
+[resource]
+script = SubResource( 1 )
+id = 2
+name = "GuardBreak"
+icon = ExtResource( 1 )
