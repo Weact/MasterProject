@@ -8,6 +8,7 @@ script = ExtResource( 2 )
 id = 2
 icon = ExtResource( 1 )
 name = "GuardBreak"
+description = "Break the guard of the opponent. Stun"
 cost = 1.0
 is_learned = false
 category = 1

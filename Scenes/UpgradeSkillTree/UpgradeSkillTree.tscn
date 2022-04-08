@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Scenes/UpgradeSkillTree/Assets/SkillIconScene/SkillIcon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/UpgradeSkillTree/UpgradeSkillTree.gd" type="Script" id=6]
@@ -37,6 +37,9 @@ corner_radius_bottom_left = 10
 
 [sub_resource type="DynamicFont" id=7]
 size = 13
+font_data = ExtResource( 12 )
+
+[sub_resource type="DynamicFont" id=8]
 font_data = ExtResource( 12 )
 
 [node name="UpgradeSkillTree" type="Control"]
@@ -343,6 +346,7 @@ alignment = 1
 [node name="SkillIcon" parent="NinePatchRect/SkillsContainer/SkillsTab/Bow/VBoxContainer/SkillRow1" instance=ExtResource( 1 )]
 margin_left = 81.0
 margin_right = 129.0
+skill_name = "TripleShot"
 
 [node name="SkillIcon2" parent="NinePatchRect/SkillsContainer/SkillsTab/Bow/VBoxContainer/SkillRow1" instance=ExtResource( 1 )]
 margin_left = 177.0
@@ -411,6 +415,7 @@ self_modulate = Color( 1, 1, 1, 0.705882 )
 anchor_left = 1.00549
 anchor_right = 1.55495
 anchor_bottom = 0.525926
+mouse_filter = 2
 custom_styles/panel = SubResource( 6 )
 __meta__ = {
 "_edit_group_": true,
@@ -423,30 +428,44 @@ anchor_left = 0.05
 anchor_top = 0.0352113
 anchor_right = 0.95
 anchor_bottom = 0.140845
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
 margin_right = 180.0
-margin_bottom = 36.0
+margin_bottom = 61.0
+mouse_filter = 2
 alignment = 1
 
 [node name="SkillTitle" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
 margin_right = 180.0
-margin_bottom = 17.0
+margin_bottom = 21.0
 custom_fonts/font = ExtResource( 14 )
 text = "SKILL_NAME"
 align = 1
 valign = 1
+autowrap = true
 uppercase = true
 
 [node name="SkillCost" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
-margin_top = 21.0
+margin_top = 25.0
 margin_right = 180.0
-margin_bottom = 36.0
+margin_bottom = 40.0
 custom_fonts/font = SubResource( 7 )
 text = "SKILL_COST"
 align = 2
 valign = 1
+autowrap = true
+uppercase = true
+
+[node name="SkillDescription" type="Label" parent="Panel/MarginContainer/VBoxContainer"]
+margin_top = 44.0
+margin_right = 180.0
+margin_bottom = 61.0
+custom_fonts/font = SubResource( 8 )
+text = "SKILL_DESCRIPTION"
+valign = 1
+autowrap = true
 uppercase = true

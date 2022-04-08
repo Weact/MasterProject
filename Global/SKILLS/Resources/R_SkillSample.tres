@@ -6,6 +6,7 @@
 script = ExtResource( 1 )
 id = 0
 name = ""
+description = ""
 cost = 1.0
 is_learned = false
 category = 0

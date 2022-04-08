@@ -276,6 +276,10 @@ func _on_try_to_learn_skill(st_skill_node : TextureButton) -> void:
 		push_error("No skill to learn, invalid st skill node")
 		return
 	
+	if not SKILL_LIST.does_skill_exist(st_skill_node.get_skill_name() ):
+		push_error("Skill NODE does not exist in skill database SKILL_LIST")
+		return
+	
 	# returns the exp cost of the skill to learn
 	if weapon_exp >= st_skill_node.get_learn_exp_cost():
 		

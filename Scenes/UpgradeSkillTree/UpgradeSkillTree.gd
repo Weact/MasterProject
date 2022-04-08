@@ -10,6 +10,11 @@ export var opening_speed : float = 0.4
 
 onready var skill_upgrades_container : Control = get_node_or_null("NinePatchRect/SkillsContainer/SkillsTab")
 
+onready var skill_panel_container : Panel = get_node_or_null("Panel")
+onready var skill_panel_title : Label = get_node_or_null("Panel/MarginContainer/VBoxContainer/SkillTitle")
+onready var skill_panel_cost : Label = get_node_or_null("Panel/MarginContainer/VBoxContainer/SkillCost")
+onready var skill_panel_description : Label = get_node_or_null("Panel/MarginContainer/VBoxContainer/SkillDescription")
+
 var skill_upgrades : Array = []
 
 ## ACCESSORS
@@ -115,14 +120,24 @@ func _on_skill_learned(st_skill_node : TextureButton) -> void:
 		push_error("Skill no valid at _on_skill_learned")
 
 func _on_mouse_enter_skill(skill) -> void:
-	$Panel.set_visible(true)
-	$Panel/MarginContainer/VBoxContainer/SkillTitle.set_text(skill.get_skill_name())
+	skill_panel_container.set_visible(true)
 	
-	if not skill.is_learned() and skill.get_skill_name() != "":
-		$Panel/MarginContainer/VBoxContainer/SkillCost.set_visible(true)
-		$Panel/MarginContainer/VBoxContainer/SkillCost.set_text("Cost: " + str(skill.get_learn_exp_cost()))
-	else:
-		$Panel/MarginContainer/VBoxContainer/SkillCost.set_visible(false)
+	if skill.get_skill_name():
+		if not skill.is_learned():
+			skill_panel_cost.set_text("Cost : " + str(skill.get_learn_exp_cost()) + " " + skill.get_skill_category() + " exp.")
+		else:
+			skill_panel_cost.set_text("")
+		
+		skill_panel_title.set_visible(true)
+		skill_panel_title.set_text(skill.get_skill_name())
+		
+		skill_panel_description.set_visible(true)
+		skill_panel_description.set_text(skill.get_skill_description())
+		
+		skill_panel_cost.set_visible(not skill.is_learned())
 
 func _on_mouse_exit_skill() -> void:
-	$Panel.set_visible(false)
+	skill_panel_container.set_visible(false)
+	skill_panel_title.set_text("")
+	skill_panel_cost.set_text("")
+	skill_panel_description.set_text("")

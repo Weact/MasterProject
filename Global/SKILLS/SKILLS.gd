@@ -4,7 +4,8 @@ func get_class() -> String: return "SKILL_LIST"
 
 var skill_tree_dict : Dictionary = {
 	"skill_charged_attack":load("res://Global/SKILLS/Resources/R_SkillChargedAttack.tres"),
-	"skill_guard_break":load("res://Global/SKILLS/Resources/R_SkillGuardBreak.tres")
+	"skill_guard_break":load("res://Global/SKILLS/Resources/R_SkillGuardBreak.tres"),
+	"skill_triple_shot":load("res://Global/SKILLS/Resources/R_SkillTripleShot.tres")
 }
 
 #### ACCESSORS ####
@@ -43,6 +44,13 @@ func get_skill(skill_name : String) -> Node:
 			return skill_instance
 	
 	return null
+
+func does_skill_exist(skill_name : String) -> bool:
+	var skills = get_children()
+	for skill in skills:
+		if skill.name == skill_name:
+			return true
+	return false
 
 #### BUILT-IN ####
 
