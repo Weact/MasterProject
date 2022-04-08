@@ -37,6 +37,8 @@ func init_skill_upgrades() -> void:
 				for skill in skillrows.get_children():
 					if skill is TextureButton:
 						skill_upgrades.append(skill)
+						skill.connect("mouse_entered", self, "_on_mouse_enter_skill", [skill])
+						skill.connect("mouse_exited", self, "_on_mouse_exit_skill")
 
 func init_skills_signals() -> void:
 	var __
@@ -111,3 +113,16 @@ func _on_skill_learned(st_skill_node : TextureButton) -> void:
 		st_skill_node.set_learned(true)
 	else:
 		push_error("Skill no valid at _on_skill_learned")
+
+func _on_mouse_enter_skill(skill) -> void:
+	$Panel.set_visible(true)
+	$Panel/MarginContainer/VBoxContainer/SkillTitle.set_text(skill.get_skill_name())
+	
+	if not skill.is_learned() and skill.get_skill_name() != "":
+		$Panel/MarginContainer/VBoxContainer/SkillCost.set_visible(true)
+		$Panel/MarginContainer/VBoxContainer/SkillCost.set_text("Cost: " + str(skill.get_learn_exp_cost()))
+	else:
+		$Panel/MarginContainer/VBoxContainer/SkillCost.set_visible(false)
+
+func _on_mouse_exit_skill() -> void:
+	$Panel.set_visible(false)

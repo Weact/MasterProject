@@ -1,5 +1,8 @@
 extends Node2D
 
+# CHANGE THIS TO DISPLAY SHOW DEBUGS MESSAGE IN CONSOLE
+const PRINT_DEBUG : bool = true
+
 var PLAYER_NODE : PhysicsBody2D = null
 
 var map_valentin_player = null
