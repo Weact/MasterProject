@@ -2,8 +2,8 @@ extends State
 
 class_name waitState
 
-export var min_wait_time : float = 0.8
-export var max_wait_time : float = 1.2
+export var min_wait_time : float = 1.0
+export var max_wait_time : float = 3.2
 
 signal waitTimeFinished
 

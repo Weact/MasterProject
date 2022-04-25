@@ -31,6 +31,8 @@ onready var visionArea = $visionArea
 
 var liege : Node2D = null setget set_liege, get_liege
 
+var selected = false
+
 var vassals = []
 
 signal target_changed
@@ -130,13 +132,23 @@ func get_current_state() -> String:
 
 #### ACCESSORS ####
 func set_liege(body) -> void:
-	if body != self and body != liege and is_instance_valid(body) and body.is_class("Character") and body.can_add_vassal(self):
+	if !is_instance_valid(body):
 		if is_instance_valid(liege):
 			liege.remove_vassal(self)
-			emit_signal("old_liege", liege)
+			emit_signal("old_liege", liege, self)
+		liege = body
+		emit_signal("new_liege", body, self)
+		return
+		
+	if body != self and body != liege and body.is_class("Character") and body.can_add_vassal(self):
+		if is_liege_of(body):
+			body.set_liege(liege)
+		if is_instance_valid(liege):
+			liege.remove_vassal(self)
+			emit_signal("old_liege", liege, self)
 		body.add_vassal(self)
 		liege = body
-		emit_signal("new_liege", body)
+		emit_signal("new_liege", body, self)
 
 func get_liege() -> Node2D:
 	return liege
@@ -322,6 +334,12 @@ func _physics_process(_delta: float) -> void:
 		var __ = move_and_slide(get_computed_velocity())
 		update_weapon_rotation(_delta, get_current_rotation_velocity())
 		set_current_tile(position)
+		
+	if selected and is_instance_valid(liege):
+		$Line2D.set_point_position(1, liege.position - position)
+		$Line2D.visible = true
+	else:
+		$Line2D.visible = false
 
 
 #### VIRTUALS ####
@@ -484,7 +502,7 @@ func take_item(item) -> void:
 	else:
 		return
 
-func equip_item(item, slot : int = -1) -> void:
+func equip_item(item, _slot : int = -1) -> void:
 	if item == null:
 		return
 
@@ -617,6 +635,8 @@ func has_shield() -> bool:
 
 func select(value : bool =true) -> void:
 	$SelectionCircle.emitting = value
+	$Line2D.visible = value
+	selected = value
 
 func is_vassal_of(body) -> bool:
 	if is_instance_valid(liege) and (body == liege or liege.is_vassal_of(body)):
@@ -635,7 +655,7 @@ func is_ally(body) -> bool:
 
 
 func is_liege_of(body) -> bool:
-	if is_instance_valid(body.liege) and (body.liege == self or body.liege.is_liege_of(self)):
+	if is_instance_valid(body) and is_instance_valid(body.liege) and (body.liege == self or is_liege_of(body.liege)):
 		return true
 
 	return false
@@ -735,18 +755,15 @@ func _on_visionArea_body_exited(body : PhysicsBody2D) -> void:
 	if body.is_class("Character") and body != self:
 		visible_characters.erase(body)
 
-func can_add_vassal(_vassal) -> bool:
+func can_add_vassal(vassal) -> bool:
 	if vassals.size() < max_vassal_limit:
 		return true
 	return false
 
 func add_vassal(vassal) -> void:
-	if can_add_vassal(vassal):
-		vassals.append(vassal)
-		if liege == vassal:
-			set_liege(vassal.liege)
+	vassals.append(vassal)
 
-		emit_signal("new_vassal", vassal, self)
+	emit_signal("new_vassal", vassal, self)
 
 func remove_vassal(vassal) -> void:
 	vassals.erase(vassal)

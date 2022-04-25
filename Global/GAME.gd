@@ -91,7 +91,7 @@ func _create_timer_delay(time: float = 1.0, autostart: bool = true, oneshot: boo
 
 	return new_timer
 
-func generate_item(item_name, position : Vector2 = Vector2.ZERO) -> Node2D:
+func generate_item(item_name, _position : Vector2 = Vector2.ZERO) -> Node2D:
 	var item = load("res://Scenes/Items/"+str(item_name)+".tscn")
 	if !is_instance_valid(item):
 		return null

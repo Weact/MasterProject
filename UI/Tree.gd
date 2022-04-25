@@ -13,11 +13,23 @@ func _ready():
 func _connect_character(charac) -> void:
 	var __ = charac.connect("new_vassal", self, "_on_new_vassal")
 	__ = charac.connect("old_vassal", self, "_on_old_vassal")
+	__ = charac.connect("new_liege", self, "_on_new_liege")
+	__ = charac.connect("old_liege", self, "_on_old_liege")
 
 func _disconnect_character(charac) -> void:
 	var __ = charac.disconnect("new_vassal", self, "_on_new_vassal")
 	__ = charac.disconnect("old_vassal", self, "_on_old_vassal")
+	__ = charac.disconnect("new_liege", self, "_on_new_liege")
+	__ = charac.disconnect("old_liege", self, "_on_old_liege")
 
+func _on_new_liege(_liege, _vassal) -> void:
+	pass
+	
+func _on_old_liege(liege, vassal) -> void:
+	var vassal_item = _find_vassal(get_root(), vassal.name)
+	if vassal_item:
+		_remove_vassal(vassal)
+	
 func _on_old_vassal(vassal) -> void:
 	_remove_vassal(vassal)
 	
@@ -25,6 +37,7 @@ func _remove_vassal(charac) -> void:
 	for vassa in charac.vassals:
 		_remove_vassal(vassa)
 		
+	var char_name = charac.name
 	var child = _find_vassal(get_root(), charac.name)
 	if is_instance_valid(child):
 		_disconnect_character(charac)
@@ -56,7 +69,7 @@ func _add_vassal(parent, charac) -> void:
 func _find_vassal(node : TreeItem, name) -> TreeItem:
 	var found_node = null
 	var vassal = node.get_children()
-	while(is_instance_valid(vassal)):
+	while(is_instance_valid(vassal) and !is_instance_valid(found_node)):
 		if !vassal is TreeItem:
 			continue
 		if vassal.get_text(0) == name:
