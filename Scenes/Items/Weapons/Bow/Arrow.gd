@@ -26,7 +26,7 @@ func _physics_process(_delta: float) -> void:
 	var __ = move_and_slide(vel)
 	
 	if launched:
-		look_at(position+ direction)
+		look_at(global_position+ direction)
 		set_movement_speed(movement_speed - _delta * 700)
 		if get_movement_speed() <= 250:
 			$Area2D/CollisionShape2D.call_deferred("set_disabled", true)

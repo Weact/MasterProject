@@ -31,6 +31,8 @@ onready var visionArea = $visionArea
 
 var liege : Node2D = null setget set_liege, get_liege
 
+var selected = false
+
 var vassals = []
 
 signal target_changed
@@ -105,6 +107,14 @@ signal shield_hit
 
 signal damaged
 
+signal new_vassal
+
+signal old_vassal
+
+signal new_liege
+
+signal old_liege
+
 ## STATES
 export var default_state : String = ""
 
@@ -122,10 +132,23 @@ func get_current_state() -> String:
 
 #### ACCESSORS ####
 func set_liege(body) -> void:
-	if body != self and body != liege and is_instance_valid(body) and body.is_class("Character") and body.add_vassal(self):
+	if !is_instance_valid(body):
 		if is_instance_valid(liege):
 			liege.remove_vassal(self)
+			emit_signal("old_liege", liege, self)
 		liege = body
+		emit_signal("new_liege", body, self)
+		return
+		
+	if body != self and body != liege and body.is_class("Character") and body.can_add_vassal(self):
+		if is_liege_of(body):
+			body.set_liege(liege)
+		if is_instance_valid(liege):
+			liege.remove_vassal(self)
+			emit_signal("old_liege", liege, self)
+		body.add_vassal(self)
+		liege = body
+		emit_signal("new_liege", body, self)
 
 func get_liege() -> Node2D:
 	return liege
@@ -167,7 +190,7 @@ func set_current_tile(tilePos : Vector2) -> void:
 func set_health_point(new_health_point: float, _cheats: bool = false) -> void:
 	if health_point != new_health_point:
 		health_point = new_health_point
-		
+
 		if health_point < 0: health_point = 0
 		if health_point > max_health_point and not _cheats: health_point = max_health_point
 
@@ -311,6 +334,12 @@ func _physics_process(_delta: float) -> void:
 		var __ = move_and_slide(get_computed_velocity())
 		update_weapon_rotation(_delta, get_current_rotation_velocity())
 		set_current_tile(position)
+		
+	if selected and is_instance_valid(liege):
+		$Line2D.set_point_position(1, liege.position - position)
+		$Line2D.visible = true
+	else:
+		$Line2D.visible = false
 
 
 #### VIRTUALS ####
@@ -338,7 +367,7 @@ func update_weapon_rotation(_delta, rot_vel) -> void:
 
 func stun(duration :float = 0.1) -> void:
 	set_stunned(duration)
-	
+
 func unstun() -> void:
 	set_stunned(false)
 	can_attack = true
@@ -413,7 +442,7 @@ func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: boo
 
 	return new_timer
 
-func health_regen_timer(time:float, autostart: bool = true, oneshot: bool = false):	
+func health_regen_timer(time:float, autostart: bool = true, oneshot: bool = false):
 	var new_timer = Timer.new()
 	new_timer.set_wait_time(time)
 	new_timer.set_autostart(autostart)
@@ -425,10 +454,10 @@ func health_regen_timer(time:float, autostart: bool = true, oneshot: bool = fals
 		push_warning("Careful: timer has been added from stamina_regen_timer but did not start automatically")
 
 	return new_timer
-	
+
 func _regen_stamina() -> void:
 	add_stamina(regen_stamina.get_value())
-	
+
 func _regen_health() -> void:
 	add_health_point(regen_health.get_value())
 
@@ -473,13 +502,13 @@ func take_item(item) -> void:
 	else:
 		return
 
-func equip_item(item, slot : int = -1) -> void:
+func equip_item(item, _slot : int = -1) -> void:
 	if item == null:
 		return
-	
+
 	var item_object
 	var item_instance
-	
+
 	if item is ItemResource:
 		item_object = null
 		item_instance = item.get_item_scene().instance()
@@ -489,16 +518,16 @@ func equip_item(item, slot : int = -1) -> void:
 
 #	var item_object = null
 #	var item_instance = item.get_item_scene().instance()
-	
+
 	if item is ItemResource:
 		item_instance.set_name(item.get_name())
 		get_tree().get_root().call_deferred("add_child", item_instance, true)
 		item_object = item_instance
 		yield(item_object, "tree_entered")
 		yield(item_object, "ready")
-		
+
 	var __
-	
+
 	if item_object.is_class("Sword") :
 		set_weapon_node(item_object)
 
@@ -508,9 +537,9 @@ func equip_item(item, slot : int = -1) -> void:
 	elif item_object.is_class("Bow"):
 		set_weapon_node(item_object)
 		__ = drop_shield()
-		
+
 	__ = item_object.equip(self)
-	
+
 	__ = skill_tree.use_skill(null)
 
 func set_weapon_node(item) -> void:
@@ -571,7 +600,7 @@ func free_first_child(node) -> Node:
 
 		node.remove_child(weapon)
 		weapon.unequip()
-		
+
 		var weapon_item_id : int = ItemsDatabase.get_item_id(weapon.get_class())
 		CharacterInventory.add_item(weapon_item_id)
 #		weapon.set_position(get_global_position())
@@ -606,27 +635,29 @@ func has_shield() -> bool:
 
 func select(value : bool =true) -> void:
 	$SelectionCircle.emitting = value
-	
+	$Line2D.visible = value
+	selected = value
+
 func is_vassal_of(body) -> bool:
 	if is_instance_valid(liege) and (body == liege or liege.is_vassal_of(body)):
 		return true
-		
+
 	return false
 
 func is_ally(body) -> bool:
 	if !is_instance_valid(body) or !body.is_class("Character"):
 		return false
-	
+
 	if body.is_vassal_of(self) or body.is_liege_of(self):
 		return true
-	
+
 	return false
-	
+
 
 func is_liege_of(body) -> bool:
-	if is_instance_valid(body.liege) and (body.liege == self or body.liege.is_liege_of(self)):
+	if is_instance_valid(body) and is_instance_valid(body.liege) and (body.liege == self or is_liege_of(body.liege)):
 		return true
-		
+
 	return false
 
 #### INPUTS ####
@@ -724,14 +755,19 @@ func _on_visionArea_body_exited(body : PhysicsBody2D) -> void:
 	if body.is_class("Character") and body != self:
 		visible_characters.erase(body)
 
-func add_vassal(vassal) -> bool:
+func can_add_vassal(vassal) -> bool:
 	if vassals.size() < max_vassal_limit:
-		vassals.append(vassal)
 		return true
 	return false
-	
+
+func add_vassal(vassal) -> void:
+	vassals.append(vassal)
+
+	emit_signal("new_vassal", vassal, self)
+
 func remove_vassal(vassal) -> void:
 	vassals.erase(vassal)
+	emit_signal("old_vassal", vassal)
 
 func order_vassals(order, param):
 	for vassal in vassals:

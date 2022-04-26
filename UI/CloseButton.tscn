@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://UI/CloseButton.gd" type="Script" id=1]
+
+[sub_resource type="InputEventAction" id=1]
+action = "ui_cancel"
+pressed = true
+
+[sub_resource type="ShortCut" id=2]
+shortcut = SubResource( 1 )
+
+[node name="CloseButton" type="Button"]
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+rect_scale = Vector2( 2, 2 )
+rect_pivot_offset = Vector2( 24, 0 )
+size_flags_horizontal = 2
+size_flags_vertical = 2
+shortcut_in_tooltip = false
+shortcut = SubResource( 2 )
+text = "__"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

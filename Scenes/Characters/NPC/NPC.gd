@@ -114,7 +114,7 @@ func ray_cast_to(pos) -> Array:
 func move_along_path(delta: float) -> void:
 	var noObstacle = true
 	while path.size() > 1 and noObstacle:
-		var collideObject = ray_cast_to(path[1]-position)
+		var collideObject = ray_cast_to(path[0]-position)
 		if collideObject != null:
 			for group in collideObject.get_groups():
 				noObstacle = false
