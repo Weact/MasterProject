@@ -18,6 +18,7 @@ func _init(body = null) -> void:
 	
 func _ready() -> void:
 	var __ = $Area2D.connect("body_entered", self, "_on_body_entered")
+	__ = $Area2D.connect("area_entered", self, "_on_area_entered")
 	__ = $Timer.connect("timeout", self, "_on_timeout")
 	trail.emitting = false
 	
@@ -29,7 +30,6 @@ func _physics_process(_delta: float) -> void:
 		look_at(global_position+ direction)
 		set_movement_speed(movement_speed - _delta * 700)
 		if get_movement_speed() <= 250:
-			$Area2D/CollisionShape2D.call_deferred("set_disabled", true)
 			set_direction(lerp(arrow_dir.normalized(), Vector2.DOWN, (250-get_movement_speed())/250))
 		if get_movement_speed() <= 150:
 			stop()
@@ -79,3 +79,11 @@ func _on_body_entered(body) -> void:
 		body.set_stunned(true)
 	
 	$Sprite.visible = false
+
+func _on_area_entered(body) -> void:
+	if !is_instance_valid(body.owner) or body.owner == shooter:
+		return
+	
+	if body.owner.is_class("Shield"):
+		stop()
+	

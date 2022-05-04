@@ -15,9 +15,7 @@ func enter_state() -> void:
 	if is_instance_valid(new_arrow):
 		new_arrow.queue_free()
 		
-	state_machine.new_arrow = state_machine.arrow.instance()
-	state_machine.new_arrow.shooter = car
-	state_machine.new_arrow.direction = Vector2(cos(deg2rad(car.weapons_node.rotation_degrees)), sin(deg2rad(car.weapons_node.rotation_degrees)))
+	state_machine.new_arrow = state_machine.make_arrow_instance()
 	car.weapons_node.call_deferred("add_child", state_machine.new_arrow)
 	state_machine.chargeTime = 0.0
 	state_machine.new_arrow.prep(state_machine.max_charge_time)

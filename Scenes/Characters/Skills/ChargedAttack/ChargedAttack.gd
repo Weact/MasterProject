@@ -23,5 +23,6 @@ func _on_left_weapon_hit(body: Node2D):
 		var damageable = body.get_node_or_null("DamageableBehavior")
 		if damageable != null:
 			damageable.take_damage(parent_character.get_attack_power(), parent_character)
-			body.set_stunned(true)
+			if body.has_method("set_stunned"):
+				body.set_stunned(true)
 		return

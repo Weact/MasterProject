@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://Scenes/Characters/Character.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Characters/NPC/NPC.gd" type="Script" id=2]
@@ -19,22 +19,8 @@
 [ext_resource path="res://Scenes/Characters/NPC/Behavior/fighting/Fighting.gd" type="Script" id=17]
 [ext_resource path="res://Scenes/Characters/NPC/Behavior/Others/Kiting.gd" type="Script" id=18]
 [ext_resource path="res://Scenes/Characters/NPC/Behavior/Others/Distancing.gd" type="Script" id=19]
-
-[sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 13 )
-region = Rect2( 0, 0, 16, 28 )
-
-[sub_resource type="AtlasTexture" id=10]
-atlas = ExtResource( 13 )
-region = Rect2( 16, 0, 16, 28 )
-
-[sub_resource type="AtlasTexture" id=11]
-atlas = ExtResource( 13 )
-region = Rect2( 32, 0, 16, 28 )
-
-[sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 13 )
-region = Rect2( 48, 0, 16, 28 )
+[ext_resource path="res://Scenes/Characters/NPC/blue_bar.tres" type="StyleBox" id=20]
+[ext_resource path="res://Scenes/Characters/NPC/red_bar.tres" type="StyleBox" id=21]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 5 )
@@ -52,21 +38,34 @@ region = Rect2( 32, 0, 16, 28 )
 atlas = ExtResource( 5 )
 region = Rect2( 48, 0, 16, 28 )
 
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 13 )
+region = Rect2( 0, 0, 16, 28 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 13 )
+region = Rect2( 16, 0, 16, 28 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 13 )
+region = Rect2( 32, 0, 16, 28 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 13 )
+region = Rect2( 48, 0, 16, 28 )
+
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
-"frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
-"loop": true,
-"name": "Move",
-"speed": 10.51
-}, {
 "frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
 "loop": true,
 "name": "Idle",
 "speed": 8.06
+}, {
+"frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
+"loop": true,
+"name": "Move",
+"speed": 10.51
 } ]
-
-[sub_resource type="StyleBoxFlat" id=14]
-bg_color = Color( 0.619608, 0, 0, 0.627451 )
 
 [sub_resource type="StyleBoxFlat" id=15]
 bg_color = Color( 0, 0, 0, 0.447059 )
@@ -263,7 +262,7 @@ block_power = 10
 position = Vector2( 0, -9 )
 frames = SubResource( 5 )
 animation = "Move"
-frame = 3
+frame = 2
 playing = true
 
 [node name="BehaviorTree" type="Node2D" parent="." index="3"]
@@ -317,7 +316,7 @@ one_shot = true
 script = ExtResource( 16 )
 time_variable_factor = 0.5
 distance_variable_factor = -1.0
-offensive_variable_factor = -1.0
+offensive_variable_factor = -1.5
 
 [node name="Timer" type="Timer" parent="BehaviorTree/Fighting" index="4"]
 wait_time = 0.3
@@ -336,7 +335,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="StateMachine" parent="." index="7"]
+[node name="StateMachine" parent="." index="6"]
 visible = true
 
 [node name="StateLabel" type="Label" parent="StateMachine" index="5"]
@@ -362,7 +361,7 @@ margin_right = 87.0
 margin_bottom = -13.0
 rect_scale = Vector2( 0.25, 0.2 )
 theme = ExtResource( 12 )
-custom_styles/fg = SubResource( 14 )
+custom_styles/fg = ExtResource( 21 )
 custom_styles/bg = SubResource( 15 )
 value = 100.0
 percent_visible = false
@@ -370,6 +369,8 @@ script = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+red_color = ExtResource( 21 )
+blue_color = ExtResource( 20 )
 
 [node name="StaminaBar" type="ProgressBar" parent="." index="14"]
 margin_left = -13.0

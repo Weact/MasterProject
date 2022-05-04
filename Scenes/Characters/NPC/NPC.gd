@@ -3,6 +3,13 @@ class_name NPC
 func is_class(value: String): return value == "NPC" or .is_class(value)
 func get_class() -> String: return "NPC"
 
+enum e_weaponType {
+	Random,
+	Melee,
+	Distance
+}
+
+export(e_weaponType) var weaponType
 onready var behaviour_tree = $BehaviorTree
 	
 var path : Array = []
@@ -14,6 +21,7 @@ var fight_distance = 10.0
 signal move_path_finished
 
 onready var ray_cast = $RayCast2D
+
 
 #### ACCESSORS ####
 
@@ -33,20 +41,34 @@ func _ready() -> void:
 	var __ = connect("damaged", self, "_on_taking_damage")
 	__ = visionArea.connect("body_entered", self, "_on_npc_visionArea_entered")
 	__ = visionArea.connect("body_exited", self, "_on_npc_visionArea_exited")
+	__ = connect("new_liege", self, "_on_new_liege")
 	
 	ray_cast.set_collide_with_bodies(true)
-	if randi() % 2 == 0:
-		var sword_instance = GAME.generate_item("Sword")
-		yield(sword_instance, "ready")
-		equip_item(sword_instance)
-		var shield_instance = GAME.generate_item("Shield")
-		yield(shield_instance, "ready")
-		equip_item(shield_instance)
+	
+	if(weaponType == e_weaponType.Random):
+		if randi() % 2 == 0:
+			equip_melee()
+		else:
+			equip_bow()
+	elif(weaponType == e_weaponType.Melee):
+		equip_melee()
 	else:
-		var bow_instance = GAME.generate_item("Bow")
-		yield(bow_instance, "ready")
-		equip_item(bow_instance)
+		equip_bow()
 		
+		
+func equip_melee() -> void:
+	var sword_instance = GAME.generate_item("Sword")
+	yield(sword_instance, "ready")
+	equip_item(sword_instance)
+	var shield_instance = GAME.generate_item("Shield")
+	yield(shield_instance, "ready")
+	equip_item(shield_instance)
+		
+func equip_bow() -> void:
+	var bow_instance = GAME.generate_item("Bow")
+	yield(bow_instance, "ready")
+	equip_item(bow_instance)
+
 func _physics_process(delta: float) -> void:
 	move_along_path(delta)
 #### VIRTUALS ####
@@ -113,14 +135,14 @@ func ray_cast_to(pos) -> Array:
 
 func move_along_path(delta: float) -> void:
 	var noObstacle = true
-	while path.size() > 1 and noObstacle:
-		var collideObject = ray_cast_to(path[0]-position)
+	while path.size() > 2 and noObstacle:
+		var collideObject = ray_cast_to(path[1]-position)
 		if collideObject != null:
 			for group in collideObject.get_groups():
 				noObstacle = false
 				
 		if noObstacle:
-			path.remove(0)
+			path.remove(1)
 		
 		
 	if path.empty():
@@ -140,6 +162,11 @@ func move_along_path(delta: float) -> void:
 		path.remove(0)
 
 #### SIGNAL RESPONSES ####
+func _on_new_liege(liege, _vassal) -> void:
+	if liege.is_class("Player"):
+		$LifeBar.color_blue()
+	else:
+		$LifeBar.color_red()
 
 func _on_StateMachine_state_changed(_state) -> void:
 	if state_machine == null:

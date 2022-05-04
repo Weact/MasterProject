@@ -25,10 +25,8 @@ func _disconnect_character(charac) -> void:
 func _on_new_liege(_liege, _vassal) -> void:
 	pass
 	
-func _on_old_liege(liege, vassal) -> void:
-	var vassal_item = _find_vassal(get_root(), vassal.name)
-	if vassal_item:
-		_remove_vassal(vassal)
+func _on_old_liege(_liege, _vassal) -> void:
+	pass
 	
 func _on_old_vassal(vassal) -> void:
 	_remove_vassal(vassal)
@@ -37,7 +35,7 @@ func _remove_vassal(charac) -> void:
 	for vassa in charac.vassals:
 		_remove_vassal(vassa)
 		
-	var char_name = charac.name
+	var _char_name = charac.name
 	var child = _find_vassal(get_root(), charac.name)
 	if is_instance_valid(child):
 		_disconnect_character(charac)
@@ -45,12 +43,12 @@ func _remove_vassal(charac) -> void:
 		
 		
 func _on_new_vassal(vassal, liege) -> void:
-	var liege_child = _find_vassal(get_root(), liege.name)
+	var _liege_child = _find_vassal(get_root(), liege.name)
 	var vassal_child = _find_vassal(get_root(), vassal.name)
 	if is_instance_valid(vassal_child):
 		_remove_vassal(vassal)
 		
-	if is_instance_valid(liege) and liege.is_class("Player") and !is_instance_valid(liege_child):
+	if is_instance_valid(liege) and liege.is_class("Player"):
 		_add_vassal(get_root(), vassal)
 	else:
 		_add_vassal(_find_vassal(get_root(), liege.name), vassal)

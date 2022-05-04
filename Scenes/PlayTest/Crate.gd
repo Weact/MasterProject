@@ -1,17 +1,15 @@
-extends Control
+extends StaticBody2D
 func is_class(value: String): return value == "" or .is_class(value)
 func get_class() -> String: return ""
 
-onready var player_node = owner
+signal damaged
 
 #### ACCESSORS ####
 
 #### BUILT-IN ####
-func _ready() -> void:
-	if is_instance_valid(owner):
-		$Personnal/TabContainer/Reign/Tree._connect_character(owner)
-
-
+func damaged(damage_taken, damager = null) -> void:
+	emit_signal("damaged", damage_taken, damager)
+	$AnimationPlayer.play("Death")
 
 #### VIRTUALS ####
 

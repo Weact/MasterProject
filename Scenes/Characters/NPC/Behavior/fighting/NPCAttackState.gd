@@ -53,7 +53,7 @@ func update(_delta : float) ->void:
 			owner.update_move_path(owner.target.position)
 	if dist_tar <= randDist:
 		weapon.press()
-	if dist_tar <= 0:
+	elif dist_tar <= 0:
 		weapon.release()
 	owner.set_look_direction(state_machine.get_target_direction())
 	

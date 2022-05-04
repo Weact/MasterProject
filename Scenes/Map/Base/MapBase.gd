@@ -1,7 +1,7 @@
 extends YSort
 
 onready var pathfinder = $ground/Pathfinder
-
+	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	randomize()
@@ -10,7 +10,7 @@ func _ready() -> void:
 	
 	for npc in npc_array:
 		_add_pathfinder(npc)
-
+		
 func _add_pathfinder(npc):
 	npc.set_pathfinder(pathfinder)
 	

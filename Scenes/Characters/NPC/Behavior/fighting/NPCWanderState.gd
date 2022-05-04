@@ -12,9 +12,9 @@ func _ready() -> void:
 
 
 func _generate_random_dest() -> Vector2:
-	var angle = deg2rad(rand_range(0.0, 360.0))
+	var angle = deg2rad(90*randi()%4)
 	var dir = Vector2(cos(angle), sin(angle))
-	var dist = rand_range(min_wander_distance, max_wander_distance)
+	var dist = 16
 	
 	var dest = dir * dist
 
@@ -40,9 +40,11 @@ func update(_delta : float) ->void:
 	pass
 	
 func _on_wait_wait_time_finished() -> void:
-	var dest = _find_wander_dest()
-	owner.update_move_path(dest)
-	set_state("Goto")
+	if !state_machine.current_state == self:
+		return
+	#var dest = _find_wander_dest()
+	#owner.update_move_path(dest)
+	#set_state("Goto")
 	
 func _on_NPC_move_path_finished() -> void:
 	if is_current_state():

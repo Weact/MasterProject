@@ -82,8 +82,14 @@ func astar_connect_points(point_array: Array, connect_diagonals: bool  = true) -
 				astar.connect_points(point_index, point_rel_id)
 	
 func _disable_all_obstacles_points() -> void:
-	for obstacle in get_tree().get_nodes_in_group("Obstacle"):
-		_update_obstacle_point(obstacle, true)
+	var objects = get_tree().get_nodes_in_group("Obstacle")
+	if objects[0] is TileMap:
+		for obstacle in objects[0].get_used_cells():
+			_update_obstacle_point_tilemap(obstacle, true)
+		
+	else:
+		for obstacle in get_tree().get_nodes_in_group("Obstacle"):
+			_update_obstacle_point(obstacle, true)
 	
 func compute_point_index(cell : Vector2) -> int:
 	return int(abs(cell.x + room_size.x * cell.y))
@@ -97,11 +103,18 @@ func update_pos_point(pos : Vector2, weight : int = 0) -> void:
 	
 func _get_pos_cell_id(pos : Vector2) -> int :
 	var cell = tilemap.world_to_map(pos)
+	return compute_point_index(cell)
+	
+func _get_pos_cell_id_tilemap(cell : Vector2) -> int :
 	var point_id = compute_point_index(cell)
 	return point_id
 	
 func _update_obstacle_point(obstacle : Node2D, disabled : bool) -> void:
 	var point_id = _get_pos_cell_id(obstacle.get_global_position())
+	astar.set_point_disabled(point_id, disabled)
+	
+func _update_obstacle_point_tilemap(obstacle : Vector2, disabled : bool) -> void:
+	var point_id = _get_pos_cell_id_tilemap(obstacle)
 	astar.set_point_disabled(point_id, disabled)
 	
 func _on_EVENTS_obstacle_destroyed(obstacle : Node2D) -> void:

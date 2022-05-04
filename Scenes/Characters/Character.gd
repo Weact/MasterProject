@@ -115,6 +115,8 @@ signal new_liege
 
 signal old_liege
 
+signal die
+
 ## STATES
 export var default_state : String = ""
 
@@ -411,6 +413,7 @@ func flip_weapon(weapon) -> void:
 	if weapon.rotate_v:
 		weapon.get_node_or_null("Sprite").set_flip_v(facing_left)
 
+
 func damaged(damage_taken, damager = null) -> void:
 	if get_state_name() == "Dodge":
 		return
@@ -428,6 +431,22 @@ func damaged(damage_taken, damager = null) -> void:
 	set_stunned(true)
 	remove_health_point(damage_taken)
 	emit_signal("damaged", damage_taken, damager)
+	
+	if damage_taken <= 0:
+		return
+		
+	var blood_ressource = preload("res://Scenes/particles/BloodParticles.tscn")
+	var blood_instance = blood_ressource.instance()
+	
+	var blood_mat : ParticlesMaterial = blood_instance.process_material
+	if is_instance_valid(damager):
+		var dir = damager.get_angle_to(position)
+		blood_mat.direction = Vector3(cos(dir), sin(dir), 0)
+	blood_instance.amount = damage_taken * 10 +30
+	blood_mat.initial_velocity = damage_taken * 5+80
+	blood_instance.emitting = true
+	blood_instance.show_behind_parent = true
+	call("add_child", blood_instance)
 
 func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: bool = false) -> Timer:
 	var new_timer = Timer.new()
@@ -463,6 +482,7 @@ func _regen_health() -> void:
 
 func die() -> void:
 	set_weight(0)
+	emit_signal("die")
 	state_machine.set_state("Death")
 
 func use_skill(skill_name) -> bool:
@@ -748,14 +768,14 @@ func _on_stun_timer_timeout(timer_timeout : Timer) -> void:
 	timer_timeout.queue_free()
 
 func _on_visionArea_body_entered(body : PhysicsBody2D) -> void:
-	if body.is_class("Character") and body != self:
+	if is_instance_valid(body) and body.is_class("Character") and body != self:
 		visible_characters.append(body)
 
 func _on_visionArea_body_exited(body : PhysicsBody2D) -> void:
-	if body.is_class("Character") and body != self:
+	if is_instance_valid(body) and body.is_class("Character") and body != self:
 		visible_characters.erase(body)
 
-func can_add_vassal(vassal) -> bool:
+func can_add_vassal(_vassal) -> bool:
 	if vassals.size() < max_vassal_limit:
 		return true
 	return false

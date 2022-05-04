@@ -22,6 +22,7 @@ var shape = null
 var start_rect_pos = Vector2(0, 0)
 var glow_npcs = []
 var selected_npcs = []
+onready var camera = $PlayerCamera
 
 #### ACCESSORS ####
 
@@ -33,11 +34,18 @@ func _ready() -> void:
 
 	__ = select_point.connect("body_entered", self, "_on_select_point_entered")
 	__ = select_point.connect("body_exited", self, "_on_select_point_exited")
+	
 
 #### VIRTUALS ####
 
 #### LOGIC ####
-
+func message_target(new_t,msg) -> void:
+	$HUD/UI/Label.set_target(new_t, msg)
+	
+func hide_message() -> void:
+	$HUD/UI/Label.hide_message()
+	
+	
 func _input(event: InputEvent) -> void:
 	if not event is InputEventKey and not event is InputEventMouseButton:
 		return

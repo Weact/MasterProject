@@ -51,6 +51,7 @@ func get_offensive_factor() -> float :
 	var val = range_lerp(weapon_value+stam_value, 0, 2, 0, 1)
 	return val
 
+	
 func get_defensive_factor() -> float :
 	return 1.0 - get_offensive_factor()
 	
@@ -77,7 +78,6 @@ func _on_timeout() -> void:
 		
 	if owner.target == null:
 		return
-	var _difficulty = owner.difficulty
 	
 	timer.start()
 	
@@ -106,6 +106,7 @@ func _on_timeout() -> void:
 		if chance_done > randomNb:
 			set_state(child)
 			break
+		
 	
 func move_to_fight_pos() -> void:
 	if is_instance_valid(owner.target):

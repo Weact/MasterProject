@@ -184,6 +184,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Characters/Skills/Dodge/Dodge.gd"
 }, {
+"base": "YSort",
+"class": "Door",
+"language": "GDScript",
+"path": "res://Scenes/PlayTest/Door.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Entity",
 "language": "GDScript",
@@ -415,6 +420,7 @@ _global_script_class_icons={
 "DodgePreparationSkill": "",
 "DodgeRecoverySkill": "",
 "DodgeSkill": "",
+"Door": "",
 "Entity": "",
 "ExecuteSkill": "",
 "FightingState": "",
