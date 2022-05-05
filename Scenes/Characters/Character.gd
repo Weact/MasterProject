@@ -160,9 +160,9 @@ func set_state(new_state : String) -> void:
 		state_machine.set_state(new_state)
 
 func can_change_state() -> bool:
-	var changeable = false
-	if !is_stunned():
-		changeable = true
+	var changeable = true
+	if is_stunned() or get_state_name() == "Death":
+		changeable = false
 	return changeable
 
 func set_target(value : Node2D) -> void:
@@ -332,7 +332,7 @@ func _connect_signals() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	if not is_stunned():
+	if not is_stunned() and is_alive():
 		var __ = move_and_slide(get_computed_velocity())
 		update_weapon_rotation(_delta, get_current_rotation_velocity())
 		set_current_tile(position)
@@ -347,6 +347,11 @@ func _physics_process(_delta: float) -> void:
 #### VIRTUALS ####
 
 #### LOGIC ####
+func is_alive() -> bool:
+	if get_state_name() != "Death":
+		return true
+	return false
+	
 func can_see(body) -> bool:
 	if !is_instance_valid(body):
 		return false
@@ -482,8 +487,8 @@ func _regen_health() -> void:
 
 func die() -> void:
 	set_weight(0)
-	emit_signal("die")
 	state_machine.set_state("Death")
+	emit_signal("die")
 
 func use_skill(skill_name) -> bool:
 	return ( can_change_state() and skill_tree.use_skill(skill_name) )
@@ -688,7 +693,6 @@ func is_liege_of(body) -> bool:
 func _on_stun_changed(stun_state: bool) -> void:
 	if stun_state:
 		var duration = stun_duration
-		state_machine.set_state("Idle")
 		duration = duration*3
 
 		var stun_timer = GAME._create_timer_delay(duration, true, true, self, "_on_stun_timer_timeout")
@@ -697,6 +701,8 @@ func _on_stun_changed(stun_state: bool) -> void:
 		can_block = false
 		var __ = use_skill(null)
 		animated_sprite.set_material(white_mat)
+	else:
+		set_state("Idle")
 
 ## STATS
 func _on_health_point_changed() -> void:
@@ -782,13 +788,24 @@ func can_add_vassal(_vassal) -> bool:
 
 func add_vassal(vassal) -> void:
 	vassals.append(vassal)
+	var __ = vassal.connect("damaged", self, "_on_vassal_damaged")
 
 	emit_signal("new_vassal", vassal, self)
 
 func remove_vassal(vassal) -> void:
 	vassals.erase(vassal)
+	var __ = vassal.disconnect("damaged", self, "_on_vassal_damaged")
 	emit_signal("old_vassal", vassal)
 
+func attack(_body) -> void:
+	pass
+	
+func follow(_body) -> void:
+	pass
+	
+func _on_vassal_damaged(_damage_taken, damager) -> void:
+	attack(damager)
+	
 func order_vassals(order, param):
 	for vassal in vassals:
 		if !is_instance_valid(vassal):

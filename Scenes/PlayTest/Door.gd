@@ -13,7 +13,13 @@ func _ready() -> void:
 		var __ = ai.connect("die", self, "_on_ai_die")
 
 func _on_ai_die() -> void:
-	open()
+	var all_dead = true
+	for ai in ai_to_check:
+		if is_instance_valid(ai) and ai.get_state() != "Death":
+			all_dead = false
+			
+	if all_dead:
+		open()
 
 #### BUILT-IN ####
 func open() -> void:

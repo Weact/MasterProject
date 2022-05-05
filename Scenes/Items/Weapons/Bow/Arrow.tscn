@@ -8,6 +8,7 @@ radius = 2.0
 height = 4.0
 
 [sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 1.66893e-06, 0.5 )
 
 [sub_resource type="Animation" id=2]
 resource_name = "Charge"
@@ -79,6 +80,7 @@ shape = SubResource( 3 )
 disabled = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 8, 0 )
 rotation = 1.5708
 shape = SubResource( 10 )
 disabled = true

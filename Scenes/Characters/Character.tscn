@@ -61,7 +61,6 @@ script = ExtResource( 28 )
 init_default_state = false
 
 [node name="StateMachine" type="Node2D" parent="."]
-visible = false
 script = ExtResource( 4 )
 
 [node name="Idle" type="Node" parent="StateMachine"]

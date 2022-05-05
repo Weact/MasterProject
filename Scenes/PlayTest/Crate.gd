@@ -10,6 +10,7 @@ signal damaged
 func damaged(damage_taken, damager = null) -> void:
 	emit_signal("damaged", damage_taken, damager)
 	$AnimationPlayer.play("Death")
+	EVENTS.emit_signal("obstacle_destroyed",self)
 
 #### VIRTUALS ####
 

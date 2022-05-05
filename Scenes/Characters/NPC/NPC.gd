@@ -9,6 +9,7 @@ enum e_weaponType {
 	Distance
 }
 
+export(NodePath) var start_liege = null
 export(e_weaponType) var weaponType
 onready var behaviour_tree = $BehaviorTree
 	
@@ -54,7 +55,9 @@ func _ready() -> void:
 		equip_melee()
 	else:
 		equip_bow()
-		
+	
+	if start_liege:
+		set_liege(get_node(start_liege))
 		
 func equip_melee() -> void:
 	var sword_instance = GAME.generate_item("Sword")

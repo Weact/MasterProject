@@ -20,7 +20,6 @@ func exit_state() -> void:
 func make_arrow_instance() -> Node2D:
 	var arrow_instance = arrow.instance()
 	arrow_instance.shooter = parent_character
-	arrow_instance.direction = Vector2(cos(deg2rad(parent_character.weapons_node.rotation_degrees)), sin(deg2rad(parent_character.weapons_node.rotation_degrees)))
 	return arrow_instance
 	
 #### VIRTUALS ####

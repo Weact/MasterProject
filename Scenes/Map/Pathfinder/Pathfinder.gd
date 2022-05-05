@@ -83,12 +83,12 @@ func astar_connect_points(point_array: Array, connect_diagonals: bool  = true) -
 	
 func _disable_all_obstacles_points() -> void:
 	var objects = get_tree().get_nodes_in_group("Obstacle")
-	if objects[0] is TileMap:
-		for obstacle in objects[0].get_used_cells():
-			_update_obstacle_point_tilemap(obstacle, true)
-		
-	else:
-		for obstacle in get_tree().get_nodes_in_group("Obstacle"):
+	
+	for obstacle in objects:
+		if obstacle is TileMap:
+			for obs in obstacle.get_used_cells():
+				_update_obstacle_point_tilemap(obs, true)
+		else:
 			_update_obstacle_point(obstacle, true)
 	
 func compute_point_index(cell : Vector2) -> int:

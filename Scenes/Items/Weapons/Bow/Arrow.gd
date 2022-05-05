@@ -46,10 +46,8 @@ func prep(duration = 1.0) -> void:
 	$AnimationPlayer.play("Charge", -1, 1.0/duration)
 	
 func launch(new_dir, new_speed) -> void:
-	if !is_instance_valid(trail):
-		return
 	$Area2D/CollisionShape2D.call_deferred("set_disabled", false)
-	trail.emitting = true
+	$Particles2D.call_deferred("set_emitting", true)
 	set_direction(new_dir)
 	launch_speed = new_speed
 	arrow_dir = new_dir
