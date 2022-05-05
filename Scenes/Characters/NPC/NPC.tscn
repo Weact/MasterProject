@@ -262,7 +262,7 @@ block_power = 10
 position = Vector2( 0, -9 )
 frames = SubResource( 5 )
 animation = "Move"
-frame = 3
+frame = 2
 playing = true
 
 [node name="BehaviorTree" type="Node2D" parent="." index="3"]

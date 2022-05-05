@@ -38,9 +38,6 @@ default_state = "Idle"
 owner_object_path = NodePath("..")
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="WeaponsPoint" type="Node2D" parent="."]
 script = ExtResource( 12 )

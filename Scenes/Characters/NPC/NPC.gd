@@ -92,8 +92,8 @@ func attack(body) -> void:
 func _update_target() -> void:
 	for character in visible_characters:
 		var char_rela = get_relation(character)
-		if char_rela <= -10:
-			if !is_instance_valid(target):
+		if character.is_alive() and char_rela <= -10:
+			if !is_instance_valid(target) or !target.is_alive():
 				attack(character)
 				break
 			if behaviour_tree.get_state_name() == "Following" or get_path_dist_to(character.position) < get_path_dist_to(target.position):
