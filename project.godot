@@ -189,6 +189,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/PlayTest/Door.gd"
 }, {
+"base": "Rock",
+"class": "DoorElement",
+"language": "GDScript",
+"path": "res://Scenes/PlayTest/DoorElement.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Entity",
 "language": "GDScript",
@@ -314,6 +319,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Characters/Skills/Skill/RecoverySkill.gd"
 }, {
+"base": "StaticBody2D",
+"class": "Rock",
+"language": "GDScript",
+"path": "res://Scenes/Environnement/Rock.gd"
+}, {
 "base": "Weapon",
 "class": "Shield",
 "language": "GDScript",
@@ -421,6 +431,7 @@ _global_script_class_icons={
 "DodgeRecoverySkill": "",
 "DodgeSkill": "",
 "Door": "",
+"DoorElement": "",
 "Entity": "",
 "ExecuteSkill": "",
 "FightingState": "",
@@ -446,6 +457,7 @@ _global_script_class_icons={
 "PreparationBlockSkill": "",
 "PreparationSkill": "",
 "RecoverySkill": "",
+"Rock": "",
 "Shield": "",
 "ShootFightingState": "",
 "ShootSkill": "",
@@ -464,8 +476,8 @@ _global_script_class_icons={
 
 [application]
 
-config/name="MasterProject"
-run/main_scene="res://Scenes/Map/MapL/MapL.tscn"
+config/name="Projet Emergence"
+run/main_scene="res://Scenes/Map/MapPlayTest.tscn"
 config/icon="res://icon.png"
 
 [autoload]

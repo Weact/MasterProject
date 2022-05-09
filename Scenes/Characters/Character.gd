@@ -15,6 +15,10 @@ onready var informations_panel : Node2D = get_node("Infos")
 var pathfinder : Pathfinder = null setget set_pathfinder
 signal pathfinder_changed
 
+signal selected
+
+signal attacking
+
 ## WEAPONS
 onready var weapons_node : Node2D = get_node_or_null("WeaponsPoint")
 onready var weapon_point : Node2D = weapons_node.get_node_or_null("WeaponPoint")
@@ -485,6 +489,11 @@ func _regen_stamina() -> void:
 func _regen_health() -> void:
 	add_health_point(regen_health.get_value())
 
+func inherit_vassals() -> void:
+	var old_vassals = vassals
+	for vassal in old_vassals:
+		vassal.set_liege(liege)
+	
 func die() -> void:
 	set_weight(0)
 	state_machine.set_state("Death")
@@ -492,6 +501,9 @@ func die() -> void:
 
 func use_skill(skill_name) -> bool:
 	return ( can_change_state() and skill_tree.use_skill(skill_name) )
+
+func have_more_stamina(qty) -> bool:
+	return get_stamina() >= qty
 
 func pick_up() -> void:
 	var areas = pick_up_area.get_overlapping_areas()
@@ -625,9 +637,10 @@ func free_first_child(node) -> Node:
 
 		node.remove_child(weapon)
 		weapon.unequip()
-
-		var weapon_item_id : int = ItemsDatabase.get_item_id(weapon.get_class())
-		CharacterInventory.add_item(weapon_item_id)
+		
+		if is_class("Player"):
+			var weapon_item_id : int = ItemsDatabase.get_item_id(weapon.get_class())
+			CharacterInventory.add_item(weapon_item_id)
 #		weapon.set_position(get_global_position())
 #		owner.call_deferred("add_child", weapon)
 		return weapon
@@ -662,6 +675,7 @@ func select(value : bool =true) -> void:
 	$SelectionCircle.emitting = value
 	$Line2D.visible = value
 	selected = value
+	emit_signal("selected")
 
 func is_vassal_of(body) -> bool:
 	if is_instance_valid(liege) and (body == liege or liege.is_vassal_of(body)):
@@ -673,7 +687,7 @@ func is_ally(body) -> bool:
 	if !is_instance_valid(body) or !body.is_class("Character"):
 		return false
 
-	if body.is_vassal_of(self) or body.is_liege_of(self):
+	if body == self or is_vassal_of(body) or is_liege_of(body) or (is_instance_valid(liege) and (body.is_ally(liege) or liege.is_ally(body))):
 		return true
 
 	return false
@@ -798,7 +812,7 @@ func remove_vassal(vassal) -> void:
 	emit_signal("old_vassal", vassal)
 
 func attack(_body) -> void:
-	pass
+	emit_signal("attacking")
 	
 func follow(_body) -> void:
 	pass
@@ -814,9 +828,12 @@ func order_vassals(order, param):
 		if vassal.has_method(order):
 			vassal.call(order, param)
 
+func add_relation(index, value) -> void:
+	pass
+	
 func _on_target_changed(_new_target: PhysicsBody2D) -> void:
 	for vassal in vassals:
-		if _new_target == self:
+		if is_ally(_new_target):
 			order_vassals("follow", self)
 		else:
 			order_vassals("attack", _new_target)

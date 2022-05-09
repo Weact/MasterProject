@@ -22,13 +22,13 @@ margin_right = 26.04
 open_window = NodePath("../Personnal")
 
 [node name="OpenInventory" parent="." instance=ExtResource( 8 )]
-margin_left = -23.0
-margin_top = 26.0
-margin_right = 27.0
-margin_bottom = 76.0
+margin_left = -23.96
+margin_top = 26.16
+margin_right = 26.04
+margin_bottom = 76.16
 grow_horizontal = 0
 grow_vertical = 0
-text = "I"
+text = "TAB"
 open_window = NodePath("../Inventory")
 
 [node name="Personnal" parent="." instance=ExtResource( 2 )]

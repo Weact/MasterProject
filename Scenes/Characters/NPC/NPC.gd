@@ -43,6 +43,7 @@ func _ready() -> void:
 	__ = visionArea.connect("body_entered", self, "_on_npc_visionArea_entered")
 	__ = visionArea.connect("body_exited", self, "_on_npc_visionArea_exited")
 	__ = connect("new_liege", self, "_on_new_liege")
+	__ = connect("move_path_finished", self, "_on_move_path_finished")
 	
 	ray_cast.set_collide_with_bodies(true)
 	
@@ -59,6 +60,9 @@ func _ready() -> void:
 	if start_liege:
 		set_liege(get_node(start_liege))
 		
+func _on_move_path_finished() -> void:
+	_update_target()
+	
 func equip_melee() -> void:
 	var sword_instance = GAME.generate_item("Sword")
 	yield(sword_instance, "ready")
@@ -86,20 +90,21 @@ func follow(body) -> void:
 	
 func attack(body) -> void:
 	if body != self:
+		emit_signal("attacking")
 		set_target(body)
 		behaviour_tree.set_state("Chase")
 
 func _update_target() -> void:
 	for character in visible_characters:
 		var char_rela = get_relation(character)
-		if character.is_alive() and char_rela <= -10:
+		if character.is_alive() and (char_rela <= -50 or !is_ally(character) and char_rela <= -15):
 			if !is_instance_valid(target) or !target.is_alive():
 				attack(character)
 				break
 			if behaviour_tree.get_state_name() == "Following" or get_path_dist_to(character.position) < get_path_dist_to(target.position):
 				attack(character)
 				break
-		elif char_rela > 10 and (behaviour_tree.get_state_name() != "Fighting" and behaviour_tree.get_state_name() != "Chase"):
+		elif (char_rela >= 10 or character == liege) and (behaviour_tree.get_state_name() != "Fighting" and behaviour_tree.get_state_name() != "Chase"):
 			follow(character)
 
 func update_move_path(dest : Vector2) -> void:
@@ -145,7 +150,7 @@ func move_along_path(delta: float) -> void:
 				noObstacle = false
 				
 		if noObstacle:
-			path.remove(1)
+			path.remove(0)
 		
 		
 	if path.empty():
@@ -166,19 +171,47 @@ func move_along_path(delta: float) -> void:
 
 #### SIGNAL RESPONSES ####
 func _on_new_liege(liege, _vassal) -> void:
-	if liege.is_class("Player"):
-		$LifeBar.color_blue()
+	if is_instance_valid(liege) and liege.is_class("Player") :
+		color_blue()
+	elif is_instance_valid(liege) and _liege_is_player():
+		color_lightblue()
 	else:
-		$LifeBar.color_red()
+		color_red()
+	
+	_update_target()
+
+func color_blue() -> void:
+	$LifeBar.color_blue()
+	for vassal in vassals:
+		vassal.color_lightblue()
+	
+func color_lightblue() -> void:
+	$LifeBar.color_lightblue()
+	for vassal in vassals:
+		vassal.color_lightblue()
+	
+func color_red() -> void:
+	$LifeBar.color_red()
+	for vassal in vassals:
+		vassal.color_red()
+	
+func _liege_is_player() -> bool:
+	if is_instance_valid(liege):
+		if liege.is_class("Player") or liege._liege_is_player():
+			return true
+		
+	return false
 
 func _on_StateMachine_state_changed(_state) -> void:
 	if state_machine == null:
 		return
 
 func _on_taking_damage(damage, damager) -> void:
-	if !damager.is_ally(self):
-		attack(damager)
-	add_relation(damager, -damage/10)
+	#if !damager.is_ally(self):
+		#attack(damager)
+	add_relation(damager, -damage)
+	for vassal in vassals:
+		vassal.add_relation(damager, -damage)
 
 func _on_npc_visionArea_entered(body : PhysicsBody2D) -> void:
 	if body is Character and body != self:

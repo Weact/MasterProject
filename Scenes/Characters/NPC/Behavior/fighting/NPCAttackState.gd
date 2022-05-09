@@ -43,10 +43,10 @@ func launch_timer() -> void:
 	
 func update(_delta : float) ->void:
 	.update(_delta)
-	if owner.state_machine == null or !is_instance_valid(owner.target):
+	var weapon = owner.weapon_node
+	if owner.state_machine == null or !is_instance_valid(owner.target) or !is_instance_valid(weapon):
 		return
 
-	var weapon = owner.weapon_node
 	var dist_tar = owner.get_path_dist_to(owner.target.position)
 	if is_instance_valid(owner.target.weapon_node):
 		if owner.target.weapon_node.is_class("Bow"):

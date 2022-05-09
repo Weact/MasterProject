@@ -14,6 +14,9 @@ func _ready() -> void:
 	__ = get_node("PlayerArea1").connect("player_entered", self, "_attack_npc")
 	__ = get_node("PlayerArea2").connect("player_entered", self, "_attack_npc2")
 	__ = get_node("PlayerArea3").connect("player_entered", self, "_attack_npc3")
+	__ = get_node("PlayerArea4").connect("player_entered", self, "_attack_npc4")
+	__ = get_node("NPC/NPC3").connect("selected", self, "_selected_npc3")
+	__ = player.connect("attacking", self, "_order_npc3")
 
 func _select_item() -> void:
 	player.hide_message()
@@ -41,13 +44,29 @@ func _attack_npc() -> void:
 	get_node("NPC/NPC").attack(player)
 	
 func _attack_npc2() -> void:
+	get_node("PlayerArea2").disconnect("player_entered", self, "_attack_npc2")
+	
 	get_node("NPC/NPC2").attack(player)
 	
+func _order_npc3() -> void:
+	player.disconnect("attacking", self, "_order_npc3")
+	player.hide_message()	
+	
+func _selected_npc3() -> void:
+	get_node("NPC/NPC3").disconnect("selected", self, "_selected_npc3")
+	player.hide_message()
+	player.message_target(get_node("NPC/NPC6"), "Clique droit pour envoyer vos vassaux attaquer")
+	
 func _attack_npc3() -> void:
+	get_node("PlayerArea3").disconnect("player_entered", self, "_attack_npc3")
+	player.hide_message()
+	player.message_target(get_node("NPC/NPC3"), "Ces personnages sont vos vassaux ! Maintenir A appuyé pour les sélectionner")
 	get_node("NPC/NPC3").set_liege(player)
 	get_node("NPC/NPC4").set_liege(player)
-	get_node("NPC/NPC3").follow(player)
-	get_node("NPC/NPC4").follow(player)
+	
+func _attack_npc4() -> void:
+	get_node("PlayerArea4").disconnect("player_entered", self, "_attack_npc4")
+	get_node("NPC/NPC15").set_liege(player)
 	
 	
 #### ACCESSORS ####

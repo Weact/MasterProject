@@ -15,7 +15,7 @@ func _ready() -> void:
 func _on_ai_die() -> void:
 	var all_dead = true
 	for ai in ai_to_check:
-		if is_instance_valid(ai) and ai.get_state() != "Death":
+		if is_instance_valid(get_node(ai)) and get_node(ai).get_state_name() != "Death":
 			all_dead = false
 			
 	if all_dead:
@@ -25,6 +25,13 @@ func _on_ai_die() -> void:
 func open() -> void:
 	$AnimationPlayer.play("Open")
 
+func remove_path() -> void:
+	$DoorElement.remove_path()
+	$DoorElement2.remove_path()
+	$DoorElement3.remove_path()
+	$DoorElement4.remove_path()
+	$DoorElement5.remove_path()
+	queue_free()
 
 #### ACCESSORS ####
 

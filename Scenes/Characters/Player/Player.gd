@@ -12,6 +12,9 @@ var dirDown : int = 0
 var blockPressed : bool = false
 var attackPressed : bool = false
 
+var attack_cursor = load("res://Scenes/Map/Tileset/attack_cursor.png")
+var prepare_cursor = load("res://Scenes/Map/Tileset/prepare_cursor.png")
+
 var npc_ressource = preload("res://Scenes/Characters/NPC/NPC.tscn")
 var ninepatchrect_ressource = preload("res://Scenes/Characters/Player/visible_selection_rect.tscn")
 var select_rect = null
@@ -32,9 +35,10 @@ func _ready() -> void:
 	__ = EVENTS.connect("player_vassal", self, "_on_new_vassal")
 	__ = EVENTS.connect("inventory_item_equip", self, "_on_inventory_item_equip")
 
-	__ = select_point.connect("body_entered", self, "_on_select_point_entered")
-	__ = select_point.connect("body_exited", self, "_on_select_point_exited")
+	__ = select_point.connect("area_entered", self, "_on_select_point_entered")
+	__ = select_point.connect("area_exited", self, "_on_select_point_exited")
 	
+	__ = connect("damaged", self, "_on_taking_damage")
 
 #### VIRTUALS ####
 
@@ -119,6 +123,8 @@ func _input(event: InputEvent) -> void:
 			_on_new_target(target_click)
 	action(action_name)
 
+func die() -> void:
+	GAME.restart_map()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -190,11 +196,22 @@ func action(action_name: String) -> void:
 
 	set_direction(Vector2(dirRight - dirLeft, dirDown - dirUp))
 
+func have_more_stamina(qty) -> bool:
+	if !.have_more_stamina(qty):
+		glow_stamina_bar()
+		return false
+	return true
+
+func glow_stamina_bar():
+	$HUD/StaminaBar.glow()
+
 func add_selection(npc):
 	selected_npcs.append(npc)
 	npc.select()
 
 func empty_selection():
+	Input.set_custom_mouse_cursor(null)
+	Input.set_custom_mouse_cursor(null,2)
 	for npc in selected_npcs:
 		if is_instance_valid(npc):
 			npc.select(false)
@@ -207,6 +224,10 @@ func _on_select_body_entered(body) -> void:
 
 	glow_npcs.append(body)
 	body.select()
+	
+	var hotspot = Vector2(17,8)
+	Input.set_custom_mouse_cursor(attack_cursor, 2, hotspot)
+	Input.set_custom_mouse_cursor(prepare_cursor, 0,hotspot)
 
 func _on_select_body_exited(body) -> void:
 	if !body.is_class("NPC"):
@@ -222,6 +243,7 @@ func stop_selection() -> void:
 	yield(select_rect, "tree_exited")
 	for npc in npcs:
 		add_selection(npc)
+	
 
 func start_selection() -> void:
 	if is_instance_valid(select_rect):
@@ -254,6 +276,9 @@ func _on_new_target(new_target) -> void:
 				npc.follow(new_target)
 			else:
 				npc.attack(new_target)
+	
+	emit_signal("attacking")
+	empty_selection()
 
 func _on_new_vassal(new_vassal) -> void:
 	for npc in selected_npcs:
@@ -261,14 +286,20 @@ func _on_new_vassal(new_vassal) -> void:
 			npc.set_liege(new_vassal)
 
 func _on_select_point_entered(body) -> void:
-	if body is Character:
-		target_click = body
+	if body.owner is Character and body.name == "clickArea":
+		target_click = body.owner
 		Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
 
 func _on_select_point_exited(body) -> void:
-	if body == target_click:
+	if body.owner == target_click:
 		target_click = null
 		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 		
 func _on_inventory_item_equip(item, slot) -> void:
 		equip_item(item, slot)
+
+func _on_taking_damage(damage, damager) -> void:
+	#if !damager.is_ally(self):
+		#attack(damager)
+	for vassal in vassals:
+		vassal.add_relation(damager, -damage)

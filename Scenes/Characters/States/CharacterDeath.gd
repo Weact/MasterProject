@@ -19,6 +19,7 @@ func enter_state():
 		owner.drop_shield()
 		owner.set_weight(0)
 		owner.set_stunned(true)
+		owner.inherit_vassals()
 
 # Override of State's exit_state
 func exit_state():

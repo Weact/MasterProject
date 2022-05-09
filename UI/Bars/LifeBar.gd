@@ -3,6 +3,7 @@ func is_class(value: String): return value == "" or .is_class(value)
 func get_class() -> String: return ""
 
 export var red_color : StyleBoxFlat
+export var lightblue_color : StyleBoxFlat
 export var blue_color : StyleBoxFlat
 
 #### ACCESSORS ####
@@ -18,6 +19,9 @@ func color_blue() -> void:
 	
 func color_red() -> void:
 	add_stylebox_override("fg", red_color)
+	
+func color_lightblue() -> void:
+	add_stylebox_override("fg", lightblue_color)
 
 #### LOGIC ####
 

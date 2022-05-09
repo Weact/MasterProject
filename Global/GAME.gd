@@ -5,7 +5,6 @@ var PLAYER_NODE : PhysicsBody2D = null
 var map_valentin_player = null
 var map_lucas_player = null
 
-signal new_npc
 signal inventory_state_changed
 
 func _ready() -> void:
@@ -26,7 +25,7 @@ func _input(event: InputEvent) -> void:
 		cheat_health_stamina(map_valentin_player, map_lucas_player)
 
 	elif event.is_action_pressed("restart_game"):
-		var __ = get_tree().reload_current_scene()
+		restart_map()
 
 	elif event.is_action_pressed("cheat_stats"):
 		map_valentin_player = get_tree().get_root().get_node_or_null("MapV/Player/Player")
@@ -57,6 +56,9 @@ func _input(event: InputEvent) -> void:
 		
 		if is_instance_valid(PLAYER_NODE):
 			_generated_item.set_position(PLAYER_NODE.get_position())
+
+func restart_map() -> void:
+	var __ = get_tree().reload_current_scene()
 
 func cheat_health_stamina(player_v, player_l) -> void:
 	if is_instance_valid(player_v):

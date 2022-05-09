@@ -125,7 +125,7 @@ func tryDodge() -> void:
 		return
 	var chanceToDodge = owner.stamina
 	var chanceToNotDodge = 100
-	var rdm =  randi()%int(chanceToDodge+chanceToNotDodge)
+	var rdm =  randi()%int(chanceToDodge+chanceToNotDodge)*owner.difficulty
 
 	if rdm > chanceToNotDodge:
 		owner.use_skill("Dodge")

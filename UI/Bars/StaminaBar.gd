@@ -2,6 +2,9 @@ extends ProgressBar
 func is_class(value: String): return value == "" or .is_class(value)
 func get_class() -> String: return ""
 
+export var green_color : StyleBoxFlat
+export var lightgreen_color : StyleBoxFlat
+
 #### ACCESSORS ####
 
 #### BUILT-IN ####
@@ -15,6 +18,14 @@ func _ready() -> void:
 
 
 #### LOGIC ####
+func glow():
+	$AnimationPlayer.play("glow")
+	
+func color_lightgreen():
+	add_stylebox_override("fg", lightgreen_color)
+	
+func color_green():
+	add_stylebox_override("fg", green_color)
 
 
 
