@@ -17,6 +17,7 @@ func _ready() -> void:
 	__ = get_node("PlayerArea4").connect("player_entered", self, "_attack_npc4")
 	__ = get_node("PlayerArea5").connect("player_entered", self, "_attack_npc5")
 	__ = get_node("NPC/NPC3").connect("selected", self, "_selected_npc3")
+	__ = get_node("NPC/NPC13").connect("die", self, "_play_win")
 	__ = player.connect("attacking", self, "_order_npc3")
 
 func _select_item() -> void:
@@ -73,6 +74,8 @@ func _attack_npc5() -> void:
 	get_node("PlayerArea5").disconnect("player_entered", self, "_attack_npc5")
 	get_node("NPC/NPC9").attack(player)
 	
+func _play_win() -> void:
+	player.play_win()
 	
 #### ACCESSORS ####
 

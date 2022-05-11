@@ -59,6 +59,36 @@ func _init_astar() -> void:
 			
 	astar_connect_points(cells_array, false)
 
+func get_points_in_range_of(point : Vector2, rnge) -> Array:
+	var fpoint_pos = tilemap.world_to_map(point)
+	var connexions = []
+	var connexionsId = []
+	
+	var connected_points = astar.get_point_connections(compute_point_index(fpoint_pos))
+	for con_point in connected_points:
+		if !astar.is_point_disabled(con_point):
+			connexionsId.append(con_point)
+	
+	for number in range(rnge-1):
+		var connexionsToAdd = []
+		for number2 in range(connexionsId.size()):
+			connected_points = astar.get_point_connections(connexionsId[number2])
+			for con_point in connected_points:
+				if !astar.is_point_disabled(con_point):
+					connexionsId.append(con_point)
+		
+		for con in connexionsToAdd:
+			if connexionsId.find(con) == -1:
+				connexionsId.append(con)
+		
+	for con in connexionsId:
+		var point_pos = astar.get_point_position(con)
+		if point_pos != fpoint_pos:
+			connexions.append(tilemap.map_to_world(point_pos))
+		
+		
+	return connexions
+	
 
 func astar_connect_points(point_array: Array, connect_diagonals: bool  = true) -> void:
 	for point in point_array:
@@ -119,6 +149,7 @@ func _update_obstacle_point_tilemap(obstacle : Vector2, disabled : bool) -> void
 	
 func _on_EVENTS_obstacle_destroyed(obstacle : Node2D) -> void:
 	_update_obstacle_point(obstacle, false)
+	
 
 func is_position_valid(pos: Vector2) -> bool:
 	var cell = tilemap.world_to_map(pos)

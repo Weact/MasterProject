@@ -14,6 +14,7 @@ func get_class() -> String: return "CharacterDeathState"
 func enter_state():
 	if is_instance_valid(owner):
 		owner.collision_shape.call_deferred("set_disabled", true)
+		owner.hitbox.call_deferred("set_disabled", true)
 		owner.visible = false
 		owner.drop_weapon()
 		owner.drop_shield()

@@ -22,22 +22,6 @@
 [ext_resource path="res://UI/Bars/blue_bar.tres" type="StyleBox" id=20]
 [ext_resource path="res://UI/Bars/red_bar.tres" type="StyleBox" id=21]
 
-[sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 13 )
-region = Rect2( 0, 0, 16, 28 )
-
-[sub_resource type="AtlasTexture" id=10]
-atlas = ExtResource( 13 )
-region = Rect2( 16, 0, 16, 28 )
-
-[sub_resource type="AtlasTexture" id=11]
-atlas = ExtResource( 13 )
-region = Rect2( 32, 0, 16, 28 )
-
-[sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 13 )
-region = Rect2( 48, 0, 16, 28 )
-
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 16, 28 )
@@ -54,17 +38,33 @@ region = Rect2( 32, 0, 16, 28 )
 atlas = ExtResource( 5 )
 region = Rect2( 48, 0, 16, 28 )
 
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 13 )
+region = Rect2( 0, 0, 16, 28 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 13 )
+region = Rect2( 16, 0, 16, 28 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 13 )
+region = Rect2( 32, 0, 16, 28 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 13 )
+region = Rect2( 48, 0, 16, 28 )
+
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
-"frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
-"loop": true,
-"name": "Move",
-"speed": 10.51
-}, {
 "frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
 "loop": true,
 "name": "Idle",
 "speed": 8.06
+}, {
+"frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
+"loop": true,
+"name": "Move",
+"speed": 10.51
 } ]
 
 [sub_resource type="StyleBoxFlat" id=15]
@@ -265,7 +265,6 @@ block_power = 10
 position = Vector2( 0, -9 )
 frames = SubResource( 5 )
 animation = "Idle"
-frame = 1
 playing = true
 
 [node name="BehaviorTree" type="Node2D" parent="." index="3"]
@@ -354,12 +353,6 @@ __meta__ = {
 enabled = true
 cast_to = Vector2( 50, 0 )
 
-[node name="PickUpArea" parent="." index="10"]
-visible = true
-
-[node name="SelectionCircle" parent="." index="12"]
-position = Vector2( 0, 0 )
-
 [node name="LifeBar" type="ProgressBar" parent="." index="13"]
 margin_left = -13.0
 margin_top = -27.0
@@ -394,5 +387,8 @@ script = SubResource( 30 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="SelectionCircle" parent="." index="15"]
+position = Vector2( 0, 0 )
 
 [connection signal="state_changed" from="StateMachine" to="." method="_on_StateMachine_state_changed"]

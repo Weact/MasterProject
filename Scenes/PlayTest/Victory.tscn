@@ -1,0 +1,84 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scenes/PlayTest/Victory.gd" type="Script" id=3]
+
+[sub_resource type="ParticlesMaterial" id=6]
+emission_shape = 1
+emission_sphere_radius = 10.0
+flag_disable_z = true
+direction = Vector3( 1, -2, 0 )
+spread = 22.0
+gravity = Vector3( 0, 98, 0 )
+initial_velocity = 450.0
+initial_velocity_random = 0.7
+angular_velocity = 50.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 30.0
+damping_random = 1.0
+angle_random = 1.0
+scale = 8.0
+scale_random = 0.9
+color = Color( 0.180392, 0, 1, 1 )
+hue_variation = 1.0
+hue_variation_random = 1.0
+
+[sub_resource type="ParticlesMaterial" id=7]
+emission_shape = 1
+emission_sphere_radius = 10.0
+flag_disable_z = true
+direction = Vector3( -1, -2, 0 )
+spread = 22.0
+gravity = Vector3( 0, 98, 0 )
+initial_velocity = 450.0
+initial_velocity_random = 0.7
+angular_velocity = 50.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 30.0
+damping_random = 1.0
+angle_random = 1.0
+scale = 8.0
+scale_random = 0.9
+color = Color( 0.180392, 0, 1, 1 )
+hue_variation = 1.0
+hue_variation_random = 1.0
+
+[sub_resource type="Animation" id=4]
+resource_name = "CLIGNOTE"
+length = 0.5
+loop = true
+
+[sub_resource type="Animation" id=5]
+length = 0.001
+
+[node name="VictoryScreen" type="Control"]
+visible = false
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Particles2D" type="Particles2D" parent="."]
+position = Vector2( -32, 576 )
+emitting = false
+amount = 1000
+lifetime = 10.0
+explosiveness = 0.95
+visibility_rect = Rect2( 0, -800, 800, 800 )
+process_material = SubResource( 6 )
+
+[node name="Particles2D2" type="Particles2D" parent="."]
+position = Vector2( 1024, 576 )
+emitting = false
+amount = 1000
+lifetime = 10.0
+explosiveness = 0.95
+visibility_rect = Rect2( -800, -800, 800, 800 )
+process_material = SubResource( 7 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/CLIGNOTE = SubResource( 4 )
+anims/RESET = SubResource( 5 )

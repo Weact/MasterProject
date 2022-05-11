@@ -9,6 +9,7 @@ onready var state_machine = get_node("StateMachine")
 onready var animated_sprite : AnimatedSprite = get_node("AnimatedSprite")
 onready var collision_shape : CollisionShape2D = get_node("CollisionShape2D")
 
+onready var blood_ressource = preload("res://Scenes/particles/BloodParticles.tscn")
 onready var ressources_panel : VBoxContainer = get_node("Ressources/VBoxContainer")
 onready var informations_panel : Node2D = get_node("Infos")
 
@@ -90,6 +91,7 @@ export var attack_power : int = 0 setget set_attack_power, get_attack_power
 onready var initial_attack_power : int = attack_power
 signal attack_power_changed
 
+onready var hitbox = $hitbox/CollisionShape2D
 var can_attack : bool = true
 var can_block : bool = true
 var attack_cd_timer : Timer = null
@@ -444,7 +446,6 @@ func damaged(damage_taken, damager = null) -> void:
 	if damage_taken <= 0:
 		return
 		
-	var blood_ressource = preload("res://Scenes/particles/BloodParticles.tscn")
 	var blood_instance = blood_ressource.instance()
 	
 	var blood_mat : ParticlesMaterial = blood_instance.process_material
@@ -455,7 +456,8 @@ func damaged(damage_taken, damager = null) -> void:
 	blood_mat.initial_velocity = damage_taken * 5+80
 	blood_instance.emitting = true
 	blood_instance.show_behind_parent = true
-	call("add_child", blood_instance)
+	blood_instance.position = position
+	get_tree().get_root().call_deferred("add_child", blood_instance)
 
 func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: bool = false) -> Timer:
 	var new_timer = Timer.new()
@@ -495,7 +497,6 @@ func inherit_vassals() -> void:
 		vassal.set_liege(liege)
 	
 func die() -> void:
-	set_weight(0)
 	state_machine.set_state("Death")
 	emit_signal("die")
 

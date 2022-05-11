@@ -26,6 +26,7 @@ var start_rect_pos = Vector2(0, 0)
 var glow_npcs = []
 var selected_npcs = []
 onready var camera = $PlayerCamera
+export var debug = true
 
 #### ACCESSORS ####
 
@@ -118,7 +119,8 @@ func _input(event: InputEvent) -> void:
 
 	if is_instance_valid(target_click):
 		if event.is_action_pressed("player_attack"):
-			_on_new_vassal(target_click)
+			if debug:
+				_on_new_vassal(target_click)
 		if event.is_action_pressed("player_block"):
 			_on_new_target(target_click)
 	action(action_name)
@@ -303,3 +305,6 @@ func _on_taking_damage(damage, damager) -> void:
 		#attack(damager)
 	for vassal in vassals:
 		vassal.add_relation(damager, -damage)
+		
+func play_win() -> void:
+	$HUD/VictoryScreen.win()

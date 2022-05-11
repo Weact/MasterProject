@@ -78,10 +78,26 @@ func _on_body_entered(body) -> void:
 	
 	$Sprite.visible = false
 
-func _on_area_entered(body) -> void:
-	if !is_instance_valid(body.owner) or body.owner == shooter:
+func _on_area_entered(area) -> void:
+	var body = area.owner
+	if !is_instance_valid(body) or body == shooter:
 		return
 	
-	if body.owner.is_class("Shield"):
+	if area.owner.is_class("Shield"):
 		stop()
+		return
+		
+	var damageable = body.get_node_or_null("DamageableBehavior")
+	if !is_instance_valid(damageable):
+		stop()
+		return
+	
+	if is_instance_valid(shooter):
+		damageable.take_damage(damage * movement_speed / 400, shooter)
+	
+	stop()
+	if body.has_method("set_stunned"):
+		body.set_stunned(true)
+	
+	$Sprite.visible = false
 	
