@@ -1,0 +1,77 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scenes/Characters/Player/Sprites/Knight_Hit.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/Characters/NPC/Sprites/Elf_Hit.png" type="Texture" id=2]
+[ext_resource path="res://UI/Reign.gd" type="Script" id=3]
+[ext_resource path="res://UI/Tree.gd" type="Script" id=4]
+[ext_resource path="res://UI/BasePanel.tscn" type="PackedScene" id=5]
+[ext_resource path="res://UI/CloseButton.tscn" type="PackedScene" id=6]
+
+[node name="Personnal" instance=ExtResource( 5 )]
+
+[node name="TabContainer" type="TabContainer" parent="." index="0"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Reign" type="Tabs" parent="TabContainer" index="0"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tree" type="Tree" parent="TabContainer/Reign" index="0"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 24.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TemplateIcon" type="TextureRect" parent="TabContainer/Reign/Tree" index="6"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -48.0
+margin_top = -15.0
+margin_right = -194.0
+margin_bottom = -310.0
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TemplateIconPlayer" type="TextureRect" parent="TabContainer/Reign/Tree" index="7"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -48.0
+margin_top = -15.0
+margin_right = -194.0
+margin_bottom = -310.0
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Diplomacy" type="Tabs" parent="TabContainer" index="1"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="CloseButton" parent="." index="1" instance=ExtResource( 6 )]
+anchor_bottom = 1.0
+margin_left = -24.0
+margin_bottom = -581.0

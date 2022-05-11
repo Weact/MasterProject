@@ -17,8 +17,11 @@ func exit_state() -> void:
 	if is_instance_valid(new_arrow):
 		new_arrow.queue_free()
 
-
-
+func make_arrow_instance() -> Node2D:
+	var arrow_instance = arrow.instance()
+	arrow_instance.shooter = parent_character
+	return arrow_instance
+	
 #### VIRTUALS ####
 
 

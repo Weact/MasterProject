@@ -9,7 +9,7 @@ onready var player_node = owner
 #### BUILT-IN ####
 func _ready() -> void:
 	if is_instance_valid(owner):
-		$BasePanel/TabContainer/Reign/Tree._connect_character(owner)
+		$Personnal/TabContainer/Reign/Tree._connect_character(owner)
 
 
 

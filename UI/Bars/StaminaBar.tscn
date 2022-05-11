@@ -1,7 +1,9 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
-[ext_resource path="res://UI/StaminaBar.gd" type="Script" id=1]
-[ext_resource path="res://UI/font.tres" type="DynamicFont" id=2]
+[ext_resource path="res://UI/font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://UI/Bars/StaminaBar.gd" type="Script" id=2]
+[ext_resource path="res://UI/Bars/green_bar.tres" type="StyleBox" id=3]
+[ext_resource path="res://UI/Bars/lightgreen_bar.tres" type="StyleBox" id=4]
 
 [sub_resource type="OpenSimplexNoise" id=15]
 
@@ -85,7 +87,7 @@ expand_margin_bottom = 2.0
 bg_color = Color( 0.203922, 0.121569, 0.121569, 1 )
 
 [sub_resource type="Theme" id=17]
-default_font = ExtResource( 2 )
+default_font = ExtResource( 1 )
 Button/colors/font_color = Color( 0.956863, 0.92549, 0.972549, 1 )
 Button/colors/font_color_disabled = Color( 0.996078, 0.941176, 0.941176, 0.2 )
 Button/colors/font_color_focus = Color( 0.941176, 0.941176, 0.941176, 1 )
@@ -145,13 +147,41 @@ Tabs/styles/tab_bg = SubResource( 14 )
 Tabs/styles/tab_disabled = null
 Tabs/styles/tab_fg = null
 
-[sub_resource type="StyleBoxFlat" id=18]
-bg_color = Color( 0.176471, 0.603922, 0.305882, 1 )
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-
 [sub_resource type="StyleBoxFlat" id=19]
 bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="Animation" id=20]
+resource_name = "glow"
+length = 0.5
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "color_lightgreen"
+}, {
+"args": [  ],
+"method": "color_green"
+}, {
+"args": [  ],
+"method": "color_lightgreen"
+}, {
+"args": [  ],
+"method": "color_green"
+}, {
+"args": [  ],
+"method": "color_lightgreen"
+}, {
+"args": [  ],
+"method": "color_green"
+} ]
+}
 
 [node name="StaminaBar" type="ProgressBar"]
 anchor_left = 1.0
@@ -161,11 +191,16 @@ anchor_bottom = 1.0
 margin_left = -125.0
 margin_top = -17.0
 theme = SubResource( 17 )
-custom_styles/fg = SubResource( 18 )
+custom_styles/fg = ExtResource( 3 )
 custom_styles/bg = SubResource( 19 )
 value = 25.0
 percent_visible = false
-script = ExtResource( 1 )
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+green_color = ExtResource( 3 )
+lightgreen_color = ExtResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/glow = SubResource( 20 )

@@ -21,4 +21,4 @@ func get_class() -> String: return ""
 
 #### SIGNAL RESPONSES ####
 func _pressed() -> void:
-	get_parent().visible = false
+	owner.visible = false

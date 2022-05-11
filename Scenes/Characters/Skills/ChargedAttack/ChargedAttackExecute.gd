@@ -10,11 +10,17 @@ func get_class() -> String: return "ChargedAttackExecuteSkill"
 func call_state() -> void:
 	.call_state()
 	state_machine.play_current_state_anim()
-	state_machine.parent_character.weapon_node.hitbox.call_deferred("set_disabled", false)
+	var weapon = state_machine.parent_character.weapon_node
+	if(!is_instance_valid(weapon)):
+		return
+	weapon.hitbox.call_deferred("set_disabled", false)
 
 func exit_state() -> void:
 	.exit_state()
-	state_machine.parent_character.weapon_node.hitbox.call_deferred("set_disabled", true)
+	var weapon = state_machine.parent_character.weapon_node
+	if(!is_instance_valid(weapon)):
+		return
+	weapon.hitbox.call_deferred("set_disabled", true)
 
 
 #### VIRTUALS ####

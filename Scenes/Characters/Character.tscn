@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scenes/Characters/States/CharacterDeath.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/particles/circle_selection.tres" type="Material" id=3]
@@ -16,6 +16,9 @@
 [sub_resource type="CircleShape2D" id=4]
 radius = 5.0
 
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 5, 7.5 )
+
 [sub_resource type="CircleShape2D" id=1]
 radius = 13.0384
 
@@ -24,6 +27,8 @@ radius = 159.255
 
 [sub_resource type="Curve" id=3]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 3.38182, 0.0, 0, 0 ]
+
+[sub_resource type="CapsuleShape2D" id=5]
 
 [node name="Character" type="KinematicBody2D"]
 z_index = 1
@@ -38,11 +43,6 @@ default_state = "Idle"
 owner_object_path = NodePath("..")
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="WeaponsPoint" type="Node2D" parent="."]
 script = ExtResource( 12 )
@@ -63,7 +63,6 @@ script = ExtResource( 28 )
 init_default_state = false
 
 [node name="StateMachine" type="Node2D" parent="."]
-visible = false
 script = ExtResource( 4 )
 
 [node name="Idle" type="Node" parent="StateMachine"]
@@ -116,6 +115,14 @@ margin_top = 13.0
 margin_right = 40.0
 margin_bottom = 27.0
 
+[node name="hitbox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+position = Vector2( 0, -3.5 )
+shape = SubResource( 6 )
+
 [node name="PickUpArea" type="Area2D" parent="."]
 visible = false
 
@@ -139,3 +146,14 @@ process_material = ExtResource( 3 )
 points = PoolVector2Array( 0, 0, 25, 0 )
 width_curve = SubResource( 3 )
 default_color = Color( 0.752941, 0.784314, 0.941176, 0.843137 )
+
+[node name="clickArea" type="Area2D" parent="."]
+visible = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="clickArea"]
+position = Vector2( 0, -5 )
+scale = Vector2( 0.641398, 0.513549 )
+shape = SubResource( 5 )

@@ -9,11 +9,16 @@ onready var state_machine = get_node("StateMachine")
 onready var animated_sprite : AnimatedSprite = get_node("AnimatedSprite")
 onready var collision_shape : CollisionShape2D = get_node("CollisionShape2D")
 
+onready var blood_ressource = preload("res://Scenes/particles/BloodParticles.tscn")
 onready var ressources_panel : VBoxContainer = get_node("Ressources/VBoxContainer")
 onready var informations_panel : Node2D = get_node("Infos")
 
 var pathfinder : Pathfinder = null setget set_pathfinder
 signal pathfinder_changed
+
+signal selected
+
+signal attacking
 
 ## WEAPONS
 onready var weapons_node : Node2D = get_node_or_null("WeaponsPoint")
@@ -86,6 +91,7 @@ export var attack_power : int = 0 setget set_attack_power, get_attack_power
 onready var initial_attack_power : int = attack_power
 signal attack_power_changed
 
+onready var hitbox = $hitbox/CollisionShape2D
 var can_attack : bool = true
 var can_block : bool = true
 var attack_cd_timer : Timer = null
@@ -114,6 +120,8 @@ signal old_vassal
 signal new_liege
 
 signal old_liege
+
+signal die
 
 ## STATES
 export var default_state : String = ""
@@ -158,9 +166,9 @@ func set_state(new_state : String) -> void:
 		state_machine.set_state(new_state)
 
 func can_change_state() -> bool:
-	var changeable = false
-	if !is_stunned():
-		changeable = true
+	var changeable = true
+	if is_stunned() or get_state_name() == "Death":
+		changeable = false
 	return changeable
 
 func set_target(value : Node2D) -> void:
@@ -330,7 +338,7 @@ func _connect_signals() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	if not is_stunned():
+	if not is_stunned() and is_alive():
 		var __ = move_and_slide(get_computed_velocity())
 		update_weapon_rotation(_delta, get_current_rotation_velocity())
 		set_current_tile(position)
@@ -345,6 +353,11 @@ func _physics_process(_delta: float) -> void:
 #### VIRTUALS ####
 
 #### LOGIC ####
+func is_alive() -> bool:
+	if get_state_name() != "Death":
+		return true
+	return false
+	
 func can_see(body) -> bool:
 	if !is_instance_valid(body):
 		return false
@@ -411,6 +424,7 @@ func flip_weapon(weapon) -> void:
 	if weapon.rotate_v:
 		weapon.get_node_or_null("Sprite").set_flip_v(facing_left)
 
+
 func damaged(damage_taken, damager = null) -> void:
 	if get_state_name() == "Dodge":
 		return
@@ -428,6 +442,22 @@ func damaged(damage_taken, damager = null) -> void:
 	set_stunned(true)
 	remove_health_point(damage_taken)
 	emit_signal("damaged", damage_taken, damager)
+	
+	if damage_taken <= 0:
+		return
+		
+	var blood_instance = blood_ressource.instance()
+	
+	var blood_mat : ParticlesMaterial = blood_instance.process_material
+	if is_instance_valid(damager):
+		var dir = damager.get_angle_to(position)
+		blood_mat.direction = Vector3(cos(dir), sin(dir), 0)
+	blood_instance.amount = damage_taken * 10 +30
+	blood_mat.initial_velocity = damage_taken * 5+80
+	blood_instance.emitting = true
+	blood_instance.show_behind_parent = true
+	blood_instance.position = position
+	get_tree().get_root().call_deferred("add_child", blood_instance)
 
 func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: bool = false) -> Timer:
 	var new_timer = Timer.new()
@@ -461,12 +491,20 @@ func _regen_stamina() -> void:
 func _regen_health() -> void:
 	add_health_point(regen_health.get_value())
 
+func inherit_vassals() -> void:
+	var old_vassals = vassals
+	for vassal in old_vassals:
+		vassal.set_liege(liege)
+	
 func die() -> void:
-	set_weight(0)
 	state_machine.set_state("Death")
+	emit_signal("die")
 
 func use_skill(skill_name) -> bool:
 	return ( can_change_state() and skill_tree.use_skill(skill_name) )
+
+func have_more_stamina(qty) -> bool:
+	return get_stamina() >= qty
 
 func pick_up() -> void:
 	var areas = pick_up_area.get_overlapping_areas()
@@ -600,9 +638,10 @@ func free_first_child(node) -> Node:
 
 		node.remove_child(weapon)
 		weapon.unequip()
-
-		var weapon_item_id : int = ItemsDatabase.get_item_id(weapon.get_class())
-		CharacterInventory.add_item(weapon_item_id)
+		
+		if is_class("Player"):
+			var weapon_item_id : int = ItemsDatabase.get_item_id(weapon.get_class())
+			CharacterInventory.add_item(weapon_item_id)
 #		weapon.set_position(get_global_position())
 #		owner.call_deferred("add_child", weapon)
 		return weapon
@@ -637,6 +676,7 @@ func select(value : bool =true) -> void:
 	$SelectionCircle.emitting = value
 	$Line2D.visible = value
 	selected = value
+	emit_signal("selected")
 
 func is_vassal_of(body) -> bool:
 	if is_instance_valid(liege) and (body == liege or liege.is_vassal_of(body)):
@@ -648,7 +688,7 @@ func is_ally(body) -> bool:
 	if !is_instance_valid(body) or !body.is_class("Character"):
 		return false
 
-	if body.is_vassal_of(self) or body.is_liege_of(self):
+	if body == self or is_vassal_of(body) or is_liege_of(body) or (is_instance_valid(liege) and (body.is_ally(liege) or liege.is_ally(body))):
 		return true
 
 	return false
@@ -668,7 +708,6 @@ func is_liege_of(body) -> bool:
 func _on_stun_changed(stun_state: bool) -> void:
 	if stun_state:
 		var duration = stun_duration
-		state_machine.set_state("Idle")
 		duration = duration*3
 
 		var stun_timer = GAME._create_timer_delay(duration, true, true, self, "_on_stun_timer_timeout")
@@ -677,6 +716,8 @@ func _on_stun_changed(stun_state: bool) -> void:
 		can_block = false
 		var __ = use_skill(null)
 		animated_sprite.set_material(white_mat)
+	else:
+		set_state("Idle")
 
 ## STATS
 func _on_health_point_changed() -> void:
@@ -748,27 +789,38 @@ func _on_stun_timer_timeout(timer_timeout : Timer) -> void:
 	timer_timeout.queue_free()
 
 func _on_visionArea_body_entered(body : PhysicsBody2D) -> void:
-	if body.is_class("Character") and body != self:
+	if is_instance_valid(body) and body.is_class("Character") and body != self:
 		visible_characters.append(body)
 
 func _on_visionArea_body_exited(body : PhysicsBody2D) -> void:
-	if body.is_class("Character") and body != self:
+	if is_instance_valid(body) and body.is_class("Character") and body != self:
 		visible_characters.erase(body)
 
-func can_add_vassal(vassal) -> bool:
+func can_add_vassal(_vassal) -> bool:
 	if vassals.size() < max_vassal_limit:
 		return true
 	return false
 
 func add_vassal(vassal) -> void:
 	vassals.append(vassal)
+	var __ = vassal.connect("damaged", self, "_on_vassal_damaged")
 
 	emit_signal("new_vassal", vassal, self)
 
 func remove_vassal(vassal) -> void:
 	vassals.erase(vassal)
+	var __ = vassal.disconnect("damaged", self, "_on_vassal_damaged")
 	emit_signal("old_vassal", vassal)
 
+func attack(_body) -> void:
+	emit_signal("attacking")
+	
+func follow(_body) -> void:
+	pass
+	
+func _on_vassal_damaged(_damage_taken, damager) -> void:
+	attack(damager)
+	
 func order_vassals(order, param):
 	for vassal in vassals:
 		if !is_instance_valid(vassal):
@@ -777,9 +829,12 @@ func order_vassals(order, param):
 		if vassal.has_method(order):
 			vassal.call(order, param)
 
+func add_relation(index, value) -> void:
+	pass
+	
 func _on_target_changed(_new_target: PhysicsBody2D) -> void:
 	for vassal in vassals:
-		if _new_target == self:
+		if is_ally(_new_target):
 			order_vassals("follow", self)
 		else:
 			order_vassals("attack", _new_target)

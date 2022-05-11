@@ -9,29 +9,9 @@
 [ext_resource path="res://Scenes/StateMachine/StateLabel.gd" type="Script" id=7]
 [ext_resource path="res://Scenes/Characters/Player/visible_selection_rect.tscn" type="PackedScene" id=8]
 [ext_resource path="res://UI/ui.tscn" type="PackedScene" id=9]
-[ext_resource path="res://UI/LifeBar.tscn" type="PackedScene" id=10]
-[ext_resource path="res://UI/StaminaBar.tscn" type="PackedScene" id=11]
-[ext_resource path="res://Scenes/Inventory/Inventory.tscn" type="PackedScene" id=12]
-
-[sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 4 )
-region = Rect2( 0, 0, 15, 22 )
-
-[sub_resource type="AtlasTexture" id=13]
-atlas = ExtResource( 4 )
-region = Rect2( 15, 0, 15, 22 )
-
-[sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 4 )
-region = Rect2( 30, 0, 15, 22 )
-
-[sub_resource type="AtlasTexture" id=15]
-atlas = ExtResource( 4 )
-region = Rect2( 45, 0, 15, 22 )
-
-[sub_resource type="AtlasTexture" id=16]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 0, 16, 28 )
+[ext_resource path="res://UI/Bars/LifeBar.tscn" type="PackedScene" id=10]
+[ext_resource path="res://UI/Bars/StaminaBar.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scenes/PlayTest/Victory.tscn" type="PackedScene" id=12]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 3 )
@@ -49,22 +29,42 @@ region = Rect2( 30, 0, 15, 20 )
 atlas = ExtResource( 3 )
 region = Rect2( 45, 0, 15, 20 )
 
+[sub_resource type="AtlasTexture" id=16]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 16, 28 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 15, 22 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 4 )
+region = Rect2( 15, 0, 15, 22 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 4 )
+region = Rect2( 30, 0, 15, 22 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 4 )
+region = Rect2( 45, 0, 15, 22 )
+
 [sub_resource type="SpriteFrames" id=10]
 animations = [ {
-"frames": [ SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ) ],
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
 "loop": true,
-"name": "Move",
-"speed": 9.0
+"name": "Idle",
+"speed": 7.0
 }, {
 "frames": [ SubResource( 16 ) ],
 "loop": true,
 "name": "Hit",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
+"frames": [ SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ) ],
 "loop": true,
-"name": "Idle",
-"speed": 7.0
+"name": "Move",
+"speed": 9.0
 } ]
 
 [sub_resource type="Animation" id=17]
@@ -125,7 +125,6 @@ radius = 0.01
 
 [node name="Player" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-movement_speed = 150.0
 max_health_point = 100.0
 attack_power = 10
 block_power = 15
@@ -149,18 +148,14 @@ script = ExtResource( 6 )
 position = Vector2( 0, -4 )
 frames = SubResource( 10 )
 animation = "Idle"
+frame = 1
 playing = true
-
-[node name="Inventory" parent="HUD" index="0" instance=ExtResource( 12 )]
-visible = false
 
 [node name="AnimationPlayer" parent="WeaponsPoint" index="0"]
 anims/unblock = SubResource( 17 )
 
-[node name="StateMachine" parent="." index="8"]
-visible = true
-
 [node name="StateLabel" type="Label" parent="StateMachine" index="5"]
+visible = false
 margin_left = -12.0
 margin_top = -76.0
 margin_right = 28.0
@@ -177,11 +172,13 @@ shape = SubResource( 18 )
 
 [node name="NinePatchRect" parent="." index="14" instance=ExtResource( 8 )]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." index="15"]
+[node name="HUD" type="CanvasLayer" parent="." index="15"]
 
-[node name="UI" parent="CanvasLayer" index="0" instance=ExtResource( 9 )]
+[node name="UI" parent="HUD" index="0" instance=ExtResource( 9 )]
 mouse_filter = 2
 
-[node name="StaminaBar" parent="CanvasLayer" index="1" instance=ExtResource( 11 )]
+[node name="StaminaBar" parent="HUD" index="1" instance=ExtResource( 11 )]
 
-[node name="LifeBar" parent="CanvasLayer" index="2" instance=ExtResource( 10 )]
+[node name="LifeBar" parent="HUD" index="2" instance=ExtResource( 10 )]
+
+[node name="VictoryScreen" parent="HUD" index="3" instance=ExtResource( 12 )]

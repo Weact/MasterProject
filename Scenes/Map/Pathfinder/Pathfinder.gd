@@ -59,6 +59,36 @@ func _init_astar() -> void:
 			
 	astar_connect_points(cells_array, false)
 
+func get_points_in_range_of(point : Vector2, rnge) -> Array:
+	var fpoint_pos = tilemap.world_to_map(point)
+	var connexions = []
+	var connexionsId = []
+	
+	var connected_points = astar.get_point_connections(compute_point_index(fpoint_pos))
+	for con_point in connected_points:
+		if !astar.is_point_disabled(con_point):
+			connexionsId.append(con_point)
+	
+	for number in range(rnge-1):
+		var connexionsToAdd = []
+		for number2 in range(connexionsId.size()):
+			connected_points = astar.get_point_connections(connexionsId[number2])
+			for con_point in connected_points:
+				if !astar.is_point_disabled(con_point):
+					connexionsId.append(con_point)
+		
+		for con in connexionsToAdd:
+			if connexionsId.find(con) == -1:
+				connexionsId.append(con)
+		
+	for con in connexionsId:
+		var point_pos = astar.get_point_position(con)
+		if point_pos != fpoint_pos:
+			connexions.append(tilemap.map_to_world(point_pos))
+		
+		
+	return connexions
+	
 
 func astar_connect_points(point_array: Array, connect_diagonals: bool  = true) -> void:
 	for point in point_array:
@@ -82,8 +112,14 @@ func astar_connect_points(point_array: Array, connect_diagonals: bool  = true) -
 				astar.connect_points(point_index, point_rel_id)
 	
 func _disable_all_obstacles_points() -> void:
-	for obstacle in get_tree().get_nodes_in_group("Obstacle"):
-		_update_obstacle_point(obstacle, true)
+	var objects = get_tree().get_nodes_in_group("Obstacle")
+	
+	for obstacle in objects:
+		if obstacle is TileMap:
+			for obs in obstacle.get_used_cells():
+				_update_obstacle_point_tilemap(obs, true)
+		else:
+			_update_obstacle_point(obstacle, true)
 	
 func compute_point_index(cell : Vector2) -> int:
 	return int(abs(cell.x + room_size.x * cell.y))
@@ -97,6 +133,9 @@ func update_pos_point(pos : Vector2, weight : int = 0) -> void:
 	
 func _get_pos_cell_id(pos : Vector2) -> int :
 	var cell = tilemap.world_to_map(pos)
+	return compute_point_index(cell)
+	
+func _get_pos_cell_id_tilemap(cell : Vector2) -> int :
 	var point_id = compute_point_index(cell)
 	return point_id
 	
@@ -104,8 +143,13 @@ func _update_obstacle_point(obstacle : Node2D, disabled : bool) -> void:
 	var point_id = _get_pos_cell_id(obstacle.get_global_position())
 	astar.set_point_disabled(point_id, disabled)
 	
+func _update_obstacle_point_tilemap(obstacle : Vector2, disabled : bool) -> void:
+	var point_id = _get_pos_cell_id_tilemap(obstacle)
+	astar.set_point_disabled(point_id, disabled)
+	
 func _on_EVENTS_obstacle_destroyed(obstacle : Node2D) -> void:
 	_update_obstacle_point(obstacle, false)
+	
 
 func is_position_valid(pos: Vector2) -> bool:
 	var cell = tilemap.world_to_map(pos)

@@ -1,16 +1,17 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scenes/Inventory/Inventory.gd" type="Script" id=1]
-[ext_resource path="res://Scenes/Inventory/Assets/Exit/ExitInventoryIconPressed.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/Inventory/Assets/Background/BackgroundFrame.png" type="Texture" id=3]
-[ext_resource path="res://Scenes/Inventory/Assets/Exit/ExitInventoryIcon.png" type="Texture" id=4]
 [ext_resource path="res://Scenes/Inventory/Assets/Title/TitleFrame.png" type="Texture" id=5]
 [ext_resource path="res://Scenes/Inventory/ItemSlot/ItemSlot.tscn" type="PackedScene" id=6]
+[ext_resource path="res://ressources/new_theme.tres" type="Theme" id=7]
+[ext_resource path="res://UI/CloseButton.tscn" type="PackedScene" id=8]
 
 [node name="Inventory" type="Control"]
 anchor_right = 0.379
 anchor_bottom = 1.0
 margin_right = 0.160004
+theme = ExtResource( 7 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -19,6 +20,7 @@ __meta__ = {
 [node name="Background" type="NinePatchRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 7 )
 texture = ExtResource( 3 )
 __meta__ = {
 "_edit_lock_": true,
@@ -71,12 +73,14 @@ margin_left = 86.0
 margin_right = 214.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 128, 0 )
+theme = ExtResource( 7 )
 texture = ExtResource( 5 )
 expand = true
 
 [node name="Label" type="Label" parent="Background/MC/VBC/HBC/Title"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 7 )
 text = "INVENTORY"
 align = 1
 valign = 1
@@ -90,17 +94,11 @@ margin_right = 300.0
 margin_bottom = 32.0
 size_flags_horizontal = 3
 
-[node name="ExitTButton" type="TextureButton" parent="Background/MC/VBC/HBC/Exit"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -32.0
-margin_bottom = 32.0
-texture_normal = ExtResource( 4 )
-texture_pressed = ExtResource( 2 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="CloseButton" parent="Background/MC/VBC/HBC/Exit" instance=ExtResource( 8 )]
+margin_left = -60.0
+margin_top = -32.0
+margin_right = -36.0
+margin_bottom = -11.0
 
 [node name="SC" type="ScrollContainer" parent="Background/MC/VBC"]
 margin_top = 57.0

@@ -184,6 +184,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Characters/Skills/Dodge/Dodge.gd"
 }, {
+"base": "YSort",
+"class": "Door",
+"language": "GDScript",
+"path": "res://Scenes/PlayTest/Door.gd"
+}, {
+"base": "Rock",
+"class": "DoorElement",
+"language": "GDScript",
+"path": "res://Scenes/PlayTest/DoorElement.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Entity",
 "language": "GDScript",
@@ -309,6 +319,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Characters/Skills/Skill/RecoverySkill.gd"
 }, {
+"base": "StaticBody2D",
+"class": "Rock",
+"language": "GDScript",
+"path": "res://Scenes/Environnement/Rock.gd"
+}, {
 "base": "Weapon",
 "class": "Shield",
 "language": "GDScript",
@@ -415,6 +430,8 @@ _global_script_class_icons={
 "DodgePreparationSkill": "",
 "DodgeRecoverySkill": "",
 "DodgeSkill": "",
+"Door": "",
+"DoorElement": "",
 "Entity": "",
 "ExecuteSkill": "",
 "FightingState": "",
@@ -440,6 +457,7 @@ _global_script_class_icons={
 "PreparationBlockSkill": "",
 "PreparationSkill": "",
 "RecoverySkill": "",
+"Rock": "",
 "Shield": "",
 "ShootFightingState": "",
 "ShootSkill": "",
@@ -458,8 +476,8 @@ _global_script_class_icons={
 
 [application]
 
-config/name="MasterProject"
-run/main_scene="res://Scenes/Map/MapL/MapL.tscn"
+config/name="Projet Emergence"
+run/main_scene="res://Scenes/Map/MapPlayTest.tscn"
 config/icon="res://icon.png"
 
 [autoload]
@@ -586,7 +604,7 @@ debug_new_ai={
 }
 debug_vassalize={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":16777248,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":81,"unicode":0,"echo":false,"script":null)
  ]
 }
 open_inventory={

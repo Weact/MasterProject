@@ -4,7 +4,7 @@
 [ext_resource path="res://Scenes/Items/Weapons/Melee/Shield.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 4.00284, 3.99715 )
+extents = Vector2( 4.00284, 4 )
 
 [node name="Shield" type="Node2D"]
 script = ExtResource( 2 )
@@ -22,6 +22,6 @@ __meta__ = {
 [node name="Area2D" type="Area2D" parent="Sprite"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/Area2D"]
-position = Vector2( -0.0143991, 1.19548e-07 )
+position = Vector2( -1.0144, 0 )
 rotation = 0.000711173
 shape = SubResource( 1 )

@@ -49,7 +49,7 @@ func can_change_skill(new_skill : Skill) -> bool:
 	if new_skill == current_state:
 		return false
 		
-	if is_instance_valid(new_skill) and new_skill.get_stamina_cost() > owner.stamina :
+	if is_instance_valid(new_skill) and !owner.have_more_stamina(new_skill.get_stamina_cost()) :
 		return false
 		
 	if !is_instance_valid(current_state):

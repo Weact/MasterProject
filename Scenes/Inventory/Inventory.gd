@@ -25,7 +25,6 @@ func _ready() -> void:
 	__ = CharacterInventory.connect("inventory_shuffled", self, "_on_inventory_shuffled")
 	__ = CharacterInventory.connect("inventory_sorted", self, "_on_inventory_sorted")
 	__ = connect("clear_finished", self, "_on_clear_finished")
-	__ = exit_button_node.connect("button_down", self, "_on_exit_tbutton_pressed")
 	
 	synchronize_inventory()
 	

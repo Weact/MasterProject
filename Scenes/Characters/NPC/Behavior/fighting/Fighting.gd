@@ -51,6 +51,7 @@ func get_offensive_factor() -> float :
 	var val = range_lerp(weapon_value+stam_value, 0, 2, 0, 1)
 	return val
 
+	
 func get_defensive_factor() -> float :
 	return 1.0 - get_offensive_factor()
 	
@@ -77,7 +78,6 @@ func _on_timeout() -> void:
 		
 	if owner.target == null:
 		return
-	var _difficulty = owner.difficulty
 	
 	timer.start()
 	
@@ -106,25 +106,39 @@ func _on_timeout() -> void:
 		if chance_done > randomNb:
 			set_state(child)
 			break
+		
 	
 func move_to_fight_pos() -> void:
 	if is_instance_valid(owner.target):
 		if owner.pathfinder != null:
-			var dist = 48
-			var pos = _get_fight_pos(dist)
-			while(!owner.pathfinder.is_position_valid(pos)) and dist < 160:
-				dist += 16
-				pos = _get_fight_pos(dist)
+			var dist = 3
+			var owner_pos = owner.global_position
+			var closeTiles = owner.pathfinder.get_points_in_range_of(owner_pos, dist)
+			var tiles_score = []
+			for tile in closeTiles:
+				tiles_score.append(0)
 				
-			owner.update_move_path(pos)
-	
+			_assign_fight_score(dist, closeTiles, tiles_score)
+			var best_pos = owner.global_position
+			if closeTiles.size() > 0:
+				best_pos = closeTiles[_get_max_index(tiles_score)]
+				
+			owner.update_move_path(best_pos)
+			
+func _get_max_index(arr: Array) -> int:
+	var maxIndex = 0
+	for i in range(arr.size()):
+		if arr[i] > arr[maxIndex]:
+			maxIndex = i
+			
+	return maxIndex
 	
 func tryDodge() -> void:
 	if owner == null or owner.target == null:
 		return
 	var chanceToDodge = owner.stamina
 	var chanceToNotDodge = 100
-	var rdm =  randi()%int(chanceToDodge+chanceToNotDodge)
+	var rdm =  randi()%int(chanceToDodge+chanceToNotDodge)*owner.difficulty
 
 	if rdm > chanceToNotDodge:
 		owner.use_skill("Dodge")
@@ -145,7 +159,14 @@ func forward() -> void:
 	offAngle = 0
 	move_to_fight_pos()
 
-func _get_fight_pos(dist : float) -> Vector2:
+func _assign_fight_score(dist, tiles, tile_score) -> void:
+	var best_pos = owner.global_position + dist*16*_get_fight_angle()
+	
+	for i in range(tiles.size()):
+		tile_score[i] = 100-tiles[i].distance_to(best_pos)
+	
+
+func _get_fight_angle() -> Vector2:
 	var angleToTarget = 0.0
 	if is_instance_valid(owner.target):
 		angleToTarget = (owner.target.position - owner.position).angle()
@@ -153,7 +174,7 @@ func _get_fight_pos(dist : float) -> Vector2:
 	var angle = angleToTarget + offAngle
 	var dir = Vector2(cos(angle), sin(angle))
 	
-	return owner.global_position + dir * dist
+	return dir
 	
 	
 

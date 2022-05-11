@@ -165,13 +165,14 @@ tracks/3/keys = {
 [node name="Shoot" instance=ExtResource( 1 )]
 script = ExtResource( 3 )
 init_default_state = false
+recovery_canceler = false
 
 [node name="Preparation" parent="." index="0"]
 script = ExtResource( 5 )
 auto_advance = false
 state_velocity_factor = 0.5
 state_rotation_factor = 0.5
-state_stamina_regen_factor = -1.1
+state_stamina_regen_factor = -1.0
 
 [node name="Execute" parent="." index="1"]
 script = ExtResource( 4 )

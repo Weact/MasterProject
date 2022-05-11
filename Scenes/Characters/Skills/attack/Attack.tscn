@@ -17,17 +17,20 @@ script = ExtResource( 3 )
 cancelable = false
 state_velocity_factor = 0.2
 state_rotation_factor = 0.2
+state_stamina_regen_factor = -1.0
 
 [node name="Execute" parent="." index="1"]
 script = ExtResource( 2 )
 stamina_cost = 10.0
 state_velocity_factor = 0.2
 state_rotation_factor = 0.2
+state_stamina_regen_factor = -1.0
 
 [node name="Recovery" parent="." index="2"]
 script = ExtResource( 1 )
 state_velocity_factor = 0.5
 state_rotation_factor = 0.5
+state_stamina_regen_factor = -1.0
 
 [node name="AnimationPlayer" parent="." index="3"]
 anims/Execute = ExtResource( 4 )
