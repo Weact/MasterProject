@@ -22,7 +22,7 @@ func _physics_process(_delta: float) -> void:
 		return
 		
 	var tar_pos = targets[0].get_global_transform_with_canvas().get_origin()
-	var self_pos = Vector2(max(rect_size.x/2, tar_pos.x), max(rect_size.y/2, tar_pos.y))
+	var self_pos = Vector2(min(870,max(rect_size.x/2, tar_pos.x)), min(550,max(rect_size.y/2, tar_pos.y)))
 	tween = get_node("Tween")
 	var pos = self_pos+Vector2(-rect_size.x/2,-rect_size.y-12)
 	tween.interpolate_property(self, "rect_position",

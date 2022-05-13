@@ -426,24 +426,25 @@ func flip_weapon(weapon) -> void:
 
 
 func damaged(damage_taken, damager = null) -> void:
-	if get_state_name() == "Dodge":
+	if get_current_state() == "Dodge":
 		return
-
-	if get_state_name() == "Block":
-		var damage_to_take = max(damage_taken - block_power, 0)
-		var damage_to_block = min(block_power, damage_taken)
-		remove_health_point(damage_to_take)
-
-		if damage_to_block > stamina:
-			remove_health_point(damage_to_block - stamina)
-		remove_stamina(damage_to_block)
-		return
-
-	set_stunned(true)
-	remove_health_point(damage_taken)
-	emit_signal("damaged", damage_taken, damager)
+		
+	var damage_to_take = damage_taken
 	
-	if damage_taken <= 0:
+	if get_current_state() == "Block":
+		var wn_angle = weapons_node.rotation_degrees
+		var dmg_angle = rad2deg(damager.global_position.angle_to_point(global_position))
+		var dif_angle = abs(abs(wn_angle) - abs(dmg_angle))
+		if dif_angle <= 60:
+			damage_to_take = max(damage_taken - block_power, 0)
+			var damage_to_block = min(block_power, damage_taken)
+
+			if damage_to_block > stamina:
+				damage_to_take = damage_to_block - stamina
+			remove_stamina(damage_to_block)
+
+	
+	if damage_to_take <= 0:
 		return
 		
 	var blood_instance = blood_ressource.instance()
@@ -452,12 +453,16 @@ func damaged(damage_taken, damager = null) -> void:
 	if is_instance_valid(damager):
 		var dir = damager.get_angle_to(position)
 		blood_mat.direction = Vector3(cos(dir), sin(dir), 0)
-	blood_instance.amount = damage_taken * 10 +30
-	blood_mat.initial_velocity = damage_taken * 5+80
+	blood_instance.amount = damage_to_take * 10 +30
+	blood_mat.initial_velocity = damage_to_take * 5+80
 	blood_instance.emitting = true
 	blood_instance.show_behind_parent = true
 	blood_instance.position = position
 	get_tree().get_root().call_deferred("add_child", blood_instance)
+	
+	set_stunned(true)
+	remove_health_point(damage_to_take)
+	emit_signal("damaged", damage_taken, damager)
 
 func stamina_regen_timer(time: float = 0.0, autostart: bool = true, oneshot: bool = false) -> Timer:
 	var new_timer = Timer.new()
@@ -829,7 +834,7 @@ func order_vassals(order, param):
 		if vassal.has_method(order):
 			vassal.call(order, param)
 
-func add_relation(index, value) -> void:
+func add_relation(_index, _value) -> void:
 	pass
 	
 func _on_target_changed(_new_target: PhysicsBody2D) -> void:

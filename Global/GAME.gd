@@ -8,7 +8,7 @@ var map_lucas_player = null
 signal inventory_state_changed
 
 func _ready() -> void:
-	PLAYER_NODE = get_tree().get_root().get_node("MapL/Player/Player")
+	PLAYER_NODE = find_node("Player")
 
 func _input(event: InputEvent) -> void:
 	if not event is InputEventKey and not event is InputEventMouseButton:

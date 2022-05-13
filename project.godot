@@ -270,6 +270,11 @@ _global_script_classes=[ {
 "path": "res://Scenes/Characters/NPC/Behavior/Others/Kiting.gd"
 }, {
 "base": "FightingState",
+"class": "NPCWaitingState",
+"language": "GDScript",
+"path": "res://Scenes/Characters/NPC/Waiting.gd"
+}, {
+"base": "FightingState",
 "class": "NpcAttackBehavior",
 "language": "GDScript",
 "path": "res://Scenes/Characters/NPC/Behavior/fighting/NPCAttackState.gd"
@@ -447,6 +452,7 @@ _global_script_class_icons={
 "NPCDistancingBehavior": "",
 "NPCFightingBehavior": "",
 "NPCKitingBehavior": "",
+"NPCWaitingState": "",
 "NpcAttackBehavior": "",
 "NpcChaseBehavior": "",
 "NpcFollowingBehavior": "",

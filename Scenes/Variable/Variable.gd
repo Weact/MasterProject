@@ -26,8 +26,9 @@ func get_value() -> float :
 			mults_total *= child_value
 		else:
 			sums_total += child_value
-			
-	return ((final_value+sums_total)+(final_value* factors_total))*mults_total
+	
+	var return_value = final_value+sums_total+(final_value* factors_total)*mults_total
+	return return_value
 
 
 #### BUILT-IN ####

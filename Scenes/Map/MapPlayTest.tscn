@@ -78,28 +78,31 @@ position = Vector2( 1000, 856 )
 [node name="Crate12" parent="Objects" index="16" instance=ExtResource( 6 )]
 position = Vector2( 1016, 856 )
 
-[node name="Crate13" parent="Objects" index="17" instance=ExtResource( 6 )]
+[node name="Crate26" parent="Objects" index="17" instance=ExtResource( 6 )]
+position = Vector2( 1160, 920 )
+
+[node name="Crate13" parent="Objects" index="18" instance=ExtResource( 6 )]
 position = Vector2( 1000, 840 )
 
-[node name="Crate14" parent="Objects" index="18" instance=ExtResource( 6 )]
+[node name="Crate14" parent="Objects" index="19" instance=ExtResource( 6 )]
 position = Vector2( 1112, 1064 )
 
-[node name="Crate24" parent="Objects" index="19" instance=ExtResource( 6 )]
+[node name="Crate24" parent="Objects" index="20" instance=ExtResource( 6 )]
 position = Vector2( 952, 1064 )
 
-[node name="Crate7" parent="Objects" index="20" instance=ExtResource( 6 )]
+[node name="Crate7" parent="Objects" index="21" instance=ExtResource( 6 )]
 position = Vector2( 888, 1080 )
 
-[node name="Crate8" parent="Objects" index="21" instance=ExtResource( 6 )]
+[node name="Crate8" parent="Objects" index="22" instance=ExtResource( 6 )]
 position = Vector2( 904, 1072 )
 
-[node name="Crate9" parent="Objects" index="22" instance=ExtResource( 6 )]
+[node name="Crate9" parent="Objects" index="23" instance=ExtResource( 6 )]
 position = Vector2( 920, 1080 )
 
-[node name="Crate23" parent="Objects" index="23" instance=ExtResource( 6 )]
+[node name="Crate23" parent="Objects" index="24" instance=ExtResource( 6 )]
 position = Vector2( 1096, 1000 )
 
-[node name="Crate4" parent="Objects" index="24" instance=ExtResource( 6 )]
+[node name="Crate4" parent="Objects" index="25" instance=ExtResource( 6 )]
 position = Vector2( 808, 920 )
 
 [node name="Rocks" type="YSort" parent="." index="2"]
@@ -125,13 +128,13 @@ position = Vector2( 776, 1320 )
 ai_to_check = [ NodePath("../NPC/NPC10"), NodePath("../NPC/NPC14") ]
 
 [node name="Player" parent="Player" index="0" instance=ExtResource( 2 )]
-position = Vector2( 672, 984 )
+position = Vector2( 384, 920 )
 
 [node name="Sword" parent="Player" index="1" instance=ExtResource( 5 )]
-position = Vector2( 408, 912 )
+position = Vector2( 416, 912 )
 
 [node name="Shield" parent="Player" index="2" instance=ExtResource( 4 )]
-position = Vector2( 408, 928 )
+position = Vector2( 416, 928 )
 
 [node name="Bow" parent="Player" index="3" instance=ExtResource( 7 )]
 position = Vector2( 1152, 1032 )
@@ -139,7 +142,7 @@ position = Vector2( 1152, 1032 )
 [node name="NPC" parent="NPC" index="0" instance=ExtResource( 3 )]
 position = Vector2( 680, 928 )
 max_health_point = 40.0
-max_stamina = 25.0
+max_stamina = 40.0
 weaponType = 2
 
 [node name="NPC2" parent="NPC" index="1" instance=ExtResource( 3 )]

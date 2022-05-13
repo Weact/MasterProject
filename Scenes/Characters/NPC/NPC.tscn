@@ -1,10 +1,10 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=52 format=2]
 
 [ext_resource path="res://Scenes/Characters/Character.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Characters/NPC/NPC.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/Characters/NPC/Behavior/fighting/NPCAttackState.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/Characters/NPC/Behavior/BehaviorTree.gd" type="Script" id=4]
-[ext_resource path="res://Scenes/Characters/NPC/Sprites/Elf_IdleSheet.png" type="Texture" id=5]
+[ext_resource path="res://ressources/0x72_DungeonTilesetII_v1.4.png" type="Texture" id=5]
 [ext_resource path="res://Scenes/Characters/NPC/Behavior/fighting/NPCWanderState.gd" type="Script" id=6]
 [ext_resource path="res://Scenes/StateMachine/StateLabel.gd" type="Script" id=7]
 [ext_resource path="res://Scenes/Characters/NPC/Behavior/Others/waitState.gd" type="Script" id=8]
@@ -12,7 +12,7 @@
 [ext_resource path="res://Scenes/Characters/NPC/Behavior/Others/chaseState.gd" type="Script" id=10]
 [ext_resource path="res://UI/Bars/LifeBar.gd" type="Script" id=11]
 [ext_resource path="res://ressources/new_theme.tres" type="Theme" id=12]
-[ext_resource path="res://Scenes/Characters/NPC/Sprites/Elf_RunSheet.png" type="Texture" id=13]
+[ext_resource path="res://Scenes/Characters/NPC/Waiting.gd" type="Script" id=13]
 [ext_resource path="res://Scenes/Characters/NPC/Behavior/Others/NPCFollowState.gd" type="Script" id=14]
 [ext_resource path="res://UI/font.tres" type="DynamicFont" id=15]
 [ext_resource path="res://Scenes/Characters/NPC/Behavior/fighting/Block_Behavior.gd" type="Script" id=16]
@@ -22,50 +22,53 @@
 [ext_resource path="res://UI/Bars/blue_bar.tres" type="StyleBox" id=20]
 [ext_resource path="res://UI/Bars/red_bar.tres" type="StyleBox" id=21]
 
-[sub_resource type="AtlasTexture" id=1]
+[sub_resource type="AtlasTexture" id=32]
 atlas = ExtResource( 5 )
-region = Rect2( 0, 0, 16, 28 )
+region = Rect2( 368, 192, 16, 32 )
 
-[sub_resource type="AtlasTexture" id=2]
+[sub_resource type="AtlasTexture" id=33]
 atlas = ExtResource( 5 )
-region = Rect2( 16, 0, 16, 28 )
+region = Rect2( 384, 192, 16, 32 )
 
-[sub_resource type="AtlasTexture" id=3]
+[sub_resource type="AtlasTexture" id=34]
 atlas = ExtResource( 5 )
-region = Rect2( 32, 0, 16, 28 )
+region = Rect2( 400, 192, 16, 32 )
 
-[sub_resource type="AtlasTexture" id=4]
+[sub_resource type="AtlasTexture" id=35]
 atlas = ExtResource( 5 )
-region = Rect2( 48, 0, 16, 28 )
+region = Rect2( 416, 192, 16, 32 )
 
-[sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 13 )
-region = Rect2( 0, 0, 16, 28 )
+[sub_resource type="AtlasTexture" id=36]
+atlas = ExtResource( 5 )
+region = Rect2( 432, 192, 16, 32 )
 
-[sub_resource type="AtlasTexture" id=10]
-atlas = ExtResource( 13 )
-region = Rect2( 16, 0, 16, 28 )
+[sub_resource type="AtlasTexture" id=37]
+atlas = ExtResource( 5 )
+region = Rect2( 448, 192, 16, 32 )
 
-[sub_resource type="AtlasTexture" id=11]
-atlas = ExtResource( 13 )
-region = Rect2( 32, 0, 16, 28 )
+[sub_resource type="AtlasTexture" id=38]
+atlas = ExtResource( 5 )
+region = Rect2( 464, 192, 16, 32 )
 
-[sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 13 )
-region = Rect2( 48, 0, 16, 28 )
+[sub_resource type="AtlasTexture" id=39]
+atlas = ExtResource( 5 )
+region = Rect2( 480, 192, 16, 32 )
 
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
-"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
+"frames": [ SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ) ],
 "loop": true,
 "name": "Idle",
 "speed": 8.06
 }, {
-"frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
+"frames": [ SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ) ],
 "loop": true,
 "name": "Move",
 "speed": 10.51
 } ]
+
+[sub_resource type="CircleShape2D" id=40]
+radius = 5.0
 
 [sub_resource type="StyleBoxFlat" id=15]
 bg_color = Color( 0, 0, 0, 0.447059 )
@@ -262,9 +265,10 @@ attack_power = 10
 block_power = 10
 
 [node name="AnimatedSprite" parent="." index="1"]
-position = Vector2( 0, -9 )
+position = Vector2( -1, -10 )
 frames = SubResource( 5 )
 animation = "Idle"
+frame = 3
 playing = true
 
 [node name="BehaviorTree" type="Node2D" parent="." index="3"]
@@ -294,33 +298,35 @@ script = ExtResource( 14 )
 [node name="Fighting" type="Node" parent="BehaviorTree" index="3"]
 script = ExtResource( 17 )
 
-[node name="Kiting" type="Node" parent="BehaviorTree/Fighting" index="0"]
+[node name="Waiting" type="Node" parent="BehaviorTree/Fighting" index="0"]
+script = ExtResource( 13 )
+difficulty_variable_factor = -1.0
+
+[node name="Kiting" type="Node" parent="BehaviorTree/Fighting" index="1"]
 script = ExtResource( 18 )
-time_variable_factor = 0.5
+time_variable_factor = 0.0
 offensive_variable_factor = -1.0
 
-[node name="Distancing" type="Node" parent="BehaviorTree/Fighting" index="1"]
+[node name="Distancing" type="Node" parent="BehaviorTree/Fighting" index="2"]
 script = ExtResource( 19 )
-time_variable_factor = 0.5
+time_variable_factor = 0.0
 distance_variable_factor = -1.0
 offensive_variable_factor = -1.0
 
-[node name="Attack" type="Node" parent="BehaviorTree/Fighting" index="2"]
+[node name="Attack" type="Node" parent="BehaviorTree/Fighting" index="3"]
 script = ExtResource( 3 )
-distance_variable_factor = -0.5
 offensive_variable_factor = 1.5
 
 [node name="AttackTimer" type="Timer" parent="BehaviorTree/Fighting/Attack" index="0"]
 wait_time = 0.1
 one_shot = true
 
-[node name="Block" type="Node" parent="BehaviorTree/Fighting" index="3"]
+[node name="Block" type="Node" parent="BehaviorTree/Fighting" index="4"]
 script = ExtResource( 16 )
-time_variable_factor = 0.5
 distance_variable_factor = -1.0
 offensive_variable_factor = -1.5
 
-[node name="Timer" type="Timer" parent="BehaviorTree/Fighting" index="4"]
+[node name="Timer" type="Timer" parent="BehaviorTree/Fighting" index="5"]
 wait_time = 0.3
 one_shot = true
 
@@ -352,6 +358,9 @@ __meta__ = {
 [node name="RayCast2D" type="RayCast2D" parent="." index="9"]
 enabled = true
 cast_to = Vector2( 50, 0 )
+
+[node name="CollisionShape2D" parent="hitbox" index="0"]
+shape = SubResource( 40 )
 
 [node name="LifeBar" type="ProgressBar" parent="." index="13"]
 margin_left = -13.0

@@ -91,7 +91,8 @@ func _on_timeout() -> void:
 	for child in childs:
 		if !child.is_class("FightingState"):
 			continue
-		var state_value = pow(child.get_chance_value(), power)
+		var child_chance = child.get_chance_value()
+		var state_value = pow(child_chance, power)
 		total_chance += state_value
 		chances.append(state_value)
 	

@@ -83,7 +83,7 @@ func _on_area_entered(area) -> void:
 	if !is_instance_valid(body) or body == shooter:
 		return
 	
-	if area.owner.is_class("Shield"):
+	if body.is_class("Shield"):
 		stop()
 		return
 		

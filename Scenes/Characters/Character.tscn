@@ -16,14 +16,14 @@
 [sub_resource type="CircleShape2D" id=4]
 radius = 5.0
 
-[sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 5, 7.5 )
+[sub_resource type="CircleShape2D" id=6]
+radius = 5.0
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 13.0384
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 159.255
+radius = 247.099
 
 [sub_resource type="Curve" id=3]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 3.38182, 0.0, 0, 0 ]
@@ -120,7 +120,6 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
-position = Vector2( 0, -3.5 )
 shape = SubResource( 6 )
 
 [node name="PickUpArea" type="Area2D" parent="."]

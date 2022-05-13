@@ -18,13 +18,20 @@ func _ready() -> void:
 	__ = get_node("PlayerArea5").connect("player_entered", self, "_attack_npc5")
 	__ = get_node("NPC/NPC3").connect("selected", self, "_selected_npc3")
 	__ = get_node("NPC/NPC13").connect("die", self, "_play_win")
+	__ = get_node("NPC/NPC2").connect("die", self, "_play_space")
 	__ = player.connect("attacking", self, "_order_npc3")
 
-func _select_item() -> void:
+func _play_space() -> void:
+	player.message_target(get_node("NPC/NPC9"), "Espace pour esquiver")
+	get_node("Player/Player/HUD/UI/Inventory").disconnect("die", self, "_play_space")
+	yield(get_tree().create_timer(4.0), "timeout")
 	player.hide_message()
-	player.message_target(get_node("Player/Player/HUD/UI/Inventory/Background/MC/VBC/SC/SlotsContainer"), "Clique droit pour équiper")
-	get_node("Player/Player/HUD/UI/Inventory").disconnect("visibility_changed", self, "_select_item")
 
+	
+func _select_item() -> void:
+	get_node("NPC/NPC").disconnect("visibility_changed", self, "_select_item")
+	player.message_target(get_node("Player/Player/HUD/UI/Inventory/Background/MC/VBC/SC/SlotsContainer"), "Clique droit pour équiper")
+	
 var nb = 0
 func _attack_object(_item, _slot) -> void:
 	nb += 1
@@ -40,7 +47,7 @@ func _attack_npc() -> void:
 	get_node("PlayerArea1").disconnect("player_entered", self, "_attack_npc")
 	player.hide_message()
 	player.message_target(get_node("NPC/NPC"), "Clique droit pour bloquer")
-	yield(get_tree().create_timer(2.5), "timeout")
+	yield(get_tree().create_timer(4.0), "timeout")
 	player.hide_message()
 
 	get_node("NPC/NPC").attack(player)

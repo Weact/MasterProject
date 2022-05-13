@@ -69,7 +69,7 @@ func get_points_in_range_of(point : Vector2, rnge) -> Array:
 		if !astar.is_point_disabled(con_point):
 			connexionsId.append(con_point)
 	
-	for number in range(rnge-1):
+	for _number in range(rnge-1):
 		var connexionsToAdd = []
 		for number2 in range(connexionsId.size()):
 			connected_points = astar.get_point_connections(connexionsId[number2])

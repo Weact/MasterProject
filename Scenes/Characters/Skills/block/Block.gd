@@ -23,13 +23,14 @@ func get_class() -> String: return "BlockSkill"
 
 
 #### SIGNAL RESPONSES ####
-func _on_right_weapon_hit(body) -> void:
-	if body == self or !body is Sword:
-		return
-		
-	var bodyParent = body.weapon_handler_node
-	if is_instance_valid(bodyParent):
-		bodyParent.set_stunned(true)
-		bodyParent.weapon_node.hitbox.call_deferred("set_disabled", true)
-		
-		parent_character.remove_stamina(bodyParent.get_attack_power())
+func _on_right_weapon_hit(_body) -> void:
+	return #remove to restore shield blocking
+#	if body == self or !body is Sword:
+#		return
+#
+#	var bodyParent = body.weapon_handler_node
+#	if is_instance_valid(bodyParent):
+#		bodyParent.set_stunned(true)
+#		bodyParent.weapon_node.hitbox.call_deferred("set_disabled", true)
+#
+#		parent_character.remove_stamina(bodyParent.get_attack_power())
