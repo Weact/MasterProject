@@ -15,7 +15,7 @@ func enter_state() -> void:
 	pass
 		
 func update(_delta : float) -> void:
-	.update(_delta)
+	.update(_delta)	
 	if owner == null or owner.state_machine == null:
 		return
 	if !is_instance_valid(owner.target):

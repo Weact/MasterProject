@@ -23,13 +23,13 @@ func _ready() -> void:
 
 func _play_space() -> void:
 	player.message_target(get_node("NPC/NPC9"), "Espace pour esquiver")
-	get_node("Player/Player/HUD/UI/Inventory").disconnect("die", self, "_play_space")
+	get_node("NPC/NPC2").disconnect("die", self, "_play_space")
 	yield(get_tree().create_timer(4.0), "timeout")
 	player.hide_message()
 
 	
 func _select_item() -> void:
-	get_node("NPC/NPC").disconnect("visibility_changed", self, "_select_item")
+	get_node("Player/Player/HUD/UI/Inventory").disconnect("visibility_changed", self, "_select_item")
 	player.message_target(get_node("Player/Player/HUD/UI/Inventory/Background/MC/VBC/SC/SlotsContainer"), "Clique droit pour équiper")
 	
 var nb = 0

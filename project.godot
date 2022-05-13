@@ -54,6 +54,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Characters/Skills/block/Block.gd"
 }, {
+"base": "Particles2D",
+"class": "BloodParticles",
+"language": "GDScript",
+"path": "res://Scenes/particles/BloodParticles.gd"
+}, {
 "base": "Weapon",
 "class": "Bow",
 "language": "GDScript",
@@ -409,6 +414,7 @@ _global_script_class_icons={
 "BlockPreparation": "",
 "BlockRecovery": "",
 "BlockSkill": "",
+"BloodParticles": "",
 "Bow": "",
 "Character": "",
 "CharacterAttackState": "",

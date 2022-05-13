@@ -9,7 +9,7 @@ func get_class() -> String: return "NPCWaitingState"
 	
 func enter_state() -> void:
 	.enter_state()
-	pass
+	owner.update_move_path(owner.position)
 		
 func update(_delta : float) -> void:
 	.update(_delta)

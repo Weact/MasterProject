@@ -128,19 +128,20 @@ position = Vector2( 776, 1320 )
 ai_to_check = [ NodePath("../NPC/NPC10"), NodePath("../NPC/NPC14") ]
 
 [node name="Player" parent="Player" index="0" instance=ExtResource( 2 )]
-position = Vector2( 384, 920 )
+position = Vector2( 872, 1128 )
+debug = false
 
 [node name="Sword" parent="Player" index="1" instance=ExtResource( 5 )]
-position = Vector2( 416, 912 )
+position = Vector2( 408, 904 )
 
 [node name="Shield" parent="Player" index="2" instance=ExtResource( 4 )]
-position = Vector2( 416, 928 )
+position = Vector2( 408, 920 )
 
 [node name="Bow" parent="Player" index="3" instance=ExtResource( 7 )]
 position = Vector2( 1152, 1032 )
 
 [node name="NPC" parent="NPC" index="0" instance=ExtResource( 3 )]
-position = Vector2( 680, 928 )
+position = Vector2( 712, 904 )
 max_health_point = 40.0
 max_stamina = 40.0
 weaponType = 2
@@ -156,7 +157,7 @@ difficulty = 0.0
 position = Vector2( 1280, 936 )
 max_stamina = 50.0
 weaponType = 2
-difficulty = 0.0
+difficulty = 0.5
 
 [node name="NPC5" parent="NPC" index="3" instance=ExtResource( 3 )]
 position = Vector2( 928, 1032 )

@@ -11,23 +11,32 @@ func enter_state() -> void:
 	if owner.state_machine == null:
 		return
 	var shield = owner.shield_node
-	if is_instance_valid(shield):
-		shield.press()
-	else:
+	if !is_instance_valid(shield):
 		state_machine.set_state("Distancing")
+		
 	if !is_instance_valid(owner.target):
 		return
+		
+	if is_instance_valid(owner.target.weapon_node):
+		if owner.target.weapon_node.is_class("Bow"):
+			state_machine.forward()
+		elif owner.target.weapon_node.is_class("Sword"):
+			state_machine.kite()
 	
 func update(_delta : float) ->void:
 	.update(_delta)
 	if owner == null or owner.state_machine == null:
 		return
+		
 	var shield = owner.shield_node
-	if is_instance_valid(shield):
-		shield.press()
 	if !is_instance_valid(owner.target):
 		return
+		
+	var dist_tar = owner.get_path_dist_to(owner.target.position)
+	if is_instance_valid(shield) and dist_tar < 3:
+		shield.press()
 	owner.set_look_direction(state_machine.get_target_direction())
+	
 
 func exit_state() -> void:
 	.exit_state()

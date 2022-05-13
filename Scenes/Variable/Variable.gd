@@ -4,7 +4,7 @@ class_name Variable
 func is_class(class_value: String): return class_value == "Variable" or .is_class(class_value)
 func get_class() -> String: return "Variable"
 
-enum TYPE {sum, value_factor, factor}
+enum TYPE {sum, value_factor, total_factor}
 export var value : float = 0.0
 export(TYPE) var type = TYPE.sum
 
@@ -22,12 +22,12 @@ func get_value() -> float :
 		var child_value : float = child.get_value() #Recursive get_value()
 		if child.type == TYPE.value_factor:
 			factors_total += child_value
-		elif child.type == TYPE.factor:
+		elif child.type == TYPE.total_factor:
 			mults_total *= child_value
 		else:
 			sums_total += child_value
 	
-	var return_value = final_value+sums_total+(final_value* factors_total)*mults_total
+	var return_value = (final_value+sums_total+(final_value* factors_total))*mults_total
 	return return_value
 
 

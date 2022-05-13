@@ -112,10 +112,16 @@ func _input(event: InputEvent) -> void:
 		EVENTS.emit_signal("new_npc", npc_instance)
 
 	elif event.is_action_pressed("debug_vassalize"):
-		start_selection()
+		if debug:
+			start_selection()
+		else:
+			select_all_vassals()
 
 	elif event.is_action_released("debug_vassalize"):
-		stop_selection()
+		if debug:
+			stop_selection()
+		else:
+			empty_selection()
 
 	if is_instance_valid(target_click):
 		if event.is_action_pressed("player_attack"):
@@ -227,9 +233,13 @@ func _on_select_body_entered(body) -> void:
 	glow_npcs.append(body)
 	body.select()
 	
+	set_fight_cursor()
+
+func set_fight_cursor() -> void:
 	var hotspot = Vector2(17,8)
 	Input.set_custom_mouse_cursor(attack_cursor, 2, hotspot)
 	Input.set_custom_mouse_cursor(prepare_cursor, 0,hotspot)
+	
 
 func _on_select_body_exited(body) -> void:
 	if !body.is_class("NPC"):
@@ -246,6 +256,10 @@ func stop_selection() -> void:
 	for npc in npcs:
 		add_selection(npc)
 	
+func select_all_vassals() -> void:
+	set_fight_cursor()
+	for vassal in vassals:
+		add_selection(vassal)
 
 func start_selection() -> void:
 	if is_instance_valid(select_rect):

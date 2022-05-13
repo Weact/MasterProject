@@ -6,17 +6,17 @@ func get_class() -> String: return "NPCDistancingBehavior"
 #### ACCESSORS ####
 
 #### BUILT-IN ####
+func call_state() -> void:
+	if state_machine != null:
+		state_machine.distance()
+		state_machine.tryDodge()
+		
 func enter_state() -> void:
 	.enter_state()
 	if state_machine == null or owner == null:
 		return
 	
-	state_machine.distance()
-	state_machine.tryDodge()
 	
-
-
-
 #### VIRTUALS ####
 
 

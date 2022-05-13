@@ -10,6 +10,7 @@ onready var animated_sprite : AnimatedSprite = get_node("AnimatedSprite")
 onready var collision_shape : CollisionShape2D = get_node("CollisionShape2D")
 
 onready var blood_ressource = preload("res://Scenes/particles/BloodParticles.tscn")
+onready var spark_ressource = preload("res://Scenes/particles/SparkParticles.tscn")
 onready var ressources_panel : VBoxContainer = get_node("Ressources/VBoxContainer")
 onready var informations_panel : Node2D = get_node("Infos")
 
@@ -72,7 +73,7 @@ signal stamina_changed()
 ## MOVEMENTS
 var stunned : bool = false setget set_stunned, is_stunned
 signal stun_changed(stun_state)
-var stun_duration : float = 0.1
+var stun_duration : float = 0.2
 
 export var max_speed : float = 0.0
 signal max_speed_changed(max_speed)
@@ -379,7 +380,16 @@ func update_weapon_rotation(_delta, rot_vel) -> void:
 	set_facing_left(weapons_node.rotation_degrees < -90 or weapons_node.rotation_degrees > 90)
 
 func stun(duration :float = 0.1) -> void:
-	set_stunned(duration)
+	if duration > 0.0:
+		set_stunned(true)
+		var stun_timer = GAME._create_timer_delay(duration, true, true, self, "_on_stun_timer_timeout")
+		add_child(stun_timer, true)
+		can_attack = false
+		can_block = false
+		var __ = use_skill(null)
+		animated_sprite.set_material(white_mat)
+	else:
+		unstun()
 
 func unstun() -> void:
 	set_stunned(false)
@@ -442,25 +452,22 @@ func damaged(damage_taken, damager = null) -> void:
 			if damage_to_block > stamina:
 				damage_to_take = damage_to_block - stamina
 			remove_stamina(damage_to_block)
-
+			var spark_instance = spark_ressource.instance()
+			var dir = get_angle_to(shield_point.global_position)
+			spark_instance.emit(shield_point.global_position, damage_to_block* 4, Vector3(cos(dir), sin(dir), 0))
 	
 	if damage_to_take <= 0:
 		return
 		
-	var blood_instance = blood_ressource.instance()
+	stun(0.3)
 	
-	var blood_mat : ParticlesMaterial = blood_instance.process_material
+	var blood_instance = blood_ressource.instance()
 	if is_instance_valid(damager):
 		var dir = damager.get_angle_to(position)
-		blood_mat.direction = Vector3(cos(dir), sin(dir), 0)
-	blood_instance.amount = damage_to_take * 10 +30
-	blood_mat.initial_velocity = damage_to_take * 5+80
-	blood_instance.emitting = true
-	blood_instance.show_behind_parent = true
-	blood_instance.position = position
-	get_tree().get_root().call_deferred("add_child", blood_instance)
+		blood_instance.emit(position, damage_to_take * 4, Vector3(cos(dir), sin(dir), 0))
+	else:
+		blood_instance.emit(position, damage_to_take * 4)
 	
-	set_stunned(true)
 	remove_health_point(damage_to_take)
 	emit_signal("damaged", damage_taken, damager)
 
@@ -712,15 +719,7 @@ func is_liege_of(body) -> bool:
 ## STUN
 func _on_stun_changed(stun_state: bool) -> void:
 	if stun_state:
-		var duration = stun_duration
-		duration = duration*3
-
-		var stun_timer = GAME._create_timer_delay(duration, true, true, self, "_on_stun_timer_timeout")
-		add_child(stun_timer, true)
-		can_attack = false
-		can_block = false
-		var __ = use_skill(null)
-		animated_sprite.set_material(white_mat)
+		pass
 	else:
 		set_state("Idle")
 

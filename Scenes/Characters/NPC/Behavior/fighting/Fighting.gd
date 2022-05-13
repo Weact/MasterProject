@@ -36,9 +36,10 @@ func update(_delta:float) ->void:
 		owner.behaviour_tree.set_state("Chase")
 	
 func get_offensive_factor() -> float :
+	#1 IS VERY OFFENSIVE -1 IS VERY DEFENSIVE
 	if !is_instance_valid(owner.target):
 		return 0.0
-	var stam_value = (owner.stamina / owner.max_stamina)
+	var stam_value = ((owner.stamina*2) / owner.max_stamina) / max(0.5, (owner.target.stamina*2)/owner.target.max_stamina)
 	
 	var weapon_value = 0.5
 	var weapon = owner.weapon_node
@@ -48,21 +49,23 @@ func get_offensive_factor() -> float :
 	if is_instance_valid(weapon_tar):
 		weapon_value -= float(weapon_tar.is_class("Sword"))/2
 	
-	var val = range_lerp(weapon_value+stam_value, 0, 2, 0, 1)
+	var val = range_lerp(weapon_value+stam_value, 0, 2, -1, 1)
 	return val
 
 	
 func get_defensive_factor() -> float :
-	return 1.0 - get_offensive_factor()
+	#-1 IS VERY OFFENSIVE 1 IS VERY DEFENSIVE
+	return 0.0 - get_offensive_factor()
 	
 func get_target_distance_factor() -> float:
-	#0 IS VERY CLOSE 1 IS VERY FAR
+	#1 IS VERY FAR -1 IS VERY CLOSE
 	var tar_dist = get_target_distance()
-	var val = min(1.0, inverse_lerp(0, owner.fight_distance, tar_dist))
+	var val = min(1.0, inverse_lerp(owner.fight_distance/2, owner.fight_distance, tar_dist))
 	return val
 	
 func get_target_closeness_factor() -> float:
-	return 1.0 - get_target_distance_factor()
+	#1 IS VERY CLOSE -1 IS VERY FAR
+	return 0.0 - get_target_distance_factor()
 	
 func get_target_distance() -> float :
 	if !is_instance_valid(owner.target):
@@ -96,7 +99,7 @@ func _on_timeout() -> void:
 		total_chance += state_value
 		chances.append(state_value)
 	
-	var randomNb = randi() % int(total_chance)
+	var randomNb = randi() % int(total_chance+1)
 	
 	var chance_done : float = 0.0
 	for child in childs:
@@ -137,8 +140,9 @@ func _get_max_index(arr: Array) -> int:
 func tryDodge() -> void:
 	if owner == null or owner.target == null:
 		return
-	var chanceToDodge = owner.stamina
-	var chanceToNotDodge = 100
+	var dist_tar = owner.get_path_dist_to(owner.target.position)
+	var chanceToDodge = (owner.stamina/owner.max_stamina) * 100
+	var chanceToNotDodge = 200
 	var rdm =  randi()%int(chanceToDodge+chanceToNotDodge)*owner.difficulty
 
 	if rdm > chanceToNotDodge:

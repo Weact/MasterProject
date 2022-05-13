@@ -22,22 +22,6 @@
 [ext_resource path="res://UI/Bars/blue_bar.tres" type="StyleBox" id=20]
 [ext_resource path="res://UI/Bars/red_bar.tres" type="StyleBox" id=21]
 
-[sub_resource type="AtlasTexture" id=32]
-atlas = ExtResource( 5 )
-region = Rect2( 368, 192, 16, 32 )
-
-[sub_resource type="AtlasTexture" id=33]
-atlas = ExtResource( 5 )
-region = Rect2( 384, 192, 16, 32 )
-
-[sub_resource type="AtlasTexture" id=34]
-atlas = ExtResource( 5 )
-region = Rect2( 400, 192, 16, 32 )
-
-[sub_resource type="AtlasTexture" id=35]
-atlas = ExtResource( 5 )
-region = Rect2( 416, 192, 16, 32 )
-
 [sub_resource type="AtlasTexture" id=36]
 atlas = ExtResource( 5 )
 region = Rect2( 432, 192, 16, 32 )
@@ -54,17 +38,33 @@ region = Rect2( 464, 192, 16, 32 )
 atlas = ExtResource( 5 )
 region = Rect2( 480, 192, 16, 32 )
 
+[sub_resource type="AtlasTexture" id=32]
+atlas = ExtResource( 5 )
+region = Rect2( 368, 192, 16, 32 )
+
+[sub_resource type="AtlasTexture" id=33]
+atlas = ExtResource( 5 )
+region = Rect2( 384, 192, 16, 32 )
+
+[sub_resource type="AtlasTexture" id=34]
+atlas = ExtResource( 5 )
+region = Rect2( 400, 192, 16, 32 )
+
+[sub_resource type="AtlasTexture" id=35]
+atlas = ExtResource( 5 )
+region = Rect2( 416, 192, 16, 32 )
+
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
-"frames": [ SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ) ],
-"loop": true,
-"name": "Idle",
-"speed": 8.06
-}, {
 "frames": [ SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ) ],
 "loop": true,
 "name": "Move",
 "speed": 10.51
+}, {
+"frames": [ SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 8.06
 } ]
 
 [sub_resource type="CircleShape2D" id=40]
@@ -265,11 +265,11 @@ attack_power = 10
 block_power = 10
 
 [node name="AnimatedSprite" parent="." index="1"]
-position = Vector2( -1, -10 )
+position = Vector2( 0, -11 )
 frames = SubResource( 5 )
 animation = "Idle"
-frame = 3
 playing = true
+flip_h = true
 
 [node name="BehaviorTree" type="Node2D" parent="." index="3"]
 script = ExtResource( 4 )
@@ -297,25 +297,31 @@ script = ExtResource( 14 )
 
 [node name="Fighting" type="Node" parent="BehaviorTree" index="3"]
 script = ExtResource( 17 )
+init_default_state = false
 
 [node name="Waiting" type="Node" parent="BehaviorTree/Fighting" index="0"]
 script = ExtResource( 13 )
-difficulty_variable_factor = -1.0
+time_stay_in = 1.5
+distance_variable_factor = 0.0
+offensive_variable_factor = 0.0
+difficulty_variable_factor = 4.0
 
 [node name="Kiting" type="Node" parent="BehaviorTree/Fighting" index="1"]
 script = ExtResource( 18 )
-time_variable_factor = 0.0
+time_stay_in = 1.5
 offensive_variable_factor = -1.0
 
 [node name="Distancing" type="Node" parent="BehaviorTree/Fighting" index="2"]
 script = ExtResource( 19 )
-time_variable_factor = 0.0
-distance_variable_factor = -1.0
-offensive_variable_factor = -1.0
+time_stay_in = 0.0
+distance_variable_factor = -0.75
+offensive_variable_factor = -0.75
 
 [node name="Attack" type="Node" parent="BehaviorTree/Fighting" index="3"]
 script = ExtResource( 3 )
-offensive_variable_factor = 1.5
+time_stay_in = 1.5
+distance_variable_factor = 0.0
+offensive_variable_factor = 2.0
 
 [node name="AttackTimer" type="Timer" parent="BehaviorTree/Fighting/Attack" index="0"]
 wait_time = 0.1
@@ -323,15 +329,15 @@ one_shot = true
 
 [node name="Block" type="Node" parent="BehaviorTree/Fighting" index="4"]
 script = ExtResource( 16 )
-distance_variable_factor = -1.0
-offensive_variable_factor = -1.5
+time_stay_in = 1.5
+distance_variable_factor = -1.5
+offensive_variable_factor = -0.5
 
 [node name="Timer" type="Timer" parent="BehaviorTree/Fighting" index="5"]
 wait_time = 0.3
 one_shot = true
 
 [node name="Label" type="Label" parent="BehaviorTree" index="4"]
-visible = false
 margin_left = -20.0
 margin_top = -39.0
 margin_right = 23.0

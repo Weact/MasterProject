@@ -23,22 +23,25 @@ func enter_state() -> void:
 	if !is_instance_valid(weapon):
 		return
 		
-	randDist = 0
+	randDist = 1
 	if weapon.is_class("Sword"):
 		if is_instance_valid(owner.target):
 			owner.update_move_path(owner.target.position)
 			if is_instance_valid(owner.target.weapon_node):
 				if owner.target.weapon_node.is_class("Sword"):
 					state_machine.kite()
-					randDist += randi() % 3
+					randDist += randi() % 2
 				
 				
 	else:
+		randDist += 6+randi() % 6
 		weapon.press()
 		state_machine.kite()
 		
-func launch_timer() -> void:
-	var timer_dur = 0.25+randf()/2
+func launch_timer(mini_time = 0.25) -> void:
+	if !timer.is_stopped():
+		return
+	var timer_dur = mini_time+randf()/4
 	timer.start(timer_dur)
 	
 func update(_delta : float) ->void:
@@ -48,13 +51,23 @@ func update(_delta : float) ->void:
 		return
 
 	var dist_tar = owner.get_path_dist_to(owner.target.position)
+	#if dist_tar == 0:
+	#	weapon.release()
+	if dist_tar <= randDist:
+		weapon.press()
+	else:
+		state_machine.forward()
+	
+	if is_instance_valid(owner.weapon_node):
+		if owner.weapon_node.is_class("Bow"):
+			launch_timer(dist_tar*0.2)
+		elif owner.weapon_node.is_class("Sword"):
+			launch_timer(0)
+			
 	if is_instance_valid(owner.target.weapon_node):
 		if owner.target.weapon_node.is_class("Bow"):
 			owner.update_move_path(owner.target.position)
-	if dist_tar <= randDist:
-		weapon.press()
-	elif dist_tar <= 0:
-		weapon.release()
+		
 	owner.set_look_direction(state_machine.get_target_direction())
 	
 func exit_state() -> void:
@@ -89,7 +102,7 @@ func _on_attackTimer_timeout() -> void:
 	if collider != owner.target:
 		can_attack = false
 	if can_attack:
-		state_machine.set_state("Kiting")
+		weapon.release()
 	else:
 		launch_timer()
 	

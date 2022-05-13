@@ -19,5 +19,5 @@ func _on_right_weapon_hit(body : Node2D) -> void:
 		return
 	var bodyParent = body.weapon_handler_node
 	if is_instance_valid(bodyParent):
-		bodyParent.set_stunned(true)
+		bodyParent.stun(1)
 		bodyParent.remove_stamina(parent_character.get_attack_power())
